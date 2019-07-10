@@ -12,8 +12,21 @@ import Privacy from './views/special/privacy.vue'
 
 
 // Newsletters
-import SegmentList from './views/Newsletters/SegmentList'
+import NewsletterList from './views/Newsletters/NewsletterList'
 
+//Flows
+import FlowList from './views/Flows/FlowList'
+
+// Customers
+import SegmentList from './views/Customers/SegmentList'
+import SegmentAdd from './views/Customers/SegmentAdd'
+
+// Integration
+import Integration from './views/Integration/Integration'
+
+// ImageLibrary
+
+import ImageList from './views/ImageLibrary/ImageList'
 
 
 
@@ -32,7 +45,14 @@ const router = new Router({
       component: Index,
       children: [
         { path: '/dashboard', name: 'dashboard', component: Dashboard },
+        { path: '/NewsletterList', name: 'NewsletterList', component: NewsletterList },
+        { path: '/FlowList', name: 'FlowList', component: FlowList },
         { path: '/SegmentList', name: 'SegmentList', component: SegmentList },
+        { path: '/SegmentAdd', name: 'SegmentAdd', component: SegmentAdd },
+        { path: '/Integration', name: 'Integration', component: Integration },
+        { path: '/ImageList', name: 'ImageList', component: ImageList },
+        
+        
       ]
     },
     {

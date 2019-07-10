@@ -24,6 +24,17 @@ export default {
     }
   }
 };
+// import createApp from '@shopify/app-bridge';
+// import {Cart} from '@shopify/app-bridge/actions';
+
+// var app = createApp({
+//   apiKey: '12345',
+// });
+// var cart = Cart.create(app);
+// cart.subscribe(Cart.Action.UPDATE, function (Cart) {
+//   console.log('[Client] cart update', Cart);
+// });
+
 </script>
 <style scoped>
    @import url(./assets/css/base.css);

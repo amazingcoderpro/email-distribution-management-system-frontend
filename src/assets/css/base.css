@@ -16,6 +16,7 @@ body,
 .W50{width:50%!important;margin-right:2%!important;}
 .W54{width:54%!important;margin-right:2%!important;}
 .W60{width:60%!important;margin-right:2%!important;}
+.W90{width:90%!important;margin-right:2%!important;}
 
 
 .WW100{width:100px!important;margin-right:10px!important;}
@@ -60,3 +61,6 @@ body,
 #breadcrumb li a:active{background-color:#16a085;}
 #breadcrumb li a:active:before{border-color:#16a085;border-left-color:transparent;}
 #breadcrumb li a:active:after{border-left-color:#16a085;}
+
+
+.columnLable{font-weight: 700;margin-bottom: 10px;}

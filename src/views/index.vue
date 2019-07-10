@@ -18,6 +18,9 @@ export default {
         LeftMenu
     }
 }
+
+
+
 </script>
 
 <style>
