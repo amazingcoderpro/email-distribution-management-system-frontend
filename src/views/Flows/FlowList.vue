@@ -5,7 +5,6 @@
             <li><a><span class="el-icon-right"> </span> Flows</a></li>
         </ul>
         <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W90" label-width="100px">
-          <!-- Pinterest -->
           <el-form-item>
             <el-input v-model="searchData.nameVal" placeholder="Search Flow Name"></el-input>
           </el-form-item>
@@ -19,10 +18,11 @@
           <el-form-item class="FR">
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item>
+          <el-button type="primary" class="select_button">Select All</el-button>
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus">
-            <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
+            <el-table-column type="selection" label="" align="center"  width="100" ></el-table-column>
             <el-table-column prop="name,describe" align="left" width="500">
               <template slot-scope="scope">
                 <div class="columnLable">{{scope.row.name}}</div>
@@ -47,7 +47,7 @@
                 <div class="columnContent">{{"$"+scope.row.revenue}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="state" align="center" width="200">
+            <el-table-column prop="state" align="center" width="180">
               <template slot-scope="scope">
                   <el-switch
                     v-model="scope.row.state"
@@ -56,9 +56,9 @@
                 </el-switch>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="300" fixed="right">
+            <el-table-column prop="operation" align="center" width="250" fixed="right">
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button>
+                <router-link to='/Browse_Abandonment'><el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button></router-link>
                 <el-button icon="edit" type="success" size="small" @click="deteleFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
               </template>
@@ -86,10 +86,12 @@ export default {
                 {value: '2',label: 'Draft'},
             ],
             tableData:[
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"2","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"3","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"4","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"1","name":"Browse Abandonment","describe":"Bring back customers who have browsed your website but haven't started checking out","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"2","name":"Cart Abandonment","describe":"Bring back customers who added items to the cart but never completed the purchase","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"3","name":"Inactive Customer Winback","describe":"Wake up customers who haven't purchased from you in a while","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"4","name":"Occasional Customer Winback","describe":"Win back customers who've only made a single purchase and never returned","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"5","name":"Thank Repeat Purchaser","describe":"Re-engage your customers by sending them a Happy Birthday promotion","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"6","name":"Reward VIP Customers","describe":"Re-engage your customers by sending reward them somthing","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
             ],
         }
     },
@@ -127,4 +129,5 @@ export default {
 .flows .topictable{border-left: 0;border-right:0;} 
 .flows .el-table__body-wrapper tbody td{border-right: 0;}
 .flows .columnLable{font-weight: 700;margin-bottom: 10px;}
+.flows .select_button{float: right;margin-right: 20px;}
 </style>

@@ -20,28 +20,23 @@
                         <span>Sender</span>
                         <el-input v-model="storeUser.url" class="Sender_input"></el-input>
                     </div>
-                    <!-- Sender Domain -->
+                    <!-- Sender Address -->
                     <div class="storeurl">
                         <div>
-                            <span>Sender Domain</span>
+                            <span>Sender Address</span>
                         </div>
+                        <el-input v-model="storeUser.url_format" class="Senderdomain_three"></el-input>@&nbsp;
                         <el-select v-model="value" placeholder="请选择" class="Senderdomain_one">
-                            <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                            </el-option>
+                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                         <el-input v-model="storeUser.url_format" class="Senderdomain_two"></el-input>
                     </div>
-                    <!-- Sender Address -->
-                    <div class="storeurl">
+                    <!-- <div class="storeurl">
                         <div>
                              <span>Sender Address</span>
                         </div>
                         <el-input v-model="storeUser.store_view_id" placeholder="" class="btn_input"></el-input>
-                    </div>
+                    </div> -->
                       <!-- Time Zone -->
                     <div class="storeurl">
                         <span>Time Zone</span>
@@ -84,13 +79,10 @@ export default {
                 store_view_id: ""
             },
             input:'',
-            options: [{
-                    value: '选项1',
-                    label: '你好'
-                    }, {
-                    value: '选项2',
-                    label: '很好'
-                    }],
+            options: [
+                {value: '选项1',label: '你好'},
+                {value: '选项2',label: '很好'} ,
+            ],
             value:'', 
         }
     },
@@ -111,12 +103,13 @@ export default {
 .Integration .storeSetting .form_container{font-weight: 600;font-size: 15px;}
 .Integration .storeSetting .el-input{display:block;margin-top:10px;}
 .Integration .storeSetting .el-select{display:block;width:400px;}
-.Integration .storeSetting .storename_one{width: 180px;display: inline-block;}
-.Integration .storeSetting .storename_two{width: 255px;display: inline-block;padding-left: 15px;}
-.Integration .storeSetting .Sender_input{width: 180px;}
-.Integration .storeSetting .Senderdomain_one{width: 180px;display: inline-block;}
+.Integration .storeSetting .storename_one{width: 200px;display: inline-block;}
+.Integration .storeSetting .storename_two{width: 315px;display: inline-block;padding-left: 15px;}
+.Integration .storeSetting .Sender_input{width: 200px;}
+.Integration .storeSetting .Senderdomain_one{width: 120px;display: inline-block;}
 .Integration .storeSetting .Senderdomain_two{width: 255px;display: inline-block;padding-left: 15px;}
-.Integration .storeSetting .btn_input{width: 450px;}
+.Integration .storeSetting .Senderdomain_three{width: 100px;display: inline-block;margin-right: 15px;}
+.Integration .storeSetting .btn_input{width: 530px;}
 .Integration .storeSetting .newpass{padding-left:17px;color:#0f8fcf;}
 .Integration .storeSetting .storename{margin-top:30px;}
 .Integration .storeSetting .storeurl{margin-top:15px;}
