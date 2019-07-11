@@ -65,6 +65,12 @@ export default {
     name: "SegmentList",
     data() {
         return {
+            page:{
+                total:0,//默认数据总数
+                pagesize:10,//每页的数据条数
+                pagesizes:[10, 20, 30, 40],//分组数量
+                currentPage:1,//默认开始页面
+            },
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -82,11 +88,26 @@ export default {
     components:{
     },
     mounted() {
+      this.init();
     },
     methods:{
         addFun(){
             router.push('/SegmentAdd')
+        },
+        init(){
+          this.$axios.get(`/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
+          .then(res => {
+              if(res.data.code == 1){
+                console.log(res.data)
+              }else{
+                this.$message("Acquisition failure!");
+              }
+          })
+          .catch(error => {
+              this.$message("Interface timeout!");
+          }); 
         }
+
     },
     beforeDestroy() {
 

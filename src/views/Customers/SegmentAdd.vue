@@ -46,7 +46,7 @@
                         </el-form-item>
                         <el-form-item class="addConditionClass">
                             <el-button type="primary" icon="el-icon-plus" @click="addCondition(item)">Add Condition</el-button>
-                            <!-- <el-button type="danger" @click="deleteCondition(index)">Delete Condition</el-button> -->
+                            <el-button type="danger" @click="deleteCondition(index)">Delete Condition</el-button>
                         </el-form-item>
                     </div>
                     <div class="ConditionBoxBody" v-for="(itemSon,indexSon) in item.children" :key="indexSon">
@@ -222,7 +222,7 @@ export default {
             relationArray:[],
             group_name:"",
             bigData:{
-                "relation":"||,||,&&,||,&&,||,||",
+                "relation":"||,||,&&,||,&&,||",
                 "group_condition" : [
                     {
                         "group_name":"Customer subscribe time",
@@ -368,7 +368,8 @@ export default {
             this.relationArray = this.bigData.relation.split(",");
         },
         saveFun(){
-            console.log(this.bigData)
+            console.log(this.bigData.group_condition.length)
+            console.log(this.bigData.relation)
             if(this.postData.title && this.postData.title.trim().length != 0){
                 this.errorState.title_state = 1;
             }else{
@@ -381,7 +382,6 @@ export default {
                         document.getElementsByClassName("rightContainer")[0].scrollTop = topNum;
                     }
                     topNum = topNum-200;
-                    console.log(topNum)
                 },20)
             }
             this.postData.relation_info = JSON.stringify(this.bigData);
@@ -477,9 +477,16 @@ export default {
                 });
         },
         deleteCondition(index){
-            this.relationArray.splice(index,1);
+            if(index != 0){
+                this.relationArray.splice(index-1,1);
+            }else{
+                this.relationArray.splice(0,1);
+            }
             this.bigData.group_condition.splice(index,1);
             this.bigData = this.bigData;
+            
+            console.log(this.bigData.group_condition.length)
+            console.log(this.bigData.relation)
         },
         deleteConditionChild(index,indexSon){
             this.bigData.group_condition[index].children.splice(indexSon,1)
