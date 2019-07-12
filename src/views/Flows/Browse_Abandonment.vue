@@ -29,18 +29,15 @@
                 </div>
                 <div>
                     <div class="trigger_center">
-                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one">
-                        </el-input>
+                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
                         <i class="iconfont icon-chahao"></i>
                     </div>
                     <div class="trigger_center trigger_centertwo">
-                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one">
-                        </el-input>
+                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
                         <i class="iconfont icon-chahao"></i>
                     </div>
                     <div class="trigger_center trigger_centertwo">
-                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one">
-                        </el-input>
+                        <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
                         <i class="iconfont icon-chahao"></i>
                     </div>
                 </div>
@@ -64,7 +61,6 @@
                 <span>EMAIL</span>
             </div> 
         </div>
-
         <div class="Browse_table">
             <div class="table_right Browse_email">
                 <div class="trigger_top">

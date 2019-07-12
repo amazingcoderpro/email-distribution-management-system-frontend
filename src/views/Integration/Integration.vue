@@ -6,41 +6,35 @@
         </ul>
         <div class="storeSetting">
             <section class="form_container">
-                <el-form :model="storeUser" label-width="180px" class="personalForm">
+                <el-form :model="storeShop" label-width="180px" class="personalForm">
                     <!-- Your Shop -->
                     <div class="storename">
                         <div>
                             <span>Your Shop</span>
                         </div>
-                        <el-input v-model="storeUser.name" class="storename_one"></el-input>
-                        <el-input v-model="storeUser.name" class="storename_two"></el-input>
+                        <el-input v-model="storeShop.name" class="storename_one"></el-input>
+                        <el-input v-model="storeShop.url" class="storename_two"></el-input>
                     </div>
                     <!-- Sender -->
                     <div class="storeurl">
                         <span>Sender</span>
-                        <el-input v-model="storeUser.url" class="Sender_input"></el-input>
+                        <el-input v-model="storeShop.sender" class="Sender_input"></el-input>
                     </div>
                     <!-- Sender Address -->
                     <div class="storeurl">
                         <div>
                             <span>Sender Address</span>
                         </div>
-                        <el-input v-model="storeUser.url_format" class="Senderdomain_three"></el-input>@&nbsp;
-                        <el-select v-model="value" placeholder="请选择" class="Senderdomain_one">
+                        <el-input v-model="storeShop.sender_address" class="Senderdomain_three"></el-input>@&nbsp;
+                        <el-select v-model="storeShop.select" placeholder="请选择" class="Senderdomain_one">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
-                        <el-input v-model="storeUser.url_format" class="Senderdomain_two"></el-input>
+                        <el-input v-model="storeShop.sender_address" class="Senderdomain_two"></el-input>
                     </div>
-                    <!-- <div class="storeurl">
-                        <div>
-                             <span>Sender Address</span>
-                        </div>
-                        <el-input v-model="storeUser.store_view_id" placeholder="" class="btn_input"></el-input>
-                    </div> -->
-                      <!-- Time Zone -->
+                    <!-- Time Zone -->
                     <div class="storeurl">
                         <span>Time Zone</span>
-                        <el-input v-model="storeUser.timezone" class="btn_input"></el-input>
+                        <el-input v-model="storeShop.timezone" class="btn_input"></el-input>
                     </div>
                     <!-- 点击 -->
                     <el-form-item>
@@ -55,7 +49,7 @@
                 <p class="title">Google Analytics Tracking</p>
                 <p>Setp 1.  Sign up for a Google Analytics account.</p>
                 <p class="steo_two">Step 2.  Add <a href="#">............</a> as a user in your GA view user management. Give us data read & Analyze permissions.</p>
-                <p>Step 3.  Add your VIEW ID here <el-input v-model="input" placeholder="请输入内容"></el-input></p>
+                <p>Step 3.  Add your VIEW ID here <el-input v-model="storeShop.store_view_id" placeholder="请输入内容"></el-input></p>
                 <el-button type="primary" class="goole_save">SAVE</el-button>
             </div>
          </div>
@@ -64,19 +58,23 @@
 
 <script>
 import * as base from '../../assets/js/base'
+import router from '../../router';
 export default {
-    name: "Integration",
     name: "storeSetting",
+    created() {
+            this.init();
+        },
     data() {
         return {
             loadingState:{},
-            storeUser: {
-                url: "",
+            storeShop: {
+                url:"",
+                sender: "",
                 id: "",
                 name: "",
                 timezone: "",
-                url_format: "",
-                store_view_id: ""
+                sender_address:"",
+                store_view_id: "",
             },
             input:'',
             options: [
@@ -91,10 +89,26 @@ export default {
     mounted() {
     },
     methods:{
+        init() {
+            this.$axios.get(`/api/v1/store/`).then(res => {
+                if (res.data.code == 1) {
+                this.storeShop.id = res.data.data[0].id;
+                this.storeShop.url = res.data.data[0].url;
+                this.storeShop.name = res.data.data[0].name;
+                this.storeShop.sender = res.data.data[0].sender;
+                this.storeShop.timezone = res.data.data[0].timezone;
+                this.storeShop.sender_address = res.data.data[0].sender_address;
+                this.storeShop.store_view_id = res.data.data[0].store_view_id;
+                } else {
+                this.$message({
+                    message: "code Abnormal!",
+                    type: "warning",
+                    center: true
+                   });
+                }
+            });
+        }
     },
-    beforeDestroy() {
-
-    }
 }
 </script>
 

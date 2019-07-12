@@ -4,7 +4,7 @@
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
             <li><a><span class="el-icon-right"> </span> Flows</a></li>
         </ul>
-        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W90" label-width="100px">
+        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
           <el-form-item>
             <el-input v-model="searchData.nameVal" placeholder="Search Flow Name"></el-input>
           </el-form-item>
@@ -58,8 +58,7 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="250" fixed="right">
               <template slot-scope="scope">
-                <router-link to='/Browse_Abandonment'><el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button></router-link>
-                <el-button icon="edit" type="success" size="small" @click="deteleFun(scope.row)">Clone</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="deteleEdit(scope.row)">Edit</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
@@ -69,6 +68,7 @@
 </template>
 <script>
 import * as base from '../../assets/js/base'
+import router from '../../router';
 export default {
     name: "NewsletterList",
     data() {
@@ -98,9 +98,9 @@ export default {
     watch: {
         'searchData.allBtnState': {
             handler: function() {
-                    this.tableData.map(e =>{
-                        e.state = this.searchData.allBtnState;
-                    });
+                this.tableData.map(e =>{
+                    e.state = this.searchData.allBtnState;
+                });
             },
         }
     },
@@ -117,6 +117,9 @@ export default {
         // });
     },
     methods:{
+      deteleEdit(){
+        router.push('/Browse_Abandonment')
+      },
     },
     beforeDestroy() {
 
