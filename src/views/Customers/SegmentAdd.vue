@@ -347,6 +347,7 @@ export default {
                 ]
             },
             postData:{
+                "id":"",
                 "title":"",
                 "relation_info":"",
                 "description":""
@@ -367,15 +368,20 @@ export default {
         init(){
             // console.log(JSON.parse(localStorage["SegmentVal"]))
             let _thisData = JSON.parse(localStorage["SegmentVal"])
-            this.title = _thisData.title;
-            this.description = _thisData.description;
+            this.postData.title = _thisData.title.toString();
+            this.postData.description = _thisData.description;
             this.bigData = _thisData.relation_info;
+            console.log(_thisData.id)
+            if(_thisData.id){
+                this.postData.id = _thisData.id;
+            }
             if(this.bigData.relation){
                 this.relationArray = this.bigData.relation.split(",");
             }
         },
         saveFun(){
            // console.log(this.bigData.relation)
+           console.log(this.postData)
             if(this.postData.title && this.postData.title.trim().length != 0){
                 this.errorState.title_state = 1;
             }else{
@@ -392,18 +398,34 @@ export default {
             }
             this.postData.relation_info = JSON.stringify(this.bigData);
             if(this.errorState.title_state == 1){
-                this.$axios.post(`/api/v1/customer_group/`, this.postData)
-                .then(res => {
-                    if(res.data.code == 1){
-                        this.$message({message: "Added Successfully!",type: "success"});
-                        router.push('/SegmentList');
-                    }else{
-                      this.$message("Failure to add!");
-                    }
-                })
-                .catch(error => {
-                    this.$message("Interface timeout!");
-                }); 
+                if(this.postData.id != ''){
+                    // 修改
+                    this.$axios.put(`/api/v1/customer_group/${this.postData.id}/`, this.postData)
+                    .then(res => {
+                        if(res.data.code == 1){
+                            this.$message({message: "Successfully!",type: "success"});
+                            router.push('/SegmentList');
+                        }else{
+                            this.$message(res.data.msg);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message("Interface timeout!");
+                    }); 
+                }else{
+                    this.$axios.post(`/api/v1/customer_group/`, this.postData)
+                    .then(res => {
+                        if(res.data.code == 1){
+                            this.$message({message: "Successfully!",type: "success"});
+                            router.push('/SegmentList');
+                        }else{
+                            this.$message(res.data.msg);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message("Interface timeout!");
+                    }); 
+                }
             }
         },
         addGroup(){

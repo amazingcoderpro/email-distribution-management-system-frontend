@@ -14,7 +14,7 @@
           </el-form-item>
         </el-form>
         <div class="table_right">
-          <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus">
+          <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
             <el-table-column prop="title,description" align="left" width="500">
               <template slot-scope="scope">
@@ -22,24 +22,24 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <!-- <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
-                <div class="columnContent">{{scope.row.open+"%"}}</div>
+                <div class="columnContent">{{scope.row.open_rate+"%"}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <div class="columnContent">{{scope.row.click+"%"}}</div>
+                <div class="columnContent">{{scope.row.click_rate+"%"}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="Members" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Members</div>
-                <div class="columnContent">{{scope.row.Members}}</div>
+                <div class="columnContent">{{scope.row.members}}</div>
               </template>
-            </el-table-column> -->
+            </el-table-column> 
             <el-table-column prop="LastUpdateTime" align="center" width="300">
               <template slot-scope="scope">
                 <div class="columnLable">Last Update Time</div>
@@ -48,9 +48,9 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300" fixed="right">
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small">Edit</el-button>
-                <el-button icon="edit" type="success" size="small">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small">Delete</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
+                <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
+                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
@@ -71,6 +71,7 @@ export default {
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
+        tableHeight:"100",
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -88,18 +89,17 @@ export default {
     components:{
     },
     mounted() {
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 100;
+      }, 50);
+      window.addEventListener('resize', () => {
+        if(document.getElementsByClassName("topictable").length>0){
+          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 100;
+        }
+      });
       this.init();
     },
     methods:{
-        addFun(){
-          let SegmentVal = {
-            "description":"",
-            "title":"",
-            "relation_info":{"relation":"","group_condition" : []},
-          }
-          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
-          router.push('/SegmentAdd');
-        },
         init(){
           this.$axios.get(`/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
           .then(res => {
@@ -113,6 +113,50 @@ export default {
           .catch(error => {
               this.$message("Interface timeout!");
           }); 
+        },
+        addFun(){
+          let SegmentVal = {
+            "description":"",
+            "title":"",
+            "relation_info":{"relation":"","group_condition" : []},
+          }
+          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
+          router.push('/SegmentAdd');
+        },
+        deleteFun(row){
+          this.$axios.delete(`/api/v1/customer_group/${row.id}/`)
+          .then(res => {
+              if(res.data.code == 1){
+                // console.log(res.data.data.results)
+                  this.$message({message: res.data.msg,type: "success"});
+                  this.init();
+              }else{
+                  this.$message({message: res.data.msg});
+              }
+          })
+          .catch(error => {
+            console.log(error)
+              this.$message("Interface timeout!");
+          }); 
+        },
+        editFun(row){
+          let SegmentVal = {
+            "id":row.id,
+            "description":row.description,
+            "title":row.title,
+            "relation_info":JSON.parse(row.relation_info)
+          }
+          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
+          router.push('/SegmentAdd');
+        },
+        cloneFun(row){
+          let SegmentVal = {
+            "description":row.description,
+            "title":row.title,
+            "relation_info":JSON.parse(row.relation_info)
+          }
+          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
+          router.push('/SegmentAdd');
         }
 
     },
