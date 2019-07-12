@@ -45,12 +45,8 @@ module.exports = {
         hotOnly: false,
         proxy: { // 配置跨域
             '/api': {
-                //target: 'http://47.112.113.252:8000/api/',
-                // target: 'http://127.0.0.1:8000/api/',
-                // target: 'http://10.252.252.37:8000/api/',
-                //target: 'https://pinbooster_test.seamarketings.com/api/',  //发布
-                target: 'https://pinbooster.seamarketings.com/api/',  //发布
-                // target: 'http://172.24.1.139:8000/api/',                //方
+                 //target: 'https://smartsend.seamarketings.com/api/',  //发布
+                 target: 'http://172.24.1.139:8000/api/',                //方
                 // target: 'http://172.24.1.168:8000/api/',            //李
                 ws: true,
                 changOrigin: true,

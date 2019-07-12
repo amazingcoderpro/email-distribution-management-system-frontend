@@ -405,8 +405,6 @@ export default {
                     this.$message("Interface timeout!");
                 }); 
             }
-
-
         },
         addGroup(){
             if(this.group_name && this.group_name.trim().length != 0){
@@ -484,7 +482,14 @@ export default {
                 if(itemSon.condition == 'Customer placed order' ||itemSon.condition == 'Customer paid order'|| 
                     itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
                         // 这四个需要添加新的一组数据
-                        itemSon.relations.push({"relation":"is in the past", "value":["1"], "unit":"days"});
+                        if(itemSon.relations.length<2){
+                            itemSon.relations.push({"relation":"is in the past", "value":["1"], "unit":"days"});
+                        }
+                    }else{
+                        if(itemSon.relations.length>0){
+                            itemSon.relations.splice(1,1);
+                            console.log(itemSon.relations)
+                        }
                     }
         },
         deleteCondition(index){
