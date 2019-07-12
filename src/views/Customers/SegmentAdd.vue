@@ -143,7 +143,7 @@
                                             </el-select>
                                         </template>
                                         <template>
-                                            <template v-if="itemSonRelation.relation == 'is over all time' || itemSonRelation.relation == 'is more than' || itemSonRelation.relation == 'is less than'">
+                                            <template v-if="itemSonRelation.relation == 'is over all time' || itemSonRelation.relation == 'is more than' || itemSonRelation.relation == 'is less than' || itemSonRelation.relation == 'is in the past'">
                                                 <el-form-item>
                                                     <el-input v-model="itemSonRelation.value[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="WW100"></el-input>
                                                 </el-form-item>
@@ -365,11 +365,17 @@ export default {
     },
     methods:{
         init(){
-            this.relationArray = this.bigData.relation.split(",");
+            // console.log(JSON.parse(localStorage["SegmentVal"]))
+            let _thisData = JSON.parse(localStorage["SegmentVal"])
+            this.title = _thisData.title;
+            this.description = _thisData.description;
+            this.bigData = _thisData.relation_info;
+            if(this.bigData.relation){
+                this.relationArray = this.bigData.relation.split(",");
+            }
         },
         saveFun(){
-            console.log(this.bigData.group_condition.length)
-            console.log(this.bigData.relation)
+           // console.log(this.bigData.relation)
             if(this.postData.title && this.postData.title.trim().length != 0){
                 this.errorState.title_state = 1;
             }else{
@@ -429,7 +435,7 @@ export default {
                 arr.push(itemSon.value[1]);
             }
             itemSon.value = arr;
-            console.log(itemSon.value)
+            //console.log(itemSon.value)
     　　},
         timeChang(itemSon,index){
             let arr = [];
@@ -445,36 +451,41 @@ export default {
                 arr.push(_thisNewTime);
             }
             itemSon.value = arr;
-            console.log(itemSon.value)
+           // console.log(itemSon.value)
         },
         relationChang(itemSon){
             let str = "";
-             if(itemSon.condition == 'Customer subscribe time' || itemSon.condition == 'Customer sign up time'|| itemSon.condition == 'Customer last order created time'|| 
-                itemSon.condition == 'Customer last cart created time'|| itemSon.condition == 'Customer last opened email time'|| itemSon.condition == 'Customer last click email time'){
-                    str = 'is over all time';
-                }
-                else if(itemSon.condition == 'Customer placed order' ||itemSon.condition == 'Customer paid order'||
-                        itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
-                    str = 'equals';
-                }
-                else if(itemSon.condition == 'Customer last order status'){
-                    str = 'is paid';
-                }
-                else if(itemSon.condition == 'Customer last cart status'){
-                    str = 'is empty';
-                }
-                else if(itemSon.condition == 'Customer who accept marketing'){
-                    str = 'is true';
-                }
-                else if(itemSon.condition == 'Customer Email'){
-                    str = 'contains';
-                }
-                else if(itemSon.condition == 'Customer total order payment amount'){
-                    str = 'is more than';
-                }
-                itemSon.relations.map(e =>{
-                    e.relation = str;
-                });
+                    if(itemSon.condition == 'Customer subscribe time' || itemSon.condition == 'Customer sign up time'|| itemSon.condition == 'Customer last order created time'|| 
+                        itemSon.condition == 'Customer last cart created time'|| itemSon.condition == 'Customer last opened email time'|| itemSon.condition == 'Customer last click email time'){
+                            str = 'is over all time';
+                        }
+                        else if(itemSon.condition == 'Customer placed order' ||itemSon.condition == 'Customer paid order'||
+                                itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
+                            str = 'equals';
+                        }
+                        else if(itemSon.condition == 'Customer last order status'){
+                            str = 'is paid';
+                        }
+                        else if(itemSon.condition == 'Customer last cart status'){
+                            str = 'is empty';
+                        }
+                        else if(itemSon.condition == 'Customer who accept marketing'){
+                            str = 'is true';
+                        }
+                        else if(itemSon.condition == 'Customer Email'){
+                            str = 'contains';
+                        }
+                        else if(itemSon.condition == 'Customer total order payment amount'){
+                            str = 'is more than';
+                        }
+                        itemSon.relations.map(e =>{
+                            e.relation = str;
+                        });
+                if(itemSon.condition == 'Customer placed order' ||itemSon.condition == 'Customer paid order'|| 
+                    itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
+                        // 这四个需要添加新的一组数据
+                        itemSon.relations.push({"relation":"is in the past", "value":["1"], "unit":"days"});
+                    }
         },
         deleteCondition(index){
             if(index != 0){
@@ -485,8 +496,8 @@ export default {
             this.bigData.group_condition.splice(index,1);
             this.bigData = this.bigData;
             
-            console.log(this.bigData.group_condition.length)
-            console.log(this.bigData.relation)
+            // console.log(this.bigData.group_condition.length)
+            // console.log(this.bigData.relation)
         },
         deleteConditionChild(index,indexSon){
             this.bigData.group_condition[index].children.splice(indexSon,1)

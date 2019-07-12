@@ -16,13 +16,13 @@
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
-            <el-table-column prop="name,describe" align="left" width="500">
+            <el-table-column prop="title,description" align="left" width="500">
               <template slot-scope="scope">
-                <div class="columnLable">{{scope.row.name}}</div>
-                <div class="columnContent">{{scope.row.describe}}</div>
+                <div class="columnLable">{{scope.row.title}}</div>
+                <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="200">
+            <!-- <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">{{scope.row.open+"%"}}</div>
@@ -39,11 +39,11 @@
                 <div class="columnLable">Members</div>
                 <div class="columnContent">{{scope.row.Members}}</div>
               </template>
-            </el-table-column>
-            <el-table-column prop="LastUpdateTime" align="center" width="200">
+            </el-table-column> -->
+            <el-table-column prop="LastUpdateTime" align="center" width="300">
               <template slot-scope="scope">
                 <div class="columnLable">Last Update Time</div>
-                <div class="columnContent">{{scope.row.LastUpdateTime}}</div>
+                <div class="columnContent">{{scope.row.update_time}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300" fixed="right">
@@ -77,11 +77,11 @@ export default {
                 typeVal:''
             },
             tableData:[
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
+            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
+            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
+            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
+            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
+            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
             ],
         }
     },
@@ -92,13 +92,20 @@ export default {
     },
     methods:{
         addFun(){
-            router.push('/SegmentAdd')
+          let SegmentVal = {
+            "description":"",
+            "title":"",
+            "relation_info":{"relation":"","group_condition" : []},
+          }
+          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
+          router.push('/SegmentAdd');
         },
         init(){
           this.$axios.get(`/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
           .then(res => {
               if(res.data.code == 1){
-                console.log(res.data)
+                // console.log(res.data.data.results)
+                this.tableData = res.data.data.results;
               }else{
                 this.$message("Acquisition failure!");
               }
