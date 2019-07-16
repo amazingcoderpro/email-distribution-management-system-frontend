@@ -11,6 +11,8 @@
           </el-form-item>
           <el-form-item class="FR">
                 <el-button icon="edit" type="primary" size="small" @click="addFun">Create New Segment</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="SegmentAddTest">SegmentAddTest</el-button>
+                
           </el-form-item>
         </el-form>
         <div class="table_right">
@@ -142,6 +144,10 @@ export default {
           localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
           router.push('/SegmentAdd');
         },
+        SegmentAddTest(){
+          router.push('/SegmentAddTest');
+        },
+        
         deleteFun(row){
           this.$axios.delete(`/api/v1/customer_group/${row.id}/`)
           .then(res => {
