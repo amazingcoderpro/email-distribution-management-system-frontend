@@ -18,7 +18,7 @@
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
             <el-table-column prop="title,description" align="left" width="500">
               <template slot-scope="scope">
-                <div class="columnLable">{{scope.row.title}}</div>
+                <div class="columnLable titleClass" @click="showFun(scope.row)">{{scope.row.title}}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
@@ -46,15 +46,19 @@
                 <div class="columnContent">{{scope.row.update_time}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="300" fixed="right">
+            <el-table-column prop="operation" align="center" fixed="right">
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
+                <!-- <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button> -->
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
-        </div>      
+        </div>   
+        <!-- 分页 -->
+        <div class="paging">
+          <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
+        </div>   
     </div>
 </template>
 
@@ -71,7 +75,7 @@ export default {
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
-        tableHeight:"100",
+            tableHeight:"100",
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -90,11 +94,11 @@ export default {
     },
     mounted() {
       setTimeout(() => {
-        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 100;
+        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
       }, 50);
       window.addEventListener('resize', () => {
         if(document.getElementsByClassName("topictable").length>0){
-          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 100;
+          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
         }
       });
       this.init();
@@ -104,8 +108,23 @@ export default {
           this.$axios.get(`/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
           .then(res => {
               if(res.data.code == 1){
-                // console.log(res.data.data.results)
+                console.log(res.data.data)
                 this.tableData = res.data.data.results;
+                this.page.total = res.data.data.count;
+                this.tableData.map(e =>{
+                  if(e.update_time){
+                      e.update_time = base.dateFormat(e.update_time);
+                  }
+                  if(!e.open_rate){
+                    e.open_rate = "0.00"
+                  }
+                  if(!e.open_rate){
+                    e.click_rate = "0.00"
+                  }
+                  if(!e.members){
+                    e.click_rate = "0"
+                  }
+                });
               }else{
                 this.$message("Acquisition failure!");
               }
@@ -157,8 +176,29 @@ export default {
           }
           localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
           router.push('/SegmentAdd');
+        },
+        showFun(row){
+          let SegmentVal = {
+            "showState":"1",
+            "description":row.description,
+            "title":row.title,
+            "relation_info":JSON.parse(row.relation_info)
+          }
+          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
+          router.push('/SegmentAdd');
+        },
+        current_change(val){
+            //点击数字时触发
+            this.page.currentPage = val;
+            this.init();
+            this.$refs.topictable.bodyWrapper.scrollTop = 0;
+        },
+        handleSizeChange(val){
+            //修改每页显示多少条时触发
+            this.page.pagesize = val;
+            this.init();
+            this.$refs.topictable.bodyWrapper.scrollTop = 0;
         }
-
     },
     beforeDestroy() {
 
@@ -170,4 +210,6 @@ export default {
 .SegmentList .topictable{border-left: 0;border-right:0;} 
 .SegmentList .el-table__body-wrapper tbody td{border-right: 0;}
 .SegmentList .fromClass{width: 97%;}
+.SegmentList .titleClass{cursor: pointer;}
+.SegmentList .titleClass:hover{color: #000;}
 </style>

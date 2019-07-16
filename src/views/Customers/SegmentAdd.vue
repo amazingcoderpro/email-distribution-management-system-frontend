@@ -5,7 +5,7 @@
             <li><a href="/SegmentList"><span class="el-icon-house"> </span>SegmentList</a></li>
             <li><a><span class="el-icon-right"> </span>New Customers</a></li>
         </ul>
-        <el-form :inline="true" :model="bigData" class="demo-form-inline fromClass" label-width="100px">
+        <el-form :inline="true" :model="bigData" class="demo-form-inline fromClass" label-width="100px" :disabled="postData.showState == '1'">
             <el-form-item label="Flow Name">
                 <el-input v-model="postData.title" placeholder="Enter Flow Name"></el-input>
                 <div class="el-form-item__error" v-if="errorState.title_state == 0">Please enter Flow Name</div>
@@ -143,7 +143,7 @@
                                             </el-select>
                                         </template>
                                         <template>
-                                            <template v-if="itemSonRelation.relation == 'is over all time' || itemSonRelation.relation == 'is more than' || itemSonRelation.relation == 'is less than' || itemSonRelation.relation == 'is in the past'">
+                                            <template v-if=" itemSonRelation.relation == 'is more than' || itemSonRelation.relation == 'is less than' || itemSonRelation.relation == 'is in the past'">
                                                 <el-form-item>
                                                     <el-input v-model="itemSonRelation.value[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="WW100"></el-input>
                                                 </el-form-item>
@@ -188,6 +188,9 @@
                                                 <el-input v-model="itemSonRelation.value[0]"  class="W150"></el-input>
                                                 <div class="centerClass">times</div>
                                             </template>
+                                            <template v-else-if="itemSonRelation.relation == 'is over all time'" >
+                                                <!-- 啥都不要 -->
+                                            </template>
                                         </template>
                                 </div>
                             </template>
@@ -199,7 +202,7 @@
                 </div>
             </div>
             <div class="btnBox">
-                <el-button type="text">CANCEL</el-button>
+                <el-button type="text" @click="cancelFun">CANCEL</el-button>
                 <el-button type="primary" @click="saveFun">SAVE</el-button>
             </div>
         </el-form>
@@ -348,6 +351,7 @@ export default {
             },
             postData:{
                 "id":"",
+                "showState":"",
                 "title":"",
                 "relation_info":"",
                 "description":""
@@ -371,9 +375,11 @@ export default {
             this.postData.title = _thisData.title.toString();
             this.postData.description = _thisData.description;
             this.bigData = _thisData.relation_info;
-            console.log(_thisData.id)
             if(_thisData.id){
                 this.postData.id = _thisData.id;
+            }
+            if(_thisData.showState){
+                this.postData.showState = _thisData.showState;
             }
             if(this.bigData.relation){
                 this.relationArray = this.bigData.relation.split(",");
@@ -529,6 +535,15 @@ export default {
         deleteConditionChild(index,indexSon){
             this.bigData.group_condition[index].children.splice(indexSon,1)
             this.bigData = this.bigData;
+        },
+        cancelFun(){
+            this.$confirm('Are you sure you wanna cancel?', 'Warning', {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }).then(() => {
+                    router.push('/SegmentList');
+                }) 
         }
     },
     beforeDestroy() {

@@ -17,6 +17,7 @@ body,
 .W54{width:54%!important;margin-right:2%!important;}
 .W60{width:60%!important;margin-right:2%!important;}
 .W90{width:90%!important;margin-right:2%!important;}
+.W100{width:100%!important;margin-right:2%!important;}
 
 
 .WW100{width:100px!important;margin-right:10px!important;}
@@ -29,7 +30,7 @@ body,
 
 .MB5{margin-bottom:5px!important;}
 .MB10{margin-bottom:10px;}
-
+.MR20{margin-right:20px!important;}
 
 .tableTitle{margin-bottom: 10px;}
 .tableTitle span{background:#006699;width:175px;color:#fff;display:inline-block;padding:10px 40px 10px 10px;font-size:20px;font-weight:600;-webkit-box-shadow:0 0 5px #006699;box-shadow:0 0 5px #006699;}

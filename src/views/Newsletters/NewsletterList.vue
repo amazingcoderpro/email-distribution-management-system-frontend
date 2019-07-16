@@ -17,11 +17,12 @@
             </template>
           </el-form-item>
           <el-form-item class="FR">
+                <el-button icon="edit" type="primary" size="small" @click="addFun" class="MR20">Create New</el-button>
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item>
         </el-form>
         <div class="table_right">
-          <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus">
+          <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
             <el-table-column prop="name,describe" align="left" width="500">
               <template slot-scope="scope">
@@ -58,22 +59,33 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300" fixed="right">
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button>
+                <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
                 <el-button icon="edit" type="success" size="small" @click="deteleFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
+        </div>   
+        <!-- 分页 -->
+        <div class="paging">
+          <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div>        
     </div>
 </template>
 <script>
+import router from '../../router'
 import * as base from '../../assets/js/base'
 export default {
     name: "NewsletterList",
     data() {
         return {
-            // tableHeight:700,
+            page:{
+                total:0,//默认数据总数
+                pagesize:10,//每页的数据条数
+                pagesizes:[10, 20, 30, 40],//分组数量
+                currentPage:1,//默认开始页面
+            },
+            tableHeight:"100",
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -105,16 +117,36 @@ export default {
     components:{
     },
     mounted() {
-        // setTimeout(function(){
-        //      this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-        // },50);
-        // window.addEventListener('resize', () => {
-        //     if(document.getElementsByClassName("table_right").length>0){
-        //         this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-        //     }
-        // });
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+      }, 50);
+      window.addEventListener('resize', () => {
+        if(document.getElementsByClassName("topictable").length>0){
+          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+        }
+      });
+      this.init();
     },
     methods:{
+      init(){
+        // this.page.total = res.data.data.count;
+        this.page.total = 222;
+      },
+      addFun(){
+        router.push('/NewsletterAdd');
+      },
+      current_change(val){
+          //点击数字时触发
+          this.page.currentPage = val;
+          this.init();
+          this.$refs.topictable.bodyWrapper.scrollTop = 0;
+      },
+      handleSizeChange(val){
+          //修改每页显示多少条时触发
+          this.page.pagesize = val;
+          this.init();
+          this.$refs.topictable.bodyWrapper.scrollTop = 0;
+      }
     },
     beforeDestroy() {
 
