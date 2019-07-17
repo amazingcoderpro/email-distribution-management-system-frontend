@@ -76,7 +76,7 @@
                             <template v-for="(itemSonRelation,index) in itemSon.relations">
                                 <div class="relationBox" :key="index" :data-text="index">
                                         <template>
-                                            <el-select v-model="itemSonRelation.relation" class="W150">
+                                            <el-select v-model="itemSonRelation.relation" class="W150" @change="itemSonRelationChange(itemSonRelation)">
                                                 <template v-if="
                                                     itemSon.condition == 'Customer subscribe time' || 
                                                     itemSon.condition == 'Customer sign up time'|| 
@@ -402,6 +402,17 @@ export default {
                     topNum = topNum-200;
                 },20)
             }
+            this.bigData.group_condition.map(e =>{
+                e.children.map(x =>{
+                    x.relations.map(y=>{
+                        y.value.map(z =>{
+                            if(z.indexOf("-")<0){
+                                z = parseInt(z);
+                            }
+                        })
+                    });
+                });
+            });
             this.postData.relation_info = JSON.stringify(this.bigData);
             if(this.errorState.title_state == 1){
                 if(this.postData.id != ''){
@@ -449,8 +460,9 @@ export default {
         },
     　　numberFun(itemSon,index){　　
             let  arr = [];
-            itemSon.value[index]=itemSon.value[index].replace(/[^\.\d]/g,'');
-            itemSon.value[index]=itemSon.value[index].replace('.','');
+            itemSon.value[index] = itemSon.value[index].toString();
+            itemSon.value[index] = itemSon.value[index].replace(/[^\.\d]/g,'');
+            itemSon.value[index] = itemSon.value[index].replace('.','');
             if(index == 0){
                 arr.push(itemSon.value[0]);
                 if(itemSon.value.length>1){
@@ -461,10 +473,10 @@ export default {
                 arr.push(itemSon.value[1]);
             }
             itemSon.value = arr;
-            //console.log(itemSon.value)
     　　},
         timeChang(itemSon,index){
             let arr = [];
+            console.log(itemSon)
             if(index == 0){
                 let _thisNewTime = base.dateFormat(itemSon.value[0]);
                 arr.push(_thisNewTime);
@@ -477,7 +489,7 @@ export default {
                 arr.push(_thisNewTime);
             }
             itemSon.value = arr;
-           // console.log(itemSon.value)
+           console.log(itemSon.value)
         },
         relationChang(itemSon){
             let str = "";
@@ -544,6 +556,14 @@ export default {
                 }).then(() => {
                     router.push('/SegmentList');
                 }) 
+        },
+        itemSonRelationChange(itemSonRelation){
+            console.log(itemSonRelation.value)
+            if(itemSonRelation.relation == "is before" || itemSonRelation.relation == "is after" || itemSonRelation.relation == "is between date"){
+                itemSonRelation.value = ["2019-1-1","2019-1-1"];
+            }else{
+                itemSonRelation.value = [0,0];
+            }
         }
     },
     beforeDestroy() {
