@@ -25,7 +25,9 @@
                         <div>
                             <span>Sender Address</span>
                         </div>
-                        <el-input v-model="storeShop.sender_address" class="Senderdomain_three"></el-input>@&nbsp;
+                        <el-input v-model="storeShop.sender_address" class="Senderdomain_three">
+                        </el-input>
+                        @&nbsp;  
                         <el-select v-model="storeShop.select" placeholder="请选择" class="Senderdomain_one">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
@@ -38,17 +40,17 @@
                     </div>
                     <!-- 点击 -->
                     <el-form-item>
-                        <el-button type="primary" class="submit_btn" @click="submitwo()">RESET</el-button>
+                        <el-button type="primary" class="submit_btn" @click="submitReset()">RESET</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" class="submit_save" @click="submitwo()">SAVE</el-button>
-                    </el-form-item>
+                        <el-button type="primary" class="submit_save" @click="submiSave()">SAVE</el-button>
+                    </el-form-item> 
                 </el-form>
             </section>
             <div class="goole_analytics">
                 <p class="title">Google Analytics Tracking</p>
                 <p>Setp 1.  Sign up for a Google Analytics account.</p>
-                <p class="steo_two">Step 2.  Add <a href="#">............</a> as a user in your GA view user management. Give us data read & Analyze permissions.</p>
+                <p class="steo_two">Step 2.  Add <a href="#">.....</a> as a user in your <b>GA view user management</b>. Give us data read & Analyze permissions.</p>
                 <p>Step 3.  Add your VIEW ID here <el-input v-model="storeShop.store_view_id" placeholder="请输入内容"></el-input></p>
                 <el-button type="primary" class="goole_save">SAVE</el-button>
             </div>
@@ -106,6 +108,21 @@ export default {
                     center: true
                    });
                 }
+            });       
+        },
+        submitReset(){
+            this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop).then(res =>{
+                if (res.data.code == 1) {
+                    this.$message({
+                    message: "Successful revision!",
+                    type: "success"
+                    });
+                } else {
+                    this.$message("Interface timeout!");
+                }
+            })
+            .catch(error => {
+                this.$message("Interface timeout!");
             });
         }
     },

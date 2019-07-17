@@ -5,6 +5,46 @@
             <li><a href="/SegmentList"><span class="el-icon-house"> </span>SegmentList</a></li>
             <li><a><span class="el-icon-right"> </span>New SegmentAddTest</a></li>
         </ul>
+        <el-form :inline="true" :model="bigData" class="demo-form-inline fromClass" label-width="100px" :disabled="postData.showState == '1'">
+            <el-form-item label="Flow Name">
+                <el-input v-model="postData.title" placeholder="Enter Flow Name"></el-input>
+            </el-form-item>
+            <br/>
+            <el-form-item>
+                <el-input v-model="group_name" placeholder="Group Name"></el-input>
+            </el-form-item>
+            <el-form-item class="addGroupClass">
+                <el-button type="primary" @click="addGroup">Add Group</el-button>
+            </el-form-item>
+
+           
+            <div v-for="(item,index) in bigData.group_condition" :key="index" style="background-color: rgba(242, 242, 242, 1);padding:20px;">
+                <el-form-item>
+                    <el-input v-model="item.group_name" placeholder="Group Name" style="width:240px;padding-left:10px;"></el-input>
+                </el-form-item>
+                <div class="centerClass">fit for</div>
+                <el-select v-model="item.relation" style="width:240px;padding-left:10px;">
+                    <el-option  :label="'any conditons'" :value="'||'"></el-option>
+                    <el-option  :label="'all conditions'" :value="'&&'"></el-option>
+                </el-select>
+                <el-form-item style="float:right">
+                    <el-button type="primary" @click="addCondition(item)">Add Group</el-button>
+                    <el-button type="danger" @click="addGroup">Delete</el-button>
+                </el-form-item>
+                <div class="branch" v-for="(itemFZ,indexFZ) in item.children" :key="indexFZ">
+                    <div class="smailLine"></div>
+                    <el-form-item>
+                        <template>
+                            <el-select v-model="itemFZ.condition" style="width:240px;padding-left:10px;">
+                                <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
+                                <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
+                                <el-option :label="'Customer last order created time'" :value="'Customer last order created time'"></el-option>
+                            </el-select>
+                        </template>
+                    </el-form-item>
+                </div>
+            </div>
+        </el-form>
     </div>
 </template>
 
@@ -15,6 +55,8 @@ export default {
     name: "SegmentAddTest",
     data() {
         return {
+            segment_Choice:false,
+            group_name:"",
             bigData:{
                 "relation":"||,||,&&,||,&&,||",
                 "group_condition" : [
@@ -154,9 +196,19 @@ export default {
     components:{
     },
     mounted() {
+        this.init();
     },
     methods:{
-
+        init(){
+            let _thisData = JSON.parse(localStorage["SegmentVal"])
+            this.bigData = _thisData.relation_info;
+        },
+       addGroup(){
+           this.bigData.group_condition.push({"group_name":this.group_name,"relation":"||","children":[]})   
+       },
+       addCondition(item){
+            item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "value":["30"], "unit":"days"}]})
+        },
     },
     beforeDestroy() {
 
@@ -210,4 +262,8 @@ export default {
     right: 20px;
     top: 11px;
    }
+   .postData_flow{display: block;}
+   .groupName{width: 200px;padding-right: 10px;}
+   .segment_heade{background-color: rgba(242, 242, 242, 1);padding: 20px;}
+   .segment_words{display: inline-block;color:gray;font-size: 14px;line-height: 40px;}
 </style>
