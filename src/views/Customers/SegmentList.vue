@@ -50,7 +50,7 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" fixed="right">
               <template slot-scope="scope">
-                <!-- <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button> -->
+                <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>

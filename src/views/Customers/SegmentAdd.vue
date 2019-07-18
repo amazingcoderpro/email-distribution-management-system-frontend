@@ -387,7 +387,7 @@ export default {
         },
         saveFun(){
            // console.log(this.bigData.relation)
-           console.log(this.postData)
+           //console.log(this.postData)
             if(this.postData.title && this.postData.title.trim().length != 0){
                 this.errorState.title_state = 1;
             }else{
@@ -402,18 +402,22 @@ export default {
                     topNum = topNum-200;
                 },20)
             }
-            this.bigData.group_condition.map(e =>{
-                e.children.map(x =>{
-                    x.relations.map(y=>{
-                        y.value.map(z =>{
-                            if(z.indexOf("-")<0){
-                                z = parseInt(z);
-                            }
-                        })
-                    });
-                });
-            });
-            this.postData.relation_info = JSON.stringify(this.bigData);
+            // this.bigData.group_condition.map(e =>{
+            //     e.children.map(x =>{
+            //         x.relations.map(y=>{
+            //             y.value.map(z =>{
+            //                 if(typeof z != "number"){
+            //                     if(z.indexOf("-")<0){
+            //                         z = parseInt(z);
+            //                         console.log(typeof z)
+            //                     }
+            //                 }
+            //             })
+            //         });
+            //     });
+            // });
+            console.log(this.bigData)
+           this.postData.relation_info = JSON.stringify(this.bigData);
             if(this.errorState.title_state == 1){
                 if(this.postData.id != ''){
                     // 修改
@@ -460,9 +464,14 @@ export default {
         },
     　　numberFun(itemSon,index){　　
             let  arr = [];
-            itemSon.value[index] = itemSon.value[index].toString();
-            itemSon.value[index] = itemSon.value[index].replace(/[^\.\d]/g,'');
-            itemSon.value[index] = itemSon.value[index].replace('.','');
+            // itemSon.value[index] = itemSon.value[index].toString();
+            // itemSon.value[index] = itemSon.value[index].replace(/[^\.\d]/g,'');
+            // itemSon.value[index] = itemSon.value[index].replace('.','');
+            if(itemSon.value[index]){
+                itemSon.value[index] = parseInt(itemSon.value[index]);
+            }else{
+                itemSon.value[index] = 0;
+            }
             if(index == 0){
                 arr.push(itemSon.value[0]);
                 if(itemSon.value.length>1){
@@ -473,10 +482,10 @@ export default {
                 arr.push(itemSon.value[1]);
             }
             itemSon.value = arr;
+            console.log(itemSon.value)
     　　},
         timeChang(itemSon,index){
             let arr = [];
-            console.log(itemSon)
             if(index == 0){
                 let _thisNewTime = base.dateFormat(itemSon.value[0]);
                 arr.push(_thisNewTime);
@@ -523,7 +532,7 @@ export default {
                     itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
                         // 这四个需要添加新的一组数据
                         if(itemSon.relations.length<2){
-                            itemSon.relations.push({"relation":"is in the past", "value":["1"], "unit":"days"});
+                            itemSon.relations.push({"relation":"is in the past", "value":[0,0], "unit":"days"});
                         }
                     }else{
                         if(itemSon.relations.length>0){
@@ -558,7 +567,7 @@ export default {
                 }) 
         },
         itemSonRelationChange(itemSonRelation){
-            console.log(itemSonRelation.value)
+            // console.log(itemSonRelation.value)
             if(itemSonRelation.relation == "is before" || itemSonRelation.relation == "is after" || itemSonRelation.relation == "is between date"){
                 itemSonRelation.value = ["2019-1-1","2019-1-1"];
             }else{
