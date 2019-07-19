@@ -86,8 +86,8 @@
                                                     itemSon.condition == 'Customer last click email time'">
                                                         <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
                                                         <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
-                                                        <el-option :label="'is more than'" :value="'is more than'"></el-option>
-                                                        <el-option :label="'is less than'" :value="'is less than'"></el-option>
+                                                        <!-- <el-option :label="'is more than'" :value="'is more than'"></el-option>
+                                                        <el-option :label="'is less than'" :value="'is less than'"></el-option> -->
                                                         <el-option :label="'is before'" :value="'is before'"></el-option>
                                                         <el-option :label="'is after'" :value="'is after'"></el-option>
                                                         <el-option :label="'is between date'" :value="'is between date'"></el-option>
@@ -106,8 +106,8 @@
                                                     <template v-else>
                                                         <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
                                                         <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
-                                                        <el-option :label="'is more than'" :value="'is more than'"></el-option>
-                                                        <el-option :label="'is less than'" :value="'is less than'"></el-option>
+                                                        <!-- <el-option :label="'is more than'" :value="'is more than'"></el-option>
+                                                        <el-option :label="'is less than'" :value="'is less than'"></el-option> -->
                                                         <el-option :label="'is before'" :value="'is before'"></el-option>
                                                         <el-option :label="'is after'" :value="'is after'"></el-option>
                                                         <el-option :label="'is between date'" :value="'is between date'"></el-option>
@@ -145,7 +145,7 @@
                                         <template>
                                             <template v-if=" itemSonRelation.relation == 'is more than' || itemSonRelation.relation == 'is less than' || itemSonRelation.relation == 'is in the past'">
                                                 <el-form-item>
-                                                    <el-input v-model="itemSonRelation.value[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="WW100"></el-input>
+                                                    <el-input v-model="itemSonRelation.values[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="WW100"></el-input>
                                                 </el-form-item>
                                                 <template>
                                                     <template v-if="itemSon.condition == 'Customer total order payment amount'">
@@ -162,17 +162,17 @@
                                                 </template>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'is before' || itemSonRelation.relation == 'is after'">
-                                                <el-date-picker v-model="itemSonRelation.value[0]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,0)" class="W150"></el-date-picker>
+                                                <el-date-picker v-model="itemSonRelation.values[0]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,0)" class="W150"></el-date-picker>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'is between date'">
-                                                <el-date-picker v-model="itemSonRelation.value[0]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,0)" class="W150"></el-date-picker>
+                                                <el-date-picker v-model="itemSonRelation.values[0]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,0)" class="W150"></el-date-picker>
                                                 <div class="centerClass">and</div>
-                                                <el-date-picker v-model="itemSonRelation.value[1]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,1)" class="W150"></el-date-picker>
+                                                <el-date-picker v-model="itemSonRelation.values[1]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,1)" class="W150"></el-date-picker>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'is between'">
-                                                <el-input v-model="itemSonRelation.value[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="W150"></el-input>
+                                                <el-input v-model="itemSonRelation.values[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="W150"></el-input>
                                                 <div class="centerClass">and</div>
-                                                <el-input v-model="itemSonRelation.value[1]" @keyup.native="numberFun(itemSonRelation,1)" placeholder="Number" class="W150"></el-input>
+                                                <el-input v-model="itemSonRelation.values[1]" @keyup.native="numberFun(itemSonRelation,1)" placeholder="Number" class="W150"></el-input>
                                                 <el-select v-model="itemSonRelation.unit" class="W150">
                                                     <el-option :label="'days'" :value="'days'"></el-option>
                                                     <el-option :label="'weeks'" :value="'weeks'"></el-option>
@@ -182,10 +182,10 @@
                                                 <div class="centerClass">ago</div>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'contains' || itemSonRelation.relation == 'is started with' || itemSonRelation.relation == 'is end with'" >
-                                                <el-input v-model="itemSonRelation.value[0]"  class="W150"></el-input>
+                                                <el-input v-model="itemSonRelation.values[0]"  class="W150"></el-input>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'equals' || itemSonRelation.relation == 'more than' || itemSonRelation.relation == 'less than'" >
-                                                <el-input v-model="itemSonRelation.value[0]"  class="W150"></el-input>
+                                                <el-input v-model="itemSonRelation.values[0]"  class="W150"></el-input>
                                                 <div class="centerClass">times</div>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'is over all time'" >
@@ -224,131 +224,7 @@ export default {
             Customerval:"Customer subscribe time",
             relationArray:[],
             group_name:"",
-            bigData:{
-                "relation":"||,||,&&,||,&&,||",
-                "group_condition" : [
-                    {
-                        "group_name":"Customer subscribe time",
-                        "relation":"&&",
-                        "children":[
-                                {
-                                    "condition":"Customer last click email time",
-                                    "relations":[{"relation":"is over all time", "value":["30"], "unit":"days"}]
-                                },
-                                {"condition":"Customer sign up time","relations":[
-                                    {"relation":"is more than", "value":["90"], "unit":"months"}]},
-                                {"condition":"Customer last order created time","relations":[
-                                    {"relation":"is less than", "value":["90"], "unit":"months"}]},
-                                {"condition":"Customer last cart created time","relations":[
-                                    {"relation":"is in the past", "value":["32"], "unit":"days"}]},
-                                {"condition":"Customer last opened email time","relations":[
-                                    {"relation":"is before", "value":["2019-07-17"], "unit":"months"}]},
-                                {"condition":"Customer subscribe time","relations":[
-                                    {"relation":"is after", "value":["2019-07-17"], "unit":"months"}]},
-                                {"condition":"Customer subscribe time","relations":[
-                                    {"relation":"is between date", "value":["2019-07-17","2019-07-19"], "unit":"months"}]},
-                                {"condition":"Customer subscribe time","relations":[
-                                    {"relation":"is between", "value":["123","33"], "unit":"months"}]},
-                        ]
-                    },
-                    {
-                        "group_name":"G2",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer placed order",
-                                    "relations":[{"relation":"equals", "value":["1"], "unit":"days"},{"relation":"is over all time", "value":["1"], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer paid order",
-                                    "relations":[{"relation":"equals", "value":["1"], "unit":"days"},{"relation":"is over all time", "value":["1"], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer opened email",
-                                    "relations":[{"relation":"equals", "value":["1"], "unit":"days"},{"relation":"is over all time", "value":["1"], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer clicked email",
-                                    "relations":[{"relation":"equals", "value":["1"], "unit":"days"},{"relation":"is over all time", "value":["1"], "unit":"days"}]
-                                }
-                        ]
-                    },
-                    {
-                        "group_name":"Customer last order status",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer last order status",
-                                    "relations":[{"relation":"is paid", "value":[1], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer last order status",
-                                    "relations":[{"relation":"is unpaid", "value":[1], "unit":"days"}]
-                                },
-                        ]
-                    },
-                    {
-                        "group_name":"Customer last cart status",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer last cart status",
-                                    "relations":[{"relation":"is empty", "value":[1], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer last cart status",
-                                    "relations":[{"relation":"is cart status", "value":[1], "unit":"days"}]
-                                }
-                        ]
-                    },
-                    {
-                        "group_name":"Customer who accept marketing",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer who accept marketing",
-                                    "relations":[{"relation":"is true", "value":[1], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer who accept marketing",
-                                    "relations":[{"relation":"is false", "value":[1], "unit":"days"}]
-                                }
-                        ]
-                    },
-                    {
-                        "group_name":"Customer Email",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer Email",
-                                    "relations":[{"relation":"contains", "value":['3edds'], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer Email",
-                                    "relations":[{"relation":"is started with", "value":['3edds'], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer Email",
-                                    "relations":[{"relation":"is end with", "value":['3edds'], "unit":"days"}]
-                                }
-                        ]
-                    },
-                    {
-                        "group_name":"Customer total order payment amount",
-                        "relation":"||",
-                        "children":[
-                                {
-                                    "condition":"Customer total order payment amount",
-                                    "relations":[{"relation":"is more than", "value":['123'], "unit":"days"}]
-                                },
-                                {
-                                    "condition":"Customer total order payment amount",
-                                    "relations":[{"relation":"is less than", "value":['123'], "unit":"days"}]
-                                },
-                        ]
-                    }
-                ]
-            },
+            bigData:{},
             postData:{
                 "id":"",
                 "showState":"",
@@ -402,20 +278,6 @@ export default {
                     topNum = topNum-200;
                 },20)
             }
-            // this.bigData.group_condition.map(e =>{
-            //     e.children.map(x =>{
-            //         x.relations.map(y=>{
-            //             y.value.map(z =>{
-            //                 if(typeof z != "number"){
-            //                     if(z.indexOf("-")<0){
-            //                         z = parseInt(z);
-            //                         console.log(typeof z)
-            //                     }
-            //                 }
-            //             })
-            //         });
-            //     });
-            // });
             console.log(this.bigData)
            this.postData.relation_info = JSON.stringify(this.bigData);
             if(this.errorState.title_state == 1){
@@ -460,45 +322,42 @@ export default {
             }
         },
         addCondition(item){
-            item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "value":["30"], "unit":"days"}]})
+            item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "values":["30"], "unit":"days"}]})
         },
     　　numberFun(itemSon,index){　　
             let  arr = [];
-            // itemSon.value[index] = itemSon.value[index].toString();
-            // itemSon.value[index] = itemSon.value[index].replace(/[^\.\d]/g,'');
-            // itemSon.value[index] = itemSon.value[index].replace('.','');
-            if(itemSon.value[index]){
-                itemSon.value[index] = parseInt(itemSon.value[index]);
+            if(itemSon.values[index]){
+                itemSon.values[index] = parseInt(itemSon.values[index]);
             }else{
-                itemSon.value[index] = 0;
+                itemSon.values[index] = 0;
             }
             if(index == 0){
-                arr.push(itemSon.value[0]);
-                if(itemSon.value.length>1){
-                    arr.push(itemSon.value[1]);
+                arr.push(itemSon.values[0]);
+                if(itemSon.values.length>1){
+                    arr.push(itemSon.values[1]);
                 }
             }else{
-                arr.push(itemSon.value[0]);
-                arr.push(itemSon.value[1]);
+                arr.push(itemSon.values[0]);
+                arr.push(itemSon.values[1]);
             }
-            itemSon.value = arr;
-            console.log(itemSon.value)
+            itemSon.values = arr;
+            console.log(itemSon.values)
     　　},
         timeChang(itemSon,index){
             let arr = [];
             if(index == 0){
-                let _thisNewTime = base.dateFormat(itemSon.value[0]);
+                let _thisNewTime = base.dateFormat(itemSon.values[0]);
                 arr.push(_thisNewTime);
-                if(itemSon.value.length>1){
-                    arr.push(itemSon.value[1]);
+                if(itemSon.values.length>1){
+                    arr.push(itemSon.values[1]);
                 }
             }else{
-                let _thisNewTime = base.dateFormat(itemSon.value[1]);
-                arr.push(itemSon.value[0]);
+                let _thisNewTime = base.dateFormat(itemSon.values[1]);
+                arr.push(itemSon.values[0]);
                 arr.push(_thisNewTime);
             }
-            itemSon.value = arr;
-           console.log(itemSon.value)
+            itemSon.values = arr;
+           console.log(itemSon.values)
         },
         relationChang(itemSon){
             let str = "";
@@ -532,7 +391,7 @@ export default {
                     itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
                         // 这四个需要添加新的一组数据
                         if(itemSon.relations.length<2){
-                            itemSon.relations.push({"relation":"is in the past", "value":[0,0], "unit":"days"});
+                            itemSon.relations.push({"relation":"is in the past", "values":[0,0], "unit":"days"});
                         }
                     }else{
                         if(itemSon.relations.length>0){
@@ -567,11 +426,11 @@ export default {
                 }) 
         },
         itemSonRelationChange(itemSonRelation){
-            // console.log(itemSonRelation.value)
+            // console.log(itemSonRelation.values)
             if(itemSonRelation.relation == "is before" || itemSonRelation.relation == "is after" || itemSonRelation.relation == "is between date"){
-                itemSonRelation.value = ["2019-1-1","2019-1-1"];
+                itemSonRelation.values = ["2019-1-1","2019-1-1"];
             }else{
-                itemSonRelation.value = [0,0];
+                itemSonRelation.values = [0,0];
             }
         }
     },
