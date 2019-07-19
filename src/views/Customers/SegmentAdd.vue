@@ -56,8 +56,8 @@
                                 <el-select v-model="itemSon.condition" class="W300" @change="relationChang(itemSon)">
                                     <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                     <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
-                                    <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
-                                    <el-option :label="'Customer last cart status'" :value="'Customer last cart status'"></el-option>
+                                    <!-- <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
+                                    <el-option :label="'Customer last cart status'" :value="'Customer last cart status'"></el-option> -->
                                     <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                     <el-option :label="'Customer last opened email time'" :value="'Customer last opened email time'"></el-option>
                                     <el-option :label="'Customer last order created time'" :value="'Customer last order created time'"></el-option>
@@ -450,9 +450,9 @@ export default {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
                 type: 'warning'
-                }).then(() => {
-                    router.push('/SegmentList');
-                }) 
+            }).then(() => {
+                router.push('/SegmentList');
+            }) 
         },
         itemSonRelationChange(itemSonRelation){
             // console.log(itemSonRelation.values)
@@ -470,53 +470,16 @@ export default {
 </script>
 
 <style>
-.SegmentAdd .ConditionBox{
-    position: relative;
-    padding: 40px 20px;
-    background: #F2F2F2;
-    margin-bottom: 80px;}
-   .SegmentAdd .centerClass{
-           display: inline-block;
-    padding: 9px 16px 8px 10px;color: #606266;font-size: 14px;
-   }
-   .SegmentAdd .addConditionClass{
-    position: absolute;
-    right: 20px;
-    top: 20px;
-   }
-   .SegmentAdd .ConditionBoxBody{
-       position: relative;
-       margin-left: 50px;
-   }
-   .SegmentAdd .ConditionBoxHead{margin-bottom: 20px;}
-   .SegmentAdd .smailLine{
-    border-left: 1px solid #DCDFE6;
-    height: 65px;
-    position: absolute;
-    left: -20px;
-    border-bottom: 1px solid #DCDFE6;
-    width: 20px;
-    top: -42px;
-   }
-   .SegmentAdd .relationBigBox{    width: calc(100% - 350px);
-    display: inline-block;}
-   .SegmentAdd .relationBox{display: inline-block;}
-   .SegmentAdd .fatherRelationBox{
-    position: absolute;
-    top: -58px;
-   }
-   .SegmentAdd .btnBox{
-       text-align: right;
-    padding-right: 60px;
-    padding-bottom: 50px;
-   }
-   .SegmentAdd .deleteBtn{
-    position: absolute;
-    right: 20px;
-    top: 11px;
-   }
-
-   .SegmentAdd .errorClass{
-        top: 42px;
-   }
+.SegmentAdd .ConditionBox{position:relative;padding:40px 20px;background:#F2F2F2;margin-bottom:80px;}
+.SegmentAdd .centerClass{display:inline-block;padding:9px 16px 8px 10px;color:#606266;font-size:14px;}
+.SegmentAdd .addConditionClass{position:absolute;right:20px;top:20px;}
+.SegmentAdd .ConditionBoxBody{position:relative;margin-left:50px;}
+.SegmentAdd .ConditionBoxHead{margin-bottom:20px;}
+.SegmentAdd .smailLine{border-left:1px solid #DCDFE6;height:65px;position:absolute;left:-20px;border-bottom:1px solid #DCDFE6;width:20px;top:-42px;}
+.SegmentAdd .relationBigBox{width:calc(100% - 350px);display:inline-block;}
+.SegmentAdd .relationBox{display:inline-block;}
+.SegmentAdd .fatherRelationBox{position:absolute;top:-58px;}
+.SegmentAdd .btnBox{text-align:right;padding-right:60px;padding-bottom:50px;}
+.SegmentAdd .deleteBtn{position:absolute;right:20px;top:11px;}
+.SegmentAdd .errorClass{top:42px;}
 </style>
