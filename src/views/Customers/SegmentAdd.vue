@@ -26,10 +26,10 @@
             <div class="ConditionBigBox">
                 <div class="ConditionBox" v-for="(item,index) in bigData.group_condition" :key="index">
                     <div class="fatherRelationBox" v-if="index>=1">
-                            <el-select v-model="relationArray[index-1]" class="W200">
-                                <el-option  :label="'OR'" :value="'||'"></el-option>
-                                <el-option  :label="'AND'" :value="'&&'"></el-option>
-                            </el-select>
+                        <el-select v-model="relationArray[index-1]" class="W200">
+                            <el-option  :label="'OR'" :value="'||'"></el-option>
+                            <el-option  :label="'AND'" :value="'&&'"></el-option>
+                        </el-select>
                     </div>
                     <div class="ConditionBoxHead">
                         <el-form-item>
@@ -167,12 +167,18 @@
                                             <template v-else-if="itemSonRelation.relation == 'is between date'">
                                                 <el-date-picker v-model="itemSonRelation.values[0]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,0)" class="W150"></el-date-picker>
                                                 <div class="centerClass">and</div>
-                                                <el-date-picker v-model="itemSonRelation.values[1]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,1)" class="W150"></el-date-picker>
+                                                <div class="PORE DisplayInline">
+                                                    <el-date-picker v-model="itemSonRelation.values[1]" type="date" placeholder="enter Time" @change="timeChang(itemSonRelation,1)" class="W150"></el-date-picker>
+                                                    <div class="errorClass el-form-item__error" v-if="itemSonRelation.errorMsg">{{itemSonRelation.errorMsg}}</div>
+                                                </div>
                                             </template>
                                             <template v-else-if="itemSonRelation.relation == 'is between'">
                                                 <el-input v-model="itemSonRelation.values[0]" @keyup.native="numberFun(itemSonRelation,0)" placeholder="Number" class="W150"></el-input>
                                                 <div class="centerClass">and</div>
-                                                <el-input v-model="itemSonRelation.values[1]" @keyup.native="numberFun(itemSonRelation,1)" placeholder="Number" class="W150"></el-input>
+                                                <div  class="PORE DisplayInline">
+                                                    <el-input v-model="itemSonRelation.values[1]" @keyup.native="numberFun(itemSonRelation,1)" placeholder="Number" class="W150"></el-input>
+                                                    <div class="errorClass el-form-item__error" v-if="itemSonRelation.errorMsg">{{itemSonRelation.errorMsg}}</div>
+                                                </div>
                                                 <el-select v-model="itemSonRelation.unit" class="W150">
                                                     <el-option :label="'days'" :value="'days'"></el-option>
                                                     <el-option :label="'weeks'" :value="'weeks'"></el-option>
@@ -279,8 +285,8 @@ export default {
                 },20)
             }
             console.log(this.bigData)
-           this.postData.relation_info = JSON.stringify(this.bigData);
-            if(this.errorState.title_state == 1){
+            this.postData.relation_info = JSON.stringify(this.bigData);
+             if(this.errorState.title_state == 1 && document.getElementsByClassName("errorClass").length == 0){
                 if(this.postData.id != ''){
                     // 修改
                     this.$axios.put(`/api/v1/customer_group/${this.postData.id}/`, this.postData)
@@ -322,7 +328,7 @@ export default {
             }
         },
         addCondition(item){
-            item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "values":["30"], "unit":"days"}]})
+            item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },
     　　numberFun(itemSon,index){　　
             let  arr = [];
@@ -336,12 +342,23 @@ export default {
                 if(itemSon.values.length>1){
                     arr.push(itemSon.values[1]);
                 }
+                if(itemSon.relation == "is between"){
+                    if(itemSon.values[1]<=itemSon.values[0]){
+                        itemSon.errorMsg = "不得小于等于开始数量";
+                    }else{
+                        itemSon.errorMsg = "";
+                    }
+                }
             }else{
+                if(itemSon.values[1]<=itemSon.values[0]){
+                    itemSon.errorMsg = "不得小于等于开始数量";
+                }else{
+                    itemSon.errorMsg = "";
+                }
                 arr.push(itemSon.values[0]);
                 arr.push(itemSon.values[1]);
             }
             itemSon.values = arr;
-            console.log(itemSon.values)
     　　},
         timeChang(itemSon,index){
             let arr = [];
@@ -351,7 +368,19 @@ export default {
                 if(itemSon.values.length>1){
                     arr.push(itemSon.values[1]);
                 }
+                if(itemSon.relation == "is between date"){
+                    if(new Date(itemSon.values[1]).getTime()<=new Date(itemSon.values[0]).getTime()){
+                        itemSon.errorMsg = "不得大于等于开始时间";
+                    }else{
+                        itemSon.errorMsg = "";
+                    }
+                }
             }else{
+                if(new Date(itemSon.values[1]).getTime() <= new Date(itemSon.values[0]).getTime()){
+                    itemSon.errorMsg = "不得大于等于开始时间";
+                }else{
+                    itemSon.errorMsg = "";
+                }
                 let _thisNewTime = base.dateFormat(itemSon.values[1]);
                 arr.push(itemSon.values[0]);
                 arr.push(_thisNewTime);
@@ -391,7 +420,7 @@ export default {
                     itemSon.condition == 'Customer opened email'||itemSon.condition == 'Customer clicked email'){
                         // 这四个需要添加新的一组数据
                         if(itemSon.relations.length<2){
-                            itemSon.relations.push({"relation":"is in the past", "values":[0,0], "unit":"days"});
+                            itemSon.relations.push({"relation":"is in the past", "values":[0,1], "unit":"days","errorMsg":""});
                         }
                     }else{
                         if(itemSon.relations.length>0){
@@ -428,9 +457,9 @@ export default {
         itemSonRelationChange(itemSonRelation){
             // console.log(itemSonRelation.values)
             if(itemSonRelation.relation == "is before" || itemSonRelation.relation == "is after" || itemSonRelation.relation == "is between date"){
-                itemSonRelation.values = ["2019-1-1","2019-1-1"];
+                itemSonRelation.values = ["2019-1-1","2019-1-2"];
             }else{
-                itemSonRelation.values = [0,0];
+                itemSonRelation.values = [0,1];
             }
         }
     },
@@ -485,5 +514,9 @@ export default {
     position: absolute;
     right: 20px;
     top: 11px;
+   }
+
+   .SegmentAdd .errorClass{
+        top: 42px;
    }
 </style>
