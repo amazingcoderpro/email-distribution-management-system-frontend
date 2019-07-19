@@ -8,7 +8,7 @@
         <el-form :inline="true" :model="bigModel" >
             <div class="Browse_table">
                 <div class="Enable_button">
-                    <el-button type="primary">Enable Flow</el-button>
+                    <el-button type="primary" style="background-color: rgba(51, 153, 153, 1);border:1px solid rgba(51, 153, 153, 1)">Enable Flow</el-button>
                 </div>
                 <div class="table_right">
                     <div class="trigger_top">
@@ -67,10 +67,16 @@
                                     <i class="iconfont icon-yanjing"></i>
                                     <span>Preview</span>
                                 </div>
-                                <div class="trigger_Edit">
-                                    <i class="iconfont icon-edit"></i>
-                                    <span>Edit</span>
-                                </div>
+                                <template>
+                                    <div class="trigger_Edit" @click="Editletter" v-if="item.title == 'Email'">
+                                        <i class="iconfont icon-edit"></i>
+                                        <span>Edit</span>
+                                    </div>
+                                    <div class="trigger_Edit" v-else>
+                                        <i class="iconfont icon-edit"></i>
+                                        <span>Edit</span>
+                                    </div>
+                                </template>
                             </div>
                         </div>
                         <div class="rigger_center">
@@ -126,7 +132,7 @@
                 <p>EXIT</p>
             </div>
             <div class="Enable_button Enable_buttom">
-                <el-button type="primary">Enable Flow</el-button>
+                <el-button type="primary" style="background-color: rgba(51, 153, 153, 1);border:1px solid rgba(51, 153, 153, 1)">Enable Flow</el-button>
             </div>
         </div>
         <DialogFound :dialog='dialog'></DialogFound>
@@ -136,14 +142,15 @@
 
 <script>
 import DialogFound from "./trigger_edit";
+import router from '../../router';
 export default {
     data() {
         return {
             input:'',
             bigData:[
-                {"title":"email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
-                {"title":"delay","icon":"icon-shizhong","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
-                {"title":"email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
+                {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
+                {"title":"Delay","icon":"icon-shizhong","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
+                {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
             ],
             bigModel:{},
             options:[
@@ -173,7 +180,7 @@ export default {
             item.state = false;
         },
         addEmail(item,index){
-            this.bigData.splice(index+1,0,{"title":"email","state":false})
+            this.bigData.splice(index+1,0,{"title":"Email","state":false})
             item.state = false;
         },
         EditFun() {
@@ -183,6 +190,9 @@ export default {
             option: "post"
             };
         },
+        Editletter(){
+                router.push('./EditletterAdd')
+        }
     },
 }
 </script>

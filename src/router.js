@@ -19,6 +19,7 @@ import NewsletterAdd from './views/Newsletters/NewsletterAdd'
 //Flows
 import FlowList from './views/Flows/FlowList'
 import Browse_Abandonment from './views/Flows/Browse_Abandonment'
+import EditletterAdd from './views/Flows/EditletterAdd'
 // Customers
 import SegmentList from './views/Customers/SegmentList'
 import SegmentAdd from './views/Customers/SegmentAdd'
@@ -54,6 +55,7 @@ const router = new Router({
         { path: '/NewsletterAdd', name: 'NewsletterAdd', component: NewsletterAdd },
         { path: '/FlowList', name: 'FlowList', component: FlowList },
         { path: '/Browse_Abandonment',name:'Browse_Abandonment',component:Browse_Abandonment},
+        { path: '/EditletterAdd',name:'EditletterAdd',component:EditletterAdd},
         { path: '/SegmentList', name: 'SegmentList', component: SegmentList },
         { path: '/SegmentAdd', name: 'SegmentAdd', component: SegmentAdd },
         { path: '/SegmentAddTest', name: 'SegmentAddTest', component: SegmentAddTest },

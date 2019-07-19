@@ -32,8 +32,8 @@
                                 <el-option :label="'Customer last click email time was'" :value="'Customer last click email time was'"></el-option>
                                 <el-option :label="'Customer who accept marketing is'" :value="'Customer who accept marketing is'"></el-option>
                             </el-select>
-                             <el-select v-model="item.relation" class="W300">
-                                 <template v-if="item.condition == 'Customer cart status is'">
+                            <el-select v-model="item.relation" class="W300">
+                                 <template v-if="item.condition == 'Customer cart status is' || item.condition == 'Customer last cart created time was'">
                                     <el-option :label="'empty'" :value="'empty'"></el-option>
                                     <el-option :label="'not empty'" :value="'not empty'"></el-option>
                                  </template>
@@ -76,7 +76,7 @@ export default {
             this.bigGroup.children.push({"condition":"Customer cart status is","relation":"empty", "value":["30"], "unit":"days"})
         },
         addDelete(index){
-            this.bigGroup.children.splice(index,    1);
+            this.bigGroup.children.splice(index,1);
             this.bigGroup = this.bigGroup;
         },
     },

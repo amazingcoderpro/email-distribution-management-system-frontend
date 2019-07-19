@@ -21,8 +21,8 @@
           <el-button type="primary" class="select_button">Select All</el-button>
         </el-form>
         <div class="table_right">
-          <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus">
-            <el-table-column type="selection" label="" align="center"  width="100" ></el-table-column>
+          <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus">
+            <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
             <el-table-column prop="name,describe" align="left" width="500">
               <template slot-scope="scope">
                 <div class="columnLable">{{scope.row.name}}</div>
@@ -86,12 +86,12 @@ export default {
                 {value: '2',label: 'Draft'},
             ],
             tableData:[
-                {"id":"1","name":"Browse Abandonment","describe":"Bring back customers who have browsed your website but haven't started checking out","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"2","name":"Cart Abandonment","describe":"Bring back customers who added items to the cart but never completed the purchase","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"3","name":"Inactive Customer Winback","describe":"Wake up customers who haven't purchased from you in a while","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"4","name":"Occasional Customer Winback","describe":"Win back customers who've only made a single purchase and never returned","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"5","name":"Thank Repeat Purchaser","describe":"Re-engage your customers by sending them a Happy Birthday promotion","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"6","name":"Reward VIP Customers","describe":"Re-engage your customers by sending reward them somthing","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
+                {"id":"1","name":"Browse Abandonment","describe":"Bring back customers who have browsed your website but haven't started checking out","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
+                {"id":"2","name":"Cart Abandonment","describe":"Bring back customers who added items to the cart but never completed the purchase","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
+                {"id":"3","name":"Inactive Customer Winback","describe":"Wake up customers who haven't purchased from you in a while","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
+                {"id":"4","name":"Occasional Customer Winback","describe":"Win back customers who've only made a single purchase and never returned","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
+                {"id":"5","name":"Thank Repeat Purchaser","describe":"Re-engage your customers by sending them a Happy Birthday promotion","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
+                {"id":"6","name":"Reward VIP Customers","describe":"Re-engage your customers by sending reward them somthing","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
             ],
         }
     },
@@ -102,7 +102,7 @@ export default {
                     e.state = this.searchData.allBtnState;
                 });
             },
-        }
+        },
     },
     components:{
     },
@@ -118,7 +118,7 @@ export default {
     },
     methods:{
       deteleEdit(){
-        router.push('/Browse_Abandonment')
+          router.push('/Browse_Abandonment')
       },
     },
     beforeDestroy() {
