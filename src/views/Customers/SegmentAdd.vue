@@ -344,14 +344,14 @@ export default {
                 }
                 if(itemSon.relation == "is between"){
                     if(itemSon.values[1]<=itemSon.values[0]){
-                        itemSon.errorMsg = "不得小于等于开始数量";
+                        itemSon.errorMsg = "must greater than the previous number";
                     }else{
                         itemSon.errorMsg = "";
                     }
                 }
             }else{
                 if(itemSon.values[1]<=itemSon.values[0]){
-                    itemSon.errorMsg = "不得小于等于开始数量";
+                    itemSon.errorMsg = "must greater than the previous number";
                 }else{
                     itemSon.errorMsg = "";
                 }
@@ -370,14 +370,14 @@ export default {
                 }
                 if(itemSon.relation == "is between date"){
                     if(new Date(itemSon.values[1]).getTime()<=new Date(itemSon.values[0]).getTime()){
-                        itemSon.errorMsg = "不得大于等于开始时间";
+                        itemSon.errorMsg = "must more than the previous date";
                     }else{
                         itemSon.errorMsg = "";
                     }
                 }
             }else{
                 if(new Date(itemSon.values[1]).getTime() <= new Date(itemSon.values[0]).getTime()){
-                    itemSon.errorMsg = "不得大于等于开始时间";
+                    itemSon.errorMsg = "must more than the previous date";
                 }else{
                     itemSon.errorMsg = "";
                 }
