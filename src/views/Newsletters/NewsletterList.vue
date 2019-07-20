@@ -129,8 +129,19 @@ export default {
     },
     methods:{
       init(){
-        // this.page.total = res.data.data.count;
-        this.page.total = 222;
+          this.$axios.get(`/api/v1/email_template/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
+          .then(res => {
+              if(res.data.code == 1){
+                console.log(res.data.data)
+                this.tableData = res.data.data.results;
+                this.page.total = res.data.data.count;
+              }else{
+                this.$message("Acquisition failure!");
+              }
+          })
+          .catch(error => {
+              this.$message("Interface timeout!");
+          }); 
       },
       addFun(){
         router.push('/NewsletterAdd');
