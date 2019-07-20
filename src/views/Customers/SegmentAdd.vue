@@ -252,7 +252,6 @@ export default {
     },
     methods:{
         init(){
-            // console.log(JSON.parse(localStorage["SegmentVal"]))
             let _thisData = JSON.parse(localStorage["SegmentVal"])
             this.postData.title = _thisData.title.toString();
             this.postData.description = _thisData.description;
@@ -268,8 +267,6 @@ export default {
             }
         },
         saveFun(){
-           // console.log(this.bigData.relation)
-           //console.log(this.postData)
             if(this.postData.title && this.postData.title.trim().length != 0){
                 this.errorState.title_state = 1;
             }else{
@@ -284,7 +281,7 @@ export default {
                     topNum = topNum-200;
                 },20)
             }
-            console.log(this.bigData)
+            //console.log(this.bigData)
             this.postData.relation_info = JSON.stringify(this.bigData);
              if(this.errorState.title_state == 1 && document.getElementsByClassName("errorClass").length == 0){
                 if(this.postData.id != ''){
@@ -321,14 +318,33 @@ export default {
             if(this.group_name && this.group_name.trim().length != 0){
                 this.errorState.group_name_state = 1;
                 this.bigData.group_condition.push({"group_name":this.group_name,"relation":"&&","children":[]});
-                this.relationArray.push("||");
+                if(this.bigData.group_condition.length > 1){
+                    this.relationArray.push("||");
+                }
                 this.group_name = "";
             }else{
                 this.errorState.group_name_state = 0;
             }
+            //console.log(this.relationArray)
+        },
+        deleteCondition(index){
+            if(index != 0){
+                this.relationArray.splice(index-1,1);
+            }else{
+                this.relationArray.splice(0,1);
+            }
+            this.bigData.group_condition.splice(index,1);
+            this.bigData = this.bigData;
+            
+            // console.log(this.bigData.group_condition.length)
+            // console.log(this.relationArray)
         },
         addCondition(item){
             item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
+        },
+        deleteConditionChild(index,indexSon){
+            this.bigData.group_condition[index].children.splice(indexSon,1)
+            this.bigData = this.bigData;
         },
     　　numberFun(itemSon,index){　　
             let  arr = [];
@@ -428,22 +444,6 @@ export default {
                             console.log(itemSon.relations)
                         }
                     }
-        },
-        deleteCondition(index){
-            if(index != 0){
-                this.relationArray.splice(index-1,1);
-            }else{
-                this.relationArray.splice(0,1);
-            }
-            this.bigData.group_condition.splice(index,1);
-            this.bigData = this.bigData;
-            
-            // console.log(this.bigData.group_condition.length)
-            // console.log(this.bigData.relation)
-        },
-        deleteConditionChild(index,indexSon){
-            this.bigData.group_condition[index].children.splice(indexSon,1)
-            this.bigData = this.bigData;
         },
         cancelFun(){
             this.$confirm('Are you sure you wanna cancel?', 'Warning', {

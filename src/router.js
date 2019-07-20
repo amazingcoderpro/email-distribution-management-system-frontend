@@ -31,10 +31,10 @@ import SegmentAddTest from './views/Customers/SegmentAddTest'
 import Integration from './views/Integration/Integration'
 
 // ImageLibrary
-
 import ImageList from './views/ImageLibrary/ImageList'
 
-
+// Email
+import EmailPage from './views/Email/EmailPage'
 
 Vue.use(Router)
 const router = new Router({
@@ -78,12 +78,17 @@ const router = new Router({
       name: 'privacy',
       component: Privacy
     },
-    
     {
       path: '/aut_state',
       name: 'aut_state',
       component: AutState
     },
+    {
+      path: '/EmailPage',
+      name: 'EmailPage',
+      component: EmailPage
+    },
+    
     {
       path: '*',
       name: '/404',
@@ -100,7 +105,7 @@ router.beforeEach((to,from,next) =>{
   if(user){
     user = JSON.parse(user);
   }
-  if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" ){
+  if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage"  ){
     next()
   }else{
     if(isLogin) {

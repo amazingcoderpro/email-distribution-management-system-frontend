@@ -11,8 +11,7 @@
           </el-form-item>
           <el-form-item class="FR">
                 <el-button icon="edit" type="primary" size="small" @click="addFun">Create New Segment</el-button>
-                <el-button icon="edit" type="primary" size="small" @click="SegmentAddTest">SegmentAddTest</el-button>
-                
+                <el-button icon="edit" type="primary" size="small" @click="SegmentAddTest" style="display:none;">SegmentAddTest</el-button>
           </el-form-item>
         </el-form>
         <div class="table_right">
