@@ -25,13 +25,13 @@
                         <div>
                             <span>Sender Address</span>
                         </div>
-                        <el-input v-model="storeShop.sender_address" class="Senderdomain_three">
+                        <el-input v-model="storeShop.sender_address_one" class="Senderdomain_three">    
                         </el-input>
                         @&nbsp;  
-                        <el-select v-model="storeShop.select" placeholder="请选择" class="Senderdomain_one">
+                        <el-select v-model="storeShop.sender_address_two" placeholder="请选择" class="Senderdomain_one">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
-                        <el-input v-model="storeShop.sender_address" class="Senderdomain_two"></el-input>
+                        <el-input v-model="storeShop.sender_address_three" class="Senderdomain_two"></el-input>
                     </div>
                     <!-- Time Zone -->
                     <div class="storeurl">
@@ -50,9 +50,9 @@
             <div class="goole_analytics">
                 <p class="title">Google Analytics Tracking</p>
                 <p>Setp 1.  Sign up for a Google Analytics account.</p>
-                <p class="steo_two">Step 2.  Add <a href="#">.....</a> as a user in your <b>GA view user management</b>. Give us data read & Analyze permissions.</p>
+                <p class="steo_two">Step 2.  Add <a :href="storeShop.email" target="_blank" style="color:red">{{storeShop.email}}</a> a user in your <b>GA view user management</b>. Give us data read & Analyze permissions.</p>
                 <p>Step 3.  Add your VIEW ID here <el-input v-model="storeShop.store_view_id" placeholder="请输入内容"></el-input></p>
-                <el-button type="primary" class="goole_save">SAVE</el-button>
+                <el-button type="primary" class="goole_save" @click="submitwo()">SAVE</el-button>
             </div>
          </div>
     </div>
@@ -76,12 +76,16 @@ export default {
                 name: "",
                 timezone: "",
                 sender_address:"",
+                sender_address_one:"",
+                sender_address_two:"",
+                sender_address_three:"",
                 store_view_id: "",
+                email:"",
             },
             input:'',
             options: [
-                {value: '选项1',label: '你好'},
-                {value: '选项2',label: '很好'} ,
+                // {value: '选项1',label: '你好'},
+                // {value: '选项2',label: '很好'} ,
             ],
             value:'', 
         }
@@ -95,12 +99,18 @@ export default {
             this.$axios.get(`/api/v1/store/`).then(res => {
                 if (res.data.code == 1) {
                 this.storeShop.id = res.data.data[0].id;
-                this.storeShop.url = res.data.data[0].url;
+                this.storeShop.url = "."+res.data.data[0].url.split(".")[1]+".com";
                 this.storeShop.name = res.data.data[0].name;
                 this.storeShop.sender = res.data.data[0].sender;
                 this.storeShop.timezone = res.data.data[0].timezone;
                 this.storeShop.sender_address = res.data.data[0].sender_address;
+                if(res.data.data[0].sender_address){
+                    this.storeShop.sender_address_one = this.storeShop.sender_address.split("@")[0];
+                    this.storeShop.sender_address_two = this.storeShop.sender_address.split("@")[1].split(".")[0];
+                    this.storeShop.sender_address_three = "."+this.storeShop.sender_address.split("@")[1].split(".")[1]+".com";
+                }
                 this.storeShop.store_view_id = res.data.data[0].store_view_id;
+                this.storeShop.email = res.data.data[0].email;
                 } else {
                 this.$message({
                     message: "code Abnormal!",
@@ -124,6 +134,12 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
+        },
+        submiSave(){
+
+        },
+        submitwo(){
+
         }
     },
 }

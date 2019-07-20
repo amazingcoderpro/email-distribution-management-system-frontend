@@ -18,8 +18,8 @@
           <el-form-item class="FR">
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item>
-          <el-button type="primary" class="select_button">Select All</el-button>
-        </el-form>
+               <el-button type="primary" class="select_button" @click="Selebutton">Select All</el-button>
+          </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus">
             <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
@@ -120,6 +120,9 @@ export default {
       deteleEdit(){
           router.push('/Browse_Abandonment')
       },
+      Selebutton(){
+        
+      }
     },
     beforeDestroy() {
 

@@ -179,19 +179,6 @@ export default {
                 {"state":true,"url":"http://sysadmin.koudl.com//UPloadFiles/AppHomeImage/829287888f6149d8b52135c66fc5eb6cpic.jpg?t=20190704104027756","title":"God T-xunste","price":"12.32"},
                 {"state":true,"url":"http://sysadmin.koudl.com//UPloadFiles/AppHomeImage/829287888f6149d8b52135c66fc5eb6cpic.jpg?t=20190704104027756","title":"God T-xunste","price":"12.32"}
             ],
-            SegmentArray:["New Customers","Active Customers","VIP Customers","Potential Customers","At Churn-Risk Customers","Lapsed Customers"],
-            SendTimeTypeArray:[
-                {value: '0',label: 'Monday'},
-                {value: '1',label: 'Tuesday'},
-                {value: '2',label: 'Wednesday'},
-                {value: '3',label: 'Thursday'},
-                {value: '4',label: 'Friday'},
-                {value: '5',label: 'Saturday'},
-                {value: '6',label: 'Sunday'},
-                {value: '7',label: '1st day of the month'},
-                {value: '8',label: '15th day of the month'},
-                {value: '9',label: 'Last day of the month'},
-            ],
             dialog: {
                 show: false,
                 title: "",
@@ -237,22 +224,6 @@ export default {
       },
       imgClick(item){
           item.state = !item.state;
-      },
-      SegmentStateChange(){
-            if(this.fromData.SegmentState.length>0){
-                this.fromData.SegmentValue = this.SegmentArray;
-            }else{
-                this.fromData.SegmentValue = [];
-            }
-      },
-      SegmentValueChange(){
-          if(this.fromData.SegmentValue.length == 6){
-             this.fromData.SegmentState = ["Select All"];
-          }else{
-              if(this.fromData.SegmentState.length>0){
-                this.fromData.SegmentState = [];
-              }
-          }
       },
       SendFun(){
             this.dialog = {

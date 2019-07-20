@@ -113,8 +113,8 @@
                     </div>
                     <div class="edit_center">
                         <span style="padding-right:10px;">Wait</span>
-                        <el-input v-model="input" placeholder="请输入内容" style="width:150px;padding-right:15px;"></el-input>
-                        <el-select v-model="input" placeholder="请选择" style="width:150px;">
+                        <el-input v-model="searchData.Delay_input" placeholder="请输入内容" style="width:150px;padding-right:15px;"></el-input>
+                        <el-select v-model="searchData.dataType" placeholder="请选择" style="width:150px;">
                             <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -146,6 +146,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            Search_input:'',
             input:'',
             bigData:[
                 {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
@@ -154,14 +155,21 @@ export default {
             ],
             bigModel:{},
             options:[
-                {value: '1',label: '123'},
-                {value: '2',label: '456'}
+                {value: '0',label: 'minutes'},
+                {value: '1',label: 'hours'},
+                {value: '2',label: 'days'},
+                {value: '3',label: 'months'}
             ],
+            searchData:{
+                Delay_input:'', 
+                dataType:'0',
+            },
             dialog: {
                 show: false,
                 title: "",
                 option: "edit"
             },
+            
         }
     },
     components: {
