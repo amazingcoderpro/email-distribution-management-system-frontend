@@ -37,7 +37,7 @@
                     </div>
                     <div style="width: 60%;padding: 20px 12px;margin: 0 auto;">
                         <template v-for="(item,index) in imgArray" >
-                            <div :key="index" style="width:calc(50% - 24px);margin:10px;height:100px;display:inline-block;border:1px solid #ccc;">
+                            <div :key="index" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
                                 <img :src="item.url" style="width:100%;"/>
                                 <h3 style="font-weight:700;">{{item.title}}</h3>
                                 <h3>{{item.price}}</h3>
