@@ -24,10 +24,10 @@
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
-            <el-table-column prop="name,describe" align="left" width="500">
+            <el-table-column prop="title,description" align="left" width="500">
               <template slot-scope="scope">
-                <div class="columnLable">{{scope.row.name}}</div>
-                <div class="columnContent">{{scope.row.describe}}</div>
+                <div class="columnLable">{{scope.row.title}}</div>
+                <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="open" align="center" label="123" width="200">
@@ -60,7 +60,7 @@
             <el-table-column prop="operation" align="center" width="300" fixed="right">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
-                <el-button icon="edit" type="success" size="small" @click="deteleFun(scope.row)">Clone</el-button>
+                <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
@@ -97,12 +97,7 @@ export default {
                 {value: '1',label: 'Live'},
                 {value: '2',label: 'Draft'},
             ],
-            tableData:[
-                {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"2","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"3","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-                {"id":"4","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","revenue":"1222.22","state":true},
-            ],
+            tableData:[],
         }
     },
     watch: {
@@ -144,6 +139,56 @@ export default {
           }); 
       },
       addFun(){
+        let NewsletterVal = {
+                Title:'',
+                description:'',
+                SubjectText:'',
+                HeadingText:'',
+                logoUrl: '',
+                bannerUrl:'',
+                Headline:'',
+                bodyText:'',
+                searchImgType:'top_three',
+                SegmentValue:[],
+                SegmentState:[],
+                periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
+                SendTimeType:'Monday',
+                SendValue:new Date(2019, 9, 10, 18, 40),
+            }
+        localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
+        router.push('/NewsletterAdd');
+      },
+      cloneFun(row){
+        let _send_rule = {
+          "begin_time":"2019-07-16T16:00:00.000Z",
+          "end_time":"2019-08-15T16:00:00.000Z",
+          "cron_type":"Monday",
+          "cron_time":"2016-10-10T10:40:04.000Z"
+        };
+        let _customer_group_list = [];
+        if(row.send_rule){
+           _send_rule = JSON.parse(row.send_rule);
+        }
+        if(row.customer_group_list){
+           _customer_group_list = JSON.parse(row.customer_group_list);
+        }
+        let NewsletterVal = {
+                Title:row.title,
+                description:row.description,
+                SubjectText:row.subject,
+                HeadingText:row.heading_text,
+                logoUrl: row.logo,
+                bannerUrl: row.banner,
+                Headline: row.headline,
+                bodyText: row.body_text,
+                searchImgType:'top_three',
+                SegmentValue:_customer_group_list,
+                SegmentState:[],
+                periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
+                SendTimeType:_send_rule.cron_type,
+                SendValue:new Date(_send_rule.cron_time)
+            }
+        localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
       },
       current_change(val){

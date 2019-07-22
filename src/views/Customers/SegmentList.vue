@@ -82,13 +82,7 @@ export default {
                 nameVal:'',
                 typeVal:''
             },
-            tableData:[
-            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-            //     {"id":"1","name":"火箭炮一营","describe":"中国人民解放军火箭炮一营","open":"1.22","click":"1.22","Members":"123","LastUpdateTime":"Apr 10, 2019, 10:52 am"},
-            ],
+            tableData:[],
         }
     },
     components:{

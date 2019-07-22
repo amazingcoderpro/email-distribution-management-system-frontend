@@ -19,6 +19,14 @@
                                 </div>
                             </div>
                             <div class="fromSon">
+                                <label>Email Description</label>
+                                <div class="content">
+                                    <el-form-item class="W100">
+                                        <el-input v-model="fromData.description" class="W100"  placeholder="Description"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="fromSon">
                                 <label>Email Subject</label>
                                 <div class="content">
                                     <el-form-item prop="SubjectText" class="W100">
@@ -97,7 +105,6 @@
                                 </div>
                             </div>
                             <div class="fromSon imgBigBox">
-                                
                                 <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
                                     <img :src="item.image_url" />
                                     <div class="stateBox">
@@ -217,6 +224,7 @@
 </template>
 
 <script>
+import router from '../../router'
 import * as base from '../../assets/js/base'
 export default {
     name: "NewsletterAdd",
@@ -228,6 +236,7 @@ export default {
             },
             fromData:{
                 Title:'',
+                description:'',
                 SubjectText:'',
                 HeadingText:'',
                 logoUrl: '',
@@ -237,9 +246,9 @@ export default {
                 searchImgType:'top_three',
                 SegmentValue:[],
                 SegmentState:[],
-                periodTime:[],
+                periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
                 SendTimeType:'Monday',
-                SendValue:new Date(2016, 9, 10, 18, 40),
+                SendValue:new Date(2019, 9, 10, 18, 40),
             },
             SegmentArray:[],
             SendTimeTypeArray:[
@@ -261,6 +270,7 @@ export default {
                 {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
             ],
             productArray:[],
+            trueProductArray:[],
             top_product:{
                 top_three:[],
                 top_seven:[],
@@ -289,6 +299,19 @@ export default {
         //     handler: function() {
         //     },
         // }
+           
+        productArray: {
+            handler: function() {
+                this.trueProductArray = [];
+                this.productArray.map(e =>{
+                    if(e.state){
+                        this.trueProductArray.push(e);
+                    }
+                });
+               console.log(this.trueProductArray)
+            },
+            deep: true
+        }
     },
     components:{
     },
@@ -297,10 +320,13 @@ export default {
     },
     methods:{
         init(){
+            let _thisData = JSON.parse(localStorage["NewsletterVal"])
+            this.fromData = _thisData;
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
                 if(res.data.code == 1){
                     this.SegmentArray = res.data.data;
+                    this.SegmentValueChange();
                 }else{
                 this.$message("Acquisition failure!");
                 }
@@ -384,20 +410,22 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                         let _thisData = {
+                            title:this.fromData.Title,
+                            description:this.fromData.description,
                             subject:this.fromData.SubjectText,
                             heading_text:this.fromData.HeadingText,
                             logo:this.fromData.logoUrl,
                             banner:this.fromData.bannerUrl,
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
-                            // top_type:xxx,
-                            customer_group_list:this.fromData.SegmentValue,
-                            send_rule:{
+                            product_list:JSON.stringify(this.trueProductArray),
+                            customer_group_list:JSON.stringify(this.fromData.SegmentValue),
+                            send_rule:JSON.stringify({
                                 begin_time:this.fromData.periodTime[0],
                                 end_time:this.fromData.periodTime[1],
                                 cron_type:this.fromData.SendTimeType,
                                 cron_time:this.fromData.SendValue
-                            }
+                            })
                         }
                         this.$axios.post(`/api/v1/email_template/`, _thisData)
                             .then(res => {
@@ -427,7 +455,7 @@ export default {
         searchImgType(){
             this.productArray = this.top_product[this.fromData.searchImgType];
             this.productArray.map(e =>{
-                e.state = false;
+                e.state = true;
             });
             this.productArray = this.productArray;
         }
