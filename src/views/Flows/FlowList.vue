@@ -17,28 +17,29 @@
           </el-form-item>
           <el-form-item class="FR">
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-          </el-form-item>
-               <el-button type="primary" class="select_button" @click="Selebutton">Select All</el-button>
-          </el-form>
+          </el-form-item> 
+              <el-button type="primary" class="select_button" @click="Selectbutton">Select All</el-button>
+              <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
+        </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus">
             <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
-            <el-table-column prop="name,describe" align="left" width="500">
+            <el-table-column prop="name,description" align="left" width="500">
               <template slot-scope="scope">
-                <div class="columnLable">{{scope.row.name}}</div>
-                <div class="columnContent">{{scope.row.describe}}</div>
+                <div class="columnLable ColumnTitle" @click="showFun(scope.row)">{{scope.row.title }}</div>
+                <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
-                <div class="columnContent">{{scope.row.open+"%"}}</div>
+                <div class="columnContent">{{scope.row.open_rate+"%"}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <div class="columnContent">{{scope.row.click+"%"}}</div>
+                <div class="columnContent">{{scope.row.click_rate+"%"}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="revenue" align="center" width="200">
@@ -58,12 +59,16 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="250" fixed="right">
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small" @click="deteleEdit(scope.row)">Edit</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row)">Clone</el-button>
+                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
-        </div>        
+        </div> 
+        <!-- 分页 -->
+        <div class="paging">
+          <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
+        </div> 
     </div>
 </template>
 <script>
@@ -73,7 +78,12 @@ export default {
     name: "NewsletterList",
     data() {
         return {
-            // tableHeight:700,
+            page:{
+                total:0,//默认数据总数
+                pagesize:10,//每页的数据条数
+                pagesizes:[10, 20, 30, 40],//分组数量
+                currentPage:1,//默认开始页面
+            },
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -85,14 +95,7 @@ export default {
                 {value: '1',label: 'Live'},
                 {value: '2',label: 'Draft'},
             ],
-            tableData:[
-                {"id":"1","name":"Browse Abandonment","describe":"Bring back customers who have browsed your website but haven't started checking out","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-                {"id":"2","name":"Cart Abandonment","describe":"Bring back customers who added items to the cart but never completed the purchase","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-                {"id":"3","name":"Inactive Customer Winback","describe":"Wake up customers who haven't purchased from you in a while","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-                {"id":"4","name":"Occasional Customer Winback","describe":"Win back customers who've only made a single purchase and never returned","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-                {"id":"5","name":"Thank Repeat Purchaser","describe":"Re-engage your customers by sending them a Happy Birthday promotion","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-                {"id":"6","name":"Reward VIP Customers","describe":"Re-engage your customers by sending reward them somthing","open":"1.22","click":"1.22","revenue":"1222.22","state":true,},
-            ],
+            tableData:[],
         }
     },
     watch: {
@@ -107,26 +110,114 @@ export default {
     components:{
     },
     mounted() {
-        // setTimeout(function(){
-        //      this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-        // },50);
-        // window.addEventListener('resize', () => {
-        //     if(document.getElementsByClassName("table_right").length>0){
-        //         this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-        //     }
-        // });
+        setTimeout(function(){
+             this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
+        },50);
+        window.addEventListener('resize', () => {
+            if(document.getElementsByClassName("table_right").length>0){
+                this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
+            }
+        });
+        this.init();
     },
     methods:{
-      deteleEdit(){
-          router.push('/Browse_Abandonment')
-      },
-      Selebutton(){
-        
-      }
-    },
-    beforeDestroy() {
+        init(){
+          this.$axios.get(`/api/v1/email_trigger/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
+            .then(res => {
+                if(res.data.code == 1){
+                  this.tableData = res.data.data.results;
+                  this.page.total = res.data.data.count;
+                  this.tableData.map(e =>{
+                    if(!e.open_rate){
+                      e.open_rate = "0.00"
+                    }
+                    if(!e.open_rate){
+                      e.click_rate = "0.00"
+                    }
+                    if(!e.members){
+                      e.click_rate = "0"
+                    }
+                  });
+                }else{
+                  this.$message("Acquisition failure!");
+                }
+            })
+            .catch(error => {
+                this.$message("Interface timeout!");
+            }); 
+          },
+        Create_New(){
+          let FlowsVal = {
+                Title:'',
+                description:'',
+                SubjectText:'',
+                HeadingText:'',
+                logoUrl: '',
+                bannerUrl:'',
+                Headline:'',
+                bodyText:'',
+                searchImgType:'top_three',
+                SegmentValue:[],
+                SegmentState:[],
+            }
+            localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
+        },
+        CloneEdit(row){
+          let _send_rule = {
+          "begin_time":"2019-07-16T16:00:00.000Z",
+          "end_time":"2019-08-15T16:00:00.000Z",
+          "cron_type":"Monday",
+          "cron_time":"2016-10-10T10:40:04.000Z"
+        };
+        let _customer_group_list = [];
+        if(row.send_rule){
+           _send_rule = JSON.parse(row.send_rule);
+        }
+        if(row.customer_group_list){
+           _customer_group_list = JSON.parse(row.customer_group_list);
+        }
+        let FlowsVal = {
+                Title:row.title,
+                description:row.description,
+                SubjectText:row.subject,
+                HeadingText:row.heading_text,
+                logoUrl: row.logo,
+                bannerUrl: row.banner,
+                Headline: row.headline,
+                bodyText: row.body_text,
+                searchImgType:'top_three',
+                SegmentValue:_customer_group_list,
+                SegmentState:[],
+                periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
+                SendTimeType:_send_rule.cron_type,
+                SendValue:new Date(_send_rule.cron_time)
+            }
+            localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
+            console.log(FlowsVal)
+            router.push('/EditletterAdd');
+        },
+        Selectbutton(){
+          
+        },
+        deleteFun(){
 
-    }
+        },
+        showFun(row){
+            router.push('/Browse_Abandonment');
+        },
+        current_change(val){
+              //点击数字时触发
+              this.page.currentPage = val;
+              this.init();
+              this.$refs.topictable.bodyWrapper.scrollTop = 0;
+        },
+        handleSizeChange(val){
+            //修改每页显示多少条时触发
+            this.page.pagesize = val;
+            this.init();
+            this.$refs.topictable.bodyWrapper.scrollTop = 0;
+        }
+    },
 }
 </script>
 
@@ -136,4 +227,5 @@ export default {
 .flows .el-table__body-wrapper tbody td{border-right: 0;}
 .flows .columnLable{font-weight: 700;margin-bottom: 10px;}
 .flows .select_button{float: right;margin-right: 20px;}
+.flows .ColumnTitle{cursor: pointer;}
 </style>

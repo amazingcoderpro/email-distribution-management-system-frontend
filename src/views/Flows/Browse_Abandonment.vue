@@ -8,7 +8,7 @@
         <el-form :inline="true" :model="bigModel" >
             <div class="Browse_table">
                 <div class="Enable_button">
-                    <el-button type="primary" style="background-color: rgba(51, 153, 153, 1);border:1px solid rgba(51, 153, 153, 1)">Enable Flow</el-button>
+                    <el-button type="primary">Enable Flow</el-button>
                 </div>
                 <div class="table_right">
                     <div class="trigger_top">
@@ -28,18 +28,20 @@
                         </div>
                     </div>
                     <div>
-                        <div class="trigger_center">
-                            <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
+                        <template v-for="(item,index) in bigModel.triggerModel">
+                            <div class="trigger_center" :key="index">
+                                <el-input v-model="item.condition" placeholder="" class="trigger_input_one"></el-input>
+                                <i class="iconfont icon-chahao"></i>
+                            </div>
+                        </template>
+                        <!-- <div class="trigger_center trigger_centertwo">
+                            <el-input v-model="bigModel.inputTwo" placeholder="Customer last cart created time is in the past 30 days" class="trigger_input_one"></el-input>
                             <i class="iconfont icon-chahao"></i>
                         </div>
                         <div class="trigger_center trigger_centertwo">
-                            <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
+                            <el-input v-model="bigModel.inputThree" placeholder="Customer who accept marketing is true" class="trigger_input_one"></el-input>
                             <i class="iconfont icon-chahao"></i>
-                        </div>
-                        <div class="trigger_center trigger_centertwo">
-                            <el-input v-model="input" placeholder="请输入内容" class="trigger_input_one"></el-input>
-                            <i class="iconfont icon-chahao"></i>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="rigger_bottom">
                         <span>Note:</span><br/>
@@ -48,11 +50,12 @@
                     </div>
                 </div>
             </div>
+            <div class="Broese_public"  @click="showBox()">
+                <img src="../../assets/img/u448.png" class="Broese_img">
+                <i class="iconfont icon-jiahao1"></i>
+            </div>
         </el-form>
-        <div class="Broese_public">
-            <img src="../../assets/img/u448.png" class="Broese_img">
-            <i class="iconfont icon-jiahao1"></i>
-        </div>
+       
         <template v-for="(item,index) in bigData">
             <div :key="index">
                 <div class="Browse_table">
@@ -68,11 +71,7 @@
                                     <span>Preview</span>
                                 </div>
                                 <template>
-                                    <div class="trigger_Edit" @click="Editletter" v-if="item.title == 'Email'">
-                                        <i class="iconfont icon-edit"></i>
-                                        <span>Edit</span>
-                                    </div>
-                                    <div class="trigger_Edit" v-else>
+                                    <div class="trigger_Edit">
                                         <i class="iconfont icon-edit"></i>
                                         <span>Edit</span>
                                     </div>
@@ -89,16 +88,14 @@
                     <img src="../../assets/img/u448.png" class="Broese_img">
                     <i class="iconfont icon-jiahao1" @click="showBox(item)"></i>
                 </div>
-
                 <div class="delay_email" v-if="item.state">
                     <div class="delay_left" @click="addDelay(item,index)">
                         <span>DELAY</span>
                     </div> 
-                    <div class="delay_right" @click="addEmail(item,index)">
+                    <div class="delay_right" @click="Editletter">
                         <span>EMAIL</span>
                     </div> 
                 </div>
-              
                 <div class="Browse_edit" v-if="item.edit">
                     <div class="edit_top">
                         <div class="edit_header">
@@ -122,7 +119,7 @@
                             :value="item.value">
                             </el-option>
                         </el-select>
-                        <el-button type="primary">Save Changes</el-button>
+                        <el-button type="primary" @click="Save_Changes">Save Changes</el-button>
                     </div>
                 </div>
             </div>
@@ -132,7 +129,7 @@
                 <p>EXIT</p>
             </div>
             <div class="Enable_button Enable_buttom">
-                <el-button type="primary" style="background-color: rgba(51, 153, 153, 1);border:1px solid rgba(51, 153, 153, 1)">Enable Flow</el-button>
+                <el-button type="primary">Enable Flow</el-button>
             </div>
         </div>
         <DialogFound :dialog='dialog'></DialogFound>
@@ -147,13 +144,16 @@ export default {
     data() {
         return {
             Search_input:'',
-            input:'',
             bigData:[
+                
                 {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
-                {"title":"Delay","icon":"icon-shizhong","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
-                {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
+                // {"title":"Delay","icon":"icon-shizhong","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
+                // {"title":"Email","icon":"icon-youjian","state":false,"content":{"EmailSubject":"123","HeadingText":"123","Headline":"123","ProductRule":"123","BodyText":"123"}},
             ],
-            bigModel:{},
+            bigModel:{
+                triggerModel:[],
+                trigger_info:""
+            },
             options:[
                 {value: '0',label: 'minutes'},
                 {value: '1',label: 'hours'},
@@ -191,6 +191,9 @@ export default {
             this.bigData.splice(index+1,0,{"title":"Email","state":false})
             item.state = false;
         },
+        Save_Changes(){
+
+        },
         EditFun() {
             this.dialog = {
             show: true,
@@ -199,7 +202,12 @@ export default {
             };
         },
         Editletter(){
-                router.push('./EditletterAdd')
+            router.push('./EditletterAdd')
+        },
+        changeTiggerVal(array){
+            this.bigModel.triggerModel = array;
+            this.bigModel.trigger_info = JSON.stringify(array);
+            console.log(this.bigModel.trigger_info)
         }
     },
 }
@@ -208,7 +216,7 @@ export default {
 <style scoped>
 .Browse .Browse_table{width: 65%;margin: 0 auto;}
 .Browse .Enable_button{margin:30px 0 30px;margin-left: 943px;}
-.Browse .Browse_table .table_right{height: 360px;border: 1px solid rgba(121, 121, 121, 1);}
+.Browse .Browse_table .table_right{border: 1px solid rgba(121, 121, 121, 1);padding-bottom:20px;}
 .Browse .Browse_table .table_right .trigger_top{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
 .Browse .Browse_table .table_right .trigger_top .trigger_left{width: 150px;height:50px;float: left;display: inline-flex;}
 .Browse .Browse_table .table_right .trigger_top .trigger_left .icon-star{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
@@ -249,6 +257,6 @@ export default {
 .edit_right i{float: right;font-size: 25px;padding: 12px;}
 .Browse_edit .edit_left i{font-size: 30px;padding-top: 2px;}
 .Browse_edit .edit_center{margin: 0 auto;margin-top: 25px;text-align: center;}
-.Browse_edit .edit_center button{display: block;margin: 0 auto;margin-top: 25px;background-color: rgba(22, 155, 213, 1);}
+.Browse_edit .edit_center button{display: block;margin: 0 auto;margin-top: 25px;}
 </style>
 

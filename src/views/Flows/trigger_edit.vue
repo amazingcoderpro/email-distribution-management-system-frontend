@@ -19,7 +19,7 @@
                         <el-button type="primary" icon="el-icon-plus" @click="addGroup" style="font-weight:600;"> Add Filter</el-button>
                     </div>
                     <div class="triggerCenter_buttom">
-                        <div v-for="(item,index) in bigGroup.children" :key="index" class="triggerCenter_input">
+                        <div v-for="(item,index) in bigGroupArray" :key="index" class="triggerCenter_input">
                             <el-select v-model="item.condition" class="W300" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time was'" :value="'Customer subscribe time was'"></el-option>
                                 <el-option :label="'Customer sign up time was'" :value="'Customer sign up time was'"></el-option>
@@ -50,7 +50,7 @@
                             </template>
                             <template>
                                 <template v-if="item.condition == 'Customer last cart created time was'">
-                                        <el-input v-model="input" placeholder="" class="W80"></el-input>
+                                        <el-input v-model="input" placeholder="" class="WW80"></el-input>
                                         <span>days ago</span>
                                 </template>
                             </template>
@@ -59,7 +59,7 @@
                     </div>   
                 </div>
                 <div class="triggerButton">
-                    <el-button type="primary" style="font-weight:600;">Save Changes</el-button>        
+                    <el-button type="primary" style="font-weight:600;"  @click="saveFun">Save Changes</el-button>        
                 </div>  
             </div>
         </el-dialog>
@@ -75,29 +75,22 @@ export default {
     data(){
         return {
             input:'',
-            bigGroup:{
-                "group_name":"Customer subscribe time",
-                "relation":"&&",
-                "children":[
-                ]
-            },
+            bigGroupArray:[],
+
         }
     },
     mounted(){
-        this.init();
+        // this.init();
     },
     methods:{
-        init(){
-        },
         addGroup(){
-            this.bigGroup.children.push({"condition":"Customer cart status is","relation":"empty", "value":["30"], "unit":"days"})
+            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":["30"], "unit":"days"})
         },
         addDelete(index){
-            this.bigGroup.children.splice(index,1);
-            this.bigGroup = this.bigGroup;
+            this.bigGroupArray.splice(index,1);
         },
         EditChange(item){
-        let str = "";
+            let str = "";
                if(item.condition == 'Customer cart status is'){
                     str = 'empty';
                 }
@@ -108,6 +101,11 @@ export default {
                     str ='ture';
                 }
             item.relation = str;
+        },
+        saveFun(){
+            this.dialog.show = false;
+            this.$parent.changeTiggerVal(this.bigGroupArray);
+            // console.log(this.bigGroupArray)
         }
     },
     
@@ -124,10 +122,10 @@ export default {
 .triggerEdit .edit_right i{font-size: 30px;color: #6d6666;padding-right: 20px;}
 .triggerEdit .triggerEdit_center{width: 100%;overflow: auto;height: 260px;}
 .triggerEdit .triggerCenter_top{margin-top: 15px;padding-left: 50px;}
-.triggerEdit .triggerCenter_top button{float: right;background-color: #339999!important;border: 1px solid #339999!important;margin-right: 20px;}
+.triggerEdit .triggerCenter_top button{float: right;margin-right: 20px;}
 .triggerEdit .triggerCenter_input{margin-top: 30px;}
 .triggerEdit .triggerCenter_buttom{padding-left: 50px;}
-.triggerEdit .triggerButton button{background-color: #339999!important;border: 1px solid #339999!important;display: block;margin: 0 auto;margin-top: 10px;}
+.triggerEdit .triggerButton button{display: block;margin: 0 auto;margin-top: 10px;}
 </style>
 
 
