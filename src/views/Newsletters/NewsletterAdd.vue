@@ -10,116 +10,117 @@
                 <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass"  :rules="rules">
                     <h4>Edit Template</h4>
                     <div class="fromBox">
-                            <div class="fromSon">
-                                <label>Email Title</label>
-                                <div class="content">
-                                    <el-form-item prop="Title" class="W100">
-                                        <el-input v-model="fromData.Title" class="W100"  placeholder="Title"></el-input>
-                                    </el-form-item>
+                        <div class="fromSon">
+                            <label>Email Title</label>
+                            <div class="content">
+                                <el-form-item prop="Title" class="W100">
+                                    <el-input v-model="fromData.Title" class="W100"  placeholder="Title"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Email Description</label>
+                            <div class="content">
+                                <el-form-item class="W100">
+                                    <el-input v-model="fromData.description" class="W100"  placeholder="Description"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Email Subject</label>
+                            <div class="content">
+                                <el-form-item prop="SubjectText" class="W100">
+                                    <el-input v-model="fromData.SubjectText" class="W100"  placeholder="We just picked up some new items for you"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>HeadingText</label>
+                            <div class="content">
+                                <el-form-item prop="HeadingText" class="W100">
+                                    <el-input v-model="fromData.HeadingText" class="W100"  placeholder="Styles you love - selling fast!"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Logo</label>
+                            <div class="content">
+                                <el-form-item prop="logoUrl" class="W100">
+                                    <el-upload
+                                    class="avatar-uploader"
+                                    action="/api/v1/upload_picture/"
+                                    :auto-upload="true"
+                                    :headers="headerdata"
+                                    :show-file-list="false"
+                                    :on-success="logoSuccess"
+                                    :before-upload="beforeAvatarUpload">
+                                    <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
+                                </el-form-item>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Banner</label>
+                            <div class="content">
+                                <el-form-item prop="logoUrl" class="W100">
+                                    <el-upload
+                                    class="avatar-uploader"
+                                    action="/api/v1/upload_picture/"
+                                    :auto-upload="true"
+                                    :headers="headerdata"
+                                    :show-file-list="false"
+                                    :on-success="bannerSuccess"
+                                    :before-upload="beforeAvatarUpload">
+                                    <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
+                                </el-form-item>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Headline</label>
+                            <div class="content">
+                                <el-form-item prop="Headline" class="W100">
+                                    <el-input v-model="fromData.Headline" placeholder="STILL SEARCHING FOR WHAT YOU NEED?"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Body Text</label>
+                            <div class="content">
+                                <el-form-item prop="bodyText" class="W100">
+                                    <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Custom Product Recommendations</label>
+                            <div class="content">
+                                <el-select v-model="fromData.searchImgType" class="W100" @change="searchImgType">
+                                    <el-option v-for="(item,index) in searchImgTypeArray" :key="index" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                            </div>
+                        </div>
+                        <div class="fromSon imgBigBox">
+                            <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
+                                <img :src="item.image_url" />
+                                <div class="stateBox">
+                                    <span v-if="item.state" class="el-icon-check"></span>
                                 </div>
                             </div>
-                            <div class="fromSon">
-                                <label>Email Description</label>
-                                <div class="content">
-                                    <el-form-item class="W100">
-                                        <el-input v-model="fromData.description" class="W100"  placeholder="Description"></el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Email Subject</label>
-                                <div class="content">
-                                    <el-form-item prop="SubjectText" class="W100">
-                                        <el-input v-model="fromData.SubjectText" class="W100"  placeholder="We just picked up some new items for you"></el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>HeadingText</label>
-                                <div class="content">
-                                    <el-form-item prop="HeadingText" class="W100">
-                                        <el-input v-model="fromData.HeadingText" class="W100"  placeholder="Styles you love - selling fast!"></el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Logo</label>
-                                <div class="content">
-                                    <el-form-item prop="logoUrl" class="W100">
-                                        <el-upload
-                                        class="avatar-uploader"
-                                        action="/api/v1/upload_picture/"
-                                        :auto-upload="true"
-                                        :headers="headerdata"
-                                        :show-file-list="false"
-                                        :on-success="logoSuccess"
-                                        :before-upload="beforeAvatarUpload">
-                                        <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                        </el-upload>
-                                    </el-form-item>
-                                    <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Banner</label>
-                                <div class="content">
-                                    <el-form-item prop="logoUrl" class="W100">
-                                        <el-upload
-                                        class="avatar-uploader"
-                                        action="/api/v1/upload_picture/"
-                                        :auto-upload="true"
-                                        :headers="headerdata"
-                                        :show-file-list="false"
-                                        :on-success="bannerSuccess"
-                                        :before-upload="beforeAvatarUpload">
-                                        <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                        </el-upload>
-                                    </el-form-item>
-                                    <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Headline</label>
-                                <div class="content">
-                                    <el-form-item prop="Headline" class="W100">
-                                        <el-input v-model="fromData.Headline" placeholder="STILL SEARCHING FOR WHAT YOU NEED?"></el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Body Text</label>
-                                <div class="content">
-                                    <el-form-item prop="bodyText" class="W100">
-                                        <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="fromSon">
-                                <label>Custom Product Recommendations</label>
-                                <div class="content">
-                                    <el-select v-model="fromData.searchImgType" class="W100" @change="searchImgType">
-                                        <el-option v-for="(item,index) in searchImgTypeArray" :key="index" :label="item.label" :value="item.value"></el-option>
-                                    </el-select>
-                                </div>
-                            </div>
-                            <div class="fromSon imgBigBox">
-                                <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
-                                    <img :src="item.image_url" />
-                                    <div class="stateBox">
-                                        <span v-if="item.state" class="el-icon-check"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="littleMsg">Max 6 products</span>
+                        </div>
+                        <span class="littleMsg">Max 6 products</span>
                     </div>
                     <el-button type="primary" style="margin:20px 0;">Preview</el-button>
                     <h4>Edit Sent Time</h4>
                     <div class="fromBox">
-                            <div class="fromSon">
-                                <label>Choose Segment</label>
-                                <div class="content">
+                        <div class="fromSon">
+                            <label>Choose Segment</label>
+                            <div class="content">
+                                <el-form-item prop="SegmentValue" class="W100">
                                     <template>
                                         <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
                                             <el-checkbox :label="'Select All'">Select All</el-checkbox>
@@ -128,27 +129,30 @@
                                             <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
                                         </el-checkbox-group>
                                     </template>
-                                </div>
+                                </el-form-item>
                             </div>
-                            <div class="fromSon">
-                                <label>Choose Valid Period</label>
-                                <div class="content">
-                                    <el-form-item prop="periodTime" class="W100">
-                                        <el-date-picker class="W100" v-model="fromData.periodTime" type="daterange" range-separator="-"></el-date-picker>
-                                    </el-form-item>
+                        </div>
+                        <div class="fromSon">
+                            <label>Choose Valid Period</label>
+                            <div class="content">
+                                <el-form-item prop="periodTime" class="W100">
+                                    <el-date-picker class="W100" v-model="fromData.periodTime" type="daterange" range-separator="-"></el-date-picker>
+                                </el-form-item>
 
-                                </div>
                             </div>
-                            <div class="fromSon">
-                                <label>Choose Send Time</label>
-                                <div class="content">
+                        </div>
+                        <div class="fromSon">
+                            <label>Choose Send Time</label>
+                            <div class="content">
+                                <el-form-item prop="SendValue" class="W100">
                                     Every
                                     <el-select v-model="fromData.SendTimeType" class="SendTimeType">
                                         <el-option v-for="item in SendTimeTypeArray" :key="item.value" :label="item.label" :value="item.label"></el-option>
                                     </el-select>
                                     <el-time-picker v-model="fromData.SendValue"></el-time-picker>
-                                </div>
+                                </el-form-item>
                             </div>
+                        </div>
                     </div>
                     <div>
                         <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
@@ -158,6 +162,7 @@
             </div>
             <div class="rightBox">
                 <h4>Preview</h4>
+                <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
                         <div style="margin: 0px auto;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 20px;">
@@ -222,16 +227,23 @@
                 </div>
             </div>
         </div>
+        <DialogFound :dialog='dialog' :fromData="fromData"></DialogFound>
     </div>
 </template>
 
 <script>
+import DialogFound from "./Send_mail";
 import router from '../../router'
 import * as base from '../../assets/js/base'
 export default {
     name: "NewsletterAdd",
     data() {
         return {
+            dialog: {
+                show: false,
+                title: "Send Mail",
+                option: "edit"
+            },
             loadingState:{},
             headerdata:{
                 Authorization : localStorage.eleToken
@@ -288,20 +300,15 @@ export default {
                 Headline: [{ required: true, message: 'Please enter Headline', trigger: 'change' }],
                 bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' }],
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
+                SegmentValue: [{ required: true, message: 'Please Choose Segment' , trigger: 'blur'}],
+                SendValue: [{ required: true, message: 'Please Choose Time' }],
             }
         }
     },
-    computed:{
-        headers(){
-            
-        }
+    components:{
+        DialogFound,
     },
     watch: {
-        // 'fromData.SegmentState': {
-        //     handler: function() {
-        //     },
-        // }
-           
         productArray: {
             handler: function() {
                 this.trueProductArray = [];
@@ -314,8 +321,6 @@ export default {
             },
             deep: true
         }
-    },
-    components:{
     },
     mounted() {
         this.init();
@@ -401,16 +406,14 @@ export default {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
             const isLt2M = file.size / 1024 / 1024 < 10;
             if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
+                this.$message.error('JPG、png、gif');
             }
             if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
+                this.$message.error('No more than 2MB!');
             }
             return isJPG && isLt2M;
         },
         saveFun(formName){
-                        // console.log(document.getElementsByClassName('showBox')[].html())
-
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body>';
@@ -428,14 +431,14 @@ export default {
                             product_list:JSON.stringify(this.trueProductArray),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
-                                begin_time:this.fromData.periodTime[0],
-                                end_time:this.fromData.periodTime[1],
+                                begin_time:base.dateFormat(this.fromData.periodTime[0]),
+                                end_time:base.dateFormat(this.fromData.periodTime[1]),
                                 cron_type:this.fromData.SendTimeType,
-                                cron_time:this.fromData.SendValue
+                                cron_time:base.dateFormat(this.fromData.SendValue,"hour")
                             }),
                             html:_showHtml,
                         }
-                        this.$axios.post(`/api/v1/email_template/`, _thisData)
+                         this.$axios.post(`/api/v1/email_template/`, _thisData)
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
@@ -456,8 +459,17 @@ export default {
                                 document.getElementsByClassName("rightContainer")[0].scrollTop = topNum;
                             }
                             topNum = topNum-200;
-                        },20)
+                        },20);
                     }
+            });
+        },
+        sendMail(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.dialog.show = true;
+                }else{
+                    this.$message.error('Incomplete information!');
+                }
             });
         },
         searchImgType(){
@@ -476,7 +488,8 @@ export default {
 <style>
 .NewsletterAdd .leftBox{display:inline-block;width:40%;}
 .NewsletterAdd .fromBox{min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
-.NewsletterAdd .rightBox{width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
+.NewsletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
+.NewsletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
 .NewsletterAdd .showBox{min-height:500px;border:1px solid #ccc;}
 .NewsletterAdd .fromSon{color:#606266;margin-bottom:20px;}
 .NewsletterAdd .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
@@ -495,7 +508,5 @@ export default {
 .avatar-uploader .el-upload:hover{border-color:#409EFF;}
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
-.NewsletterAdd .el-form--inline .el-form-item__content{
-    width:100%;
-}
+.NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
 </style>
