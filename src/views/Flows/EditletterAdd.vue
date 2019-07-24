@@ -153,7 +153,7 @@
                     </div>
                     <div style="width:100%;padding-bottom: 20px;">
                         <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
-                    </div>
+                    </div> 
                     <div style="width:100%;padding-bottom: 20px;">
                         <div style="">{shop_email}</div>
                     </div>
@@ -338,7 +338,7 @@ export default {
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
-                                    router.push('/EditletterAdd');
+                                    // router.push('/EditletterAdd');
                                 }else{
                                     this.$message(res.data.msg);
                                 }

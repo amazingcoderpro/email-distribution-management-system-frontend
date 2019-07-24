@@ -84,8 +84,9 @@ export default {
             },
             input:'',
             options: [
-                // {value: '选项1',label: '你好'},
-                // {value: '选项2',label: '很好'} ,
+                {value: '选项1',label: 'lette'},
+                {value: '选项2',label: 'news'},
+                {value: '选项3',label: 'message'} ,
             ],
             value:'', 
         }

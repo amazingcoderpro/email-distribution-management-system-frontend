@@ -76,7 +76,6 @@ export default {
         return {
             input:'',
             bigGroupArray:[],
-
         }
     },
     mounted(){

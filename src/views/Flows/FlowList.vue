@@ -22,7 +22,7 @@
               <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
         </el-form>
         <div class="table_right">
-          <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus">
+          <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus" :height="tableHeight"> 
             <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
             <el-table-column prop="name,description" align="left" width="500">
               <template slot-scope="scope">
@@ -84,6 +84,7 @@ export default {
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
+            tableHeight:"100",
             headStatus:false,
             searchData:{
                 nameVal:'',
@@ -110,15 +111,15 @@ export default {
     components:{
     },
     mounted() {
-        setTimeout(function(){
-             this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-        },50);
-        window.addEventListener('resize', () => {
-            if(document.getElementsByClassName("table_right").length>0){
-                this.tableHeight = window.innerHeight - document.getElementsByClassName("table_right")[0].offsetTop - 100;
-            }
-        });
-        this.init();
+        setTimeout(() => {
+        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+      }, 50);
+      window.addEventListener('resize', () => {
+        if(document.getElementsByClassName("topictable").length>0){
+          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+        }
+      });
+      this.init()
     },
     methods:{
         init(){
@@ -161,6 +162,7 @@ export default {
                 SegmentState:[],
             }
             localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
+            router.push('./Browse_Abandonment')
         },
         CloneEdit(row){
           let _send_rule = {
