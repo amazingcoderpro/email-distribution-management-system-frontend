@@ -242,7 +242,7 @@ export default {
     },
     watch: {
         relationArray:function(){
-             this.bigData.relation = this.relationArray.join(",");
+            this.bigData.relation = this.relationArray.join(",");
         }
     },    
     components:{
@@ -283,7 +283,7 @@ export default {
             }
             //console.log(this.bigData)
             this.postData.relation_info = JSON.stringify(this.bigData);
-             if(this.errorState.title_state == 1 && document.getElementsByClassName("errorClass").length == 0){
+            if(this.errorState.title_state == 1 && document.getElementsByClassName("errorClass").length == 0){
                 if(this.postData.id != ''){
                     // 修改
                     this.$axios.put(`/api/v1/customer_group/${this.postData.id}/`, this.postData)
