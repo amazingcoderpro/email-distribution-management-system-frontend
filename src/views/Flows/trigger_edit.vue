@@ -21,15 +21,15 @@
                     <div class="triggerCenter_buttom">
                         <div v-for="(item,index) in bigGroupArray" :key="index" class="triggerCenter_input">
                             <el-select v-model="item.condition" class="W300" @change="EditChange(item)">
-                                <el-option :label="'Customer subscribe time was'" :value="'Customer subscribe time was'"></el-option>
-                                <el-option :label="'Customer sign up time was'" :value="'Customer sign up time was'"></el-option>
-                                <el-option :label="'Customer last orde created time was'" :value="'Customer last orde created time was'"></el-option>
-                                <el-option :label="'Customer last order status was'" :value="'Customer last order status was'"></el-option>
-                                <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option>
-                                <el-option :label="'Customer last cart created time was'" :value="'Customer last cart created time was'"></el-option>
+                                <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
+                                <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
+                                <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
+                                <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
+                                <!-- <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option> -->
+                                <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
                                 <el-option :label="'Customer cart status is'" :value="'Customer cart status is'"></el-option>
-                                <el-option :label="'Customer last open email time was'" :value="'Customer last open email time was'"></el-option>
-                                <el-option :label="'Customer last click email time was'" :value="'Customer last click email time was'"></el-option>
+                                <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
+                                <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                 <el-option :label="'Customer who accept marketing is'" :value="'Customer who accept marketing is'"></el-option>
                             </el-select>
                             <template>
@@ -38,7 +38,7 @@
                                         <el-option :label="'empty'" :value="'empty'"></el-option>
                                         <el-option :label="'not empty'" :value="'not empty'"></el-option>
                                     </template>
-                                    <template v-if="item.condition == 'Customer last cart created time was'">
+                                    <template v-if="item.condition == 'Customer last cart created time'">
                                         <el-option :label="'more than'" :value="'more than'"></el-option>
                                         <el-option :label="'less than'" :value="'less than'"></el-option>
                                     </template>
@@ -46,10 +46,23 @@
                                         <el-option :label="'ture'" :value="'ture'"></el-option>
                                         <el-option :label="'false'" :value="'false'"></el-option>
                                     </template>
+                                    <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' ||
+                                     item.condition == 'Customer sign up time' || item.condition == 'Customer last open email time' || item.condition == 'Customer last click email time'">
+                                        <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
+                                        <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
+                                        <el-option :label="'is before'" :value="'is before'"></el-option>
+                                        <el-option :label="'is after'" :value="'is after'"></el-option>
+                                        <el-option :label="'is between date'" :value="'is between date'"></el-option>
+                                        <el-option :label="'is between'" :value="'is between'"></el-option>
+                                    </template>
+                                    <template v-if="item.condition == 'Customer last order status'">
+                                        <el-option :label="'is paid'" :value="'is paid'"></el-option>
+                                        <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
+                                    </template>
                                 </el-select>
                             </template>
                             <template>
-                                <template v-if="item.condition == 'Customer last cart created time was'">
+                                <template v-if="item.condition == 'Customer last cart created time'">
                                         <el-input v-model="input" placeholder="" class="WW80"></el-input>
                                         <span>days ago</span>
                                 </template>
@@ -93,11 +106,24 @@ export default {
                if(item.condition == 'Customer cart status is'){
                     str = 'empty';
                 }
-                else if(item.condition == 'Customer last cart created time was'){
+                else if(item.condition == 'Customer last cart created time'){
                     str ='more than';
                 }
                 else if(item.condition == 'Customer who accept marketing is'){
                     str ='ture';
+                }
+                else if(item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time'
+                 || item.condition == 'Customer sign up time'){
+                    str ="is in the past"
+                }
+                else if(item.condition == 'Customer last order status'){
+                    str ="is paid"
+                }
+                else if(item.condition == 'Customer last open email time'){
+                    str ="is between date"
+                }
+                else if(item.condition == 'Customer last click email time'){
+                    str ="is between"
                 }
             item.relation = str;
         },

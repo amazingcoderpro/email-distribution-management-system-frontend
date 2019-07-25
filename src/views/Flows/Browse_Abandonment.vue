@@ -54,7 +54,7 @@
         </div>
         <template v-for="(item,index) in bigData">
             <div :key="index">
-                <div class="Browse_table">
+                <div class="Browse_table" >
                     <div class="table_right Browse_email">
                         <div class="trigger_top">
                             <div class="trigger_left">
@@ -81,14 +81,13 @@
                         <template>
                             <div class="rigger_center" v-if="item.title == 'Email'">
                                 <span class="Subject">Subject Line</span><br/>
-                                <span>Are you still interested?</span>
+                                <template>
+                                    <span>Are you still interested?</span>   
+                                </template>
                             </div>
                             <div class="rigger_center" v-else>
                                 <template v-if="item.value">
-                                     <span class="Subject Wait">{{'Wait '+item.value+' '+item.unit}}</span>
-                                </template>
-                                <template v-else>
-                                     <span class="Subject Wait">NaNa</span>
+                                    <span class="Subject Wait">{{'Wait '+item.value+' '+item.unit}}</span>
                                 </template>
                             </div>
                         </template>
@@ -96,9 +95,9 @@
                 </div>
                 <div class="Broese_public">
                     <img src="../../assets/img/u448.png" class="Broese_img">
-                    <i class="iconfont icon-jiahao1" @click="showBox(item)"></i>
+                    <i class="iconfont icon-jiahao1" v-on:click="showBox(item,index)"></i>
                 </div>
-                <div class="delay_email" v-if="item.state">
+                <div class="delay_email" v-show="item.state">
                     <div class="delay_left" @click="addDelay(item,index)">
                         <span>DELAY</span>
                     </div> 
@@ -113,11 +112,11 @@
                 <p>EXIT</p>
             </div>
             <div class="Enable_button Enable_buttom">
-                <el-button type="primary">Enable Flow</el-button>
+                <el-button type="primary" @click="EnableFlow">Enable Flow</el-button> 
             </div>
         </div>
         <DialogFound :dialog='dialog'></DialogFound>
-        <DialogFound2 :dialog='dialog2'  :test='test' :itemData='itemData'></DialogFound2>
+        <DialogFound2 :dialog='dialog2' :itemData='itemData'></DialogFound2>
     </div>
 </template>
 
@@ -128,7 +127,6 @@ import router from '../../router';
 export default {
     data() {
         return {
-            test:"123",
             itemData:{},
             firstState:false,
             Search_input:'',
@@ -153,14 +151,14 @@ export default {
                 "unit":"day(s)",
                 "title":"Delay",
                 "icon":"icon-shizhong",
-                "state":false
+                state:false
             },
             emailData:{
                 "type":"email",
                 "value":"",
                 "title":"Email",
                 "icon":"icon-youjian",
-                "state":false
+                state:false
             }
         }
     },
@@ -172,9 +170,19 @@ export default {
         // this.init();
     },
     methods:{
-        showBox(item){
+        testFun(item,index){
+            item.state = false;
+            console.log(this.testarray)
+        },
+        testTwoFun(item,index){
+            item.state = true;
+            console.log(this.testarray)
+        },
+        showBox(item,index){
+
             if(item){
-                item.state = true;
+                this.bigData[index].state = true;
+                console.log(this.bigData[index])
             }else{
                 this.firstState = true;
             }
@@ -184,19 +192,49 @@ export default {
         },
         addDelay(item,index){
             if(item){
-                item.state = false;
-                this.bigData.splice(index+1,0,this.delayData)
+                this.bigData[index].state = false;
+                this.bigData.splice(index+1,0,{
+                "type":"rule",
+                "value":"",
+                "unit":"day(s)",
+                "title":"Delay",
+                "icon":"icon-shizhong",
+                state:false
+            });
+                this.bigData.map(e => {
+                    e.state = false;
+                });
+                this.bigData = this.bigData;
             }else{
-                this.bigData.splice(0,0,this.delayData)
+                this.bigData.splice(0,0,{
+                "type":"rule",
+                "value":"",
+                "unit":"day(s)",
+                "title":"Delay",
+                "icon":"icon-shizhong",
+                state:false
+            })
                 this.firstState = false;
             }
         },
         addEmail(item,index){
             if(item){
                 item.state = false;
-                this.bigData.splice(index+1,0,this.emailData)
+                this.bigData.splice(index+1,0,{
+                "type":"email",
+                "value":"",
+                "title":"Email",
+                "icon":"icon-youjian",
+                state:false
+            });
             }else{
-                this.bigData.splice(0,0,this.emailData)
+                this.bigData.splice(0,0,{
+                "type":"email",
+                "value":"",
+                "title":"Email",
+                "icon":"icon-youjian",
+                state:false
+            })
                 this.firstState = false;
             }
         },
@@ -221,6 +259,27 @@ export default {
                 title: "Delay Edit",
                 option: "post"
             };
+        },
+        EnableFlow(formName){
+          let  _thisData = {
+                title:"",
+                trigger_info:JSON.stringify(this.bigModel.triggerModel),
+                email_delay:JSON.stringify(this.bigData)
+            }
+            console.log(_thisData)
+
+
+            this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                .then(res => {
+                    if(res.data.code == 1){
+                        this.$message({message: "Successfully!",type: "success"});
+                    }else{
+                        this.$message("Acquisition failure!");
+                    }
+                })
+                .catch(error => {
+                    this.$message("Interface timeout!");
+            }); 
         }
     },
 }
@@ -243,7 +302,7 @@ export default {
 .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit{float: right;padding-right: 30px;text-align: center;padding-top: 6px;cursor: pointer;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit .icon-edit{font-size: 16px;color: #6d6666;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit span{font-size: 14px;color: #333333;}
-.Browse .trigger_center .trigger_input_one{width: 45%;margin-left: 28%;margin-top: 40px;position: relative;}
+.Browse .trigger_center .trigger_input_one{width: 40%;margin-left: 28%;margin-top: 40px;position: relative;}
 .Browse .trigger_center .icon-chahao{position: absolute;margin-top: 53px;margin-left: -23px;color: #908f8f;font-size: 14px;font-weight: 600;cursor: pointer;}
 .Browse .trigger_centertwo{margin-top: -20px;}
 .Browse .rigger_bottom{width: 52%;margin: 0 auto;margin-top: 25px;}
