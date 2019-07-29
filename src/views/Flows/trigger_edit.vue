@@ -20,7 +20,7 @@
                     </div>
                     <div class="triggerCenter_buttom">
                         <div v-for="(item,index) in bigGroupArray" :key="index" class="triggerCenter_input">
-                            <el-select v-model="item.condition" class="W300" @change="EditChange(item)">
+                            <el-select v-model="item.condition" class="W270" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
                                 <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
@@ -66,10 +66,9 @@
                                     </template>
                                 </el-select>
                             </template>
-                       
-                                <template v-if="item.condition == 'Customer last cart created time'">
-                                        <el-input v-model="input" placeholder="" class="WW80"></el-input>
-                                        <span>days ago</span>
+                            <template v-if="item.condition == 'Customer last cart created time'">
+                                    <el-input v-model="item.pointime" placeholder="" class="W80"></el-input>
+                                    <span>days ago</span>
                             </template>
                             <i class="iconfont icon-chahao" @click="addDelete(index)" style="float:right;margin-right:20px;line-height:40px;"></i>
                         </div>
@@ -91,7 +90,6 @@ export default {
     },
     data(){
         return {
-            input:'',
             bigGroupArray:[],
         }
     },
@@ -100,7 +98,7 @@ export default {
     },
     methods:{
         addGroup(){
-            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":["30"], "unit":"days"})
+            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":[" "], "unit":" ","lastVal":""})
         },
         addDelete(index){
             this.bigGroupArray.splice(index,1);
@@ -136,8 +134,12 @@ export default {
         },
         saveFun(){
             this.dialog.show = false;
-            this.$parent.changeTiggerVal(this.bigGroupArray);
-            
+            let lastArray = [];
+            this.bigGroupArray.map(e => {
+                e.lastVal = e.condition + " " + e.relation + " " + e.value[0] +" "+ e.unit;
+                lastArray.push(e);
+            });
+            this.$parent.changeTiggerVal(lastArray);
         }
     },
 }

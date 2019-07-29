@@ -13,7 +13,7 @@
                                 <i class="iconfont icon-star"></i>
                                 <span>Trigger</span>
                         </div>
-                        <div class="trigger_right">
+                        <div class="trigger_right" style="width:140px;">
                             <div class="trigger_Eye">
                                 <i class="iconfont icon-yanjing"></i>
                                 <span>Preview</span>
@@ -23,12 +23,11 @@
                                 <span>Edit</span>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                     <div>
                         <template v-for="(item,index) in bigModel.triggerModel">
                             <div class="trigger_center" :key="index">
-                                <!-- <el-input v-model="item.condition" placeholder="" class="trigger_input_one"></el-input> -->
-                                <el-input v-model="item.condition+item.relation" placeholder="Tips" class="trigger_input_one"></el-input>
+                                <el-input v-model="item.lastVal" placeholder="" class="trigger_input_one"></el-input>
                                 <i class="iconfont icon-chahao" @click="addDelete(index)"></i>
                             </div>
                         </template>
@@ -77,6 +76,10 @@
                                         <span>Edit</span>
                                     </div>
                                 </template>
+                                <div class="trigger_Delete" @click="DeleteFun(index)">
+                                    <i class="iconfont icon-chahao"></i>
+                                    <span>Delete</span>
+                                </div>
                             </div>
                         </div>
                         <template>
@@ -99,12 +102,22 @@
                     <i class="iconfont icon-jiahao1" v-on:click="showBox(item,index)"></i>
                 </div>
                 <div class="delay_email" v-show="item.state">
-                    <div class="delay_left" @click="addDelay(item,index)">
-                        <span>DELAY</span>
-                    </div> 
-                    <div class="delay_right" @click="addEmail(item,index)">
-                        <span>EMAIL</span>
-                    </div> 
+                    <template>
+                        <div class="delay_left" v-if="item.title == 'Delay'" style="cursor: no-drop;" >
+                            <span>DELAY</span>
+                        </div> 
+                        <div class="delay_left" v-else  @click="addDelay(item,index)">
+                            <span>DELAY</span>
+                        </div>
+                    </template>
+                    <template>
+                        <div class="delay_right" v-if="item.title == 'Email'" style="cursor: no-drop;">
+                            <span>EMAIL</span>
+                        </div> 
+                        <div class="delay_right" v-else @click="addEmail(item,index)">
+                            <span>EMAIL</span>
+                        </div>
+                    </template>
                 </div>
             </div>
         </template>
@@ -180,6 +193,7 @@ export default {
             console.log(this.testarray)
         },
         showBox(item,index){
+            console.log(index+"---"+this.bigData.length)
             if(item){
                 this.bigData[index].state = true;
             }else{
@@ -188,7 +202,7 @@ export default {
                     this.firstState = false;
                     this.$message({
                     showClose: true,
-                    message: 'Trigger Cant be empty',
+                    message: 'please click "edit" to add trigger first',
                     });
                 }
             }
@@ -197,6 +211,16 @@ export default {
             this.bigModel.triggerModel.splice(index,1);
         },
         addDelay(item,index){
+            if('title' == 'Delay'){
+                this.bigData[index].state = false;
+                this.bigData.splice(index+1,0,{
+                    "type":"email",
+                    "value":"",
+                    "title":"Email",
+                    "icon":"icon-youjian",
+                state:false
+                });
+            }
             if(item){
                 this.bigData[index].state = false;
                 this.bigData.splice(index+1,0,{
@@ -207,10 +231,6 @@ export default {
                 "icon":"icon-shizhong",
                 state:false
             });
-                // this.bigData.map(e => {
-                //     e.state = false;
-                // });
-                // this.bigData = this.bigData;
             }else{
                 this.bigData.splice(0,0,{
                 "type":"rule",
@@ -266,9 +286,12 @@ export default {
                 option: "post"
             };
         },
+        DeleteFun(index){
+            this.bigData.splice(index,1);
+        },
         EnableFlow(formName){
           let  _thisData = {
-                title:"",
+                title:JSON.stringify(this.bigModel),
                 relation_info:JSON.stringify(this.bigModel.triggerModel),
                 email_delay:JSON.stringify(this.bigData)
             }
@@ -290,6 +313,7 @@ export default {
 
 <style scoped>
 .Browse .Browse_table{width: 65%;margin: 0 auto;}
+.Browse .Browse_table .iconfont{color: #6d6666}
 .Browse #breadcrumb{margin-bottom: 50px;}
 .Browse .Enable_button{margin:30px 0 30px;margin-left: 943px;}
 .Browse .Browse_table .table_right{border: 1px solid rgba(121, 121, 121, 1);padding-bottom:20px;}
@@ -297,14 +321,15 @@ export default {
 .Browse .Browse_table .table_right .trigger_top .trigger_left{width: 150px;height:50px;float: left;display: inline-flex;}
 .Browse .Browse_table .table_right .trigger_top .trigger_left .icon-star{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
 .Browse .Browse_table .table_right .trigger_top .trigger_left span{font-size: 13px;font-weight: 600;padding-left: 35px;line-height: 50px;}
-.Browse .Browse_table .table_right .trigger_top .trigger_right{float: right;width: 140px;}
-.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Eye{display: inline-block;text-align: center;padding-top: 5px;}
+.Browse .Browse_table .table_right .trigger_top .trigger_right{float: right;width: 210px;}
+.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Eye{text-align: center;padding-top: 5px;float: left;padding-right: 30px;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right .icon-yanjing{font-size: 20px;color: #6d6666;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right span{font-size: 14px;color: #333333;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right  span{display: block;}
-.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit{float: right;padding-right: 30px;text-align: center;padding-top: 6px;cursor: pointer;}
-.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit .icon-edit{font-size: 16px;color: #6d6666;}
+.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit{float: left;padding-right: 30px;text-align: center;padding-top: 6px;cursor: pointer;}
+.Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit .icon-edit{font-size: 17px;color: #6d6666;font-weight: 600;}
 .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit span{font-size: 14px;color: #333333;}
+.Browse .Browse_table .trigger_Delete{float: right;margin-top: 6px;text-align: center;margin-right: 29px;cursor: pointer;}
 .Browse .trigger_center .trigger_input_one{width: 40%;margin-left: 28%;margin-top: 40px;position: relative;}
 .Browse .trigger_center .icon-chahao{position: absolute;margin-top: 53px;margin-left: -23px;color: #908f8f;font-size: 14px;font-weight: 600;cursor: pointer;}
 .Browse .trigger_centertwo{margin-top: -20px;}
