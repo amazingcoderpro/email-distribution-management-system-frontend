@@ -4,7 +4,7 @@
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
             <li><a><span class="el-icon-right"> </span> NewsletterList</a></li>
         </ul>
-        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W90" label-width="100px">
+        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W100" label-width="100px">
           <!-- Pinterest -->
           <el-form-item>
             <el-input v-model="searchData.nameVal" placeholder="Search Flow Name"></el-input>
@@ -17,8 +17,8 @@
             </template>
           </el-form-item>
           <el-form-item class="FR">
-                <el-button icon="edit" type="primary" size="small" @click="addFun" class="MR20">Create New</el-button>
-                <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+                <el-button icon="edit" type="primary" size="small" @click="addFun">Create New</el-button>
+                <!-- <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch> -->
           </el-form-item>
         </el-form>
         <div class="table_right">
@@ -33,33 +33,49 @@
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
-                <div class="columnContent">{{scope.row.open+"%"}}</div>
+                <div class="columnContent">
+                  <template v-if="scope.row.open">
+                      {{scope.row.open+"%"}}
+                  </template>
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <div class="columnContent">{{scope.row.click+"%"}}</div>
+                <div class="columnContent">
+                    <template v-if="scope.row.click">
+                        {{scope.row.click+"%"}}
+                    </template>
+                  </div>
               </template>
             </el-table-column>
             <el-table-column prop="revenue" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Revenue</div>
-                <div class="columnContent">{{"$"+scope.row.revenue}}</div>
+                <div class="columnContent">
+                    <template v-if="scope.row.revenue">
+                        {{"%"+scope.row.revenue}}
+                    </template>
+                  </div>
               </template>
             </el-table-column>
             <el-table-column prop="state" align="center" width="200">
               <template slot-scope="scope">
-                  <el-switch
-                    v-model="scope.row.state"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949">
-                </el-switch>
+                  <div class="columnLable">State</div>
+                  <div class="columnContent">
+                      <el-switch
+                          v-model="scope.row.state"
+                          active-color="#13ce66"
+                          inactive-color="#ff4949">
+                      </el-switch>
+                    </div>
               </template>
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300" fixed="right">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
+                <el-button icon="edit" type="primary" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
               </template>
@@ -95,7 +111,7 @@ export default {
             typeArray: [
                 {value: '',label: 'All'},
                 {value: '1',label: 'Live'},
-                {value: '2',label: 'Draft'},
+                {value: '2',label: 'Disabled'},
             ],
             tableData:[],
         }
@@ -140,6 +156,7 @@ export default {
       },
       addFun(){
         let NewsletterVal = {
+                fromDataType:'add',
                 Title:'',
                 description:'',
                 SubjectText:'',
@@ -151,6 +168,7 @@ export default {
                 searchImgType:'top_three',
                 SegmentValue:[],
                 SegmentState:[],
+                SegmentSelectState:"All",
                 periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
@@ -158,7 +176,7 @@ export default {
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
       },
-      cloneFun(row){
+      cloneFun(row,preview){
         let _send_rule = {
           "begin_time":"2019-07-16T16:00:00.000Z",
           "end_time":"2019-08-15T16:00:00.000Z",
@@ -167,12 +185,13 @@ export default {
         };
         let _customer_group_list = [];
         if(row.send_rule){
-           _send_rule = JSON.parse(row.send_rule);
+          _send_rule = JSON.parse(row.send_rule);
         }
         if(row.customer_group_list){
-           _customer_group_list = JSON.parse(row.customer_group_list);
+          _customer_group_list = JSON.parse(row.customer_group_list);
         }
         let NewsletterVal = {
+                fromDataType:'clone',
                 Title:row.title,
                 description:row.description,
                 SubjectText:row.subject,
@@ -184,10 +203,14 @@ export default {
                 searchImgType:'top_three',
                 SegmentValue:_customer_group_list,
                 SegmentState:[],
+                SegmentSelectState:"All",
                 periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
                 SendTimeType:_send_rule.cron_type,
-                SendValue:new Date(_send_rule.cron_time)
+                SendValue:new Date("2019-1-1 "+ _send_rule.cron_time)
             }
+        if(preview){
+          NewsletterVal.fromDataType = "preview";
+        }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
       },

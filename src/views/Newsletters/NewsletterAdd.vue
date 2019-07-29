@@ -7,7 +7,7 @@
         </ul>
         <div class="bigBox">
             <div class="leftBox">
-                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass"  :rules="rules">
+                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :disabled="fromData.fromDataType == 'preview'"  :rules="rules">
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon">
@@ -45,7 +45,7 @@
                         <div class="fromSon">
                             <label>Logo</label>
                             <div class="content">
-                                <el-form-item prop="logoUrl" class="W100">
+                                <el-form-item prop="logoUrl" class="uploadClass W100">
                                     <el-upload
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
@@ -59,13 +59,14 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
+                                <!-- <div class="uploadBtnBox"><el-button type="info">Upload</el-button></div> -->
                                 <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
                             <label>Banner</label>
                             <div class="content">
-                                <el-form-item prop="logoUrl" class="W100">
+                                <el-form-item prop="logoUrl" class="uploadClass W100">
                                     <el-upload
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
@@ -79,6 +80,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
+                                <!-- <div class="uploadBtnBox"></div> -->
                                 <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
                             </div>
                         </div>
@@ -129,7 +131,10 @@
                                             <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
                                                 <el-checkbox :label="'Select All'">Select All</el-checkbox>
                                             </el-checkbox-group>
-                                            <el-checkbox-group v-model="fromData.SegmentValue" @change="SegmentValueChange">
+                                            <!-- <el-select v-model="fromData.SegmentSelectState" class="W100">
+                                                <el-option :label="'Select All'" :value="'All'"></el-option>
+                                            </el-select> -->
+                                            <el-checkbox-group class="SegmentValueBox" v-model="fromData.SegmentValue" @change="SegmentValueChange">
                                                 <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
                                             </el-checkbox-group>
                                     </template>
@@ -142,7 +147,6 @@
                                 <el-form-item prop="periodTime" class="W100">
                                     <el-date-picker class="W100" v-model="fromData.periodTime" type="daterange" range-separator="-"></el-date-picker>
                                 </el-form-item>
-
                             </div>
                         </div>
                         <div class="fromSon">
@@ -180,7 +184,7 @@
                             <div style="margin:0 auto;width:70%;line-height:20px;padding: 20px 0;">
                                 <div v-if="fromData.HeadingText" style="padding: 10px 0;">{{fromData.HeadingText}}</div>
                                 <div v-else style="padding: 10px 0;">Styles you love - selling fast!</div>
-                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please click here.</div>
+                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.url" target="_blank">click here</a> .</div>
                             </div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
@@ -216,16 +220,18 @@
                             </template>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
+                            <a :href="'http://'+Shop.url" target="_blank">
+                                <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
+                            </a>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{shop_email}</div>
+                            <div>{{Shop.email}}</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{year} {shop_name}. All rights reserved.</div>
+                            <div>{{new Date().getFullYear()}} {{Shop.name}}. All rights reserved.</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{shop_address}</div>
+                            <div>{{Shop.url}}</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
                             <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
@@ -255,7 +261,9 @@ export default {
             headerdata:{
                 Authorization : localStorage.eleToken
             },
+            Shop:{},
             fromData:{
+                fromDataType:'add',
                 Title:'',
                 description:'',
                 SubjectText:'',
@@ -267,7 +275,8 @@ export default {
                 searchImgType:'top_three',
                 SegmentValue:[],
                 SegmentState:[],
-                periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
+                SegmentSelectState:"All",
+                periodTime:[],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
             },
@@ -324,7 +333,7 @@ export default {
                         this.trueProductArray.push(e);
                     }
                 });
-               console.log(this.trueProductArray)
+                console.log(this.trueProductArray)
             },
             deep: true
         }
@@ -336,6 +345,9 @@ export default {
         init(){
             let _thisData = JSON.parse(localStorage["NewsletterVal"])
             this.fromData = _thisData;
+            if(this.fromData.fromDataType == "add"){
+                this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
+            }
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -348,7 +360,6 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
-
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -372,6 +383,20 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
+            this.$axios.get(`/api/v1/store/`)
+            .then(res => {
+                if(res.data.code == 1){
+                    this.Shop = res.data.data[0];
+                }else{
+                    this.$message("Acquisition failure!");
+                }
+            })
+            .catch(error => {
+                this.$message("Interface timeout!");
+            });
+
+
+            
         },
         imgClick(item){
             console.log(item)
@@ -391,7 +416,7 @@ export default {
         },
         SegmentValueChange(){
             if(this.fromData.SegmentValue.length == this.SegmentArray.length){
-            this.fromData.SegmentState = ["Select All"];
+                this.fromData.SegmentState = ["Select All"];
             }else{
                 if(this.fromData.SegmentState.length>0){
                 this.fromData.SegmentState = [];
@@ -445,7 +470,7 @@ export default {
                             }),
                             html:_showHtml,
                         }
-                         this.$axios.post(`/api/v1/email_template/`, _thisData)
+                        this.$axios.post(`/api/v1/email_template/`, _thisData)
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
@@ -509,11 +534,15 @@ export default {
 .NewsletterAdd .imgBox img{width:100%;}
 .NewsletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
 .NewsletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
-.NewsletterAdd .el-checkbox{width:40%;}
+.NewsletterAdd .el-checkbox{width: 100%;padding: 0!important;color: #333333!important;font-weight: normal!important;padding-left: 5px!important;}
+.NewsletterAdd .SegmentValueBox{background: #F2F2F2;}
 .NewsletterAdd .SendTimeType{margin:0 20px;}
 .avatar-uploader .el-upload{border:1px dashed #d9d9d9;border-radius:6px;cursor:pointer;position:relative;overflow:hidden;}
 .avatar-uploader .el-upload:hover{border-color:#409EFF;}
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
+.NewsletterAdd .uploadClass{z-index: 100;}
+.NewsletterAdd .uploadBtnBox{z-index: 200;position: absolute;width: 100%;height: 100%;top: 0;}
+.NewsletterAdd .uploadBtnBox button{right: 90px;position: absolute;top: 60px;}
 .NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
 </style>
