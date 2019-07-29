@@ -25,14 +25,16 @@
             </el-table-column>
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
-                <div class="columnLable">Open Rate</div>
-                <div class="columnContent">{{scope.row.open_rate+"%"}}</div>
+                <div class="columnLable">Open Rate</div> 
+                <!-- <div class="columnContent">{{scope.row.open_rate*100+"%"}}</div> -->
+                <div class="columnContent">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <div class="columnContent">{{scope.row.click_rate+"%"}}</div>
+                <!-- <div class="columnContent">{{scope.row.click_rate+"%"}}</div> -->
+                <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
             <el-table-column prop="Members" align="center" width="200">

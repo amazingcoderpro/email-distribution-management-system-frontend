@@ -54,7 +54,8 @@
                                     :show-file-list="false"
                                     :on-success="logoSuccess"
                                     :before-upload="beforeAvatarUpload">
-                                    <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar">
+                                    <!-- <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar"> -->
+                                    <img v-if="fromData.logoUrl" :src="fromData.logoUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
@@ -69,11 +70,12 @@
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
                                     :auto-upload="true"
-                                    :headers="headerdata"
+                                    :headers="headerdata"    
                                     :show-file-list="false"
                                     :on-success="bannerSuccess"
                                     :before-upload="beforeAvatarUpload">
-                                    <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar">
+                                    <!-- <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar"> -->
+                                    <img v-if="fromData.bannerUrl" :src="fromData.bannerUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
@@ -106,7 +108,9 @@
                         </div>
                         <div class="fromSon imgBigBox">
                             <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
-                                <img :src="item.image_url" />
+                                <a :href="item.url" target="_blank">
+                                    <img :src="item.image_url" />
+                                </a> 
                                 <div class="stateBox">
                                     <span v-if="item.state" class="el-icon-check"></span>
                                 </div>
@@ -122,12 +126,12 @@
                             <div class="content">
                                 <el-form-item prop="SegmentValue" class="W100">
                                     <template>
-                                        <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
-                                            <el-checkbox :label="'Select All'">Select All</el-checkbox>
-                                        </el-checkbox-group>
-                                        <el-checkbox-group v-model="fromData.SegmentValue" @change="SegmentValueChange">
-                                            <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
-                                        </el-checkbox-group>
+                                            <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
+                                                <el-checkbox :label="'Select All'">Select All</el-checkbox>
+                                            </el-checkbox-group>
+                                            <el-checkbox-group v-model="fromData.SegmentValue" @change="SegmentValueChange">
+                                                <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
+                                            </el-checkbox-group>
                                     </template>
                                 </el-form-item>
                             </div>
@@ -181,13 +185,14 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.logoUrl" style="width: 30%;margin: 0 auto;">
-                                <img :src="'data:image/jpeg;base64,'+fromData.logoUrl" style="width: 100%;"/>
+                                <img :src="fromData.logoUrl" style="width: 100%;"/>
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.bannerUrl" style="width: 100%;">
-                                <img :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" style="width: 100%;"/>
+                                <!-- <img :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" style="width: 100%;"/> -->
+                                <img :src="fromData.bannerUrl" style="width: 100%;"/>
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                         </div>
@@ -202,7 +207,9 @@
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
                             <template v-for="(item,index) in productArray" >
                                 <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
-                                    <img :src="item.image_url" style="width:100%;"/>
+                                    <a :href="item.url" target="_blank">
+                                        <img :src="item.image_url" style="width:100%;"/>
+                                    </a>
                                     <h3 style="font-weight:700;">{{item.name}}</h3>
                                     <h3>{{item.price}}</h3>
                                 </div>

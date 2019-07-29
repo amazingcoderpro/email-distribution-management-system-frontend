@@ -25,7 +25,7 @@
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
                                 <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
-                                <!-- <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option> -->
+                                <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option>
                                 <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
                                 <el-option :label="'Customer cart status is'" :value="'Customer cart status is'"></el-option>
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
@@ -59,13 +59,17 @@
                                         <el-option :label="'is paid'" :value="'is paid'"></el-option>
                                         <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
                                     </template>
+                                    <template v-if="item.condition == 'Customer order number is'">
+                                        <el-option :label="'equals'" :value="'equals'"></el-option>
+                                        <el-option :label="'more than'" :value="'more than'"></el-option>
+                                        <el-option :label="'less than'" :value="'less than'"></el-option>
+                                    </template>
                                 </el-select>
                             </template>
-                            <template>
+                       
                                 <template v-if="item.condition == 'Customer last cart created time'">
                                         <el-input v-model="input" placeholder="" class="WW80"></el-input>
                                         <span>days ago</span>
-                                </template>
                             </template>
                             <i class="iconfont icon-chahao" @click="addDelete(index)" style="float:right;margin-right:20px;line-height:40px;"></i>
                         </div>
@@ -125,15 +129,17 @@ export default {
                 else if(item.condition == 'Customer last click email time'){
                     str ="is between"
                 }
+                 else if(item.condition == 'Customer order number is'){
+                    str ="equals"
+                }
             item.relation = str;
         },
         saveFun(){
             this.dialog.show = false;
             this.$parent.changeTiggerVal(this.bigGroupArray);
-            // console.log(this.bigGroupArray)
+            
         }
     },
-    
 }
 </script>
 

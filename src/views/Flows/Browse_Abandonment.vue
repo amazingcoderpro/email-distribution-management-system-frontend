@@ -5,7 +5,7 @@
              <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
             <li><a><span class="el-icon-right"> </span> Browse Abandonment</a></li>
         </ul>
-        <el-form :inline="true" :model="bigModel" >
+        <el-form :inline="true" :model="bigModel">
             <div class="Browse_table">
                 <div class="table_right">
                     <div class="trigger_top">
@@ -27,7 +27,8 @@
                     <div>
                         <template v-for="(item,index) in bigModel.triggerModel">
                             <div class="trigger_center" :key="index">
-                                <el-input v-model="item.condition" placeholder="" class="trigger_input_one"></el-input>
+                                <!-- <el-input v-model="item.condition" placeholder="" class="trigger_input_one"></el-input> -->
+                                <el-input v-model="item.condition+item.relation" placeholder="Tips" class="trigger_input_one"></el-input>
                                 <i class="iconfont icon-chahao" @click="addDelete(index)"></i>
                             </div>
                         </template>
@@ -133,7 +134,7 @@ export default {
             bigData:[],
             bigModel:{
                 triggerModel:[],
-                trigger_info:""
+                relation_info:""
             },
             dialog: {
                 show: false,
@@ -159,7 +160,7 @@ export default {
                 "title":"Email",
                 "icon":"icon-youjian",
                 state:false
-            }
+            },
         }
     },
     components: {
@@ -179,12 +180,17 @@ export default {
             console.log(this.testarray)
         },
         showBox(item,index){
-
             if(item){
                 this.bigData[index].state = true;
-                console.log(this.bigData[index])
             }else{
                 this.firstState = true;
+                if(this.bigModel.triggerModel == ""){
+                    this.firstState = false;
+                    this.$message({
+                    showClose: true,
+                    message: 'Trigger Cant be empty',
+                    });
+                }
             }
         },
         addDelete(index){
@@ -201,10 +207,10 @@ export default {
                 "icon":"icon-shizhong",
                 state:false
             });
-                this.bigData.map(e => {
-                    e.state = false;
-                });
-                this.bigData = this.bigData;
+                // this.bigData.map(e => {
+                //     e.state = false;
+                // });
+                // this.bigData = this.bigData;
             }else{
                 this.bigData.splice(0,0,{
                 "type":"rule",
@@ -247,7 +253,7 @@ export default {
         },
         changeTiggerVal(array){
             this.bigModel.triggerModel = array;
-            this.bigModel.trigger_info = JSON.stringify(array);
+            this.bigModel.relation_info = JSON.stringify(array);
         },
         email_Edit(){
             router.push('./EditletterAdd')
@@ -263,12 +269,9 @@ export default {
         EnableFlow(formName){
           let  _thisData = {
                 title:"",
-                trigger_info:JSON.stringify(this.bigModel.triggerModel),
+                relation_info:JSON.stringify(this.bigModel.triggerModel),
                 email_delay:JSON.stringify(this.bigData)
             }
-            console.log(_thisData)
-
-
             this.$axios.post(`/api/v1/email_trigger/`,_thisData)
                 .then(res => {
                     if(res.data.code == 1){
@@ -280,7 +283,7 @@ export default {
                 .catch(error => {
                     this.$message("Interface timeout!");
             }); 
-        }
+        },
     },
 }
 </script>
