@@ -1,5 +1,5 @@
 <template>
-    <div class="NewsletterAdd">
+    <div class="EditletterAdd">
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-right"> </span>Home</a></li>
             <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
@@ -172,7 +172,7 @@ import DialogFound from "./Send_mail";
 import router from '../../router'
 import * as base from '../../assets/js/base'
 export default {
-    name: "NewsletterAdd",
+    name: "EditletterAdd",
     data() {
         return {
             dialog: {
@@ -428,27 +428,27 @@ export default {
 </script>
 
 <style>
-.NewsletterAdd .leftBox{display:inline-block;width:40%;}
-.NewsletterAdd .fromBox{min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
-.NewsletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
-.NewsletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
-.NewsletterAdd .showBox{min-height:500px;border:1px solid #ccc;}
-.NewsletterAdd .fromSon{color:#606266;margin-bottom:20px;}
-.NewsletterAdd .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
-.NewsletterAdd .fromSon .content{position:relative;}
-.NewsletterAdd .littleMsg{font-size:14px;color:#999;}
-.NewsletterAdd .bigBox{margin-bottom:40px;}
-.NewsletterAdd textarea{height:150px;}
-.NewsletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
-.NewsletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
-.NewsletterAdd .imgBox img{width:100%;}
-.NewsletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
-.NewsletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
-.NewsletterAdd .el-checkbox{width:40%;}
-.NewsletterAdd .SendTimeType{margin:0 20px;}
+.EditletterAdd .leftBox{display:inline-block;width:40%;}
+.EditletterAdd .fromBox{min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
+.EditletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
+.EditletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
+.EditletterAdd .showBox{min-height:500px;border:1px solid #ccc;}
+.EditletterAdd .fromSon{color:#606266;margin-bottom:20px;}
+.EditletterAdd .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
+.EditletterAdd .fromSon .content{position:relative;}
+.EditletterAdd .littleMsg{font-size:14px;color:#999;}
+.EditletterAdd .bigBox{margin-bottom:40px;}
+.EditletterAdd textarea{height:150px;}
+.EditletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
+.EditletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
+.EditletterAdd .imgBox img{width:100%;}
+.EditletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
+.EditletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
+.EditletterAdd .el-checkbox{width:40%;}
+.EditletterAdd .SendTimeType{margin:0 20px;}
 .avatar-uploader .el-upload{border:1px dashed #d9d9d9;border-radius:6px;cursor:pointer;position:relative;overflow:hidden;}
 .avatar-uploader .el-upload:hover{border-color:#409EFF;}
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
-.NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
+.EditletterAdd .el-form--inline .el-form-item__content{width:100%;}
 </style>
