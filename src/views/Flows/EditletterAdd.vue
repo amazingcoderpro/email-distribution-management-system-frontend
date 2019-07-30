@@ -148,8 +148,8 @@
                             <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{shop_email}</div>
-                        </div>
+                            <div>{{Shop.email}}</div>
+                        </div> 
                         <div style="width:100%;padding-bottom: 20px;">
                             <div style="">{year} {shop_name}. All rights reserved.</div>
                         </div>
@@ -184,6 +184,7 @@ export default {
             headerdata:{
                 Authorization : localStorage.eleToken
             },
+            Shop:{},
             fromData:{
                 Title:'',
                 description:'',

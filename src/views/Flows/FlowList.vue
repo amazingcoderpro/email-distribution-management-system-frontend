@@ -149,54 +149,22 @@ export default {
           },
         Create_New(){
           let FlowsVal = {
-                Title:'',
-                description:'',
-                SubjectText:'',
-                HeadingText:'',
-                logoUrl: '',
-                bannerUrl:'',
-                Headline:'',
-                bodyText:'',
-                searchImgType:'top_three',
-                SegmentValue:[],
-                SegmentState:[],
+                title:"",
+                email_delay:"[]",
+                relation_info:"[]",
             }
             localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
             router.push('./Browse_Abandonment')
         },
         CloneEdit(row){
-          let _send_rule = {
-          "begin_time":"2019-07-16T16:00:00.000Z",
-          "end_time":"2019-08-15T16:00:00.000Z",
-          "cron_type":"Monday",
-          "cron_time":"2016-10-10T10:40:04.000Z"
-        };
-        let _customer_group_list = [];
-        if(row.send_rule){
-           _send_rule = JSON.parse(row.send_rule);
-        }
-        if(row.customer_group_list){
-           _customer_group_list = JSON.parse(row.customer_group_list);
-        }
-        let FlowsVal = {
-                Title:row.title,
-                description:row.description,
-                SubjectText:row.subject,
-                HeadingText:row.heading_text,
-                logoUrl: row.logo,
-                bannerUrl: row.banner,
-                Headline: row.headline,
-                bodyText: row.body_text,
-                searchImgType:'top_three',
-                SegmentValue:_customer_group_list,
-                SegmentState:[],
-                periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
-                SendTimeType:_send_rule.cron_type,
-                SendValue:new Date(_send_rule.cron_time)
+          let FlowsVal = {
+                title:row.title,
+                email_delay:row.email_delay,
+                relation_info:row.relation_info,
             }
-            localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
-            console.log(FlowsVal)
-            router.push('/EditletterAdd');
+          localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
+          console.log(FlowsVal)
+          router.push('/Browse_Abandonment');
         },
         Selectbutton(){
           

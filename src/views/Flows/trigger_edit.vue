@@ -67,7 +67,7 @@
                                 </el-select>
                             </template>
                             <template v-if="item.condition == 'Customer last cart created time'">
-                                    <el-input v-model="item.pointime" placeholder="" class="W80"></el-input>
+                                    <el-input v-model="item.pointime" placeholder="" class="WW80"></el-input>
                                     <span>days ago</span>
                             </template>
                             <i class="iconfont icon-chahao" @click="addDelete(index)" style="float:right;margin-right:20px;line-height:40px;"></i>

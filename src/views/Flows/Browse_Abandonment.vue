@@ -5,7 +5,12 @@
              <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
             <li><a><span class="el-icon-right"> </span> Browse Abandonment</a></li>
         </ul>
+
         <el-form :inline="true" :model="bigModel">
+            <el-form-item label="Title" style="margin-left:290px;">
+                <el-input v-model="title" placeholder="Enter Flow Name"></el-input>
+                <!-- <div class="el-form-item__error" v-if="errorState.title_state == 0">Please enter Flow Name</div> -->
+            </el-form-item>
             <div class="Browse_table">
                 <div class="table_right">
                     <div class="trigger_top">
@@ -67,7 +72,7 @@
                                     <span>Preview</span>
                                 </div>
                                 <template>
-                                    <div class="trigger_Edit"  @click="email_Edit" v-if="item.title == 'Email'">
+                                    <div class="trigger_Edit"  @click="email_Edit(index)" v-if="item.title == 'Email'">
                                         <i class="iconfont icon-edit"></i>
                                         <span>Edit</span>
                                     </div>
@@ -141,6 +146,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            title:"",
             itemData:{},
             firstState:false,
             Search_input:'',
@@ -158,22 +164,7 @@ export default {
                 show: false,
                 title: "",
                 option: "edit"
-            },
-            delayData:{
-                "type":"rule",
-                "value":"",
-                "unit":"day(s)",
-                "title":"Delay",
-                "icon":"icon-shizhong",
-                state:false
-            },
-            emailData:{
-                "type":"email",
-                "value":"",
-                "title":"Email",
-                "icon":"icon-youjian",
-                state:false
-            },
+            }
         }
     },
     components: {
@@ -181,9 +172,15 @@ export default {
         DialogFound2
     },
     mounted(){
-        // this.init();
+        this.init();
     },
     methods:{
+        init(){ 
+            let _thisData = JSON.parse(localStorage["FlowsVal"]);
+            this.title = _thisData.title;
+            this.bigData = JSON.parse(_thisData.email_delay);
+            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info);
+        },
         testFun(item,index){
             item.state = false;
             console.log(this.testarray)
@@ -275,8 +272,28 @@ export default {
             this.bigModel.triggerModel = array;
             this.bigModel.relation_info = JSON.stringify(array);
         },
-        email_Edit(){
-            router.push('./EditletterAdd')
+        email_Edit(index){ 
+            let NewsletterVal = {
+                fromDataType:'Flow',
+                index:'',
+                Title:'',
+                description:'',
+                SubjectText:'',
+                HeadingText:'',
+                logoUrl: '',
+                bannerUrl:'',
+                Headline:'',
+                bodyText:'',
+                searchImgType:'top_three',
+                SegmentValue:[],
+                SegmentState:[],
+                SegmentSelectState:"All",
+                periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
+                SendTimeType:'Monday',
+                SendValue:new Date(2019, 9, 10, 18, 40),
+            }
+        localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
+        router.push('/NewsletterAdd');
         },
         DelayFun(item){
             this.itemData = item;
@@ -290,8 +307,8 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
-          let  _thisData = {
-                title:JSON.stringify(this.bigModel),
+          let  _thisData = {    
+                title:this.title,
                 relation_info:JSON.stringify(this.bigModel.triggerModel),
                 email_delay:JSON.stringify(this.bigData)
             }
@@ -299,6 +316,7 @@ export default {
                 .then(res => {
                     if(res.data.code == 1){
                         this.$message({message: "Successfully!",type: "success"});
+                        router.push('/FlowList');
                     }else{
                         this.$message("Acquisition failure!");
                     }
