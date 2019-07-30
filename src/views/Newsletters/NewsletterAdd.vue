@@ -175,7 +175,7 @@
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
                         <div style="margin: 0px auto;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 20px;">
                             <div style="margin:0 auto;width:30%;">
-                                <h2>Subject Line</h2>
+                                <h2>Email Subject</h2>
                                 <div v-if="fromData.SubjectText">{{fromData.SubjectText}}</div>
                                 <div v-else>We just picked up some new items for you</div>
                             </div>
@@ -184,7 +184,7 @@
                             <div style="margin:0 auto;width:70%;line-height:20px;padding: 20px 0;">
                                 <div v-if="fromData.HeadingText" style="padding: 10px 0;">{{fromData.HeadingText}}</div>
                                 <div v-else style="padding: 10px 0;">Styles you love - selling fast!</div>
-                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.url" target="_blank">click here</a> .</div>
+                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.domain" target="_blank">click here</a> .</div>
                             </div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
@@ -220,7 +220,7 @@
                             </template>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <a :href="'http://'+Shop.url" target="_blank">
+                            <a :href="'http://'+Shop.domain" target="_blank">
                                 <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
                             </a>
                         </div>
@@ -231,10 +231,12 @@
                             <div>{{new Date().getFullYear()}} {{Shop.name}}. All rights reserved.</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div>{{Shop.url}}</div>
+                            <div>{{Shop.domain}}</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
+                            <a href="*[link_unsubscribe]*">
+                                <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -500,7 +502,11 @@ export default {
                 if (valid) {
                     this.dialog.show = true;
                 }else{
-                    this.$message.error('Incomplete information!');
+                    if(this.fromData.Title && this.fromData.SubjectText && this.fromData.Headline && this.fromData.logoUrl && this.fromData.bannerUrl && this.fromData.HeadingText && this.fromData.bodyText){
+                        this.dialog.show = true;
+                    }else{
+                        this.$message.error('Incomplete information!');
+                    }
                 }
             });
         },
