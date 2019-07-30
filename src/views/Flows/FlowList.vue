@@ -26,7 +26,7 @@
             <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
             <el-table-column prop="name,description" align="left" width="500">
               <template slot-scope="scope">
-                <div class="columnLable ColumnTitle" @click="showFun(scope.row)">{{scope.row.title }}</div>
+                <div class="columnLable ColumnTitle">{{scope.row.title }}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
@@ -48,7 +48,7 @@
                 <div class="columnContent">{{"$"+scope.row.revenue}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="state" align="center" width="180">
+            <el-table-column prop="state" align="center" width="190">
               <template slot-scope="scope">
                   <el-switch
                     v-model="scope.row.state"
@@ -57,7 +57,7 @@
                 </el-switch>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="250" fixed="right">
+            <el-table-column prop="operation" align="center" width="300">
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
@@ -167,13 +167,8 @@ export default {
           router.push('/Browse_Abandonment');
         },
         Selectbutton(){
-          
         },
         deleteFun(){
-
-        },
-        showFun(row){
-            router.push('/Browse_Abandonment');
         },
         current_change(val){
               //点击数字时触发

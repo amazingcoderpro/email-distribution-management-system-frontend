@@ -5,11 +5,9 @@
              <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
             <li><a><span class="el-icon-right"> </span> Browse Abandonment</a></li>
         </ul>
-
         <el-form :inline="true" :model="bigModel">
             <el-form-item label="Title" style="margin-left:290px;">
                 <el-input v-model="title" placeholder="Enter Flow Name"></el-input>
-                <!-- <div class="el-form-item__error" v-if="errorState.title_state == 0">Please enter Flow Name</div> -->
             </el-form-item>
             <div class="Browse_table">
                 <div class="table_right">
@@ -29,7 +27,7 @@
                             </div>
                         </div>
                     </div> 
-                    <div>
+                    <div> 
                         <template v-for="(item,index) in bigModel.triggerModel">
                             <div class="trigger_center" :key="index">
                                 <el-input v-model="item.lastVal" placeholder="" class="trigger_input_one"></el-input>
@@ -39,8 +37,8 @@
                     </div>
                     <div class="rigger_bottom">
                         <span>Note:</span><br/>
-                        <span>1> &nbsp;Do not send if the customer if your customer makes a purchase.</span><br/>
-                        <span>2> &nbsp;Do not send if the customer received an email from this campaign in the last 7 days.</span>
+                        <span>1> &nbsp;customer makes a purchase.</span><br/>
+                        <span>2> &nbsp;customer received an email from this campaign in the last 7 days.</span>
                     </div>
                 </div>
             </div>
@@ -52,7 +50,7 @@
         <div class="delay_email" v-if="firstState">
             <div class="delay_left" @click="addDelay()">
                 <span>DELAY</span>
-            </div> 
+            </div>
             <div class="delay_right" @click="addEmail()">
                 <span>EMAIL</span>
             </div> 
@@ -91,7 +89,7 @@
                             <div class="rigger_center" v-if="item.title == 'Email'">
                                 <span class="Subject">Subject Line</span><br/>
                                 <template>
-                                    <span>Are you still interested?</span>   
+                                    <span>{{item.SubjectText}}</span>   
                                 </template>
                             </div>
                             <div class="rigger_center" v-else>
@@ -146,6 +144,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            self:{},
             title:"",
             itemData:{},
             firstState:false,
@@ -179,18 +178,23 @@ export default {
             let _thisData = JSON.parse(localStorage["FlowsVal"]);
             this.title = _thisData.title;
             this.bigData = JSON.parse(_thisData.email_delay);
-            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info);
+            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info).children;
+            // if(localStorage["email_data"]){
+            //     let email_data = JSON.parse(localStorage["email_data"]);
+            //     this.bigData[email_data.index].SubjectText = email_data.subject;
+            //     this.bigData[email_data.index].value = email_data.id;
+            // }
+            // localStorage.removeItem("email_data");
         },
         testFun(item,index){
             item.state = false;
-            console.log(this.testarray)
+            // console.log(this.testarray)
         },
         testTwoFun(item,index){
             item.state = true;
             console.log(this.testarray)
         },
         showBox(item,index){
-            console.log(index+"---"+this.bigData.length)
             if(item){
                 this.bigData[index].state = true;
             }else{
@@ -208,56 +212,48 @@ export default {
             this.bigModel.triggerModel.splice(index,1);
         },
         addDelay(item,index){
-            if('title' == 'Delay'){
-                this.bigData[index].state = false;
-                this.bigData.splice(index+1,0,{
-                    "type":"email",
-                    "value":"",
-                    "title":"Email",
-                    "icon":"icon-youjian",
-                state:false
-                });
-            }
             if(item){
                 this.bigData[index].state = false;
                 this.bigData.splice(index+1,0,{
-                "type":"rule",
-                "value":"",
-                "unit":"day(s)",
-                "title":"Delay",
-                "icon":"icon-shizhong",
-                state:false
-            });
+                    "type":"0",
+                    "value":"",
+                    "unit":"days",
+                    "title":"Delay",
+                    "icon":"icon-shizhong",
+                    state:false
+                });
             }else{
                 this.bigData.splice(0,0,{
-                "type":"rule",
-                "value":"",
-                "unit":"day(s)",
-                "title":"Delay",
-                "icon":"icon-shizhong",
-                state:false
-            })
+                    "type":"0",
+                    "value":"",
+                    "unit":"days",
+                    "title":"Delay",
+                    "icon":"icon-shizhong",
+                    state:false
+                })
                 this.firstState = false;
             }
         },
         addEmail(item,index){
             if(item){
-                item.state = false;
                 this.bigData.splice(index+1,0,{
-                "type":"email",
-                "value":"",
-                "title":"Email",
-                "icon":"icon-youjian",
-                state:false
-            });
+                    "type":"1",
+                    "value":"",
+                    "title":"Email",
+                    "unit": "first",
+                    "icon":"icon-youjian",
+                    state:false
+                });
+                item.state = false;
             }else{
                 this.bigData.splice(0,0,{
-                "type":"email",
-                "value":"",
-                "title":"Email",
-                "icon":"icon-youjian",
-                state:false
-            })
+                    "type":"1",
+                    "value":"",
+                    "title":"Email",
+                    "unit": "first",
+                    "icon":"icon-youjian",
+                    state:false
+                })
                 this.firstState = false;
             }
         },
@@ -273,27 +269,25 @@ export default {
             this.bigModel.relation_info = JSON.stringify(array);
         },
         email_Edit(index){ 
-            let NewsletterVal = {
-                fromDataType:'Flow',
-                index:'',
-                Title:'',
-                description:'',
-                SubjectText:'',
-                HeadingText:'',
-                logoUrl: '',
-                bannerUrl:'',
-                Headline:'',
-                bodyText:'',
-                searchImgType:'top_three',
-                SegmentValue:[],
-                SegmentState:[],
-                SegmentSelectState:"All",
-                periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
-                SendTimeType:'Monday',
-                SendValue:new Date(2019, 9, 10, 18, 40),
+            // let email_data = {
+            //     index:index,
+            //     subject:"",
+            //     id:0
+            // }
+            let   _relation_info = {
+                "group_name":"LAST 60 DAYS PURCAHSE",
+                "relation":"&&",
+                "children":this.bigModel.triggerModel,
+            };
+            let  _thisData = {
+                index:index,
+                title:this.title,
+                relation_info:JSON.stringify(_relation_info),
+                email_delay:JSON.stringify(this.bigData),
             }
-        localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
-        router.push('/NewsletterAdd');
+            // localStorage.setItem("email_data",JSON.stringify(email_data));
+            localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
+            router.push('/EditletterAdd');
         },
         DelayFun(item){
             this.itemData = item;
@@ -307,10 +301,15 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
-          let  _thisData = {    
+            let   _relation_info = {
+                "group_name":"LAST 60 DAYS PURCAHSE",
+                "relation":"&&",
+                "children":this.bigModel.triggerModel,
+            };
+            let  _thisData = {    
                 title:this.title,
-                relation_info:JSON.stringify(this.bigModel.triggerModel),
-                email_delay:JSON.stringify(this.bigData)
+                relation_info:JSON.stringify(_relation_info),
+                email_delay:JSON.stringify(this.bigData),
             }
             this.$axios.post(`/api/v1/email_trigger/`,_thisData)
                 .then(res => {

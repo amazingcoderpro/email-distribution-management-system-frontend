@@ -39,7 +39,7 @@
                                     :show-file-list="false"
                                     :on-success="logoSuccess"
                                     :before-upload="beforeAvatarUpload">
-                                    <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar">
+                                    <img v-if="fromData.logoUrl" :src="fromData.logoUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
@@ -58,7 +58,7 @@
                                     :show-file-list="false"
                                     :on-success="bannerSuccess"
                                     :before-upload="beforeAvatarUpload">
-                                    <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar">
+                                    <img v-if="fromData.bannerUrl" :src="fromData.bannerUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
@@ -117,13 +117,13 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.logoUrl" style="width: 30%;margin: 0 auto;">
-                                <img :src="'data:image/jpeg;base64,'+fromData.logoUrl" style="width: 100%;"/>
+                                <img :src="fromData.logoUrl" style="width: 100%;"/>
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.bannerUrl" style="width: 100%;">
-                                <img :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" style="width: 100%;"/>
+                                <img :src="fromData.bannerUrl" style="width: 100%;"/>
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                         </div>
@@ -264,8 +264,8 @@ export default {
     },
     methods:{
         init(){
-            let _thisData = JSON.parse(localStorage["FlowsVal"])
-            this.fromData = _thisData;
+            // let _thisData = JSON.parse(localStorage["FlowsVal"])
+            // this.fromData = _thisData;
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -357,8 +357,6 @@ export default {
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</body></html>';
                         let _thisData = {
-                            title:this.fromData.Title,
-                            description:this.fromData.description,
                             subject:this.fromData.SubjectText,
                             heading_text:this.fromData.HeadingText,
                             logo:this.fromData.logoUrl,
@@ -367,18 +365,19 @@ export default {
                             body_text:this.fromData.bodyText,
                             product_list:JSON.stringify(this.trueProductArray),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
-                            send_rule:JSON.stringify({
-                                begin_time:base.dateFormat(this.fromData.periodTime[0]),
-                                end_time:base.dateFormat(this.fromData.periodTime[1]),
-                                cron_type:this.fromData.SendTimeType,
-                                cron_time:base.dateFormat(this.fromData.SendValue,"hour")
-                            }),
+                            send_rule:"{}",
                             html:_showHtml,
                         }
-                         this.$axios.post(`/api/v1/email_template/`, _thisData)
+                         this.$axios.post(`/api/v1/email_template/trigger/`, _thisData)
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
+                                    let _thisData = JSON.parse(localStorage["FlowsVal"]);
+                                    let _email_delay =JSON.parse(_thisData.email_delay); 
+                                    _email_delay[_thisData.index].SubjectText = res.data.data.subject;
+                                    _email_delay[_thisData.index].id = res.data.data.id;
+                                    _thisData.email_delay = JSON.stringify(_email_delay);
+                                    localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
                                     router.push('/Browse_Abandonment');
                                 }else{
                                     this.$message(res.data.msg);
@@ -408,15 +407,10 @@ export default {
                     this.$message.error('Incomplete information!');
                 }
             });
-            
-            // this.dialog = {
-            // show: true,
-            // title: "Test mail",
-            // option: "post"
-            // };
         },
         searchImgType(){
             this.productArray = this.top_product[this.fromData.searchImgType];
+            console.log(this.productArray)
             this.productArray.map(e =>{
                 e.state = true;
             });
