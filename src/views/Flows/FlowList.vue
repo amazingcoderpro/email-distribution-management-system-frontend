@@ -165,6 +165,7 @@ export default {
                 title:row.title,
                 email_delay:row.email_delay,
                 relation_info:row.relation_info,
+                description:row.description,
             }
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
           router.push('/Browse_Abandonment');

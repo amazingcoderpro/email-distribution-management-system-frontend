@@ -10,6 +10,10 @@
                 <el-input v-model="title" placeholder="Enter Flow Name"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
             </el-form-item>
+             <el-form-item label="Description" style="margin-left:290px;">
+                <el-input v-model="description" placeholder="Enter Description"></el-input>
+                <div class="el-form-item__error" v-if="State.title == 0">Please enter Description</div>
+            </el-form-item>
             <div class="Browse_table">
                 <div class="table_right">
                     <div class="trigger_top">
@@ -36,10 +40,13 @@
                             </div>
                         </template>
                     </div>
-                    <div class="rigger_bottom">
+                    <div class="rigger_bottom" v-if="noteArray.length>0">
                         <span>Note:</span><br/>
-                        <span>1> &nbsp;customer makes a purchase.</span><br/>
-                        <span>2> &nbsp;customer received an email from this campaign in the last 7 days.</span>
+                        <template v-for="(item,index) in noteArray">
+                            <div :key="index">
+                                <span >{{index+1}}> &nbsp;{{item}}</span><br/>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -146,10 +153,12 @@ export default {
     data() {
         return {
             title:"",
+            description:"",
             itemData:{},
             firstState:false,
             Search_input:'',
             bigData:[],
+            noteArray:[],
             bigModel:{
                 triggerModel:[],
                 relation_info:""
@@ -180,8 +189,16 @@ export default {
         init(){ 
             let _thisData = JSON.parse(localStorage["FlowsVal"]);
             this.title = _thisData.title;
+            this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
             this.bigModel.triggerModel = JSON.parse(_thisData.relation_info).children;
+            if(this.title == "Browse Abandonment"){
+                let arr = ["customer if your customer makes a purchase.","customer received an email from this campaign in the last 7 days."]
+                this.noteArray = arr;
+            }else{
+                let arr = ["customer if your customer makes a purchase."]
+                this.noteArray = arr;
+            }
         },
         showBox(item,index){
             if(item){
@@ -266,6 +283,7 @@ export default {
             let _thisData = {
                 index:index,
                 title:this.title,
+                description:this.description,
                 relation_info:JSON.stringify(_relation_info),
                 email_delay:JSON.stringify(this.bigData),
             }
@@ -284,7 +302,6 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
-            this.State.title = 0;
             let   _relation_info = {
                 "group_name":"LAST 60 DAYS PURCAHSE",
                 "relation":"&&",
@@ -292,22 +309,28 @@ export default {
             };
             let  _thisData = {    
                 title:this.title,
+                description:this.description,
                 relation_info:JSON.stringify(_relation_info),
                 email_delay:JSON.stringify(this.bigData),
+                note_dict:JSON.stringify(this.noteArray),
             }
-            this.$axios.post(`/api/v1/email_trigger/`,_thisData)
-                .then(res => {
-                    if(res.data.code == 1){
-                        this.$message({message: "Successfully!",type: "success"});
-                        router.push('/FlowList');
-                    }else{
-                        this.$message("Acquisition failure!");
-                    }
-                })
-                .catch(error => {
-                    this.$message("Interface timeout!");
-            }); 
-            console.log(this.bigData)
+            if(this.title && this.title.trim().length != 0){
+                this.State.title = 1 ;
+                this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                    .then(res => {
+                        if(res.data.code == 1){
+                            this.$message({message: "Successfully!",type: "success"});
+                            router.push('/FlowList');
+                        }else{
+                            this.$message("Acquisition failure!");
+                        }
+                    })
+                    .catch(error => {
+                        this.$message("Interface timeout!");
+                }); 
+            }else{
+                this.State.title = 0;
+            }
         },
     },
 }

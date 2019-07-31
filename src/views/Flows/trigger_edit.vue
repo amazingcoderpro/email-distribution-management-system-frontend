@@ -66,7 +66,7 @@
                                     </template>
                                 </el-select>
                             </template>
-                            <template v-if="item.condition == 'Customer last cart created time'">
+                            <template v-if="item.condition == 'Customer sign up time'">
                                     <el-input v-model="item.pointime" placeholder="" class="WW80"></el-input>
                                     <span>days ago</span>
                             </template>
@@ -98,7 +98,7 @@ export default {
     },
     methods:{
         addGroup(){
-            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":[" "], "unit":" ","lastVal":""})
+            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":[" "], "unit":"days","lastVal":""})
         },
         addDelete(index){
             this.bigGroupArray.splice(index,1);
@@ -132,12 +132,18 @@ export default {
                 }
             item.relation = str;
         },
-        saveFun(){
+        saveFun(item){
             this.dialog.show = false;
             let lastArray = [];
             this.bigGroupArray.map(e => {
-                e.lastVal = e.condition + " " + e.relation + " " + e.value[0] +" "+ e.unit;
+                if(item.condition == 'Customer sign up time'){
+                    e.lastVal = e.condition + " " + e.relation + " "  + e.pointime + " " + e.value[0] +" "+ e.unit;
+                }else if(item.condition == 'Customer subscribe time'){
+                    e.lastVal = e.condition + " " + e.relation + " " +  e.value[0] +" "+ e.unit;
+                }
+                //  e.lastVal = e.condition + " " + e.relation + " "  +  e.value[0] +" "+ e.unit;
                 lastArray.push(e);
+                console.log(this.condition)
             });
             this.$parent.changeTiggerVal(lastArray);
         }
