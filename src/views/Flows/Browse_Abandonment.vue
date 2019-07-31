@@ -8,6 +8,7 @@
         <el-form :inline="true" :model="bigModel">
             <el-form-item label="Title" style="margin-left:290px;">
                 <el-input v-model="title" placeholder="Enter Flow Name"></el-input>
+                <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
             </el-form-item>
             <div class="Browse_table">
                 <div class="table_right">
@@ -144,7 +145,6 @@ import router from '../../router';
 export default {
     data() {
         return {
-            self:{},
             title:"",
             itemData:{},
             firstState:false,
@@ -163,6 +163,9 @@ export default {
                 show: false,
                 title: "",
                 option: "edit"
+            },
+            State:{
+                title:1,
             }
         }
     },
@@ -179,27 +182,13 @@ export default {
             this.title = _thisData.title;
             this.bigData = JSON.parse(_thisData.email_delay);
             this.bigModel.triggerModel = JSON.parse(_thisData.relation_info).children;
-            // if(localStorage["email_data"]){
-            //     let email_data = JSON.parse(localStorage["email_data"]);
-            //     this.bigData[email_data.index].SubjectText = email_data.subject;
-            //     this.bigData[email_data.index].value = email_data.id;
-            // }
-            // localStorage.removeItem("email_data");
-        },
-        testFun(item,index){
-            item.state = false;
-            // console.log(this.testarray)
-        },
-        testTwoFun(item,index){
-            item.state = true;
-            console.log(this.testarray)
         },
         showBox(item,index){
             if(item){
                 this.bigData[index].state = true;
             }else{
                 this.firstState = true;
-                if(this.bigModel.triggerModel == ""){
+                if(this.bigModel.triggerModel == null){
                     this.firstState = false;
                     this.$message({
                     showClose: true,
@@ -215,8 +204,8 @@ export default {
             if(item){
                 this.bigData[index].state = false;
                 this.bigData.splice(index+1,0,{
-                    "type":"0",
-                    "value":"",
+                    "type":"Delay",
+                    "value":0,
                     "unit":"days",
                     "title":"Delay",
                     "icon":"icon-shizhong",
@@ -224,8 +213,8 @@ export default {
                 });
             }else{
                 this.bigData.splice(0,0,{
-                    "type":"0",
-                    "value":"",
+                    "type":"Delay",
+                    "value":0,
                     "unit":"days",
                     "title":"Delay",
                     "icon":"icon-shizhong",
@@ -237,7 +226,7 @@ export default {
         addEmail(item,index){
             if(item){
                 this.bigData.splice(index+1,0,{
-                    "type":"1",
+                    "type":"Email",
                     "value":"",
                     "title":"Email",
                     "unit": "first",
@@ -247,7 +236,7 @@ export default {
                 item.state = false;
             }else{
                 this.bigData.splice(0,0,{
-                    "type":"1",
+                    "type":"Email",
                     "value":"",
                     "title":"Email",
                     "unit": "first",
@@ -269,23 +258,17 @@ export default {
             this.bigModel.relation_info = JSON.stringify(array);
         },
         email_Edit(index){ 
-            // let email_data = {
-            //     index:index,
-            //     subject:"",
-            //     id:0
-            // }
-            let   _relation_info = {
+            let _relation_info = {
                 "group_name":"LAST 60 DAYS PURCAHSE",
                 "relation":"&&",
                 "children":this.bigModel.triggerModel,
             };
-            let  _thisData = {
+            let _thisData = {
                 index:index,
                 title:this.title,
                 relation_info:JSON.stringify(_relation_info),
                 email_delay:JSON.stringify(this.bigData),
             }
-            // localStorage.setItem("email_data",JSON.stringify(email_data));
             localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
             router.push('/EditletterAdd');
         },
@@ -301,6 +284,7 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
+            this.State.title = 0;
             let   _relation_info = {
                 "group_name":"LAST 60 DAYS PURCAHSE",
                 "relation":"&&",
@@ -323,6 +307,7 @@ export default {
                 .catch(error => {
                     this.$message("Interface timeout!");
             }); 
+            console.log(this.bigData)
         },
     },
 }

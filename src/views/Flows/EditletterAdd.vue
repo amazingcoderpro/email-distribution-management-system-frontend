@@ -375,7 +375,7 @@ export default {
                                     let _thisData = JSON.parse(localStorage["FlowsVal"]);
                                     let _email_delay =JSON.parse(_thisData.email_delay); 
                                     _email_delay[_thisData.index].SubjectText = res.data.data.subject;
-                                    _email_delay[_thisData.index].id = res.data.data.id;
+                                    _email_delay[_thisData.index].value = res.data.data.id;
                                     _thisData.email_delay = JSON.stringify(_email_delay);
                                     localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
                                     router.push('/Browse_Abandonment');

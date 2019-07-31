@@ -45,7 +45,11 @@
             <el-table-column prop="revenue" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Revenue</div>
-                <div class="columnContent">{{"$"+scope.row.revenue}}</div>
+                <div class="columnContent">
+                  <template v-if="scope.row.revenue">
+                     {{"$"+scope.row.revenue}}
+                  </template>
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="state" align="center" width="190">
@@ -163,7 +167,6 @@ export default {
                 relation_info:row.relation_info,
             }
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
-          console.log(FlowsVal)
           router.push('/Browse_Abandonment');
         },
         Selectbutton(){

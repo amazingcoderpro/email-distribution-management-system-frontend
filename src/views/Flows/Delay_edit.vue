@@ -51,6 +51,7 @@ export default {
     },
     methods:{
         Save_Changes(){
+            this.itemData.value = parseInt(this.itemData.value);
             this.dialog.show = false;
         },
     }

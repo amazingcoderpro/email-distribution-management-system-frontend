@@ -26,8 +26,8 @@
                                 <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
                                 <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option>
-                                <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
-                                <el-option :label="'Customer cart status is'" :value="'Customer cart status is'"></el-option>
+                                <!-- <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option> -->
+                                <!-- <el-option :label="'Customer cart status is'" :value="'Customer cart status is'"></el-option> -->
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
                                 <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                 <el-option :label="'Customer who accept marketing is'" :value="'Customer who accept marketing is'"></el-option>
