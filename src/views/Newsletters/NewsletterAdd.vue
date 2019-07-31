@@ -145,7 +145,7 @@
                             <label>Choose Valid Period</label>
                             <div class="content">
                                 <el-form-item prop="periodTime" class="W100">
-                                    <el-date-picker class="W100" v-model="fromData.periodTime" type="daterange" range-separator="-"></el-date-picker>
+                                    <el-date-picker class="W100" v-model="fromData.periodTime" :picker-options="pickerOptions"  type="daterange" range-separator="-"></el-date-picker>
                                 </el-form-item>
                             </div>
                         </div>
@@ -254,6 +254,11 @@ export default {
     name: "NewsletterAdd",
     data() {
         return {
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now() - 1000 * 24 * 60 * 60;//设置选择明天之前的日期
+                }
+            },
             dialog: {
                 show: false,
                 title: "Send Mail",
@@ -335,7 +340,6 @@ export default {
                         this.trueProductArray.push(e);
                     }
                 });
-                console.log(this.trueProductArray)
             },
             deep: true
         }
@@ -349,6 +353,11 @@ export default {
             this.fromData = _thisData;
             if(this.fromData.fromDataType == "add"){
                 this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
+            }else if(this.fromData.fromDataType == "clone"){
+                if(new Date(this.fromData.periodTime[0]).getTime() < new Date().getTime()){
+                    this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
+                }
+                
             }
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
@@ -424,7 +433,6 @@ export default {
                 this.fromData.SegmentState = [];
                 }
             }
-            console.log(this.fromData.SegmentValue)
         },
         logoSuccess(response, file, fileList) {
         if(response.data.base64_str){

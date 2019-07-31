@@ -7,7 +7,7 @@
         <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
           <!-- Pinterest -->
           <el-form-item>
-            <el-input v-model="searchData.nameVal" placeholder="Search Flow Name"></el-input>
+            <el-input v-model="searchData.nameVal" placeholder="Search Group Name"></el-input>
           </el-form-item>
           <el-form-item class="FR">
                 <el-button icon="edit" type="primary" size="small" @click="addFun">Create New Segment</el-button>

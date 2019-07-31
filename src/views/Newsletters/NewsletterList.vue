@@ -7,7 +7,7 @@
         <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W100" label-width="100px">
           <!-- Pinterest -->
           <el-form-item>
-            <el-input v-model="searchData.nameVal" placeholder="Search Flow Name"></el-input>
+            <el-input v-model="searchData.nameVal" placeholder="Search Newsletter Title"></el-input>
           </el-form-item>
           <el-form-item>
             <template>

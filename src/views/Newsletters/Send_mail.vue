@@ -30,9 +30,10 @@ export default {
     methods:{
       send(formName){
             this.$refs[formName].validate((valid) => {
+                console.log(valid)
                 if(valid){
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
-                        _showHtml += this.$refs.showBox.innerHTML;
+                        _showHtml += this.$parent.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                     let _thisData = {
                         "subject":this.fromData.SubjectText,
@@ -45,7 +46,7 @@ export default {
                                 this.$message({message: "Successfully!",type: "success"});
                                 this.dialog.show = false;
                             }else{
-                                this.$message(res.data.msg);
+                                this.$message("Fail In Send!");
                             }
                         })
                         .catch(error => {
@@ -54,7 +55,7 @@ export default {
                     
                 }
             });
-      }
+        }
     }
 }
 </script>

@@ -6,9 +6,9 @@
             <li><a><span class="el-icon-right"> </span>New Customers</a></li>
         </ul>
         <el-form :inline="true" :model="bigData" class="demo-form-inline fromClass" label-width="100px" :disabled="postData.showState == '1'">
-            <el-form-item label="Flow Name">
-                <el-input v-model="postData.title" placeholder="Enter Flow Name"></el-input>
-                <div class="el-form-item__error" v-if="errorState.title_state == 0">Please enter Flow Name</div>
+            <el-form-item label="Group Name">
+                <el-input v-model="postData.title" placeholder="Enter Group Name"></el-input>
+                <div class="el-form-item__error" v-if="errorState.title_state == 0">Please enter Group Name</div>
             </el-form-item>
             <br/>
             <el-form-item label="Description">
@@ -17,11 +17,11 @@
             </el-form-item>
             <br/>
             <el-form-item>
-                <el-input v-model="group_name" placeholder="Group Name"></el-input>
-                <div class="el-form-item__error" v-if="errorState.group_name_state == 0">Please enter Group Name</div>
+                <el-input v-model="group_name" placeholder="Condition Name"></el-input>
+                <div class="el-form-item__error" v-if="errorState.group_name_state == 0">Please enter Condition Name</div>
             </el-form-item>
             <el-form-item class="addGroupClass">
-                <el-button type="primary" icon="el-icon-plus" @click="addGroup">Add Group</el-button>
+                <el-button type="primary" icon="el-icon-plus" @click="addGroup">Add Condition</el-button>
             </el-form-item>
             <div class="ConditionBigBox">
                 <div class="ConditionBox" v-for="(item,index) in bigData.group_condition" :key="index">
