@@ -199,9 +199,19 @@ export default {
             let lastArray = [];
             this.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer sign up time'){
-                    e.lastVal = e.condition + " " + e.relations + " " + e.values[0] +" "+ e.unit;
+                    let _str = e.condition;
+                    e.relations.map(x =>{
+                        _str += x.relation;
+                        x.values.map(z =>{
+                            _str += x;
+                        });
+                        if(x.unit){
+                          _str += x.unit;  
+                        }
+                    });
+                    e.lastVal = _str;
                 }else if(e.condition == 'Customer subscribe time'){
-                    // e.lastVal = e.condition + " " + e.relations + " ";
+                    e.lastVal = e.condition + " " + e.relations + " ";
                 }
                 lastArray.push(e);
             });
