@@ -19,57 +19,82 @@
                         <el-button type="primary" icon="el-icon-plus" @click="addGroup" style="font-weight:600;"> Add Filter</el-button>
                     </div>
                     <div class="triggerCenter_buttom">
-                        <div v-for="(item,index) in bigGroupArray" :key="index" class="triggerCenter_input">
+                        <div v-for="(item,index) in bigGroupArrayTest" :key="index" class="triggerCenter_input">
                             <el-select v-model="item.condition" class="W270" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
                                 <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
                                 <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option>
-                                <!-- <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option> -->
-                                <!-- <el-option :label="'Customer cart status is'" :value="'Customer cart status is'"></el-option> -->
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
                                 <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                 <el-option :label="'Customer who accept marketing is'" :value="'Customer who accept marketing is'"></el-option>
                             </el-select>
-                            <template>
-                                <el-select v-model="item.relation" class="W150">
-                                    <template v-if="item.condition == 'Customer cart status is'">
-                                        <el-option :label="'empty'" :value="'empty'"></el-option>
-                                        <el-option :label="'not empty'" :value="'not empty'"></el-option>
+                            <template v-for="(itemSon,index) in item.relations">
+                                <div :key="index" style="display:inline-block">
+                                    <el-select v-model="itemSon.relation" class="W150">
+                                        <template v-if="item.condition == 'Customer who accept marketing is' || item.condition == 'Customer last open email time'">
+                                            <el-option :label="'ture'" :value="'ture'"></el-option>
+                                            <el-option :label="'false'" :value="'false'"></el-option>
+                                        </template>
+                                        <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
+                                        || item.condition == 'Customer sign up time'">
+                                            <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
+                                            <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
+                                            <el-option :label="'is before'" :value="'is before'"></el-option>
+                                            <el-option :label="'is after'" :value="'is after'"></el-option>
+                                            <el-option :label="'is more than'" :value="'is more than'"></el-option>
+                                            <el-option :label="'is between date'" :value="'is between date'"></el-option>
+                                            <el-option :label="'is between'" :value="'is between'"></el-option>
+                                        </template>
+                                        <template v-if="item.condition == 'Customer last order status'">
+                                            <el-option :label="'is paid'" :value="'is paid'"></el-option>
+                                            <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
+                                        </template>
+                                        <template v-if="item.condition == 'Customer order number is' ||  item.condition == 'Customer sign up time'">
+                                            <el-option :label="'equals'" :value="'equals'"></el-option>
+                                            <el-option :label="'more than'" :value="'more than'"></el-option>
+                                            <el-option :label="'less than'" :value="'less than'"></el-option>
+                                        </template>
+                                    </el-select>   
+                                        <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
+                                            <div  class="PORE DisplayInline">
+                                                <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
+                                            </div>
+                                            <el-select v-model="itemSon.unit" class="W150">
+                                                <el-option :label="'days'" :value="'days'"></el-option>
+                                                <el-option :label="'weeks'" :value="'weeks'"></el-option>
+                                                <el-option :label="'months'" :value="'months'"></el-option>
+                                                <el-option :label="'years'" :value="'years'"></el-option>
+                                            </el-select>
                                     </template>
-                                    <template v-if="item.condition == 'Customer last cart created time'">
-                                        <el-option :label="'more than'" :value="'more than'"></el-option>
-                                        <el-option :label="'less than'" :value="'less than'"></el-option>
+                                    <template v-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
+                                                <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                     </template>
-                                    <template v-if="item.condition == 'Customer who accept marketing is'">
-                                        <el-option :label="'ture'" :value="'ture'"></el-option>
-                                        <el-option :label="'false'" :value="'false'"></el-option>
+                                    <template v-if="itemSon.relation == 'is between date'">
+                                        <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
+                                        <div class="centerClass">and</div>
+                                        <div class="PORE DisplayInline">
+                                            <el-date-picker v-model="itemSon.values[1]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
+                                        </div>
                                     </template>
-                                    <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' ||
-                                     item.condition == 'Customer sign up time' || item.condition == 'Customer last open email time' || item.condition == 'Customer last click email time'">
-                                        <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
-                                        <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
-                                        <el-option :label="'is before'" :value="'is before'"></el-option>
-                                        <el-option :label="'is after'" :value="'is after'"></el-option>
-                                        <el-option :label="'is between date'" :value="'is between date'"></el-option>
-                                        <el-option :label="'is between'" :value="'is between'"></el-option>
+                                    <template v-else-if="itemSon.relation == 'is between'">
+                                        <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
+                                        <div class="centerClass">and</div>
+                                        <div  class="PORE DisplayInline">
+                                            <el-input v-model="itemSon.values[1]" placeholder="Number" class="W150"></el-input>
+                                        </div>
+                                        <el-select v-model="itemSon.unit" class="W150">
+                                            <el-option :label="'days'" :value="'days'"></el-option>
+                                            <el-option :label="'weeks'" :value="'weeks'"></el-option>
+                                            <el-option :label="'months'" :value="'months'"></el-option>
+                                            <el-option :label="'years'" :value="'years'"></el-option>
+                                        </el-select>
+                                        <div class="centerClass">ago</div>
                                     </template>
-                                    <template v-if="item.condition == 'Customer last order status'">
-                                        <el-option :label="'is paid'" :value="'is paid'"></el-option>
-                                        <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
-                                    </template>
-                                    <template v-if="item.condition == 'Customer order number is'">
-                                        <el-option :label="'equals'" :value="'equals'"></el-option>
-                                        <el-option :label="'more than'" :value="'more than'"></el-option>
-                                        <el-option :label="'less than'" :value="'less than'"></el-option>
-                                    </template>
-                                </el-select>
+                                </div>     
                             </template>
-                            <template v-if="item.condition == 'Customer sign up time'">
-                                    <el-input v-model="item.pointime" placeholder="" class="WW80"></el-input>
-                                    <span>days ago</span>
-                            </template>
+                                
                             <i class="iconfont icon-chahao" @click="addDelete(index)" style="float:right;margin-right:20px;line-height:40px;"></i>
                         </div>
                     </div>   
@@ -90,7 +115,43 @@ export default {
     },
     data(){
         return {
-            bigGroupArray:[],
+            bigGroupArrayTest:[
+                // {
+                //     "condition":"Customer who accept marketing is",
+                //     "relations":[{"relation":"false","values":["0"],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last open email time",
+                //     "relations":[{"relation":"true","values":[30],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is in the past","values":[30],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is before","values":["2019-9-1"],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is after","values":["2019-9-1"],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is more than","values":[10],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is between date","values":["2019-9-1","2019-9-2"],"unit":"days","errorMsg":""}]
+                // },
+                // {
+                //     "condition":"Customer last orde created time",
+                //     "relations":[{"relation":"is between","values":[1,2],"unit":"days","errorMsg":""}]
+                // }, {
+                //     "condition":"Customer last order status",
+                //     "relations":[{"relation":"is paid","values":[30],"unit":"days","errorMsg":""}]
+                // },
+            ]
         }
     },
     mounted(){
@@ -98,52 +159,51 @@ export default {
     },
     methods:{
         addGroup(){
-            this.bigGroupArray.push({"condition":"Customer cart status is","relation":"empty", "value":[" "], "unit":"days","lastVal":""})
+            this.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },
         addDelete(index){
-            this.bigGroupArray.splice(index,1);
+            this.bigGroupArrayTest.splice(index,1);
         },
         EditChange(item){
             let str = "";
-               if(item.condition == 'Customer cart status is'){
-                    str = 'empty';
+               if(item.condition == 'Customer subscribe time'){
+                    str = 'is in the past';
                 }
-                else if(item.condition == 'Customer last cart created time'){
-                    str ='more than';
+                else if(item.condition == 'Customer sign up time'){
+                    str ='is over all time'; 
                 }
-                else if(item.condition == 'Customer who accept marketing is'){
-                    str ='ture';
+                else if(item.condition == 'Customer last orde created time'){
+                    str ='is more than';
                 }
-                else if(item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time'
-                 || item.condition == 'Customer sign up time'){
-                    str ="is in the past"
-                }
-                else if(item.condition == 'Customer last order status'){
-                    str ="is paid"
+                else if(item.condition == 'Customer order number is' || item.condition == 'Customer sign up time' ){
+                    str ="equals"
                 }
                 else if(item.condition == 'Customer last open email time'){
-                    str ="is between date"
+                    str ="true"
                 }
                 else if(item.condition == 'Customer last click email time'){
                     str ="is between"
                 }
-                 else if(item.condition == 'Customer order number is'){
-                    str ="equals"
+                else if(item.condition == 'Customer last order status'){
+                    str ="is paid"
                 }
-            item.relation = str;
+                else if(item.condition == 'Customer who accept marketing is'){
+                    str ="ture"
+                }
+                item.relations.map(e =>{
+                    e.relation = str;
+                });
         },
-        saveFun(item){
+        saveFun(){
             this.dialog.show = false;
             let lastArray = [];
-            this.bigGroupArray.map(e => {
-                if(item.condition == 'Customer sign up time'){
-                    e.lastVal = e.condition + " " + e.relation + " "  + e.pointime + " " + e.value[0] +" "+ e.unit;
-                }else if(item.condition == 'Customer subscribe time'){
-                    e.lastVal = e.condition + " " + e.relation + " " +  e.value[0] +" "+ e.unit;
+            this.bigGroupArrayTest.map(e => {
+                if(e.condition == 'Customer sign up time'){
+                    e.lastVal = e.condition + " " + e.relations + " " + e.values[0] +" "+ e.unit;
+                }else if(e.condition == 'Customer subscribe time'){
+                    // e.lastVal = e.condition + " " + e.relations + " ";
                 }
-                //  e.lastVal = e.condition + " " + e.relation + " "  +  e.value[0] +" "+ e.unit;
                 lastArray.push(e);
-                console.log(this.condition)
             });
             this.$parent.changeTiggerVal(lastArray);
         }
@@ -152,6 +212,8 @@ export default {
 </script>
 
 <style>
+.triggerEdit .el-dialog{width: 1200px;}
+.triggerEdit .centerClass{display:inline-block;padding:9px 16px 8px 10px;color:#606266;font-size:14px;}
 .triggerEdit .edit_header{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
 .triggerEdit .edit_left{width: 150px;height:50px;float: left;display: inline-flex;}
 .triggerEdit .edit_left span{font-size: 13px;font-weight: 600;padding-left: 20px;line-height: 50px;}
