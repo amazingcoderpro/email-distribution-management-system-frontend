@@ -16,8 +16,11 @@
                 </el-select>
             </template>
           </el-form-item>
+          <el-form-item>
+            <el-button icon="edit" type="primary" @click="init">Search</el-button>
+          </el-form-item>
           <el-form-item class="FR">
-                <el-button icon="edit" type="primary" size="small" @click="addFun">Create New</el-button>
+                <el-button icon="edit" type="primary" @click="addFun">Create New</el-button>
                 <!-- <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch> -->
           </el-form-item>
         </el-form>
@@ -60,15 +63,16 @@
                   </div>
               </template>
             </el-table-column>
-            <el-table-column prop="state" align="center" width="200">
+            <el-table-column prop="enable" align="center" width="200">
               <template slot-scope="scope">
                   <div class="columnLable">State</div>
                   <div class="columnContent">
                       <el-switch
-                          v-model="scope.row.state"
+                          v-model="scope.row.enable"
                           active-color="#13ce66"
                           inactive-color="#ff4949">
                       </el-switch>
+                      <div class="switchShdow" @click="stateFun(scope.row)"></div>
                     </div>
               </template>
             </el-table-column>
@@ -117,13 +121,13 @@ export default {
         }
     },
     watch: {
-        'searchData.allBtnState': {
-            handler: function() {
-                    this.tableData.map(e =>{
-                        e.state = this.searchData.allBtnState;
-                    });
-            },
-        }
+        // 'searchData.allBtnState': {
+        //     handler: function() {
+        //             this.tableData.map(e =>{
+        //                 e.state = this.searchData.allBtnState;
+        //             });
+        //     },
+        // }
     },
     components:{
     },
@@ -140,12 +144,21 @@ export default {
     },
     methods:{
       init(){
-          this.$axios.get(`/api/v1/email_template/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
+          let _url = `/api/v1/email_template/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
+          if(this.searchData.nameVal){
+            _url += `&title=${this.searchData.nameVal}`;
+          }
+          if(this.searchData.typeVal){
+            _url += `&title=${this.searchData.typeVal}`;
+          }
+          this.$axios.get(_url)
           .then(res => {
               if(res.data.code == 1){
-                console.log(res.data.data)
                 this.tableData = res.data.data.results;
                 this.page.total = res.data.data.count;
+                this.tableData.map(e => {
+                  e.enable?e.enable = true:e.enable = false;
+                });
               }else{
                 this.$message("Acquisition failure!");
               }
@@ -235,6 +248,33 @@ export default {
                   });
             }) 
       },
+      stateFun(row){
+        this.$confirm('Are you sure you wanna change state?', 'Warning', {
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              type: 'warning'
+            }).then(() => {
+              let data = {
+                enable:0
+              };
+              if(!row.enable){
+                //开启
+                data.enable = 1;
+              }
+              this.$axios.put(`/api/v1/email_template/enable/${row.id}/`,data)
+                  .then(res => {
+                      if(res.data.code == 1){
+                          this.$message({message: res.data.msg,type: "success"});
+                          this.init();
+                      }else{
+                          this.$message({message: res.data.msg});
+                      }
+                  })
+                  .catch(error => {
+                      this.$message("Interface timeout!");
+                  });
+            }) 
+      },
       current_change(val){
           //点击数字时触发
           this.page.currentPage = val;
@@ -259,4 +299,5 @@ export default {
 .NewsletterList .topictable{border-left: 0;border-right:0;} 
 .NewsletterList .el-table__body-wrapper tbody td{border-right: 0;}
 .NewsletterList .columnLable{font-weight: 700;margin-bottom: 10px;}
+.NewsletterList .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;bottom: 0;margin-left: 25%;}
 </style>

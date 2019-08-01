@@ -477,6 +477,7 @@ export default {
                                 cron_time:base.dateFormat(this.fromData.SendValue,"hour")
                             }),
                             html:_showHtml,
+                            enable:0
                         }
                         this.$axios.post(`/api/v1/email_template/`, _thisData)
                             .then(res => {
