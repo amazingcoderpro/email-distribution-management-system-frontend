@@ -151,7 +151,7 @@
                                 <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
                                     <img :src="item.image_url" style="width:100%;"/>
                                     <h3 style="font-weight:700;">{{item.name}}</h3>
-                                    <h3>{{item.price}}</h3>
+                                    <h3>{{item.price}}</h3> 
                                 </div>
                             </template>
                         </div>
@@ -159,19 +159,23 @@
                             <a href="88888888" style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;text-decoration:none;">Go to Shopping Cart</a>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
+                            <a :href="'http://'+Shop.domain" target="_blank">
+                                <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
+                            </a>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
                             <div>{{Shop.email}}</div>
                         </div> 
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{year} {shop_name}. All rights reserved.</div>
+                            <div>{{new Date().getFullYear()}} {{Shop.name}}. All rights reserved.</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="">{shop_address}</div>
+                            <div>{{Shop.domain}}</div>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
+                            <a href="*[link_unsubscribe]*">
+                                <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -294,6 +298,17 @@ export default {
                         this.top_product.top_thirty = JSON.parse(res.data.data.top_thirty);
                     }
                     this.searchImgType();
+                }else{
+                    this.$message("Acquisition failure!");
+                }
+            })
+            .catch(error => {
+                this.$message("Interface timeout!");
+            });
+            this.$axios.get(`/api/v1/store/`)
+            .then(res => {
+                if(res.data.code == 1){
+                    this.Shop = res.data.data[0];
                 }else{
                     this.$message("Acquisition failure!");
                 }

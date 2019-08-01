@@ -32,7 +32,7 @@
                             </el-select>
                             <template v-for="(itemSon,index) in item.relations">
                                 <div :key="index" style="display:inline-block">
-                                    <el-select v-model="itemSon.relation" class="W150">
+                                    <el-select v-model="itemSon.relation" class="W150" @change="itemSonRelationChange(itemSon)">
                                         <template v-if="item.condition == 'Customer who accept marketing is' || item.condition == 'Customer last open email time'">
                                             <el-option :label="'ture'" :value="'ture'"></el-option>
                                             <el-option :label="'false'" :value="'false'"></el-option>
@@ -69,20 +69,20 @@
                                             </el-select>
                                     </template>
                                     <template v-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
-                                                <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
+                                            <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                     </template>
                                     <template v-if="itemSon.relation == 'is between date'">
                                         <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                         <div class="centerClass">and</div>
                                         <div class="PORE DisplayInline">
-                                            <el-date-picker v-model="itemSon.values[1]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
+                                            <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                         </div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is between'">
                                         <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
                                         <div class="centerClass">and</div>
                                         <div  class="PORE DisplayInline">
-                                            <el-input v-model="itemSon.values[1]" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
                                         </div>
                                         <el-select v-model="itemSon.unit" class="W150">
                                             <el-option :label="'days'" :value="'days'"></el-option>
@@ -198,24 +198,52 @@ export default {
             this.dialog.show = false;
             let lastArray = [];
             this.bigGroupArrayTest.map(e => {
-                if(e.condition == 'Customer sign up time'){
-                    let _str = e.condition;
+                if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last orde created time'
+                || e.condition =='Customer sign up time'){
+                    let _str = e.condition + " ";
                     e.relations.map(x =>{
-                        _str += x.relation;
-                        x.values.map(z =>{
-                            _str += x;
-                        });
-                        if(x.unit){
-                          _str += x.unit;  
+                        _str += x.relation + " ";
+                        if(x.relation != 'is over all time'){
+                            x.values.map(z =>{
+                                _str += x.values + " ";
+                            });
+                            if(x.relation == 'is before' || x.relation == 'is after'){
+                              
+                            }else{
+                                if(x.relation == 'is between date'){
+                                    _str += "and" + " " + x.values;
+                                }else{
+                                    if(x.relation == 'is between'){
+                                        _str += "and" + " " + x.values + " ";
+                                        _str += x.unit + " " + "ago"; 
+                                    }else{
+                                            if(x.unit){
+                                            _str += x.unit;  
+                                        }
+                                    }
+                                }
+                            }
                         }
                     });
                     e.lastVal = _str;
-                }else if(e.condition == 'Customer subscribe time'){
-                    e.lastVal = e.condition + " " + e.relations + " ";
+                }else if(e.condition == 'Customer order number is' || e.condition == 'Customer last order status' 
+                    || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing is'){
+                        let _str = e.condition + " ";
+                        e.relations.map(x =>{
+                            _str += x.relation;
+                        });
+                        e.lastVal = _str;
                 }
                 lastArray.push(e);
             });
             this.$parent.changeTiggerVal(lastArray);
+        },
+        itemSonRelationChange(itemSon){
+            if(itemSon.relation == "is before" || itemSon.relation == "is after" || itemSon.relation == "is between date"){
+                itemSon.values = ["2019-8-1"];
+            }else{
+                itemSon.values = [30];
+            }
         }
     },
 }
