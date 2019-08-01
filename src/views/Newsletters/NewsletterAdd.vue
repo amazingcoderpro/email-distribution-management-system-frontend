@@ -405,8 +405,6 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
-
-
             
         },
         imgClick(item){

@@ -142,22 +142,27 @@ export default {
         SegmentAddTest(){
           router.push('/SegmentAddTest');
         },
-        
         deleteFun(row){
-          this.$axios.delete(`/api/v1/customer_group/${row.id}/`)
-          .then(res => {
-              if(res.data.code == 1){
-                // console.log(res.data.data.results)
-                  this.$message({message: res.data.msg,type: "success"});
-                  this.init();
-              }else{
-                  this.$message({message: res.data.msg});
-              }
-          })
-          .catch(error => {
-            console.log(error)
-              this.$message("Interface timeout!");
-          }); 
+          this.$confirm('Are you sure you wanna delete?', 'Warning', {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+              }).then(() => {
+                    this.$axios.delete(`/api/v1/customer_group/${row.id}/`)
+                    .then(res => {
+                        if(res.data.code == 1){
+                          // console.log(res.data.data.results)
+                            this.$message({message: res.data.msg,type: "success"});
+                            this.init();
+                        }else{
+                            this.$message({message: res.data.msg});
+                        }
+                    })
+                    .catch(error => {
+                      console.log(error)
+                        this.$message("Interface timeout!");
+                    }); 
+              }) 
         },
         editFun(row){
           let SegmentVal = {

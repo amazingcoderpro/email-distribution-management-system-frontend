@@ -89,6 +89,17 @@
                                 </el-select>
                             </div>
                         </div>
+                        <div class="fromSon imgBigBox" v-if="productArray.length>0">
+                            <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
+                                <a :href="item.url" target="_blank">
+                                    <img :src="item.image_url" />
+                                </a> 
+                                <div class="stateBox">
+                                    <span v-if="item.state" class="el-icon-check"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
                     </div>
                     <div>
                         <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
@@ -143,6 +154,9 @@
                                     <h3>{{item.price}}</h3>
                                 </div>
                             </template>
+                        </div>
+                        <div style="width:100%;padding-bottom: 20px;" v-if="fromData.searchImgType == 'Shopping cart goods'" >
+                            <a href="88888888" style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;text-decoration:none;">Go to Shopping Cart</a>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
                             <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
@@ -201,7 +215,6 @@ export default {
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
             },
-            SegmentArray:[],
             SendTimeTypeArray:[
                 {value: '0',label: 'Monday'},
                 {value: '1',label: 'Tuesday'},
@@ -219,6 +232,8 @@ export default {
                 {value: 'top_seven',label: 'Top 6 products in last 7 days'},
                 {value: 'top_fifteen',label: 'Top 6 products in last 15 days'},
                 {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
+                {value: 'Shopping cart goods',label: 'Shopping cart goods'},
+                {value: 'no product',label: 'No Product'},
             ],
             productArray:[],
             trueProductArray:[],
@@ -254,7 +269,6 @@ export default {
                         this.trueProductArray.push(e);
                     }
                 });
-               console.log(this.trueProductArray)
             },
             deep: true
         }
@@ -264,21 +278,6 @@ export default {
     },
     methods:{
         init(){
-            // let _thisData = JSON.parse(localStorage["FlowsVal"])
-            // this.fromData = _thisData;
-            this.$axios.get(`/api/v1/customer_group/`)
-            .then(res => {
-                if(res.data.code == 1){
-                    this.SegmentArray = res.data.data;
-                    this.SegmentValueChange();
-                }else{
-                this.$message("Acquisition failure!");
-                }
-            })
-            .catch(error => {
-                this.$message("Interface timeout!");
-            });
-
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -308,27 +307,6 @@ export default {
             item.state = !item.state;
             console.log(item.state)
         },
-        SegmentStateChange(){
-            if(this.fromData.SegmentState.length>0){
-                let _arr = [];
-                this.SegmentArray.map(e =>{
-                    _arr.push(e.id);
-                });
-                this.fromData.SegmentValue = _arr;
-            }else{ this.Segme
-                this.fromData.SegmentValue = [];
-            }
-        },
-        SegmentValueChange(){
-            if(this.fromData.SegmentValue.length == this.SegmentArray.length){
-            this.fromData.SegmentState = ["Select All"];
-            }else{
-                if(this.fromData.SegmentState.length>0){
-                this.fromData.SegmentState = [];
-                }
-            }
-            console.log(this.fromData.SegmentValue)
-        },
         logoSuccess(response, file, fileList) {
         if(response.data.base64_str){
             this.fromData.logoUrl = response.data.base64_str;
@@ -353,7 +331,7 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                   let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         let _thisData = {
@@ -363,12 +341,15 @@ export default {
                             banner:this.fromData.bannerUrl,
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
-                            product_list:JSON.stringify(this.trueProductArray),
+                            // product_list:JSON.stringify(this.trueProductArray),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:"{}",
                             html:_showHtml,
                         }
-                         this.$axios.post(`/api/v1/email_template/trigger/`, _thisData)
+                        if(this.fromData.searchImgType != "Shopping cart goods"){
+                            _thisData.product_list = JSON.stringify(this.trueProductArray);
+                        }
+                        this.$axios.post(`/api/v1/email_template/trigger/`, _thisData)
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
@@ -409,11 +390,14 @@ export default {
             });
         },
         searchImgType(){
-            this.productArray = this.top_product[this.fromData.searchImgType];
-            console.log(this.productArray)
-            this.productArray.map(e =>{
-                e.state = true;
-            });
+            if(this.fromData.searchImgType == "Shopping cart goods" ||this.fromData.searchImgType == "no product"  ){
+                this.productArray = [];
+            }else{
+                this.productArray = this.top_product[this.fromData.searchImgType];
+                this.productArray.map(e =>{
+                    e.state = true;
+                });
+            }
             this.productArray = this.productArray;
         }
     },

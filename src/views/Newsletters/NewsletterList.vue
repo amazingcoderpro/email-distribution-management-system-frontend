@@ -77,7 +77,7 @@
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
                 <el-button icon="edit" type="primary" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deteleFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
@@ -213,6 +213,27 @@ export default {
         }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
+      },
+      deleteFun(row){
+        this.$confirm('Are you sure you wanna delete?', 'Warning', {
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              type: 'warning'
+            }).then(() => {
+              this.$axios.delete(`/api/v1/email_template/${row.id}/`)
+                  .then(res => {
+                      if(res.data.code == 1){
+                          this.$message({message: res.data.msg,type: "success"});
+                          this.init();
+                      }else{
+                          this.$message({message: res.data.msg});
+                      }
+                  })
+                  .catch(error => {
+                    console.log(error)
+                      this.$message("Interface timeout!");
+                  });
+            }) 
       },
       current_change(val){
           //点击数字时触发
