@@ -19,6 +19,7 @@ export default {
     props: {
         dialog: Object,
         fromData: Object,
+        trueProductArray:Array
     },
     data(){
         return{
@@ -38,8 +39,11 @@ export default {
                     let _thisData = {
                         "subject":this.fromData.SubjectText,
                         "email_address":this.sendData.email,
-                        "html":_showHtml              
+                        "html":_showHtml,
+                        "product_list":JSON.stringify(this.trueProductArray)         
                     }
+                    console.log(this.$parent.$refs.trueProductArray)
+                    console.log(_thisData)
                     this.$axios.post(`/api/v1/send_mail/`, _thisData)
                         .then(res => {
                             if(res.data.code == 1){

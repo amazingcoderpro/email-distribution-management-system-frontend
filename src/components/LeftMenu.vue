@@ -41,7 +41,7 @@ export default {
               {"id":3,"menu_name":"Flows","menu_url":"/FlowList","parent_id":null,"icon":"iconfont icon-kehujingli1","childs":[]},
               {"id":4,"menu_name":"Customers","menu_url":"/SegmentList","parent_id":null,"icon":"iconfont icon-touruguize","childs":[]},
               {"id":5,"menu_name":"Integration","menu_url":"/Integration","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
-              {"id":6,"menu_name":"Image Library","menu_url":"/ImageList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
+              // {"id":6,"menu_name":"Image Library","menu_url":"/ImageList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
             ]  
             // ,
             // "childs":[

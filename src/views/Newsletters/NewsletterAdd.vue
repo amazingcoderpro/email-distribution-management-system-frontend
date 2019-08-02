@@ -184,7 +184,7 @@
                             <div style="margin:0 auto;width:70%;line-height:20px;padding: 20px 0;">
                                 <div v-if="fromData.HeadingText" style="padding: 10px 0;">{{fromData.HeadingText}}</div>
                                 <div v-else style="padding: 10px 0;">Styles you love - selling fast!</div>
-                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.domain" target="_blank">click here</a> .</div>
+                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.url+'?utm_source=smartsend'" target="_blank">click here</a> .</div>
                             </div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
@@ -220,7 +220,7 @@
                             </template>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <a :href="'http://'+Shop.domain" target="_blank">
+                            <a :href="'http://'+Shop.url+'?utm_source=smartsend'" target="_blank">
                                 <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
                             </a>
                         </div>
@@ -242,7 +242,7 @@
                 </div>
             </div>
         </div>
-        <DialogFound :dialog='dialog' :fromData="fromData"></DialogFound>
+        <DialogFound :dialog='dialog' :fromData="fromData" :trueProductArray="trueProductArray" ></DialogFound>
     </div>
 </template>
 
