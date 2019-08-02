@@ -191,7 +191,7 @@ export default {
             this.title = _thisData.title;
             this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
-            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info).children;
+            this.bigModel.triggerModel = _thisData.relation_info.children;
             if(this.title == "Browse Abandonment"){
                 let arr = ["customer if your customer makes a purchase.","customer received an email from this campaign in the last 7 days."]
                 this.noteArray = arr;
@@ -302,15 +302,20 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
-            let   _relation_info = {
+            let _bigData={
+                "relation":"",
+                "group_condition":[]
+            }
+            let  _relation_info = {
                 "group_name":"LAST 60 DAYS PURCAHSE",
                 "relation":"&&",
                 "children":this.bigModel.triggerModel,
             };
+            _bigData.group_condition.push(_relation_info);
             let  _thisData = {    
                 title:this.title,
                 description:this.description,
-                relation_info:JSON.stringify(_relation_info),
+                relation_info:JSON.stringify(_bigData),
                 email_delay:JSON.stringify(this.bigData),
                 note:JSON.stringify(this.noteArray),
             }

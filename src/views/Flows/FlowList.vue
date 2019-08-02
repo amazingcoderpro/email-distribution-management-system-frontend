@@ -97,13 +97,13 @@ export default {
             headStatus:false,
             searchData:{
                 nameVal:'',
-                typeVal:'',
+                typeVal:-1,
                 allBtnState:true,
             },
             typeArray: [
-                {value: '',label: 'All'},
-                {value: '1',label: 'Live'},
-                {value: '2',label: 'Draft'},
+                {value: -1,label: 'All'},
+                {value: 1,label: 'Live'},
+                {value: 0,label: 'Disabled'},
             ],
             tableData:[],
         }
@@ -136,8 +136,8 @@ export default {
           if(this.searchData.nameVal){
             _url += `&title=${this.searchData.nameVal}`;
           }
-          if(this.searchData.typeVal){
-            _url += `&title=${this.searchData.typeVal}`;
+          if(this.searchData.typeVal != -1){
+            _url += `&status=${this.searchData.typeVal}`;
           }
           this.$axios.get(_url)
           .then(res => {
@@ -146,7 +146,6 @@ export default {
                 this.page.total = res.data.data.count;
                 this.tableData.map(e =>{
                   e.status?e.status = true:e.status = false;
-                
                 });
               }else{
                 this.$message("Acquisition failure!");
@@ -166,12 +165,15 @@ export default {
             router.push('./Browse_Abandonment')
         },
         CloneEdit(row){
+          let _bigData = JSON.parse(row.relation_info);
+          console.log(_bigData)
           let FlowsVal = {
                 title:row.title,
                 email_delay:row.email_delay,
-                relation_info:row.relation_info,
+                relation_info:_bigData.group_condition[0],
                 description:row.description,
             }
+            console.log(FlowsVal)
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
           router.push('/Browse_Abandonment');
         },
@@ -248,7 +250,7 @@ export default {
 .flows .columnLable{font-weight: 700;margin-bottom: 10px;}
 .flows .select_button{float: right;margin-right: 20px;}
 .flows .ColumnTitle{cursor: pointer;}
-.flows .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;bottom: 0;margin-left: 25%;}
+.flows .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;top: 40px;margin-left: 25%;}
 .flows .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
 
 </style>
