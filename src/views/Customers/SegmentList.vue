@@ -9,9 +9,11 @@
           <el-form-item>
             <el-input v-model="searchData.nameVal" placeholder="Search Group Name"></el-input>
           </el-form-item>
+          <el-form-item>
+            <el-button icon="edit" type="primary" @click="init">Search</el-button>
+          </el-form-item>
           <el-form-item class="FR">
-                <el-button icon="edit" type="primary" size="small" @click="addFun">Create New Segment</el-button>
-                <el-button icon="edit" type="primary" size="small" @click="SegmentAddTest" style="display:none;">SegmentAddTest</el-button>
+                <el-button icon="edit" type="primary" @click="addFun">Create New Segment</el-button>
           </el-form-item>
         </el-form>
         <div class="table_right">
@@ -102,10 +104,13 @@ export default {
     },
     methods:{
         init(){
-          this.$axios.get(`/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
+          let _url = `/api/v1/customer_group/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
+          if(this.searchData.nameVal){
+            _url += `&title=${this.searchData.nameVal}`;
+          }
+          this.$axios.get(_url)
           .then(res => {
               if(res.data.code == 1){
-                console.log(res.data.data)
                 this.tableData = res.data.data.results;
                 this.page.total = res.data.data.count;
                 this.tableData.map(e =>{
@@ -218,4 +223,5 @@ export default {
 .SegmentList .fromClass{width: 97%;}
 .SegmentList .titleClass{cursor: pointer;}
 .SegmentList .titleClass:hover{color: #000;}
+.SegmentList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
 </style>
