@@ -233,7 +233,10 @@ export default {
               cancelButtonText: 'Cancel',
               type: 'warning'
             }).then(() => {
-              this.$axios.delete(`/api/v1/email_template/${row.id}/`)
+              let _data ={
+                status:2
+              }
+              this.$axios.put(`/api/v1/email_template/${row.id}/`,_data)
                   .then(res => {
                       if(res.data.code == 1){
                           this.$message({message: res.data.msg,type: "success"});
@@ -254,14 +257,11 @@ export default {
               cancelButtonText: 'Cancel',
               type: 'warning'
             }).then(() => {
-              let data = {
+              let _data = {
                 enable:0
               };
-              if(!row.enable){
-                //开启
-                data.enable = 1;
-              }
-              this.$axios.put(`/api/v1/email_template/enable/${row.id}/`,data)
+              row.enable? _data.enable = 0:_data.enable = 1;
+              this.$axios.put(`/api/v1/email_template/${row.id}/`,_data)
                   .then(res => {
                       if(res.data.code == 1){
                           this.$message({message: res.data.msg,type: "success"});
