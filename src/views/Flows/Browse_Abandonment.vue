@@ -28,7 +28,7 @@
                             </div>
                             <div class="trigger_Edit" @click="EditFun">
                                 <i class="iconfont icon-edit"></i>
-                                <span>Edit</span>
+                                <span>Edit</span> 
                             </div>
                         </div>
                     </div> 
@@ -140,7 +140,7 @@
                 <el-button type="primary" @click="EnableFlow">Enable Flow</el-button> 
             </div>
         </div>
-        <DialogFound :dialog='dialog'></DialogFound>
+        <DialogFound :dialog='dialog' :bigGroupArrayTest='bigModel.triggerModel'></DialogFound>
         <DialogFound2 :dialog='dialog2' :itemData='itemData'></DialogFound2>
     </div>
 </template>
@@ -269,7 +269,6 @@ export default {
             title: "Trigger Edit",
             option: "post",
             };
-            this.bigGroupArrayTest = [789];
         },
         changeTiggerVal(array){
             this.bigModel.triggerModel = array;

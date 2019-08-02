@@ -109,7 +109,7 @@
             </div>
             <div class="rightBox">
                 <h4>Preview</h4>
-                <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
+                <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
                         <div style="margin: 0px auto;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 20px;">
@@ -123,7 +123,7 @@
                             <div style="margin:0 auto;width:70%;line-height:20px;padding: 20px 0;">
                                 <div v-if="fromData.HeadingText" style="padding: 10px 0;">{{fromData.HeadingText}}</div>
                                 <div v-else style="padding: 10px 0;">Styles you love - selling fast!</div>
-                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please click here.</div>
+                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.url + '?utm_source=smartsend'" target="_blank">click here</a> .</div>
                             </div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
@@ -159,7 +159,7 @@
                             <a href="88888888" style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;text-decoration:none;">Go to Shopping Cart</a>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
-                            <a :href="'http://'+Shop.domain" target="_blank">
+                            <a :href="'http://'+Shop.url + '?utm_source=smartsend'" target="_blank">
                                 <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
                             </a>
                         </div>

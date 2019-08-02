@@ -112,11 +112,12 @@ import * as base from '../../assets/js/base'
 export default {
     name:"triggerEdit",
     props: {
-        dialog: Object
+        dialog: Object,
+        bigGroupArrayTest: Array
     },
     data(){
         return {
-            bigGroupArrayTest:[]
+            // bigGroupArrayTest:[]
         }
     },
     mounted(){
@@ -124,6 +125,7 @@ export default {
     },
     methods:{
         addGroup(){
+            console.log(this.bigGroupArrayTest)
             this.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },
         addDelete(index){

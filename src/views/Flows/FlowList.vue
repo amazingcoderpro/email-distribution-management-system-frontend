@@ -18,6 +18,9 @@
           <el-form-item class="FR">
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item> 
+          <el-form-item>
+            <el-button icon="edit" type="primary" @click="init">Search</el-button>
+          </el-form-item>
               <el-button type="primary" class="select_button" @click="Selectbutton">Select All</el-button>
               <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
         </el-form>
@@ -33,32 +36,34 @@
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
-                <div class="columnContent">{{scope.row.open_rate+"%"}}</div>
+                <div class="columnContent">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <div class="columnContent">{{scope.row.click_rate+"%"}}</div>
+                 <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
             <el-table-column prop="revenue" align="center" width="200">
-              <template slot-scope="scope">
+              <template slot-scope="scope"> 
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
-                  <template v-if="scope.row.revenue">
-                     {{"$"+scope.row.revenue}}
-                  </template>
+                    ${{(scope.row.revenue*100).toFixed(2)}}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="state" align="center" width="190">
+            <el-table-column prop="status" align="center" width="200">
               <template slot-scope="scope">
-                  <el-switch
-                    v-model="scope.row.state"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949">
-                </el-switch>
+                  <div class="columnLable">State</div>
+                  <div class="columnContent">
+                      <el-switch
+                          v-model="scope.row.status"
+                          active-color="#13ce66"
+                          inactive-color="#ff4949">
+                      </el-switch>
+                      <div class="switchShdow" @click="stateFun(scope.row)"></div>
+                    </div>
               </template>
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300">
@@ -127,35 +132,43 @@ export default {
     },
     methods:{
         init(){
-          this.$axios.get(`/api/v1/email_trigger/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`)
-            .then(res => {
-                if(res.data.code == 1){
-                  this.tableData = res.data.data.results;
-                  this.page.total = res.data.data.count;
-                  this.tableData.map(e =>{
-                    if(!e.open_rate){
-                      e.open_rate = "0.00"
-                    }
-                    if(!e.open_rate){
-                      e.click_rate = "0.00"
-                    }
-                    if(!e.members){
-                      e.click_rate = "0"
-                    }
-                  });
-                }else{
-                  this.$message("Acquisition failure!");
-                }
-            })
-            .catch(error => {
-                this.$message("Interface timeout!");
-            }); 
-          },
+          let _url = `/api/v1/email_trigger/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
+          if(this.searchData.nameVal){
+            _url += `&title=${this.searchData.nameVal}`;
+          }
+          if(this.searchData.typeVal){
+            _url += `&title=${this.searchData.typeVal}`;
+          }
+          this.$axios.get(_url)
+          .then(res => {
+              if(res.data.code == 1){
+                this.tableData = res.data.data.results;
+                this.page.total = res.data.data.count;
+                this.tableData.map(e =>{
+                  e.status?e.status = true:e.status = false;
+                  // if(!e.open_rate){
+                  //   e.open_rate = "0.00"
+                  // }
+                  // if(!e.click_rate){
+                  //   e.click_rate = "0.00"
+                  // }
+                  // if(!e.revenue){
+                  //   e.revenue = "0.00"
+                  // }
+                });
+              }else{
+                this.$message("Acquisition failure!");
+              }
+          })
+          .catch(error => {
+              this.$message("Interface timeout!");
+          }); 
+        },
         Create_New(){
           let FlowsVal = {
                 title:"",
                 email_delay:"[]",
-                relation_info:"[]",
+                relation_info:'{"group_name":"LAST 60 DAYS PURCAHSE","relation":"&&","children":[]}',
             }
             localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
             router.push('./Browse_Abandonment')
@@ -196,6 +209,30 @@ export default {
               }); 
             }) 
         },
+        stateFun(row){
+          this.$confirm('Are you sure you wanna change state?', 'Warning', {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+              }).then(() => {
+                let _data = {
+                  status:0
+                }; 
+                row.status? _data.status = 0:_data.status = 1;
+                this.$axios.put(`/api/v1/email_trigger/${row.id}/`,_data)
+                  .then(res => {
+                      if(res.data.code == 1){
+                          this.$message({message: res.data.msg,type: "success"});
+                          this.init();
+                      }else{
+                          this.$message({message: res.data.msg});
+                      }
+                  })
+                  .catch(error => {
+                      this.$message("Interface timeout!");
+                  });
+              }) 
+        },
         current_change(val){
               //点击数字时触发
               this.page.currentPage = val;
@@ -219,4 +256,6 @@ export default {
 .flows .columnLable{font-weight: 700;margin-bottom: 10px;}
 .flows .select_button{float: right;margin-right: 20px;}
 .flows .ColumnTitle{cursor: pointer;}
+.flows .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;bottom: 0;margin-left: 25%;}
+
 </style>
