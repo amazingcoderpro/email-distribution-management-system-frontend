@@ -33,22 +33,22 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open_rate" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">
-                  <template v-if="scope.row.open">
-                      {{scope.row.open+"%"}}
+                  <template>
+                      {{(scope.row.open_rate*100).toFixed(2) + "%"}}
                   </template>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="click" align="center" width="200">
+            <el-table-column prop="click_rate" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
                 <div class="columnContent">
-                    <template v-if="scope.row.click">
-                        {{scope.row.click+"%"}}
+                    <template>
+                        {{(scope.row.click_rate*100).toFixed(2) + "%"}}
                     </template>
                   </div>
               </template>
@@ -57,9 +57,9 @@
               <template slot-scope="scope">
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
-                    <template v-if="scope.row.revenue">
-                        {{"%"+scope.row.revenue}}
-                    </template>
+                  <template>
+                      {{"$" + (scope.row.revenue*100).toFixed(2)}}
+                  </template>
                   </div>
               </template>
             </el-table-column>
@@ -109,13 +109,13 @@ export default {
             headStatus:false,
             searchData:{
                 nameVal:'',
-                typeVal:'',
+                typeVal:-1,
                 allBtnState:true,
             },
             typeArray: [
-                {value: '',label: 'All'},
-                {value: '1',label: 'Live'},
-                {value: '2',label: 'Disabled'},
+                {value: -1,label: 'All'},
+                {value: 1,label: 'Live'},
+                {value: 0,label: 'Disabled'},
             ],
             tableData:[],
         }
@@ -148,8 +148,8 @@ export default {
           if(this.searchData.nameVal){
             _url += `&title=${this.searchData.nameVal}`;
           }
-          if(this.searchData.typeVal){
-            _url += `&title=${this.searchData.typeVal}`;
+          if(this.searchData.typeVal != -1){
+            _url += `&enable=${this.searchData.typeVal}`;
           }
           this.$axios.get(_url)
           .then(res => {
@@ -295,9 +295,11 @@ export default {
 </script>
 
 <style>
-.NewsletterList .fromClass{width: 97%;}
-.NewsletterList .topictable{border-left: 0;border-right:0;} 
-.NewsletterList .el-table__body-wrapper tbody td{border-right: 0;}
-.NewsletterList .columnLable{font-weight: 700;margin-bottom: 10px;}
-.NewsletterList .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;bottom: 0;margin-left: 25%;}
+.NewsletterList .fromClass{width:97%;}
+.NewsletterList .topictable{border-left:0;border-right:0;}
+.NewsletterList .el-table__body-wrapper tbody td{border-right:0;}
+.NewsletterList .columnLable{font-weight:700;margin-bottom:10px;}
+.NewsletterList .switchShdow{cursor:pointer;position:absolute;left:0;width:50%;height:34px;bottom:0;margin-left:25%;}
+.NewsletterList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
+
 </style>
