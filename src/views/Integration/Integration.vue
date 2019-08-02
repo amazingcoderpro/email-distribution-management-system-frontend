@@ -97,7 +97,8 @@ export default {
     },
     methods:{
         init() {
-            this.$axios.get(`/api/v1/store/`).then(res => {
+            this.$axios.get(`/api/v1/store/`)
+            .then(res => {
                 if (res.data.code == 1) {
                 this.storeShop.id = res.data.data[0].id;
                 this.storeShop.url = "."+res.data.data[0].url.split(".")[1]+".com";
@@ -122,7 +123,8 @@ export default {
             });       
         },
         submitReset(){
-            this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop).then(res =>{
+            this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop)
+            .then(res =>{
                 if (res.data.code == 1) {
                     this.$message({
                     message: "Successful revision!",

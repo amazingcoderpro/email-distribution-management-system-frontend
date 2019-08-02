@@ -205,7 +205,7 @@ export default {
                 this.bigData[index].state = true;
             }else{
                 this.firstState = true;
-                if(this.bigModel.triggerModel == null){
+                if(this.bigModel.triggerModel.length == 0){
                     this.firstState = false;
                     this.$message({
                     showClose: true,

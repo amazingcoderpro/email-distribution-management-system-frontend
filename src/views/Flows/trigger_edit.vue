@@ -119,13 +119,12 @@ export default {
         return {
             // bigGroupArrayTest:[]
         }
-    },
+    },  
     mounted(){
         // this.init();
     },
     methods:{
         addGroup(){
-            console.log(this.bigGroupArrayTest)
             this.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },
         addDelete(index){

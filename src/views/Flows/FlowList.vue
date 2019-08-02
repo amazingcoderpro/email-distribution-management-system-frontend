@@ -15,19 +15,19 @@
                 </el-select>
             </template>
           </el-form-item>
-          <el-form-item class="FR">
+          <!-- <el-form-item class="FR">
                 <el-switch v-model="searchData.allBtnState" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-          </el-form-item> 
+          </el-form-item>  -->
           <el-form-item>
             <el-button icon="edit" type="primary" @click="init">Search</el-button>
           </el-form-item>
-              <el-button type="primary" class="select_button" @click="Selectbutton">Select All</el-button>
+              <!-- <el-button type="primary" class="select_button" @click="Selectbutton">Select All</el-button> -->
               <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus" :height="tableHeight"> 
-            <el-table-column type="selection" align="center" prop="cheched"></el-table-column>
-            <el-table-column prop="name,description" align="left" width="500">
+            <!-- <el-table-column type="selection" align="center" prop="cheched"></el-table-column> -->
+            <el-table-column prop="name,description" align="left" width="550">
               <template slot-scope="scope">
                 <div class="columnLable ColumnTitle">{{scope.row.title }}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
@@ -146,15 +146,7 @@ export default {
                 this.page.total = res.data.data.count;
                 this.tableData.map(e =>{
                   e.status?e.status = true:e.status = false;
-                  // if(!e.open_rate){
-                  //   e.open_rate = "0.00"
-                  // }
-                  // if(!e.click_rate){
-                  //   e.click_rate = "0.00"
-                  // }
-                  // if(!e.revenue){
-                  //   e.revenue = "0.00"
-                  // }
+                
                 });
               }else{
                 this.$message("Acquisition failure!");
@@ -257,5 +249,5 @@ export default {
 .flows .select_button{float: right;margin-right: 20px;}
 .flows .ColumnTitle{cursor: pointer;}
 .flows .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;bottom: 0;margin-left: 25%;}
-
+.flows .columnContent{display: -webkit-box !important;overflow: hidden;text-overflow: ellipsis;word-break: break-all;-webkit-box-orient: vertical;-webkit-line-clamp: 2;}
 </style>
