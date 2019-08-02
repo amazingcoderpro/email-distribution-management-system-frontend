@@ -169,7 +169,7 @@ export default {
                 option: "edit"
             },
             dialog2: {
-                show: false,
+                show: false, 
                 title: "",
                 option: "edit"
             },
@@ -267,8 +267,9 @@ export default {
             this.dialog = {
             show: true,
             title: "Trigger Edit",
-            option: "post"
+            option: "post",
             };
+            this.bigGroupArrayTest = [789];
         },
         changeTiggerVal(array){
             this.bigModel.triggerModel = array;
@@ -312,7 +313,7 @@ export default {
                 description:this.description,
                 relation_info:JSON.stringify(_relation_info),
                 email_delay:JSON.stringify(this.bigData),
-                note_dict:JSON.stringify(this.noteArray),
+                note:JSON.stringify(this.noteArray),
             }
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1 ;

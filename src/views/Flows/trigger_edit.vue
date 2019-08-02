@@ -10,7 +10,7 @@
                         </div>
                         <div class="edit_right">
                             <i class="iconfont icon-shezhi"></i>
-                        </div>
+                        </div> 
                     </div>
                 </div>
                 <div class="triggerEdit_center">
@@ -75,14 +75,14 @@
                                         <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                         <div class="centerClass">and</div>
                                         <div class="PORE DisplayInline">
-                                            <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
+                                            <el-date-picker v-model="itemSon.values[1]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                         </div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is between'">
                                         <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
                                         <div class="centerClass">and</div>
                                         <div  class="PORE DisplayInline">
-                                            <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[1]" placeholder="Number" class="W150"></el-input>
                                         </div>
                                         <el-select v-model="itemSon.unit" class="W150">
                                             <el-option :label="'days'" :value="'days'"></el-option>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import * as base from '../../assets/js/base'
 export default {
     name:"triggerEdit",
     props: {
@@ -115,43 +116,7 @@ export default {
     },
     data(){
         return {
-            bigGroupArrayTest:[
-                // {
-                //     "condition":"Customer who accept marketing is",
-                //     "relations":[{"relation":"false","values":["0"],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last open email time",
-                //     "relations":[{"relation":"true","values":[30],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is in the past","values":[30],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is before","values":["2019-9-1"],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is after","values":["2019-9-1"],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is more than","values":[10],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is between date","values":["2019-9-1","2019-9-2"],"unit":"days","errorMsg":""}]
-                // },
-                // {
-                //     "condition":"Customer last orde created time",
-                //     "relations":[{"relation":"is between","values":[1,2],"unit":"days","errorMsg":""}]
-                // }, {
-                //     "condition":"Customer last order status",
-                //     "relations":[{"relation":"is paid","values":[30],"unit":"days","errorMsg":""}]
-                // },
-            ]
+            bigGroupArrayTest:[]
         }
     },
     mounted(){
@@ -204,24 +169,33 @@ export default {
                     e.relations.map(x =>{
                         _str += x.relation + " ";
                         if(x.relation != 'is over all time'){
-                            x.values.map(z =>{
-                                _str += x.values + " ";
-                            });
+
                             if(x.relation == 'is before' || x.relation == 'is after'){
-                              
-                            }else{
-                                if(x.relation == 'is between date'){
-                                    _str += "and" + " " + x.values;
-                                }else{
-                                    if(x.relation == 'is between'){
-                                        _str += "and" + " " + x.values + " ";
-                                        _str += x.unit + " " + "ago"; 
-                                    }else{
-                                            if(x.unit){
-                                            _str += x.unit;  
-                                        }
+                                x.values.map(z =>{
+                                   _str += base.dateFormat(z,"day") ;
+                                });
+                                 
+                            }else if(x.relation == 'is between date'){
+                                x.values.map((z,index) =>{
+                                    if(index == 1){
+                                        _str += " and ";
                                     }
-                                }
+                                    _str +=base.dateFormat(z,"day") ;
+                                });
+                            }else if(x.relation == 'is between'){
+                                x.values.map((z,index) =>{
+                                    if(index ==1){
+                                        _str += "and ";
+                                    }
+                                    _str += z + " ";
+                                });
+                                _str += x.unit + " ago ";
+
+                            }else{
+                                x.values.map(z =>{
+                                    _str += z + " ";
+                                });
+                                _str += x.unit + " ";
                             }
                         }
                     });
