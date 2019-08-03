@@ -159,18 +159,18 @@ export default {
           let FlowsVal = {
                 title:"",
                 email_delay:"[]",
-                // relation_info:'{"relation":"","group_condition":[{"group_name":"LAST 60 DAYS PURCAHSE","relation":"&&","children":[]}]}',
-                relation_info:'[{"group_name":"LAST 60 DAYS PURCAHSE","relation":"&&","children":[]}]',
+                relation_info:[{"group_name":"LAST 60 DAYS PURCAHSE","relation":"&&","children":[]}],
             }
             localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
             router.push('./Browse_Abandonment')
         },
         CloneEdit(row){
           let _bigData = JSON.parse(row.relation_info);
+          console.log(_bigData)
           let FlowsVal = {
                 title:row.title,
                 email_delay:row.email_delay,
-                relation_info:_bigData.group_condition[0],
+                relation_info:_bigData.group_condition,
                 description:row.description,
             }
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));

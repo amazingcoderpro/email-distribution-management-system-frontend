@@ -191,7 +191,8 @@ export default {
             this.title = _thisData.title;
             this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
-            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info)[0].children;
+            console.log(_thisData.relation_info)
+            this.bigModel.triggerModel = _thisData.relation_info[0].children;
             if(this.title == "Browse Abandonment"){
                 let arr = ["customer if your customer makes a purchase.","customer received an email from this campaign in the last 7 days."]
                 this.noteArray = arr;
