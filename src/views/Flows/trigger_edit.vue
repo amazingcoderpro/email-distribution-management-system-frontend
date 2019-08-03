@@ -176,8 +176,9 @@ export default {
                         if(x.relation != 'is over all time'){
 
                             if(x.relation == 'is before' || x.relation == 'is after'){
-                                x.values.map(z =>{
-                                   _str += base.dateFormat(z,"day") ;
+                                x.values.map((z,index) =>{
+                                    x.values[index] = base.dateFormat(z,"day");
+                                   _str += base.dateFormat(z,"day");
                                 });
                                  
                             }else if(x.relation == 'is between date'){
@@ -185,20 +186,21 @@ export default {
                                     if(index == 1){
                                         _str += " and ";
                                     }
-                                    _str +=base.dateFormat(z,"day") ;
+                                    x.values[index] = base.dateFormat(z,"day");
+                                    _str += base.dateFormat(z,"day");
                                 });
                             }else if(x.relation == 'is between'){
                                 x.values.map((z,index) =>{
                                     if(index ==1){
                                         _str += "and ";
                                     }
-                                    _str += base.dateFormat(z,"day") + " ";
+                                    _str += z + " ";
                                 });
                                 _str += x.unit + " ago ";
 
                             }else{
                                 x.values.map(z =>{
-                                    _str += base.dateFormat(z,"day") + " ";
+                                    _str += z + " ";
                                 });
                                 _str += x.unit + " ";
                             }
