@@ -299,7 +299,7 @@ export default {
 .NewsletterList .topictable{border-left:0;border-right:0;}
 .NewsletterList .el-table__body-wrapper tbody td{border-right:0;}
 .NewsletterList .columnLable{font-weight:700;margin-bottom:10px;}
-.NewsletterList .switchShdow{cursor:pointer;position:absolute;left:0;width:50%;height:34px;bottom:0;margin-left:25%;}
+.NewsletterList .switchShdow{cursor:pointer;position:absolute;left:0;width:50%;height:34px;top: 40px;margin-left:25%;}
 .NewsletterList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
 
 </style>

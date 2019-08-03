@@ -191,7 +191,7 @@ export default {
             this.title = _thisData.title;
             this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
-            this.bigModel.triggerModel = _thisData.relation_info.children;
+            this.bigModel.triggerModel = JSON.parse(_thisData.relation_info)[0].children;
             if(this.title == "Browse Abandonment"){
                 let arr = ["customer if your customer makes a purchase.","customer received an email from this campaign in the last 7 days."]
                 this.noteArray = arr;
@@ -205,7 +205,7 @@ export default {
                 this.bigData[index].state = true;
             }else{
                 this.firstState = true;
-                if(this.bigModel.triggerModel.length == 0){
+                if(this.bigModel.triggerModel == null){
                     this.firstState = false;
                     this.$message({
                     showClose: true,
