@@ -16,8 +16,6 @@
             <el-form-item class="addGroupClass">
                 <el-button type="primary" @click="addGroup">Add Group</el-button>
             </el-form-item>
-
-           
             <div v-for="(item,index) in bigData.group_condition" :key="index" style="background-color: rgba(242, 242, 242, 1);padding:20px;">
                 <el-form-item>
                     <el-input v-model="item.group_name" placeholder="Group Name" style="width:240px;padding-left:10px;"></el-input>
@@ -203,10 +201,10 @@ export default {
             let _thisData = JSON.parse(localStorage["SegmentVal"])
             this.bigData = _thisData.relation_info;
         },
-       addGroup(){
-           this.bigData.group_condition.push({"group_name":this.group_name,"relation":"||","children":[]})   
-       },
-       addCondition(item){
+        addGroup(){
+            this.bigData.group_condition.push({"group_name":this.group_name,"relation":"||","children":[]})   
+        },
+        addCondition(item){
             item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "value":["30"], "unit":"days"}]})
         },
     },
@@ -217,53 +215,19 @@ export default {
 </script>
 
 <style>
-.SegmentAddTest .ConditionBox{
-    position: relative;
-    padding: 40px 20px;
-    background: #F2F2F2;
-    margin-bottom: 80px;}
-   .SegmentAddTest .centerClass{
-           display: inline-block;
-    padding: 9px 16px 8px 10px;color: #606266;font-size: 14px;
-   }
-   .SegmentAddTest .addConditionClass{
-    position: absolute;
-    right: 20px;
-    top: 20px;
-   }
-   .SegmentAddTest .ConditionBoxBody{
-       position: relative;
-       margin-left: 50px;
-   }
-   .SegmentAddTest .ConditionBoxHead{margin-bottom: 20px;}
-   .SegmentAddTest .smailLine{
-    border-left: 1px solid #DCDFE6;
-    height: 65px;
-    position: absolute;
-    left: -20px;
-    border-bottom: 1px solid #DCDFE6;
-    width: 20px;
-    top: -42px;
-   }
-   .SegmentAddTest .relationBigBox{    width: calc(100% - 350px);
-    display: inline-block;}
-   .SegmentAddTest .relationBox{display: inline-block;}
-   .SegmentAddTest .fatherRelationBox{
-    position: absolute;
-    top: -58px;
-   }
-   .SegmentAddTest .btnBox{
-       text-align: right;
-    padding-right: 60px;
-    padding-bottom: 50px;
-   }
-   .SegmentAddTest .deleteBtn{
-    position: absolute;
-    right: 20px;
-    top: 11px;
-   }
-   .postData_flow{display: block;}
-   .groupName{width: 200px;padding-right: 10px;}
-   .segment_heade{background-color: rgba(242, 242, 242, 1);padding: 20px;}
-   .segment_words{display: inline-block;color:gray;font-size: 14px;line-height: 40px;}
+.SegmentAddTest .ConditionBox{position:relative;padding:40px 20px;background:#F2F2F2;margin-bottom:80px;}
+.SegmentAddTest .centerClass{display:inline-block;padding:9px 16px 8px 10px;color:#606266;font-size:14px;}
+.SegmentAddTest .addConditionClass{position:absolute;right:20px;top:20px;}
+.SegmentAddTest .ConditionBoxBody{position:relative;margin-left:50px;}
+.SegmentAddTest .ConditionBoxHead{margin-bottom:20px;}
+.SegmentAddTest .smailLine{border-left:1px solid #DCDFE6;height:65px;position:absolute;left:-20px;border-bottom:1px solid #DCDFE6;width:20px;top:-42px;}
+.SegmentAddTest .relationBigBox{width:calc(100% - 350px);display:inline-block;}
+.SegmentAddTest .relationBox{display:inline-block;}
+.SegmentAddTest .fatherRelationBox{position:absolute;top:-58px;}
+.SegmentAddTest .btnBox{text-align:right;padding-right:60px;padding-bottom:50px;}
+.SegmentAddTest .deleteBtn{position:absolute;right:20px;top:11px;}
+.postData_flow{display:block;}
+.groupName{width:200px;padding-right:10px;}
+.segment_heade{background-color:rgba(242,242,242,1);padding:20px;}
+.segment_words{display:inline-block;color:gray;font-size:14px;line-height:40px;}
 </style>

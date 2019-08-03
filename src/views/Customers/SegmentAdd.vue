@@ -56,8 +56,6 @@
                                 <el-select v-model="itemSon.condition" class="W300" @change="relationChang(itemSon)">
                                     <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                     <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
-                                    <!-- <el-option :label="'Customer last cart created time'" :value="'Customer last cart created time'"></el-option>
-                                    <el-option :label="'Customer last cart status'" :value="'Customer last cart status'"></el-option> -->
                                     <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                     <el-option :label="'Customer last opened email time'" :value="'Customer last opened email time'"></el-option>
                                     <el-option :label="'Customer last order created time'" :value="'Customer last order created time'"></el-option>
@@ -281,7 +279,6 @@ export default {
                     topNum = topNum-200;
                 },20)
             }
-            //console.log(this.bigData)
             this.postData.relation_info = JSON.stringify(this.bigData);
             if(this.errorState.title_state == 1 && document.getElementsByClassName("errorClass").length == 0){
                 if(this.postData.id != ''){
@@ -325,7 +322,6 @@ export default {
             }else{
                 this.errorState.group_name_state = 0;
             }
-            //console.log(this.relationArray)
         },
         deleteCondition(index){
             if(index != 0){
@@ -335,9 +331,6 @@ export default {
             }
             this.bigData.group_condition.splice(index,1);
             this.bigData = this.bigData;
-            
-            // console.log(this.bigData.group_condition.length)
-            // console.log(this.relationArray)
         },
         addCondition(item){
             item.children.push({"condition":"Customer last click email time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
@@ -402,7 +395,6 @@ export default {
                 arr.push(_thisNewTime);
             }
             itemSon.values = arr;
-           console.log(itemSon.values)
         },
         relationChang(itemSon){
             let str = "";
