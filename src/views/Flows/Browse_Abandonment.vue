@@ -42,11 +42,14 @@
                     </div>
                     <div class="rigger_bottom" v-if="noteArray.length>0">
                         <span>Note:</span><br/>
-                        <template v-for="(item,index) in noteArray">
+                        <!-- <template v-for="(item,index) in noteArray">
                             <div :key="index">
                                 <span >{{index+1}}> &nbsp;{{item}}</span><br/>
                             </div>
-                        </template>
+                        </template> -->
+                        <el-checkbox-group class="SegmentValueBox" v-model="noteTrueArray">
+                            <el-checkbox v-for="item in noteArray" :label="item" :key="item">{{item}}</el-checkbox>
+                        </el-checkbox-group>
                     </div>
                 </div>
             </div>
@@ -158,7 +161,11 @@ export default {
             firstState:false,
             Search_input:'',
             bigData:[],
-            noteArray:[],
+            noteTrueArray:[],
+            noteArray:[
+                "customer received an email from this campaign in the last 7 days.",
+                "customer if your customer makes a purchase."
+            ],
             bigModel:{
                 triggerModel:[],
                 relation_info:""
@@ -191,22 +198,15 @@ export default {
             this.title = _thisData.title;
             this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
-            console.log(_thisData.relation_info)
             this.bigModel.triggerModel = _thisData.relation_info[0].children;
-            if(this.title == "Browse Abandonment"){
-                let arr = ["customer if your customer makes a purchase.","customer received an email from this campaign in the last 7 days."]
-                this.noteArray = arr;
-            }else{
-                let arr = ["customer if your customer makes a purchase."]
-                this.noteArray = arr;
-            }
+            this.noteTrueArray = _thisData.note;
         },
         showBox(item,index){
             if(item){
                 this.bigData[index].state = true;
             }else{
                 this.firstState = true;
-                if(this.bigModel.triggerModel == null){
+                if(this.bigModel.triggerModel.length == 0){
                     this.firstState = false;
                     this.$message({
                     showClose: true,
@@ -303,6 +303,7 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
+            console.log(this.noteTrueArray)
             let _bigData={
                 "relation":"",
                 "group_condition":[]
@@ -318,7 +319,7 @@ export default {
                 description:this.description,
                 relation_info:JSON.stringify(_bigData),
                 email_delay:JSON.stringify(this.bigData),
-                note:JSON.stringify(this.noteArray),
+                note:JSON.stringify(this.noteTrueArray),
             }
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1 ;
