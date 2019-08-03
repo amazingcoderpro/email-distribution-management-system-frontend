@@ -287,6 +287,7 @@ export default {
                 description:this.description,
                 relation_info:JSON.stringify(_relation_info),
                 email_delay:JSON.stringify(this.bigData),
+                note:this.noteTrueArray,
             }
             localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
             router.push('/EditletterAdd');
@@ -303,7 +304,6 @@ export default {
             this.bigData.splice(index,1);
         },
         EnableFlow(formName){
-            console.log(this.noteTrueArray)
             let _bigData={
                 "relation":"",
                 "group_condition":[]
