@@ -42,11 +42,6 @@
                     </div>
                     <div class="rigger_bottom" v-if="noteArray.length>0">
                         <span>Note:</span><br/>
-                        <!-- <template v-for="(item,index) in noteArray">
-                            <div :key="index">
-                                <span >{{index+1}}> &nbsp;{{item}}</span><br/>
-                            </div>
-                        </template> -->
                         <el-checkbox-group class="SegmentValueBox" v-model="noteTrueArray">
                             <el-checkbox v-for="item in noteArray" :label="item" :key="item">{{item}}</el-checkbox>
                         </el-checkbox-group>
@@ -163,8 +158,8 @@ export default {
             bigData:[],
             noteTrueArray:[],
             noteArray:[
-                "customer received an email from this campaign in the last 7 days.",
-                "customer if your customer makes a purchase."
+                "customer received an email from this campaign in the last 7 days",
+                "customer makes a purchase"
             ],
             bigModel:{
                 triggerModel:[],
