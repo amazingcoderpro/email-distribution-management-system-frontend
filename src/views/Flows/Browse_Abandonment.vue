@@ -281,11 +281,13 @@ export default {
                 "relation":"&&",
                 "children":this.bigModel.triggerModel,
             };
+            let _array = [];
+                _array.push(_relation_info);
             let _thisData = {
                 index:index,
                 title:this.title,
                 description:this.description,
-                relation_info:JSON.stringify(_relation_info),
+                relation_info:_array,
                 email_delay:JSON.stringify(this.bigData),
                 note:this.noteTrueArray,
             }
