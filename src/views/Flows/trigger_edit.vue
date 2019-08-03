@@ -62,6 +62,8 @@
                                                 <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
                                             </div>
                                             <el-select v-model="itemSon.unit" class="W150">
+                                                <el-option :label="'minutes'" :value="'minutes'"></el-option>
+                                                <el-option :label="'hours'" :value="'hours'"></el-option>
                                                 <el-option :label="'days'" :value="'days'"></el-option>
                                                 <el-option :label="'weeks'" :value="'weeks'"></el-option>
                                                 <el-option :label="'months'" :value="'months'"></el-option>
@@ -85,6 +87,8 @@
                                             <el-input v-model="itemSon.values[1]" placeholder="Number" class="W150"></el-input>
                                         </div>
                                         <el-select v-model="itemSon.unit" class="W150">
+                                            <el-option :label="'minutes'" :value="'minutes'"></el-option>
+                                            <el-option :label="'hours'" :value="'hours'"></el-option>
                                             <el-option :label="'days'" :value="'days'"></el-option>
                                             <el-option :label="'weeks'" :value="'weeks'"></el-option>
                                             <el-option :label="'months'" :value="'months'"></el-option>
@@ -188,13 +192,13 @@ export default {
                                     if(index ==1){
                                         _str += "and ";
                                     }
-                                    _str += z + " ";
+                                    _str += base.dateFormat(z,"day") + " ";
                                 });
                                 _str += x.unit + " ago ";
 
                             }else{
                                 x.values.map(z =>{
-                                    _str += z + " ";
+                                    _str += base.dateFormat(z,"day") + " ";
                                 });
                                 _str += x.unit + " ";
                             }
@@ -214,9 +218,14 @@ export default {
             this.$parent.changeTiggerVal(lastArray);
         },
         itemSonRelationChange(itemSon){
-            if(itemSon.relation == "is before" || itemSon.relation == "is after" || itemSon.relation == "is between date"){
-                itemSon.values = ["2019-8-1"];
-            }else{
+            if(itemSon.relation == "is before" || itemSon.relation == "is after"){
+                itemSon.values = [base.dateFormat(new Date(),"day")];
+            }else if( itemSon.relation == "is between date"){
+                itemSon.values = [base.dateFormat(new Date(),"day"),base.dateFormat(new Date(),"day")];
+            }else if( itemSon.relation == "is between"){
+                itemSon.values = [30,30];
+            }
+            else{
                 itemSon.values = [30];
             }
         }

@@ -7,11 +7,11 @@
         </ul>
         <el-form :inline="true" :model="bigModel">
             <el-form-item label="Title" style="margin-left:290px;">
-                <el-input v-model="title" placeholder="Enter Flow Name"></el-input>
+                <el-input v-model="title" placeholder="Enter Flow Name" style="width:250px;"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
             </el-form-item>
              <el-form-item label="Description" style="margin-left:290px;">
-                <el-input v-model="description" placeholder="Enter Description"></el-input>
+                <el-input v-model="description" placeholder="Enter Description" style="width:250px;"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Description</div>
             </el-form-item>
             <div class="Browse_table">
@@ -158,8 +158,8 @@ export default {
             bigData:[],
             noteTrueArray:[],
             noteArray:[
-                "customer received an email from this campaign in the last 7 days",
-                "customer makes a purchase"
+                "customer makes a purchase",
+                "customer received an email from this campaign in the last 7 days"
             ],
             bigModel:{
                 triggerModel:[],
@@ -219,7 +219,7 @@ export default {
                 this.bigData.splice(index+1,0,{
                     "type":"Delay",
                     "value":0,
-                    "unit":"days",
+                    "unit":"day(s)",
                     "title":"Delay",
                     "icon":"icon-shizhong",
                     state:false
@@ -228,7 +228,7 @@ export default {
                 this.bigData.splice(0,0,{
                     "type":"Delay",
                     "value":0,
-                    "unit":"days",
+                    "unit":"day(s)",
                     "title":"Delay",
                     "icon":"icon-shizhong",
                     state:false

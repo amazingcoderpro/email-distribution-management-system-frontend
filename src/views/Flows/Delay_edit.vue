@@ -42,7 +42,7 @@ export default {
                 {value: 'minutes',label: 'minutes'},
                 {value: 'hours',label: 'hours'},
                 {value: 'days',label: 'day(s)'},
-                {value: 'months',label: 'months'}
+                {value: 'weeks',label: 'weeks'}
             ]
         }
     },
