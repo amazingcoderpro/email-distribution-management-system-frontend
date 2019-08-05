@@ -59,7 +59,7 @@
                                     </el-select>   
                                         <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
                                             <div  class="PORE DisplayInline">
-                                                <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
+                                                <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                             </div>
                                             <el-select v-model="itemSon.unit" class="W150">
                                                 <el-option :label="'minutes'" :value="'minutes'"></el-option>
@@ -81,10 +81,10 @@
                                         </div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is between'">
-                                        <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
+                                        <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                         <div class="centerClass">and</div>
                                         <div  class="PORE DisplayInline">
-                                            <el-input v-model="itemSon.values[1]" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[1]" @keyup.native="numberFun(itemSon,1)" placeholder="Number" class="W150"></el-input>
                                         </div>
                                         <el-select v-model="itemSon.unit" class="W150">
                                             <el-option :label="'minutes'" :value="'minutes'"></el-option>
@@ -221,16 +221,46 @@ export default {
         },
         itemSonRelationChange(itemSon){
             if(itemSon.relation == "is before" || itemSon.relation == "is after"){
-                itemSon.values = [base.dateFormat(new Date(),"day")];
+                itemSon.values = [base.dateFormat(new Date())];
             }else if( itemSon.relation == "is between date"){
-                itemSon.values = [base.dateFormat(new Date(),"day"),base.dateFormat(new Date(),"day")];
+                itemSon.values = [base.dateFormat(new Date()),base.dateFormat(new Date())];
             }else if( itemSon.relation == "is between"){
                 itemSon.values = [30,30];
             }
             else{
                 itemSon.values = [30];
             }
-        }
+        },
+        numberFun(item,index){　　
+            let  arr = []; 
+            if(item.values[index]){
+                item.values[index] = parseInt(item.values[index]);
+            }else{
+                item.values[index] = 0;
+            }
+            if(index == 0){
+                arr.push(item.values[0]);
+                if(item.values.length>1){
+                    arr.push(item.values[1]);
+                }
+                if(item.relation == "is between"){
+                    if(item.values[1]<=item.values[0]){
+                        item.errorMsg = "must greater than the previous number";
+                    }else{
+                        item.errorMsg = "";
+                    }
+                }
+            }else{
+                if(item.values[1]<=item.values[0]){
+                    item.errorMsg = "must greater than the previous number";
+                }else{
+                    item.errorMsg = "";
+                }
+                arr.push(item.values[0]);
+                arr.push(item.values[1]);
+            }
+            item.values = arr;
+    　　},
     },
 }
 </script>

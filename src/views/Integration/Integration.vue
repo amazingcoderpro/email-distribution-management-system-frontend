@@ -39,12 +39,12 @@
                         <el-input v-model="storeShop.timezone" class="btn_input"></el-input>
                     </div>
                     <!-- 点击 -->
-                    <el-form-item>
+                    <!-- <el-form-item>
                         <el-button type="primary" class="submit_btn" @click="submitReset()">RESET</el-button>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" class="submit_save" @click="submiSave()">SAVE</el-button>
-                    </el-form-item> 
+                    </el-form-item>  -->
                 </el-form>
             </section>
             <div class="goole_analytics">
@@ -93,8 +93,6 @@ export default {
     },
     components:{
     },
-    mounted() {
-    },
     methods:{
         init() {
             this.$axios.get(`/api/v1/store/`)
@@ -117,12 +115,12 @@ export default {
                 this.$message({
                     message: "code Abnormal!",
                     type: "warning",
-                    center: true
+                    center: true 
                    });
                 }
             });       
         },
-        submitReset(){
+        submitwo(){
             this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop)
             .then(res =>{
                 if (res.data.code == 1) {
@@ -137,12 +135,6 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
-        },
-        submiSave(){
-
-        },
-        submitwo(){
-
         }
     },
 }

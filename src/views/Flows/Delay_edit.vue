@@ -14,7 +14,7 @@
                 </div>
                 <div class="edit_center">
                     <span style="padding-right:10px;">Wait</span>
-                    <el-input v-model="itemData.value" placeholder="请输入内容" style="width:150px;padding-right:15px;"></el-input>
+                    <el-input v-model="itemData.value" @keyup.native="numberFun()" placeholder="请输入内容" style="width:150px;padding-right:15px;"></el-input>
                     <el-select v-model="itemData.unit" placeholder="请选择" style="width:150px;">
                         <el-option
                         v-for="item in options"
@@ -54,6 +54,14 @@ export default {
             this.itemData.value = parseInt(this.itemData.value);
             this.dialog.show = false;
         },
+        numberFun(){
+            let  arr = []; 
+            if(this.itemData.value){
+                this.itemData.value = parseInt(this.itemData.value);
+            }else{
+                this.itemData.value = 0;
+            }
+        }
     }
 }
 </script>

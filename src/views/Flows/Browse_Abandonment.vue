@@ -219,7 +219,7 @@ export default {
                 this.bigData.splice(index+1,0,{
                     "type":"Delay",
                     "value":0,
-                    "unit":"day(s)",
+                    "unit":"days",
                     "title":"Delay",
                     "icon":"icon-shizhong",
                     state:false
@@ -228,7 +228,7 @@ export default {
                 this.bigData.splice(0,0,{
                     "type":"Delay",
                     "value":0,
-                    "unit":"day(s)",
+                    "unit":"days",
                     "title":"Delay",
                     "icon":"icon-shizhong",
                     state:false
