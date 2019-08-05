@@ -2,39 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Notfount from './components/404.vue'
 import Login from './views/login.vue'
-import Index from './views/index'
-import Dashboard from './views/dashboard'
+import LayOut from './views/LayOut'
 
-// special
-import AutState from './views/special/aut_state'
-import ShopfyRegist from './views/special/shopfy_regist.vue'
-import Privacy from './views/special/privacy.vue'
+import Home from './views/Home/Home'
+import MyContent from './views/Home/MyContent'
+import List from './views/list'
 
-
-// Newsletters
-import NewsletterList from './views/Newsletters/NewsletterList'
-import NewsletterAdd from './views/Newsletters/NewsletterAdd'
-
-
-//Flows
-import FlowList from './views/Flows/FlowList'
-import Browse_Abandonment from './views/Flows/Browse_Abandonment'
-import EditletterAdd from './views/Flows/EditletterAdd'
-// Customers
-import SegmentList from './views/Customers/SegmentList'
-import SegmentAdd from './views/Customers/SegmentAdd'
-import SegmentAddTest from './views/Customers/SegmentAddTest'
-
-
-
-// Integration
-import Integration from './views/Integration/Integration'
-
-// ImageLibrary
-import ImageList from './views/ImageLibrary/ImageList'
-
-// Email
-import EmailPage from './views/Email/EmailPage'
 
 Vue.use(Router)
 const router = new Router({
@@ -43,24 +16,17 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login',
+      redirect: '/Home',
     },
     {
-      path: '/index',
-      name: 'index',
-      component: Index,
+      path: '/LayOut',
+      name: 'LayOut',
+      component: LayOut,
       children: [
-        { path: '/dashboard', name: 'dashboard', component: Dashboard },
-        { path: '/NewsletterList', name: 'NewsletterList', component: NewsletterList },
-        { path: '/NewsletterAdd', name: 'NewsletterAdd', component: NewsletterAdd },
-        { path: '/FlowList', name: 'FlowList', component: FlowList },
-        { path: '/Browse_Abandonment',name:'Browse_Abandonment',component:Browse_Abandonment},
-        { path: '/EditletterAdd',name:'EditletterAdd',component:EditletterAdd},
-        { path: '/SegmentList', name: 'SegmentList', component: SegmentList },
-        { path: '/SegmentAdd', name: 'SegmentAdd', component: SegmentAdd },
-        { path: '/SegmentAddTest', name: 'SegmentAddTest', component: SegmentAddTest },
-        { path: '/Integration', name: 'Integration', component: Integration },
-        { path: '/ImageList', name: 'ImageList', component: ImageList },
+        { path: '/Home', name: 'Home', component: Home },
+        { path: '/MyContent', name: 'MyContent', component: MyContent },
+        { path: '/List', name: 'List', component: List },
+        
       ]
     },
     {
@@ -68,27 +34,6 @@ const router = new Router({
       name: 'login',
       component: Login
     },
-    {
-      path: '/shopfy_regist',
-      name: 'shopfy_regist',
-      component: ShopfyRegist
-    },
-    {
-      path: '/privacy',
-      name: 'privacy',
-      component: Privacy
-    },
-    {
-      path: '/aut_state',
-      name: 'aut_state',
-      component: AutState
-    },
-    {
-      path: '/EmailPage',
-      name: 'EmailPage',
-      component: EmailPage
-    },
-    
     {
       path: '*',
       name: '/404',
@@ -108,19 +53,20 @@ router.beforeEach((to,from,next) =>{
   if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage"  ){
     next()
   }else{
-    if(isLogin) {
-        if(user && shopString && user.username != shopString){  
-          localStorage.removeItem('eleToken')
-          localStorage.removeItem("user");
-          router.push('/login')
-          // next('/login')
-        }else{
-          next()
-        }
-      }else{
-        next('/login')
-      }
-   }
+    next()
+      // if(isLogin) {
+      //   if(user && shopString && user.username != shopString){  
+      //     localStorage.removeItem('eleToken')
+      //     localStorage.removeItem("user");
+      //     router.push('/login')
+      //     // next('/login')
+      //   }else{
+      //     next()
+      //   }
+      // }else{
+      //   next('/login')
+      // }
+  }
 });
 export function getQueryString(key){
   var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");

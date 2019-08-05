@@ -106,7 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.login{position:relative;width:100%;height:100%;background:url(../assets/img/bg.jpg) no-repeat center center;background-size:100% 100%;}
 .form_container .title{font-size:25px;}
 .form_container{width:400px;height:314px;position:absolute;top:50%;left:50%;padding:25px;border-radius:5px;text-align:center;margin-left:-250px;margin-top:-200px;}
 .form_container .manage_tip .title{font-family:"Microsoft YaHei";font-weight:bold;font-size:26px;color:#fff;}

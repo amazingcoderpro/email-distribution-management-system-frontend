@@ -1,7 +1,11 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+<div class="page-group">
+    <div class="page page-current">
+        <div id="app">
+          <router-view/>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>

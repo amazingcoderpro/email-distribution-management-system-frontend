@@ -43,4 +43,14 @@ export function LoginOut(){
   router.push('/login')
 }
 
-
+export function showLodding(){
+  if ($('.ball-beat')[0]) {
+    return
+  }
+  let modalContainer = document.body
+  console.log("ok")
+  $(modalContainer).append('<div class="loader-inner ball-beat"><div></div><div></div><div></div></div>')
+}
+export function hideLodding(){
+  $('.ball-beat').remove()
+}
