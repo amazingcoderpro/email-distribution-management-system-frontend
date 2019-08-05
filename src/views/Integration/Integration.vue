@@ -84,9 +84,9 @@ export default {
             },
             input:'',
             options: [
-                {value: '选项1',label: 'lette'},
-                {value: '选项2',label: 'news'},
-                {value: '选项3',label: 'message'} ,
+                {value: 'lette',label: 'lette'},
+                {value: 'news',label: 'news'},
+                {value: 'message',label: 'message'} ,
             ],
             value:'', 
         }
@@ -99,7 +99,7 @@ export default {
             .then(res => {
                 if (res.data.code == 1) {
                 this.storeShop.id = res.data.data[0].id;
-                this.storeShop.url = "."+res.data.data[0].url.split(".")[1]+".com";
+                this.storeShop.url = res.data.data[0].url.split(".")[1]+".com";
                 this.storeShop.name = res.data.data[0].name;
                 this.storeShop.sender = res.data.data[0].sender;
                 this.storeShop.timezone = res.data.data[0].timezone;
@@ -107,7 +107,7 @@ export default {
                 if(res.data.data[0].sender_address){
                     this.storeShop.sender_address_one = this.storeShop.sender_address.split("@")[0];
                     this.storeShop.sender_address_two = this.storeShop.sender_address.split("@")[1].split(".")[0];
-                    this.storeShop.sender_address_three = "."+this.storeShop.sender_address.split("@")[1].split(".")[1]+".com";
+                    this.storeShop.sender_address_three =this.storeShop.sender_address.split("@")[1].split(".")[1]+".com";
                 }
                 this.storeShop.store_view_id = res.data.data[0].store_view_id;
                 this.storeShop.email = res.data.data[0].email;
@@ -121,6 +121,8 @@ export default {
             });       
         },
         submitwo(){
+            let lastSender = this.storeShop.sender_address_one + "@" + this.storeShop.sender_address_two + "." + this.storeShop.sender_address_three;
+            this.storeShop.sender_address = lastSender;
             this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop)
             .then(res =>{
                 if (res.data.code == 1) {
