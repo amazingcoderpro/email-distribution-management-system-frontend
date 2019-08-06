@@ -205,7 +205,7 @@ export default {
                     this.firstState = false;
                     this.$message({
                     showClose: true,
-                    message: 'Please click "Edit" to add trigger first',
+                    message: 'Please Click "Edit" To Add Trigger First',
                     });
                 }
             }
@@ -269,7 +269,6 @@ export default {
                     }
                 }
             });
-             console.log(this.bigData)
         },
         EditFun() {
             this.dialog = {

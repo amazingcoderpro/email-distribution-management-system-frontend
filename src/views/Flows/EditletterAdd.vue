@@ -15,7 +15,7 @@
                             <label>Email Subject</label>
                             <div class="content">
                                 <el-form-item prop="SubjectText" class="W100">
-                                    <el-input v-model="fromData.SubjectText" class="W100"  placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.SubjectText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -23,7 +23,7 @@
                             <label>HeadingText</label>
                             <div class="content">
                                 <el-form-item prop="HeadingText" class="W100">
-                                    <el-input v-model="fromData.HeadingText" class="W100"  placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.HeadingText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -69,15 +69,15 @@
                             <label>Headline</label>
                             <div class="content">
                                 <el-form-item prop="Headline" class="W100">
-                                    <el-input v-model="fromData.Headline" placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.Headline" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
-                        <div class="fromSon">
+                        <div class="fromSon"> 
                             <label>Body Text</label>
                             <div class="content">
                                 <el-form-item prop="bodyText" class="W100">
-                                    <el-input type="textarea" v-model="fromData.bodyText" placeholder="Length of 5 to 500 characters"></el-input>
+                                    <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -252,7 +252,7 @@ export default {
             rules: {
                 SubjectText: [
                     { required: true, message: 'Please enter SubjectText', trigger: 'change' },
-                    { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur" }
+                    // { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur" }
                 ],
                 HeadingText: [
                     { required: true, message: 'Please enter HeadingText', trigger: 'change' },
@@ -264,10 +264,7 @@ export default {
                     { required: true, message: 'Please enter Headline', trigger: 'change' },
                     { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur"}
                 ],
-                bodyText: [
-                    { required: true, message: 'Please enter bodyText', trigger: 'change' },
-                    { min: 5, max: 500, message: "Length of 5 to 500 characters", trigger: "blur"}
-                ],
+                bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' },],
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
                 SegmentValue: [{ required: true, message: 'Please Choose Segment' , trigger: 'blur'}],
                 SendValue: [{ required: true, message: 'Please Choose Time' }],
@@ -279,7 +276,7 @@ export default {
     },
     watch: {
         productArray: {
-            handler: function() {
+            handler: function() { 
                 this.trueProductArray = [];
                 this.productArray.map(e =>{
                     if(e.state){
@@ -288,7 +285,7 @@ export default {
                 });
             },
             deep: true
-        }
+        },
     },
     mounted() {
         this.init();
