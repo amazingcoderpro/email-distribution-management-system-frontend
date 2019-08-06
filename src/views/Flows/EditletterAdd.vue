@@ -252,7 +252,7 @@ export default {
             rules: {
                 SubjectText: [
                     { required: true, message: 'Please enter SubjectText', trigger: 'change' },
-                    // { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur" }
+                    { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur" }
                 ],
                 HeadingText: [
                     { required: true, message: 'Please enter HeadingText', trigger: 'change' },
