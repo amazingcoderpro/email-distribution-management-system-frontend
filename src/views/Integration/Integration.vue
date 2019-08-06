@@ -6,7 +6,7 @@
         </ul>
         <div class="storeSetting">
             <section class="form_container">
-                <el-form :model="storeShop" label-width="180px" class="personalForm">
+                <el-form :model="storeShop" label-width="180px" prop="sender_address" class="personalForm">
                     <!-- Your Shop -->
                     <div class="storename">
                         <div>
@@ -25,14 +25,24 @@
                         <div>
                             <span>Sender Address</span>
                         </div>
-                        <el-input v-model="storeShop.sender_address_one" class="Senderdomain_three">    
-                        </el-input>
-                        @&nbsp;  
-                        <el-select v-model="storeShop.sender_address_two" placeholder="请选择" class="Senderdomain_one">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                        <el-input v-model="storeShop.sender_address_three" class="Senderdomain_two"></el-input>
-                    </div>
+                        
+                            <el-input v-model="storeShop.sender_address_one" class="Senderdomain_three">    
+                            </el-input>
+                            @&nbsp;  
+                            <el-select v-model="storeShop.sender_address_two" placeholder="请选择" class="Senderdomain_one">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                            <el-input v-model="storeShop.sender_address_three" class="Senderdomain_two"></el-input>
+                        </div>
+                        <!-- <el-form-item
+                            prop="sender_address"
+                            :rules="[
+                            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                            { type: 'email', message: '请输入正确的邮箱地址', }
+                            ]"
+                        >
+                            <el-input v-model="storeShop.sender_address"></el-input>
+                        </el-form-item> -->
                     <!-- Time Zone -->
                     <div class="storeurl">
                         <span>Time Zone</span>

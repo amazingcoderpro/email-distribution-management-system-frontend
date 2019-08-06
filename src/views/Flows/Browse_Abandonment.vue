@@ -205,7 +205,7 @@ export default {
                     this.firstState = false;
                     this.$message({
                     showClose: true,
-                    message: 'please click "edit" to add trigger first',
+                    message: 'Please click "Edit" to add trigger first',
                     });
                 }
             }
@@ -242,7 +242,7 @@ export default {
                     "type":"Email",
                     "value":"",
                     "title":"Email",
-                    "unit": "first",
+                    "unit": "",
                     "icon":"icon-youjian",
                     state:false
                 });
@@ -258,6 +258,18 @@ export default {
                 })
                 this.firstState = false;
             }
+            let Number = 0;
+            this.bigData.map(e => {
+                if(e.title == "Email"){
+                    Number++;
+                    if(Number == 1){
+                       e.unit = "first";
+                    }else{
+                       e.unit = "";
+                    }
+                }
+            });
+             console.log(this.bigData)
         },
         EditFun() {
             this.dialog = {
@@ -319,19 +331,19 @@ export default {
                 note:JSON.stringify(this.noteTrueArray),
             }
             if(this.title && this.title.trim().length != 0){
-                this.State.title = 1 ;
-                this.$axios.post(`/api/v1/email_trigger/`,_thisData)
-                    .then(res => {
-                        if(res.data.code == 1){
-                            this.$message({message: "Successfully!",type: "success"});
-                            router.push('/FlowList');
-                        }else{
-                            this.$message("Acquisition failure!");
-                        }
-                    })
-                    .catch(error => {
-                        this.$message("Interface timeout!");
-                }); 
+                this.State.title = 1;
+                    this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                        .then(res => {
+                            if(res.data.code == 1){
+                                this.$message({message: "Successfully!",type: "success"});
+                                router.push('/FlowList');
+                            }else{
+                                this.$message("Acquisition failure!");
+                            }
+                        })
+                        .catch(error => {
+                            this.$message("Interface timeout!");
+                    });
             }else{
                 this.State.title = 0;
             }
@@ -370,9 +382,9 @@ export default {
 .Browse .Browse_email{height: 150px!important;}
 .Browse .icon-youjian{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
 .Browse .rigger_center{width: 52%;margin: 0 auto;margin-top: 25px;text-align: center;}
-.Browse .rigger_center .Subject{font-size: 13px;color: #333333;line-height: normal;font-weight: 600;}
+.Browse .rigger_center .Subject{font-size: 13px;color: #333333;line-height: normal;font-weight: 600;line-height: 30px;}
 .Browse .rigger_center .Wait{line-height: 60px;font-weight: normal!important}
-.Browse .rigger_center span{font-size: 13px;color: #333333;line-height: 40px;}
+.Browse .rigger_center span{font-size: 13px;color: #333333;}
 .Browse .icon-shizhong{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
 .Browse .exit{width: 65%;margin: 0 auto;}
 .Browse .exit .exit_input{width: 40%;margin: 0 auto;height: 45px;text-align: center;background-color: rgba(228, 228, 228, 1);border:1px solid rgba(121, 121, 121, 1);}

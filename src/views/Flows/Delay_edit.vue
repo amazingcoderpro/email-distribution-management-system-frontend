@@ -41,7 +41,7 @@ export default {
             options:[
                 {value: 'minutes',label: 'minutes'},
                 {value: 'hours',label: 'hours'},
-                {value: 'days',label: 'day(s)'},
+                {value: 'days',label: 'days'},
                 {value: 'weeks',label: 'weeks'}
             ]
         }
