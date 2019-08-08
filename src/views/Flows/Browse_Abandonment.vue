@@ -76,7 +76,7 @@
                                     <span>Preview</span>
                                 </div>
                                 <template>
-                                    <div class="trigger_Edit"  @click="email_Edit(index)" v-if="item.title == 'Email'">
+                                    <div class="trigger_Edit"  @click="email_Edit(item,index)" v-if="item.title == 'Email'">
                                         <i class="iconfont icon-edit"></i>
                                         <span>Edit</span>
                                     </div>
@@ -90,7 +90,7 @@
                                     <span>Delete</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <template>
                             <div class="rigger_center" v-if="item.title == 'Email'">
                                 <span class="Subject">Subject Line</span><br/>
@@ -281,7 +281,7 @@ export default {
             this.bigModel.triggerModel = array;
             this.bigModel.relation_info = JSON.stringify(array);
         },
-        email_Edit(index){ 
+        email_Edit(item,index){
             let _relation_info = {
                 "group_name":"LAST 60 DAYS PURCAHSE",
                 "relation":"&&",
@@ -298,7 +298,12 @@ export default {
                 note:this.noteTrueArray,
             }
             localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
-            router.push('/EditletterAdd');
+            if(item.value){
+                router.push(`/EditletterAdd?id=${item.value}`);
+            }else{
+                router.push('/EditletterAdd');
+            }
+            // console.log(item)
         },
         DelayFun(item){
             this.itemData = item;
@@ -343,6 +348,7 @@ export default {
                         .catch(error => {
                             this.$message("Interface timeout!");
                     });
+                   
             }else{
                 this.State.title = 0;
             }

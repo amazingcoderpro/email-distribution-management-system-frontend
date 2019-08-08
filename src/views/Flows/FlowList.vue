@@ -250,5 +250,4 @@ export default {
 .flows .ColumnTitle{cursor: pointer;}
 .flows .switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;top: 40px;margin-left: 25%;}
 .flows .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
-
 </style>

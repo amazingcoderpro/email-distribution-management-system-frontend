@@ -8,7 +8,7 @@
         </ul>
         <div class="bigBox">
             <div class="leftBox">
-                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :rules="rules">
+                <el-form :inline="true" :model="fromData" ref="fromRef" :disabled="id != -1" class="demo-form-inline fromClass" :rules="rules">
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
@@ -195,6 +195,7 @@ export default {
     name: "EditletterAdd",
     data() {
         return {
+            id:-1,
             dialog: {
                 show: false,
                 title: "Send Mail",
@@ -326,6 +327,29 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
+            if(!base.getQueryString("id")){
+                this.id = -1;
+            }else{
+                this.id = base.getQueryString("id");
+            }
+            if(base.getQueryString("id")){
+                this.$axios.get(`/api/v1/email_template/${this.id}/`)
+                .then(res => {
+                    if(res.data.code == 1){
+                        this.fromData.SubjectText = res.data.data.subject;
+                        this.fromData.HeadingText = res.data.data.heading_text;
+                        this.fromData.logoUrl = res.data.data.logo;
+                        this.fromData.bannerUrl = res.data.data.banner;
+                        this.fromData.Headline = res.data.data.headline;
+                        this.fromData.bodyText = res.data.data.body_text;
+                    }else{
+                        this.$message("Acquisition failure!");
+                    }
+                })
+                .catch(error => {
+                    this.$message("Interface timeout!");
+                });
+            }
         },
         imgClick(item){
             console.log(item)

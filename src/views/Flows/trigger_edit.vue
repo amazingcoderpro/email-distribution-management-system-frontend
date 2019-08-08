@@ -180,7 +180,6 @@ export default {
                                     x.values[index] = base.dateFormat(z);
                                    _str += base.dateFormat(z,"day");
                                 });
-                                console.log(_str)
                             }else if(x.relation == 'is between date'){
                                 x.values.map((z,index) =>{
                                     if(index == 1){
@@ -207,7 +206,6 @@ export default {
                         }
                     });
                     e.lastVal = _str;
-                 console.log(lastArray)
                 }else if(e.condition == 'Customer order number is' || e.condition == 'Customer last order status' 
                     || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing is'){
                         let _str = e.condition + " ";
@@ -231,7 +229,6 @@ export default {
             else{
                 itemSon.values = [30];
             }
-            console.log(itemSon.values)
         },
         numberFun(item,index){　　
             let  arr = []; 
