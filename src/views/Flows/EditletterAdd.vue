@@ -333,7 +333,7 @@ export default {
                 this.id = base.getQueryString("id");
             }
             if(base.getQueryString("id")){
-                this.$axios.get(`/api/v1/email_template/${this.id}/`)
+                this.$axios.get(`/api/v1/email_template/detail/${this.id}/`)
                 .then(res => {
                     if(res.data.code == 1){
                         this.fromData.SubjectText = res.data.data.subject;
