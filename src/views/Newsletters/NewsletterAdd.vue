@@ -408,9 +408,7 @@ export default {
             
         },
         imgClick(item){
-            console.log(item)
             item.state = !item.state;
-            console.log(item.state)
         },
         SegmentStateChange(){
             if(this.fromData.SegmentState.length>0){

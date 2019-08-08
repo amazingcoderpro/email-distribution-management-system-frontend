@@ -139,6 +139,15 @@ export default {
                 this.loadingState.top_dashboard = false;
                 if(res.data.code==1){
                     this.echartData.topDashboard = res.data.data;
+                    if(!this.echartData.topDashboard.total_revenue){
+                        this.echartData.topDashboard.total_revenue = 0;
+                    }
+                    if(!this.echartData.topDashboard.total_orders){
+                        this.echartData.topDashboard.total_orders = 0;
+                    }
+                    if(!this.echartData.topDashboard.total_sent){
+                        this.echartData.topDashboard.total_sent = 0;
+                    }
                 }else{
                     this.$message("Acquisition failure!");
                 }
