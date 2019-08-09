@@ -352,9 +352,8 @@ export default {
             }
         },
         imgClick(item){
-            console.log(item)
             item.state = !item.state;
-            console.log(item.state)
+            this.$forceUpdate();
         },
         logoSuccess(response, file, fileList) {
         if(response.data.base64_str){

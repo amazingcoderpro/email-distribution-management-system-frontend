@@ -109,10 +109,8 @@
                             </div>
                         </div>
                         <div class="fromSon imgBigBox">
-                            <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
-                                <a :href="item.url" target="_blank">
-                                    <img :src="item.image_url" />
-                                </a> 
+                            <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
+                                <img :src="item.image_url" />
                                 <div class="stateBox">
                                     <span v-if="item.state" class="el-icon-check"></span>
                                 </div>
@@ -409,6 +407,7 @@ export default {
         },
         imgClick(item){
             item.state = !item.state;
+            this.$forceUpdate();
         },
         SegmentStateChange(){
             if(this.fromData.SegmentState.length>0){
@@ -520,7 +519,6 @@ export default {
             this.productArray.map(e =>{
                 e.state = true;
             });
-            this.productArray = this.productArray;
         }
     },
     beforeDestroy() {
