@@ -151,14 +151,27 @@
                             <div style="font-family: 'Segoe UI Emoji';font-weight: 400;font-style: normal;font-size:16px;" v-else>It seems like you didn't find what you were looking for during your last visit to {shop name}.Do you need another look?</div>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
-                            <template v-for="(item,index) in productArray" >
-                                <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
-                                    <a :href="item.url">
-                                        <img :src="item.image_url" style="width:100%;"/>
-                                    </a>
-                                    <h3 style="font-weight:700;">{{item.name}}</h3>
-                                    <h3>{{item.price}}</h3> 
-                                </div>
+                            <template v-if="fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
+                                <template v-for='(item,index) in 6'>
+                                    <div style="width:calc(50% - 24px);margin:10px;vertical-align: top;border:1px solid #ccc;display:inline-block;display: none;">
+                                        <a :href="'%product_url_'+(index + 1)+'%'">
+                                            <img :src="'%product_image_url_'+(index + 1)+'%'" style="width:100%;"/>
+                                        </a>
+                                        <h3 style="font-weight:700;">{{'%product_name_'+(index + 1)+'%'}}</h3>
+                                        <h3>{{'%product_price_'+(index + 1)+'%'}}</h3> 
+                                    </div>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <template v-for="(item,index) in productArray" >
+                                    <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
+                                        <a :href="item.url">
+                                            <img :src="item.image_url" style="width:100%;"/>
+                                        </a>
+                                        <h3 style="font-weight:700;">{{item.name}}</h3>
+                                        <h3>{{item.price}}</h3> 
+                                    </div>
+                                </template>
                             </template>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;" v-if="fromData.searchImgType == 'Shopping cart goods'" >

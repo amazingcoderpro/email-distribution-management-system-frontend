@@ -364,7 +364,6 @@ export default {
                 if(new Date(this.fromData.periodTime[0]).getTime() < new Date().getTime()){
                     this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
                 }
-                
             }
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
