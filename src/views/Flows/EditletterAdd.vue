@@ -244,6 +244,8 @@ export default {
                 {value: 'top_fifteen',label: 'Top 6 products in last 15 days'},
                 {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
                 {value: 'Shopping cart goods',label: 'Shopping cart goods'},
+                {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
+                {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
                 {value: 'no product',label: 'No Product'},
             ],
             productArray:[],
@@ -444,7 +446,7 @@ export default {
             });
         },
         searchImgType(){
-            if(this.fromData.searchImgType == "Shopping cart goods" ||this.fromData.searchImgType == "no product"  ){
+            if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
                 this.productArray = [];
             }else{
                 this.productArray = this.top_product[this.fromData.searchImgType];
