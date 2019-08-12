@@ -397,6 +397,7 @@ export default {
                             banner:this.fromData.bannerUrl,
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
+                            product_condition:this.fromData.searchImgType,
                             // product_list:JSON.stringify(this.trueProductArray),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:"{}",
