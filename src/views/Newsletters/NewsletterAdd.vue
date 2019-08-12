@@ -56,7 +56,7 @@
                                     :on-success="logoSuccess"
                                     :before-upload="beforeAvatarUpload">
                                     <!-- <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar"> -->
-                                    <img v-if="fromData.logoUrl" :src="fromData.logoUrl" class="avatar">
+                                    <img v-if="fromData.logoUrl && fromData.logoUrl != -1" :src="fromData.logoUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
@@ -78,7 +78,7 @@
                                     :on-success="bannerSuccess"
                                     :before-upload="beforeAvatarUpload">
                                     <!-- <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar"> -->
-                                    <img v-if="fromData.bannerUrl" :src="fromData.bannerUrl" class="avatar">
+                                    <img v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
