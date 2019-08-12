@@ -51,13 +51,13 @@
                                             <el-option :label="'is paid'" :value="'is paid'"></el-option>
                                             <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer order number is' ||  item.condition == 'Customer sign up time'">
+                                        <template v-if="item.condition == 'Customer order number is'">
                                             <el-option :label="'equals'" :value="'equals'"></el-option>
                                             <el-option :label="'more than'" :value="'more than'"></el-option>
                                             <el-option :label="'less than'" :value="'less than'"></el-option>
                                         </template>
                                     </el-select>   
-                                        <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
+                                    <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
                                             <div  class="PORE DisplayInline">
                                                 <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                             </div>
@@ -69,6 +69,10 @@
                                                 <el-option :label="'months'" :value="'months'"></el-option>
                                                 <el-option :label="'years'" :value="'years'"></el-option>
                                             </el-select>
+                                    </template>
+                                    <template v-if="itemSon.relation == 'equals' || itemSon.relation == 'more than' || itemSon.relation == 'less than'">
+                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                            <div class="centerClass">times</div>
                                     </template>
                                     <template v-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
                                             <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
@@ -145,7 +149,7 @@ export default {
                 else if(item.condition == 'Customer last orde created time'){
                     str ='is more than';
                 }
-                else if(item.condition == 'Customer order number is' || item.condition == 'Customer sign up time' ){
+                else if(item.condition == 'Customer order number is'){
                     str ="equals"
                 }
                 else if(item.condition == 'Customer last open email time'){
@@ -169,12 +173,11 @@ export default {
             let lastArray = [];
             this.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last orde created time'
-                || e.condition =='Customer sign up time'){
+                || e.condition =='Customer sign up time' || e.condition == 'Customer order number is'){
                     let _str = e.condition + " ";
                     e.relations.map(x =>{
                         _str += x.relation + " ";
                         if(x.relation != 'is over all time'){
-                                                                                                   
                             if(x.relation == 'is before' || x.relation == 'is after'){
                                 x.values.map((z,index) =>{
                                     x.values[index] = base.dateFormat(z);
@@ -197,6 +200,14 @@ export default {
                                 });
                                 _str += x.unit + " ago ";
 
+                            }else if(x.relation == 'equals' || x.relation == 'more than' ||x.relation == 'less than' ){
+                                x.values.map((z,index) =>{
+                                    if(index ==1){
+                                        _str += "and ";
+                                    }
+                                    _str += z + " ";
+                                });
+                                _str += " times";
                             }else{
                                 x.values.map(z =>{
                                     _str += z + " ";

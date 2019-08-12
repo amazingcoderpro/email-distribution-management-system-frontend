@@ -158,8 +158,8 @@ export default {
             bigData:[],
             noteTrueArray:[],
             noteArray:[
-                "customer makes a purchase",
-                "customer received an email from this campaign in the last 7 days"
+                "Do not send if the customer if your customer makes a purchase.",
+                "Do not send if the customer received an email from this campaign in the last 7 days."
             ],
             bigModel:{
                 triggerModel:[],
