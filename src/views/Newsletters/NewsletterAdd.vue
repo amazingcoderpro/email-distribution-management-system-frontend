@@ -45,7 +45,8 @@
                         <div class="fromSon">
                             <label>Logo</label>
                             <div class="content">
-                                <el-form-item prop="logoUrl" class="uploadClass W100">
+                                <!-- <el-form-item prop="logoUrl" class="uploadClass W100"> -->
+                                <el-form-item class="uploadClass W100">
                                     <el-upload
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
@@ -66,8 +67,9 @@
                         <div class="fromSon">
                             <label>Banner</label>
                             <div class="content">
-                                <el-form-item prop="logoUrl" class="uploadClass W100">
-                                    <el-upload
+                                <!-- <el-form-item prop="bannerUrl" class="uploadClass W100"> -->
+                                <el-form-item class="uploadClass W100">
+                                        <el-upload
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
                                     :auto-upload="true"
@@ -108,7 +110,7 @@
                                 </el-select>
                             </div>
                         </div>
-                        <div class="fromSon imgBigBox">
+                        <div class="fromSon imgBigBox" v-if="productArray.length>0">
                             <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
                                 <img :src="item.image_url" />
                                 <div class="stateBox">
@@ -116,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="littleMsg">Max 6 products</span>
+                        <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
                     </div>
                     <el-button type="primary" style="margin:20px 0;">Preview</el-button>
                     <h4>Edit Sent Time</h4>
@@ -186,15 +188,19 @@
                             </div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
-                            <div v-if="fromData.logoUrl" style="width: 30%;margin: 0 auto;">
+                            <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <img :src="fromData.logoUrl" style="width: 100%;"/>
+                            </div>
+                            <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
-                            <div v-if="fromData.bannerUrl" style="width: 100%;">
+                            <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
                                 <!-- <img :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" style="width: 100%;"/> -->
                                 <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                            </div>
+                            <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                         </div>
@@ -303,6 +309,7 @@ export default {
                 {value: 'top_seven',label: 'Top 6 products in last 7 days'},
                 {value: 'top_fifteen',label: 'Top 6 products in last 15 days'},
                 {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
+                {value: 'no product',label: 'No Product'},
             ],
             productArray:[],
             trueProductArray:[],
@@ -453,6 +460,8 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    this.fromData.logoUrl = -1;
+                    this.fromData.bannerUrl = -1;
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
@@ -500,6 +509,7 @@ export default {
                         },20);
                     }
             });
+        
         },
         sendMail(formName){
             this.$refs[formName].validate((valid) => {
@@ -515,10 +525,16 @@ export default {
             });
         },
         searchImgType(){
-            this.productArray = this.top_product[this.fromData.searchImgType];
-            this.productArray.map(e =>{
-                e.state = true;
-            });
+            
+            if(this.fromData.searchImgType == "Shopping cart goods" ||this.fromData.searchImgType == "no product"  ){
+                this.productArray = [];
+            }else{
+                this.productArray = this.top_product[this.fromData.searchImgType];
+                this.productArray.map(e =>{
+                    e.state = true;
+                });
+            }
+            this.productArray = this.productArray;
         }
     },
     beforeDestroy() {

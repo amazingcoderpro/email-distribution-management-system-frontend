@@ -29,10 +29,11 @@ export default {
         }
     },
     methods:{
-      send(formName){
+        send(formName){
             this.$refs[formName].validate((valid) => {
-                console.log(valid)
                 if(valid){
+                    this.$parent.fromData.logoUrl = -1;
+                    this.$parent.fromData.bannerUrl = -1;
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$parent.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
@@ -42,8 +43,6 @@ export default {
                         "html":_showHtml,
                         "product_list":JSON.stringify(this.trueProductArray)         
                     }
-                    console.log(this.$parent.$refs.trueProductArray)
-                    console.log(_thisData)
                     this.$axios.post(`/api/v1/send_mail/`, _thisData)
                         .then(res => {
                             if(res.data.code == 1){
@@ -56,7 +55,6 @@ export default {
                         .catch(error => {
                             this.$message("Interface timeout!");
                         });
-                    
                 }
             });
         }
