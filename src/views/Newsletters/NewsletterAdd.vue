@@ -303,6 +303,7 @@ export default {
                 {value: '7',label: '1st day of the month'},
                 {value: '8',label: '15th day of the month'},
                 {value: '9',label: 'Last day of the month'},
+                {value: '10',label: 'Everyday'},
             ],
             searchImgTypeArray:[
                 {value: 'top_three',label: 'Top 6 products in last 3 days'},

@@ -135,7 +135,7 @@
                 <p>EXIT</p>
             </div>
             <div class="Enable_button Enable_buttom">
-                <el-button type="primary" @click="EnableFlow">Enable Flow</el-button> 
+                <el-button type="primary" @click="EnableFlow">Save</el-button> 
             </div>
         </div>
         <DialogFound :dialog='dialog' :bigGroupArrayTest='bigModel.triggerModel'></DialogFound>
