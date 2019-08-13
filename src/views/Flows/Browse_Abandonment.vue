@@ -1,5 +1,6 @@
 <template>
     <div class="Browse">
+        <div :data-text="fromDataType" :style="fromDataType == 'preview'?'position: absolute;left: 0;top: 68px;width: 100%;height: 100%;z-index: 1000;':'display:none;'"></div>
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
              <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
@@ -150,6 +151,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            fromDataType:"",
             title:"",
             description:"",
             itemData:{},
@@ -190,6 +192,7 @@ export default {
     methods:{
         init(){ 
             let _thisData = JSON.parse(localStorage["FlowsVal"]);
+            this.fromDataType = _thisData.fromDataType;
             this.title = _thisData.title;
             this.description = _thisData.description;
             this.bigData = JSON.parse(_thisData.email_delay);
@@ -348,7 +351,6 @@ export default {
                         .catch(error => {
                             this.$message("Interface timeout!");
                     });
-                   
             }else{
                 this.State.title = 0;
             }
@@ -358,6 +360,7 @@ export default {
 </script>
 
 <style scoped>
+.Browse{position: relative;}    
 .Browse .Browse_table{width: 65%;margin: 0 auto;}
 .Browse .Browse_table .iconfont{color: #6d6666}
 .Browse #breadcrumb{margin-bottom: 50px;}

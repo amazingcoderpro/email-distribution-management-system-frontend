@@ -42,7 +42,7 @@
             <el-table-column prop="click" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                 <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
+                <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
             <el-table-column prop="revenue" align="center" width="200">
@@ -68,6 +68,7 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="300">
               <template slot-scope="scope">
+                <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'preview')">Preview</el-button>
                 <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
@@ -165,14 +166,18 @@ export default {
             localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
             router.push('./Browse_Abandonment')
         },
-        CloneEdit(row){
+        CloneEdit(row,preview){
           let _bigData = JSON.parse(row.relation_info);
           let FlowsVal = {
+                fromDataType:"",
                 title:row.title,
                 email_delay:row.email_delay,
                 relation_info:_bigData.group_condition,
                 description:row.description,
                 note:JSON.parse(row.note),
+            }
+            if(preview){
+              FlowsVal.fromDataType="preview";
             }
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
           router.push('/Browse_Abandonment');

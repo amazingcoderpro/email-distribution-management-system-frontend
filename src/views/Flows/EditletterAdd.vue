@@ -152,7 +152,8 @@
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
                             <template v-if="fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
-                                <template v-for='(item,index) in 6'>
+                                <span style="display: none;">specialProduct</span>
+                                <!-- <template v-for='(item,index) in 6'>
                                     <div style="width:calc(50% - 24px);margin:10px;vertical-align: top;border:1px solid #ccc;display:inline-block;display: none;">
                                         <a :href="'%product_url_'+(index + 1)+'%'">
                                             <img :src="'%product_image_url_'+(index + 1)+'%'" style="width:100%;"/>
@@ -160,7 +161,7 @@
                                         <h3 style="font-weight:700;">{{'%product_name_'+(index + 1)+'%'}}</h3>
                                         <h3>{{'%product_price_'+(index + 1)+'%'}}</h3> 
                                     </div>
-                                </template>
+                                </template> -->
                             </template>
                             <template v-else>
                                 <template v-for="(item,index) in productArray" >
@@ -351,7 +352,7 @@ export default {
             }else{
                 this.id = base.getQueryString("id");
             }
-            if(base.getQueryString("id")){
+            if(this.id != -1){
                 this.$axios.get(`/api/v1/email_template/detail/${this.id}/`)
                 .then(res => {
                     if(res.data.code == 1){
