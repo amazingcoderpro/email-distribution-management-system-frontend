@@ -151,7 +151,7 @@
                             <div style="font-family: 'Segoe UI Emoji';font-weight: 400;font-style: normal;font-size:16px;" v-else>It seems like you didn't find what you were looking for during your last visit to {shop name}.Do you need another look?</div>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
-                            <template v-if="fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
+                            <template v-if="fromData.searchImgType == 'Shopping cart goods' || fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
                                 <span style="display: none;">specialProduct</span>
                                 <!-- <template v-for='(item,index) in 6'>
                                     <div style="width:calc(50% - 24px);margin:10px;vertical-align: top;border:1px solid #ccc;display:inline-block;display: none;">

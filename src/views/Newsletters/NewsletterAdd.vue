@@ -213,14 +213,19 @@
                             <div style="font-family: 'Segoe UI Emoji';font-weight: 400;font-style: normal;font-size:16px;" v-else>It seems like you didn't find what you were looking for during your last visit to {shop name}.Do you need another look?</div>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
-                            <template v-for="(item,index) in productArray" >
-                                <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
-                                    <a :href="item.url" target="_blank">
-                                        <img :src="item.image_url" style="width:100%;"/>
-                                    </a>
-                                    <h3 style="font-weight:700;">{{item.name}}</h3>
-                                    <h3>{{item.price}}</h3>
-                                </div>
+                            <template v-if="fromData.searchImgType == 'Shopping cart goods' || fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
+                                <span style="display: none;">specialProduct</span>
+                            </template>
+                            <template v-else>
+                                <template v-for="(item,index) in productArray" >
+                                    <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
+                                        <a :href="item.url" target="_blank">
+                                            <img :src="item.image_url" style="width:100%;"/>
+                                        </a>
+                                        <h3 style="font-weight:700;">{{item.name}}</h3>
+                                        <h3>{{item.price}}</h3>
+                                    </div>
+                                </template>
                             </template>
                         </div>
                         <div style="width:100%;padding-bottom: 20px;">
