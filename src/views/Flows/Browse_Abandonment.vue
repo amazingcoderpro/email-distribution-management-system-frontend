@@ -1,12 +1,11 @@
 <template>
     <div class="Browse">
-        <div :data-text="fromDataType" :style="fromDataType == 'preview'?'position: absolute;left: 0;top: 68px;width: 100%;height: 100%;z-index: 1000;':'display:none;'"></div>
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
              <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
             <li><a><span class="el-icon-right"> </span> Browse Abandonment</a></li>
         </ul>
-        <el-form :inline="true" :model="bigModel">
+        <el-form :inline="true" :model="bigModel" :data-text="fromDataType" :disabled="fromDataType == 'preview'">
             <el-form-item label="Title" style="margin-left:290px;">
                 <el-input v-model="title" placeholder="Enter Flow Name" style="width:250px;"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
@@ -27,17 +26,27 @@
                                 <i class="iconfont icon-yanjing"></i>
                                 <span>Preview</span>
                             </div>
-                            <div class="trigger_Edit" @click="EditFun">
-                                <i class="iconfont icon-edit"></i>
-                                <span>Edit</span> 
-                            </div>
+                            <template>
+                                <div class="trigger_Edit" v-if="fromDataType == 'preview'" style="cursor: no-drop;">
+                                    <i class="iconfont icon-edit"></i>
+                                    <span>Edit</span>
+                                </div>
+                                <div class="trigger_Edit" @click="EditFun" v-else>
+                                    <i class="iconfont icon-edit"></i>
+                                    <span>Edit</span>
+                                </div>
+                            </template>
                         </div>
                     </div> 
                     <div> 
                         <template v-for="(item,index) in bigModel.triggerModel">
                             <div class="trigger_center" :key="index">
                                 <el-input v-model="item.lastVal" placeholder="" class="trigger_input_one"></el-input>
-                                <i class="iconfont icon-chahao" @click="addDelete(index)"></i>
+                                <template>
+                                    <template  v-if="fromDataType != 'preview'">
+                                       <i class="iconfont icon-chahao"  @click="addDelete(index)"></i>
+                                    </template>
+                                </template>
                             </div>
                         </template>
                     </div>
@@ -52,7 +61,14 @@
         </el-form>
         <div class="Broese_public">
             <img src="../../assets/img/u448.png" class="Broese_img">
-            <i class="iconfont icon-jiahao1" @click="showBox()"></i>
+            <template>
+                <template v-if="fromDataType == 'preview'">
+                    <i class="iconfont icon-jiahao1"></i>
+                </template>
+                <template v-else>
+                    <i class="iconfont icon-jiahao1" @click="showBox()"></i>
+                </template>
+            </template>
         </div>
         <div class="delay_email" v-if="firstState">
             <div class="delay_left" @click="addDelay()">
@@ -81,15 +97,27 @@
                                         <i class="iconfont icon-edit"></i>
                                         <span>Edit</span>
                                     </div>
-                                    <div class="trigger_Edit" @click="DelayFun(item)" v-else>
-                                        <i class="iconfont icon-edit"></i>
-                                        <span>Edit</span>
+                                    <template v-else>
+                                        <div class="trigger_Edit" v-if="fromDataType == 'preview'" style="cursor: no-drop;">
+                                            <i class="iconfont icon-edit"></i>
+                                            <span>Edit</span>
+                                        </div>
+                                        <div class="trigger_Edit" @click="DelayFun(item)" v-else>
+                                            <i class="iconfont icon-edit"></i>
+                                            <span>Edit</span>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template>
+                                    <div class="trigger_Delete" v-if="fromDataType == 'preview'" style="cursor: no-drop;">
+                                        <i class="iconfont icon-chahao"></i>
+                                        <span>Delete</span>
+                                    </div>
+                                    <div class="trigger_Delete" @click="DeleteFun(index)" v-else>
+                                        <i class="iconfont icon-chahao"></i>
+                                        <span>Delete</span>
                                     </div>
                                 </template>
-                                <div class="trigger_Delete" @click="DeleteFun(index)">
-                                    <i class="iconfont icon-chahao"></i>
-                                    <span>Delete</span>
-                                </div>
                             </div>
                         </div> 
                         <template>
@@ -109,7 +137,14 @@
                 </div>
                 <div class="Broese_public">
                     <img src="../../assets/img/u448.png" class="Broese_img">
-                    <i class="iconfont icon-jiahao1" v-on:click="showBox(item,index)"></i>
+                    <template>
+                        <template v-if="fromDataType == 'preview'">
+                            <i class="iconfont icon-jiahao1"></i>
+                        </template>
+                        <template v-else>
+                            <i class="iconfont icon-jiahao1" v-on:click="showBox(item,index)"></i>
+                        </template>
+                    </template>
                 </div>
                 <div class="delay_email" v-show="item.state">
                     <template>
@@ -135,8 +170,8 @@
             <div class="exit_input">
                 <p>EXIT</p>
             </div>
-            <div class="Enable_button Enable_buttom">
-                <el-button type="primary" @click="EnableFlow">Save</el-button> 
+            <div class="Enable_button Enable_buttom" >
+                <el-button type="primary" @click="EnableFlow" :disabled="fromDataType == 'preview'">Save</el-button> 
             </div>
         </div>
         <DialogFound :dialog='dialog' :bigGroupArrayTest='bigModel.triggerModel'></DialogFound>
@@ -151,6 +186,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            disabledSon:"",
             fromDataType:"",
             title:"",
             description:"",
@@ -193,11 +229,29 @@ export default {
         init(){ 
             let _thisData = JSON.parse(localStorage["FlowsVal"]);
             this.fromDataType = _thisData.fromDataType;
-            this.title = _thisData.title;
-            this.description = _thisData.description;
-            this.bigData = JSON.parse(_thisData.email_delay);
-            this.bigModel.triggerModel = _thisData.relation_info[0].children;
-            this.noteTrueArray = _thisData.note;
+            if(_thisData.fromDataType == "clone"){
+                this.$axios.put(`/api/v1/email_trigger/clone/${_thisData.id}/`)
+                .then(res => {
+                    if(res.data.code == 1){
+                        this.title = res.data.data.title;
+                        this.description = res.data.data.description;
+                        this.bigData = res.data.data.email_delay;
+                        this.bigModel.triggerModel = JSON.parse(res.data.data.relation_info).group_condition[0].children;
+                        this.noteTrueArray =JSON.parse(res.data.data.note);
+                    }else{
+                        this.$message("Acquisition failure!");
+                    }
+                })
+                .catch(error => {
+                    this.$message("Interface timeout!");
+                }); 
+            }else{
+                this.title = _thisData.title;
+                this.description = _thisData.description;
+                this.bigData = JSON.parse(_thisData.email_delay);
+                this.bigModel.triggerModel = _thisData.relation_info[0].children;
+                this.noteTrueArray = _thisData.note;
+            }
         },
         showBox(item,index){
             if(item){
