@@ -56,7 +56,7 @@
                 </el-select>
             </el-form-item>
         </el-form>
-        <div :class="echartData.className" :id="echartData.id" :style="'height:500px;width:90%;'" ref="myEchart">
+        <div class="myEchart" :id="echartData.id" :style="'height:500px;width:90%;'" ref="myEchart">
         </div>
         <div class="el-loading-mask is-fullscreen" style="background-color: rgba(0, 0, 0, 0.7); z-index: 2000;" v-if="loadingState.top_dashboard || loadingState.bottom_dashboard">
             <div class="el-loading-spinner">

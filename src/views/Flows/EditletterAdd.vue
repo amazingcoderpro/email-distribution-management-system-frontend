@@ -8,7 +8,7 @@
         </ul>
         <div class="bigBox">
             <div class="leftBox">
-                <el-form :inline="true" :model="fromData" ref="fromRef" :disabled="id != -1" class="demo-form-inline fromClass" :rules="rules">
+                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :rules="rules">
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
@@ -399,11 +399,22 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.fromData.logoUrl = -1;
-                    this.fromData.bannerUrl = -1;
+                    if(!this.fromData.logoUrl){
+                        this.fromData.logoUrl = -1;
+                    }
+                    if(!this.fromData.bannerUrl){
+                        this.fromData.bannerUrl = -1;
+                    }
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
+                        
+                    if(this.fromData.logoUrl == -1){
+                        this.fromData.logoUrl = "";
+                    }
+                    if(this.fromData.bannerUrl == -1){
+                        this.fromData.bannerUrl = "";
+                    }
                         let _thisData = {
                             subject:this.fromData.SubjectText,
                             heading_text:this.fromData.HeadingText,
