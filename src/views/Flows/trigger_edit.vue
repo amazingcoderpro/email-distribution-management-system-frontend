@@ -19,7 +19,7 @@
                         <el-button type="primary" icon="el-icon-plus" @click="addGroup" style="font-weight:600;"> Add Filter</el-button>
                     </div>
                     <div class="triggerCenter_buttom">
-                        <div v-for="(item,index) in bigGroupArrayTest" :key="index" class="triggerCenter_input">
+                        <div v-for="(item,index) in thisData.bigGroupArrayTest" :key="index" class="triggerCenter_input">
                             <el-select v-model="item.condition" class="W270" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
@@ -123,27 +123,38 @@ export default {
         dialog: Object,
         FatherTriggerModel: Array
     },
+    watch: {
+        dialog: {
+            handler: function() {
+                let array = [];
+                this.FatherTriggerModel.map(e =>{
+                    array.push(e);
+                });
+                this.thisData.bigGroupArrayTest = array;
+                this.$forceUpdate();
+            },
+            deep: true
+        }
+    },
     data(){
         return {
-            bigGroupArrayTest:this.FatherTriggerModel
+            thisData:{
+                bigGroupArrayTest:[],
+            },
         }
     },  
     mounted(){
-        // this.init();
     },
     methods:{
-        init(){
-
-        },
         addGroup(){
-            this.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
+            this.thisData.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },
         addDelete(index){
-            this.bigGroupArrayTest.splice(index,1);
+            this.thisData.bigGroupArrayTest.splice(index,1);
         },
         EditChange(item){
             let str = "";
-               if(item.condition == 'Customer subscribe time'){
+                if(item.condition == 'Customer subscribe time'){
                     str = 'is in the past';
                 }
                 else if(item.condition == 'Customer sign up time'){
@@ -174,7 +185,7 @@ export default {
         saveFun(){
             this.dialog.show = false;
             let lastArray = [];
-            this.bigGroupArrayTest.map(e => {
+            this.thisData.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last order created time'
                 || e.condition =='Customer sign up time' || e.condition == 'Customer order number'){
                     let _str = e.condition + " ";
@@ -184,7 +195,7 @@ export default {
                             if(x.relation == 'is before' || x.relation == 'is after'){
                                 x.values.map((z,index) =>{
                                     x.values[index] = base.dateFormat(z);
-                                   _str += base.dateFormat(z,"day");
+                                    _str += base.dateFormat(z,"day");
                                 });
                             }else if(x.relation == 'is between date'){
                                 x.values.map((z,index) =>{
@@ -202,7 +213,6 @@ export default {
                                     _str += z + " ";
                                 });
                                 _str += x.unit + " ago ";
-
                             }else if(x.relation == 'equals' || x.relation == 'more than' ||x.relation == 'less than' ){
                                 x.values.map((z,index) =>{
                                     if(index ==1){

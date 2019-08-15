@@ -235,7 +235,7 @@ export default {
                     if(res.data.code == 1){
                         this.title = res.data.data.title;
                         this.description = res.data.data.description;
-                        this.bigData = res.data.data.email_delay;
+                        this.bigData = JSON.parse(res.data.data.email_delay);
                         this.bigModel.triggerModel = JSON.parse(res.data.data.relation_info).group_condition[0].children;
                         this.noteTrueArray =JSON.parse(res.data.data.note);
                     }else{
@@ -328,6 +328,8 @@ export default {
             });
         },
         EditFun() {
+            console.log(this.bigModel.triggerModel)
+
             this.dialog = {
             show: true,
             title: "Trigger Edit",
