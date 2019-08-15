@@ -356,9 +356,9 @@ export default {
             }
             localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
             if(item.value){
-                router.push(`/NewEditletterAdd?id=${item.value}`);
+                router.push(`/EditletterAdd?id=${item.value}`);
             }else{
-                router.push('/NewEditletterAdd');
+                router.push('/EditletterAdd');
             }
             // console.log(item)
         },
