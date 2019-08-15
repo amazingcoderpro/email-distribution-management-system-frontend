@@ -34,8 +34,8 @@
                                 <div :key="index" style="display:inline-block">
                                     <el-select v-model="itemSon.relation" class="W150" @change="itemSonRelationChange(itemSon)">
                                         <template v-if="item.condition == 'Customer who accept marketing' || item.condition == 'Customer last open email time'">
-                                            <el-option :label="'is ture'" :value="'ture'"></el-option>
-                                            <el-option :label="'is false'" :value="'false'"></el-option>
+                                            <el-option :label="'is ture'" :value="'is ture'"></el-option>
+                                            <el-option :label="'is false'" :value="'is false'"></el-option>
                                         </template>
                                         <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
                                         || item.condition == 'Customer sign up time'">
@@ -218,7 +218,7 @@ export default {
                     });
                     e.lastVal = _str;
                 }else if(e.condition == 'Customer order number' || e.condition == 'Customer last order status' 
-                    || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing is'){
+                    || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing'){
                         let _str = e.condition + " ";
                         e.relations.map(x =>{
                             _str += x.relation;
