@@ -23,7 +23,7 @@
                             <el-select v-model="item.condition" class="W270" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
-                                <el-option :label="'Customer last order created time'" :value="'Customer last orde created time'"></el-option>
+                                <el-option :label="'Customer last order created time'" :value="'Customer last order created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
                                 <el-option :label="'Customer order number'" :value="'Customer order number'"></el-option>
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
@@ -34,10 +34,10 @@
                                 <div :key="index" style="display:inline-block">
                                     <el-select v-model="itemSon.relation" class="W150" @change="itemSonRelationChange(itemSon)">
                                         <template v-if="item.condition == 'Customer who accept marketing' || item.condition == 'Customer last open email time'">
-                                            <el-option :label="'is ture'" :value="'is ture'"></el-option>
+                                            <el-option :label="'is true'" :value="'is true'"></el-option>
                                             <el-option :label="'is false'" :value="'is false'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
+                                        <template v-if="item.condition == 'Customer last order created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
                                         || item.condition == 'Customer sign up time'">
                                             <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
                                             <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
@@ -146,7 +146,7 @@ export default {
                 else if(item.condition == 'Customer sign up time'){
                     str ='is over all time'; 
                 }
-                else if(item.condition == 'Customer last orde created time'){
+                else if(item.condition == 'Customer last order created time'){
                     str ='is more than';
                 }
                 else if(item.condition == 'Customer order number'){
@@ -162,7 +162,7 @@ export default {
                     str ="is paid"
                 }
                 else if(item.condition == 'Customer who accept marketing'){
-                    str ="is ture"
+                    str ="is true"
                 }
                 item.relations.map(e =>{
                     e.relation = str;
@@ -172,7 +172,7 @@ export default {
             this.dialog.show = false;
             let lastArray = [];
             this.bigGroupArrayTest.map(e => {
-                if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last orde created time'
+                if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last order created time'
                 || e.condition =='Customer sign up time' || e.condition == 'Customer order number'){
                     let _str = e.condition + " ";
                     e.relations.map(x =>{
