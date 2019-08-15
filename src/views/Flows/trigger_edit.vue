@@ -23,19 +23,19 @@
                             <el-select v-model="item.condition" class="W270" @change="EditChange(item)">
                                 <el-option :label="'Customer subscribe time'" :value="'Customer subscribe time'"></el-option>
                                 <el-option :label="'Customer sign up time'" :value="'Customer sign up time'"></el-option>
-                                <el-option :label="'Customer last orde created time'" :value="'Customer last orde created time'"></el-option>
+                                <el-option :label="'Customer last order created time'" :value="'Customer last orde created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
-                                <el-option :label="'Customer order number is'" :value="'Customer order number is'"></el-option>
+                                <el-option :label="'Customer order number'" :value="'Customer order number'"></el-option>
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
                                 <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
-                                <el-option :label="'Customer who accept marketing is'" :value="'Customer who accept marketing is'"></el-option>
+                                <el-option :label="'Customer who accept marketing'" :value="'Customer who accept marketing'"></el-option>
                             </el-select>
                             <template v-for="(itemSon,index) in item.relations">
                                 <div :key="index" style="display:inline-block">
                                     <el-select v-model="itemSon.relation" class="W150" @change="itemSonRelationChange(itemSon)">
-                                        <template v-if="item.condition == 'Customer who accept marketing is' || item.condition == 'Customer last open email time'">
-                                            <el-option :label="'ture'" :value="'ture'"></el-option>
-                                            <el-option :label="'false'" :value="'false'"></el-option>
+                                        <template v-if="item.condition == 'Customer who accept marketing' || item.condition == 'Customer last open email time'">
+                                            <el-option :label="'is ture'" :value="'ture'"></el-option>
+                                            <el-option :label="'is false'" :value="'false'"></el-option>
                                         </template>
                                         <template v-if="item.condition == 'Customer last orde created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
                                         || item.condition == 'Customer sign up time'">
@@ -51,7 +51,7 @@
                                             <el-option :label="'is paid'" :value="'is paid'"></el-option>
                                             <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer order number is'">
+                                        <template v-if="item.condition == 'Customer order number'">
                                             <el-option :label="'equals'" :value="'equals'"></el-option>
                                             <el-option :label="'more than'" :value="'more than'"></el-option>
                                             <el-option :label="'less than'" :value="'less than'"></el-option>
@@ -149,7 +149,7 @@ export default {
                 else if(item.condition == 'Customer last orde created time'){
                     str ='is more than';
                 }
-                else if(item.condition == 'Customer order number is'){
+                else if(item.condition == 'Customer order number'){
                     str ="equals"
                 }
                 else if(item.condition == 'Customer last open email time'){
@@ -161,8 +161,8 @@ export default {
                 else if(item.condition == 'Customer last order status'){
                     str ="is paid"
                 }
-                else if(item.condition == 'Customer who accept marketing is'){
-                    str ="ture"
+                else if(item.condition == 'Customer who accept marketing'){
+                    str ="is ture"
                 }
                 item.relations.map(e =>{
                     e.relation = str;
@@ -173,7 +173,7 @@ export default {
             let lastArray = [];
             this.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last orde created time'
-                || e.condition =='Customer sign up time' || e.condition == 'Customer order number is'){
+                || e.condition =='Customer sign up time' || e.condition == 'Customer order number'){
                     let _str = e.condition + " ";
                     e.relations.map(x =>{
                         _str += x.relation + " ";
@@ -217,7 +217,7 @@ export default {
                         }
                     });
                     e.lastVal = _str;
-                }else if(e.condition == 'Customer order number is' || e.condition == 'Customer last order status' 
+                }else if(e.condition == 'Customer order number' || e.condition == 'Customer last order status' 
                     || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing is'){
                         let _str = e.condition + " ";
                         e.relations.map(x =>{
