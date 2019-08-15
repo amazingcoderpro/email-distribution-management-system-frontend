@@ -121,17 +121,20 @@ export default {
     name:"triggerEdit",
     props: {
         dialog: Object,
-        bigGroupArrayTest: Array
+        FatherTriggerModel: Array
     },
     data(){
         return {
-            // bigGroupArrayTest:[]
+            bigGroupArrayTest:this.FatherTriggerModel
         }
     },  
     mounted(){
-        
+        // this.init();
     },
     methods:{
+        init(){
+
+        },
         addGroup(){
             this.bigGroupArrayTest.push({"condition":"Customer subscribe time","relations":[{"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""}]})
         },

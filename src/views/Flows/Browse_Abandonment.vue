@@ -174,7 +174,7 @@
                 <el-button type="primary" @click="EnableFlow" :disabled="fromDataType == 'preview'">Save</el-button> 
             </div>
         </div>
-        <DialogFound :dialog='dialog' :bigGroupArrayTest='bigModel.triggerModel'></DialogFound>
+        <DialogFound :dialog='dialog' :FatherTriggerModel='bigModel.triggerModel'></DialogFound>
         <DialogFound2 :dialog='dialog2' :itemData='itemData'></DialogFound2>
     </div>
 </template>
