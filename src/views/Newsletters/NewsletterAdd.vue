@@ -214,7 +214,7 @@
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
                             <template v-if="fromData.searchImgType == 'Shopping cart goods' || fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
-                                <span style="display: none;">specialProduct</span>
+                                    *[tr_specialProduct]*
                             </template>
                             <template v-else>
                                 <template v-for="(item,index) in productArray" >
