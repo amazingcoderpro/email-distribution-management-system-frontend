@@ -415,6 +415,7 @@ export default {
                 this.$axios.get(`/api/v1/email_template/detail/${this.id}/`)
                 .then(res => {
                     if(res.data.code == 1){
+                        this.fromData.is_cart = res.data.data.is_cart?true:false;
                         this.fromData.SubjectText = res.data.data.subject;
                         this.fromData.HeadingText = res.data.data.heading_text;
                         this.fromData.logoUrl = res.data.data.logo;
