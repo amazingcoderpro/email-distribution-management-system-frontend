@@ -399,12 +399,14 @@ export default {
                     });
                 }else{
                     this.bigData.map(e => {
+                        if(e.title == "Email"){
                             if(e.value == ""){
                                 this.$message({
                                     message: 'Email Edit cannot be empty!',
                                     type: 'warning'
                                 });
-                            }else{
+                            }
+                        }else{
                                 this.$axios.post(`/api/v1/email_trigger/`,_thisData)
                                 .then(res => {
                                     if(res.data.code == 1){
