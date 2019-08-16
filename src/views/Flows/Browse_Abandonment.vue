@@ -395,7 +395,6 @@ export default {
                 if(this.bigData.length == 0){
                     this.$message({
                         message: 'Please add edit Email and Delay!',
-                        type: 'warning'
                     });
                 }else{
                     this.bigData.map(e => {
@@ -403,7 +402,6 @@ export default {
                             if(e.value == ""){
                                 this.$message({
                                     message: 'Email Edit cannot be empty!',
-                                    type: 'warning'
                                 });
                             }
                         }else{
