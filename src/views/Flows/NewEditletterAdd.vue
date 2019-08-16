@@ -245,17 +245,17 @@
                             </template> -->
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            @2006-{{new Date().getFullYear()}} calladream.com Copyright,All Rights Reserved
+                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  Copyright,All Rights Reserved
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
-                            <a style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
-                            <a style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
-                            <a href="*[tr_about_us]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
+                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
+                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             This email was sent a notification-only address that cannot accept incoming email PLEASE
-                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:service@calladream.com
+                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
                         </div>
                     </div>
                 </div>
@@ -426,6 +426,7 @@ export default {
                         this.fromData.Headline = res.data.data.headline;
                         this.fromData.bodyText = res.data.data.body_text;
                         this.fromData.productTitle = res.data.data.product_title;
+                        this.fromData.searchImgType = res.data.data.product_condition;
                     }else{
                         this.$message("Acquisition failure!");
                     }
