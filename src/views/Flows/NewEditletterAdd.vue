@@ -223,6 +223,14 @@
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
                         </div>
+                        <div style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
+                            <template v-if="fromData.productTitle">
+                                    {{fromData.productTitle}}
+                            </template>
+                            <template v-else>
+                                    Product Title
+                            </template>
+                        </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">
                                 *[tr_top_products]*
@@ -236,22 +244,14 @@
                                 </div>
                             </template> -->
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
-                            <template v-if="fromData.productTitle">
-                                    {{fromData.productTitle}}
-                            </template>
-                            <template v-else>
-                                    Product Title
-                            </template>
-                        </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             @2006-{{new Date().getFullYear()}} calladream.com Copyright,All Rights Reserved
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[link_unsubscribe]*" style="cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
-                            <a style="cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
-                            <a style="cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
-                            <a href="*[tr_about_us]*" style="cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
+                            <a style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
+                            <a style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
+                            <a href="*[tr_about_us]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             This email was sent a notification-only address that cannot accept incoming email PLEASE
@@ -582,9 +582,4 @@ export default {
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
 .NewEditletterAdd .el-form--inline .el-form-item__content{width:100%;}
-
-
-
-
-
 </style>
