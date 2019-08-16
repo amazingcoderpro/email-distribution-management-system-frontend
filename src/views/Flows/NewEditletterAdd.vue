@@ -139,7 +139,7 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                             <template>
-                                <div style="position: absolute;left: 30px;top: 20px;text-align: left;width: 50%;line-height: 30px;">
+                                <div class="bannerText" style="position: absolute;left: 30px;top: 20px;text-align: left;width: 50%;line-height: 30px;">
                                     <div>
                                         <template v-if="fromData.SubjectText">
                                                 {{fromData.SubjectText}}
@@ -183,8 +183,8 @@
                                 <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                             </template>
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;position: relative;">
-                            <template v-if="fromData.is_cart">
+                        <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
+                            <template>
                                 <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
                                 <table style="width: calc(100% - 40px);font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
                                     <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
@@ -220,10 +220,23 @@
                                 </table>
                             </template>
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;text-align: right">
-                                <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
-                            </div>
-                        <div style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;">
+                        <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
+                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
+                        </div>
+                        <div style="width: calc(100% - 24px);padding: 20px 12px;">
+                            <template v-if="fromData.searchImgType != 'no product'">
+                                *[tr_top_products]*
+                            </template>
+                            <!-- <template v-for="(item,index) in productArray" >
+                                <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;">
+                                    <a :href="item.url">
+                                        <img :src="item.image_url" style="width:100%;"/>
+                                    </a>
+                                    <h3 style="font-weight:700;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">{{item.name}}</h3>
+                                </div>
+                            </template> -->
+                        </div>
+                        <div style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                             <template v-if="fromData.productTitle">
                                     {{fromData.productTitle}}
                             </template>
@@ -231,28 +244,18 @@
                                     Product Title
                             </template>
                         </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;">
-                            <template v-for="(item,index) in productArray" >
-                                <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;">
-                                    <a :href="item.url">
-                                        <img :src="item.image_url" style="width:100%;"/>
-                                    </a>
-                                    <h3 style="font-weight:700;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">{{item.name}}</h3>
-                                </div>
-                            </template>
-                        </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             @2006-{{new Date().getFullYear()}} calladream.com Copyright,All Rights Reserved
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a style="cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
+                            <a href="*[link_unsubscribe]*" style="cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
                             <a style="cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
                             <a style="cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
-                            <a style="cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                            <a href="*[tr_about_us]*" style="cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
                             This email was sent a notification-only address that cannot accept incoming email PLEASE
-                            DO NOT REPLY tothis message. if you have any questions or concerns.please email us:service@-calladream.com
+                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:service@calladream.com
                         </div>
                     </div>
                 </div>
@@ -312,10 +315,10 @@ export default {
                 {value: '9',label: 'Last day of the month'},
             ],
             searchImgTypeArray:[
-                {value: 'top_three',label: 'Top 6 products in last 3 days'},
-                {value: 'top_seven',label: 'Top 6 products in last 7 days'},
-                {value: 'top_fifteen',label: 'Top 6 products in last 15 days'},
-                {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
+                {value: 'top_three',label: 'Top 4 products in last 3 days'},
+                {value: 'top_seven',label: 'Top 4 products in last 7 days'},
+                {value: 'top_fifteen',label: 'Top 4 products in last 15 days'},
+                {value: 'top_thirty',label: 'Top 4 products in last 30 days'},
                 // {value: 'Shopping cart goods',label: 'Shopping cart goods'},
                 {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
@@ -422,6 +425,7 @@ export default {
                         this.fromData.bannerUrl = res.data.data.banner;
                         this.fromData.Headline = res.data.data.headline;
                         this.fromData.bodyText = res.data.data.body_text;
+                        this.fromData.productTitle = res.data.data.product_title;
                     }else{
                         this.$message("Acquisition failure!");
                     }
@@ -465,7 +469,9 @@ export default {
                     if(!this.fromData.bannerUrl){
                         this.fromData.bannerUrl = -1;
                     }
-                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>a:hover{text-decoration: underline!important; }  </style></head><body><div style="width:1200px;margin:0 auto;">';
+                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
+                        _showHtml += 'a:hover{text-decoration: underline!important; }@media screen and (min-width:1201px){.bannerText{line-height: 60px!important;font-size: 20px;}}';
+                        _showHtml += '</style></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         
@@ -484,6 +490,7 @@ export default {
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
                             product_condition:this.fromData.searchImgType,
+                            product_title:this.fromData.productTitle,
                             // product_list:JSON.stringify(this.trueProductArray),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:"{}",
@@ -533,15 +540,16 @@ export default {
             });
         },
         searchImgType(){
-            if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
-                this.productArray = [];
-            }else{
-                this.productArray = this.top_product[this.fromData.searchImgType];
-                this.productArray.map(e =>{
-                    e.state = true;
-                });
-            }
-            this.productArray = this.productArray;
+            // if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
+            //     this.productArray = [];
+            // }else{
+            //     this.productArray = this.top_product[this.fromData.searchImgType];
+            //     console.log(this.productArray)
+            //     this.productArray.map(e =>{
+            //         e.state = true;
+            //     });
+            // }
+            // this.productArray = this.productArray;
         }
     },
     beforeDestroy() {
@@ -574,4 +582,9 @@ export default {
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
 .NewEditletterAdd .el-form--inline .el-form-item__content{width:100%;}
+
+
+
+
+
 </style>
