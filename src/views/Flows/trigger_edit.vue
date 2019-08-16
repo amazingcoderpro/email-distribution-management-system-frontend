@@ -33,12 +33,12 @@
                             <template v-for="(itemSon,index) in item.relations">
                                 <div :key="index" style="display:inline-block">
                                     <el-select v-model="itemSon.relation" class="W150" @change="itemSonRelationChange(itemSon)">
-                                        <template v-if="item.condition == 'Customer who accept marketing' || item.condition == 'Customer last open email time'">
+                                        <template v-if="item.condition == 'Customer who accept marketing'">
                                             <el-option :label="'is true'" :value="'is true'"></el-option>
                                             <el-option :label="'is false'" :value="'is false'"></el-option>
                                         </template>
                                         <template v-if="item.condition == 'Customer last order created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
-                                        || item.condition == 'Customer sign up time'">
+                                        || item.condition == 'Customer sign up time' || item.condition == 'Customer last open email time'">
                                             <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
                                             <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
                                             <el-option :label="'is before'" :value="'is before'"></el-option>
@@ -161,13 +161,13 @@ export default {
                     str ='is over all time'; 
                 }
                 else if(item.condition == 'Customer last order created time'){
-                    str ='is more than';
+                    str ='is in the past';
                 }
                 else if(item.condition == 'Customer order number'){
                     str ="equals"
                 }
                 else if(item.condition == 'Customer last open email time'){
-                    str ="true"
+                    str ="is in the past"
                 }
                 else if(item.condition == 'Customer last click email time'){
                     str ="is between"
@@ -187,7 +187,7 @@ export default {
             let lastArray = [];
             this.thisData.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last order created time'
-                || e.condition =='Customer sign up time' || e.condition == 'Customer order number'){
+                || e.condition =='Customer sign up time' || e.condition == 'Customer order number' || e.condition == 'Customer last open email time'){
                     let _str = e.condition + " ";
                     e.relations.map(x =>{
                         _str += x.relation + " ";
@@ -231,7 +231,7 @@ export default {
                     });
                     e.lastVal = _str;
                 }else if(e.condition == 'Customer order number' || e.condition == 'Customer last order status' 
-                    || e.condition =='Customer last open email time' || e.condition == 'Customer who accept marketing'){
+                    || e.condition == 'Customer who accept marketing'){
                         let _str = e.condition + " ";
                         e.relations.map(x =>{
                             _str += x.relation;
