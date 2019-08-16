@@ -328,8 +328,6 @@ export default {
             });
         },
         EditFun() {
-            console.log(this.bigModel.triggerModel)
-
             this.dialog = {
             show: true,
             title: "Trigger Edit",
@@ -362,7 +360,6 @@ export default {
             }else{
                 router.push('/EditletterAdd');
             }
-            // console.log(item)
         },
         DelayFun(item){
             this.itemData = item;
@@ -395,20 +392,36 @@ export default {
             }
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1;
-                    this.$axios.post(`/api/v1/email_trigger/`,_thisData)
-                        .then(res => {
-                            if(res.data.code == 1){
-                                this.$message({message: "Successfully!",type: "success"});
-                                router.push('/FlowList');
-                            }else{
-                                this.$message("Acquisition failure!");
-                            }
-                        })
-                        .catch(error => {
-                            this.$message("Interface timeout!");
+                if(this.bigData.length == 0){
+                    this.$message({
+                        message: 'Please add edit Email and Delay!',
+                        type: 'warning'
                     });
-            }else{
-                this.State.title = 0;
+                }else{
+                    this.bigData.map(e => {
+                            if(e.value == ""){
+                                this.$message({
+                                    message: 'Email Edit cannot be empty!',
+                                    type: 'warning'
+                                });
+                            }else{
+                                this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                                .then(res => {
+                                    if(res.data.code == 1){
+                                        this.$message({message: "Successfully!",type: "success"});
+                                        router.push('/FlowList');
+                                    }else{
+                                        this.$message("Acquisition failure!");
+                                    }
+                                })
+                                .catch(error => {
+                                    this.$message("Interface timeout!");
+                                });
+                            }
+                        });
+                    }
+                }else{  
+                    this.State.title = 0;
             }
         },
     },
