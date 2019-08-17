@@ -390,38 +390,43 @@ export default {
                 email_delay:JSON.stringify(this.bigData),
                 note:JSON.stringify(this.noteTrueArray),
             }
+
+
+
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1;
-                if(this.bigData.length == 0){
+                if(this.bigData.length == 0){                                                        
                     this.$message({
                         message: 'Please add edit Email and Delay!',
                     });
                 }else{
+                    let _state = true;
                     this.bigData.map(e => {
-                        if(e.title == "Email"){
-                            if(e.value == ""){
-                                this.$message({
-                                    message: 'Email Edit cannot be empty!',
-                                });
+                        if(e.value == ""){
+                            _state = false;
+                        }
+                    });
+                    if(_state){
+                        this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                        .then(res => {
+                            if(res.data.code == 1){
+                                this.$message({message: "Successfully!",type: "success"});
+                                router.push('/FlowList');
+                            }else{
+                                this.$message("Acquisition failure!");
                             }
-                        }else{
-                                this.$axios.post(`/api/v1/email_trigger/`,_thisData)
-                                .then(res => {
-                                    if(res.data.code == 1){
-                                        this.$message({message: "Successfully!",type: "success"});
-                                        router.push('/FlowList');
-                                    }else{
-                                        this.$message("Acquisition failure!");
-                                    }
-                                })
-                                .catch(error => {
-                                    this.$message("Interface timeout!");
-                                });
-                            }
+                        })
+                        .catch(error => {
+                            this.$message("Interface timeout!");
+                        });
+                    }else{
+                        this.$message({
+                            message: 'Email Edit cannot be empty!',
                         });
                     }
-                }else{  
-                    this.State.title = 0;
+                }
+            }else{  
+                this.State.title = 0;
             }
         },
     },
