@@ -12,10 +12,69 @@
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
+                            <label style="cursor: pointer;" @click="bannerTextState = !bannerTextState">Change Position</label>
+                        </div>
+                        <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
+                            <el-collapse-transition >
+                                <div v-show="bannerTextState" style="width:100%;">
+                                        <el-button @click="bannerTextState = !bannerTextState" style="position: absolute;right: 18px;">Close</el-button>
+                                        <div class="fromSon"> 
+                                            <label>Top</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.top" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Left</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.left" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Width</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.width" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Font Size</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.fontSize" :min="12" :max="20" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Color</label>
+                                            <div class="content WW100">
+                                                    <el-color-picker v-model="bannerText.color"></el-color-picker>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Text Align</label>
+                                            <div class="content">
+                                                    <template>
+                                                        <el-radio v-model="bannerText.textAlign" label="left">Left</el-radio>
+                                                        <el-radio v-model="bannerText.textAlign" label="center">Center</el-radio>
+                                                        <el-radio v-model="bannerText.textAlign" label="right">Right</el-radio>
+                                                    </template>
+                                            </div>
+                                        </div>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
+                        
+                        <div class="fromSon"> 
                             <label>Email Subject</label>
                             <div class="content">
                                 <el-form-item prop="SubjectText" class="W100">
-                                    <el-input v-model="fromData.SubjectText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -128,7 +187,7 @@
                 <h4>Preview</h4>
                 <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 880px;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <img :src="fromData.logoUrl" style="width: 100%;"/>
@@ -139,7 +198,7 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                             <template>
-                                <div class="bannerText" style="position: absolute;left: 30px;top: 20px;text-align: left;width: 50%;line-height: 30px;">
+                                <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
                                     <div>
                                         <template v-if="fromData.SubjectText">
                                                 {{fromData.SubjectText}}
@@ -284,6 +343,16 @@ export default {
                 Authorization : localStorage.eleToken
             },
             Shop:{},
+            bannerTextState:false,
+            bannerText:{
+                width:400,
+                left:10,
+                top:10,
+                fontSize:14,
+                textAlign:"left",
+                color:"#000",
+                border:"2px dashed #ccc",
+            },
             fromData:{
                 is_cart:true,
                 Title:'',
@@ -351,6 +420,7 @@ export default {
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
                 SegmentValue: [{ required: true, message: 'Please Choose Segment' , trigger: 'blur'}],
                 SendValue: [{ required: true, message: 'Please Choose Time' }],
+
             }
         }
     },
@@ -470,8 +540,9 @@ export default {
                     if(!this.fromData.bannerUrl){
                         this.fromData.bannerUrl = -1;
                     }
+                    this.bannerText.border = "0px";
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
-                        _showHtml += 'a:hover{text-decoration: underline!important; }@media screen and (min-width:1201px){.bannerText{line-height: 60px!important;font-size: 20px;}}';
+                        _showHtml += 'a:hover{text-decoration: underline!important; }';
                         _showHtml += '</style></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
@@ -561,7 +632,7 @@ export default {
 <style>
  .NewEditletterAdd a:hover{text-decoration: underline!important; }   
 .NewEditletterAdd .leftBox{display:inline-block;width:40%;}
-.NewEditletterAdd .fromBox{min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
+.NewEditletterAdd .fromBox{position: relative;min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
 .NewEditletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
 .NewEditletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
 .NewEditletterAdd .showBox{min-height:500px;border:1px solid #ccc;}
@@ -583,4 +654,6 @@ export default {
 .avatar-uploader-icon{font-size:28px;color:#8c939d;width:178px;height:178px;line-height:178px;text-align:center;}
 .avatar{width:178px;height:178px;display:block;}
 .NewEditletterAdd .el-form--inline .el-form-item__content{width:100%;}
+.NewEditletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
+.NewEditletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
 </style>
