@@ -2,8 +2,8 @@
     <div class="Browse">
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
-             <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
-            <li><a><span class="el-icon-right"> </span> Browse Abandonment</a></li>
+            <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
+            <li v-if="title"><a><span class="el-icon-right"> </span>{{title}}</a></li>
         </ul>
         <el-form :inline="true" :model="bigModel" :data-text="fromDataType" :disabled="fromDataType == 'preview'">
             <el-form-item label="Title" style="margin-left:290px;">

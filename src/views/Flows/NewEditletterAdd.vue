@@ -3,8 +3,8 @@
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-right"> </span>Home</a></li>
             <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
-            <li><a href="/Browse_Abandonment"><span class="el-icon-right"> </span> Browse Abandonment</a></li>
-            <li><a><span class="el-icon-right"> </span>Edit</a></li>
+            <li><a><span class="el-icon-right"> </span>{{title}}</a></li>
+            <li><a href="/NewEditletterAdd"><span class="el-icon-right"> </span>EditletterAdd</a></li>
         </ul>
         <div class="bigBox">
             <div class="leftBox">
@@ -332,6 +332,7 @@ export default {
     name: "NewEditletterAdd",
     data() {
         return {
+            title:"",
             id:-1,
             dialog: {
                 show: false,
@@ -445,6 +446,8 @@ export default {
     },
     methods:{
         init(){
+            let _thisData = JSON.parse(localStorage["FlowsVal"]);
+            this.title = _thisData.title;
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
                 if(res.data.code == 1){
