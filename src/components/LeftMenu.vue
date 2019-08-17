@@ -30,6 +30,13 @@ export default {
             this.leftHeight = window.innerHeight - document.getElementsByClassName("leftMenu")[0].offsetTop +"px";
         }
       });
+      if(window.localStorage.getItem('user')){
+        if(JSON.parse(window.localStorage.getItem('user')).username == "admin"){
+          this.items.push({"id":6,"menu_name":"Account","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]})
+        }
+      }
+      // UploadExcel
+
   },
   data() {
     return {

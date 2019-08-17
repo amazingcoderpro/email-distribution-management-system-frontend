@@ -9,6 +9,7 @@ import Dashboard from './views/dashboard'
 import AutState from './views/special/aut_state'
 import ShopfyRegist from './views/special/shopfy_regist.vue'
 import Privacy from './views/special/privacy.vue'
+import UploadExcel from './views/special/UploadExcel.vue'
 
 
 // Newsletters
@@ -64,6 +65,7 @@ const router = new Router({
         { path: '/SegmentAddTest', name: 'SegmentAddTest', component: SegmentAddTest },
         { path: '/Integration', name: 'Integration', component: Integration },
         { path: '/ImageList', name: 'ImageList', component: ImageList },
+        { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
       ]
     },
     {
