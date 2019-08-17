@@ -390,9 +390,6 @@ export default {
                 email_delay:JSON.stringify(this.bigData),
                 note:JSON.stringify(this.noteTrueArray),
             }
-
-
-
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1;
                 if(this.bigData.length == 0){                                                        
