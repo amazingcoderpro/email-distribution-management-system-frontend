@@ -10,6 +10,64 @@
                 <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :disabled="fromData.fromDataType == 'preview'"  :rules="rules">
                     <h4>Edit Template</h4>
                     <div class="fromBox">
+                        <div class="fromSon"> 
+                            <label style="cursor: pointer;" ><el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button></label>
+                        </div>
+                        <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
+                            <el-collapse-transition >
+                                <div v-show="bannerTextState" style="width:100%;">
+                                        <el-button @click="bannerTextState = !bannerTextState" style="position: absolute;right: 18px;">Close</el-button>
+                                        <div class="fromSon"> 
+                                            <label>Top</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.top" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Left</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.left" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Width</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.width" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Font Size</label>
+                                            <div class="content">
+                                                <el-form-item class="WW100">
+                                                    <el-input-number  v-model="bannerText.fontSize" :min="12" :max="20" maxlength="120" placeholder="width"></el-input-number>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Color</label>
+                                            <div class="content WW100">
+                                                    <el-color-picker v-model="bannerText.color"></el-color-picker>
+                                            </div>
+                                        </div>
+                                        <div class="fromSon"> 
+                                            <label>Text Align</label>
+                                            <div class="content">
+                                                    <template>
+                                                        <el-radio v-model="bannerText.textAlign" label="left">Left</el-radio>
+                                                        <el-radio v-model="bannerText.textAlign" label="center">Center</el-radio>
+                                                        <el-radio v-model="bannerText.textAlign" label="right">Right</el-radio>
+                                                    </template>
+                                            </div>
+                                        </div>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
                         <div class="fromSon">
                             <label>Email Title</label>
                             <div class="content">
@@ -61,7 +119,7 @@
                                     </el-upload>
                                 </el-form-item>
                                 <!-- <div class="uploadBtnBox"><el-button type="info">Upload</el-button></div> -->
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -83,7 +141,15 @@
                                     </el-upload>
                                 </el-form-item>
                                 <!-- <div class="uploadBtnBox"></div> -->
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
+                            </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>Shopping Cart</label>
+                            <div class="content">
+                                <el-form-item class="W100">
+                                        <el-switch v-model="fromData.is_cart" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+                                </el-form-item>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -170,6 +236,116 @@
             </div>
             <div class="rightBox">
                 <h4>Preview</h4>
+                <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
+                <div ref="showBox">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
+                        <div style="width: 100%;padding:20px 0;">
+                            <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
+                                <img :src="fromData.logoUrl" style="width: 100%;"/>
+                            </div>
+                            <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
+                            </div>
+                            <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
+                        </div>
+                        <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
+                            <template>
+                                <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
+                                    <div>
+                                        <template v-if="fromData.SubjectText">
+                                                {{fromData.SubjectText}}
+                                        </template>
+                                        <template v-else>
+                                                Did you forget something?
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <template v-if="fromData.HeadingText">
+                                                {{fromData.HeadingText}}
+                                        </template>
+                                        <template v-else>
+                                                We are still waiting for you at {shop.name}
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <template v-if="fromData.Headline">
+                                                {{fromData.Headline}}
+                                        </template>
+                                        <template v-else>
+                                                Did you forget something?
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <template v-if="fromData.bodyText">
+                                                {{fromData.bodyText}}
+                                        </template>
+                                        <template v-else>
+                                                We noticed you left {shop.name} without completing your order. Don’t worry, we saved your shopping cart so you can easily click back and continue shopping any time.
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <template>
+                                <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
+                                    <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                </div>
+                                <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
+                                </div>
+                                <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
+                            </template>
+                        </div>
+                        <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
+                            <template>
+                                <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
+                                <table style="width: calc(100% - 40px);font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
+                                    <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
+                                        <tr style="font-size: 18px;border-bottom: 10px solid #000;">
+                                            <td style="width: 50%;">ITEM(S)</td>
+                                            <td>UNIT PRICE</td>
+                                            <td>QUANTITY</td>
+                                            <td>AMOUNT</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        *[tr_cart_products]*
+                                    </tbody>
+                                </table>
+                            </template>
+                        </div>
+                        <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
+                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
+                        </div>
+                        <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
+                            <template v-if="fromData.productTitle">
+                                    {{fromData.productTitle}}
+                            </template>
+                            <template v-else>
+                                    Product Title
+                            </template>
+                        </div>
+                        <div style="width: calc(100% - 24px);padding: 20px 12px;">
+                            <template v-if="fromData.searchImgType != 'no product'">
+                                *[tr_top_products]*
+                            </template>
+                        </div>
+                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  Copyright,All Rights Reserved
+                        </div>
+                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
+                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
+                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
+                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                        </div>
+                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                            This email was sent a notification-only address that cannot accept incoming email PLEASE
+                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="rightBox">
+                <h4>Preview</h4>
                 <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
@@ -197,7 +373,6 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
-                                <!-- <img :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" style="width: 100%;"/> -->
                                 <img :src="fromData.bannerUrl" style="width: 100%;"/>
                             </div>
                             <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
@@ -249,7 +424,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <DialogFound :dialog='dialog' :fromData="fromData" :trueProductArray="trueProductArray" ></DialogFound>
     </div>
@@ -278,7 +453,18 @@ export default {
                 Authorization : localStorage.eleToken
             },
             Shop:{},
+            bannerTextState:false,
+            bannerText:{
+                width:400,
+                left:10,
+                top:10,
+                fontSize:14,
+                textAlign:"left",
+                color:"#000",
+                border:"2px dashed #ccc",
+            },
             fromData:{
+                is_cart:true,
                 fromDataType:'add',
                 Title:'',
                 description:'',
@@ -311,10 +497,10 @@ export default {
                 {value: '10',label: 'Everyday'},
             ],
             searchImgTypeArray:[
-                {value: 'top_three',label: 'Top 6 products in last 3 days'},
-                {value: 'top_seven',label: 'Top 6 products in last 7 days'},
-                {value: 'top_fifteen',label: 'Top 6 products in last 15 days'},
-                {value: 'top_thirty',label: 'Top 6 products in last 30 days'},
+                {value: 'top_three',label: 'Top 4 products in last 3 days'},
+                {value: 'top_seven',label: 'Top 4 products in last 7 days'},
+                {value: 'top_fifteen',label: 'Top 4 products in last 15 days'},
+                {value: 'top_thirty',label: 'Top 4 products in last 30 days'},
                 {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
                 {value: 'no product',label: 'No Product'},
@@ -362,8 +548,11 @@ export default {
     },
     methods:{
         init(){
-            let _thisData = JSON.parse(localStorage["NewsletterVal"])
+            let _thisData = JSON.parse(localStorage["NewsletterVal"]);
             this.fromData = _thisData;
+            if(_thisData.banner_text){
+                this.bannerText = JSON.parse(this.fromData.banner_text);
+            }
             if(this.fromData.fromDataType == "add"){
                 this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
             }else if(this.fromData.fromDataType == "clone"){
@@ -455,12 +644,12 @@ export default {
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
-            const isLt2M = file.size / 1024 / 1024 < 10;
+            const isLt2M = file.size / 1024 / 1024 < 5;
             if (!isJPG) {
                 this.$message.error('JPG、png、gif');
             }
             if (!isLt2M) {
-                this.$message.error('No more than 2MB!');
+                this.$message.error('No more than 5MB!');
             }
             return isJPG && isLt2M;
         },
@@ -484,6 +673,7 @@ export default {
                         this.fromData.bannerUrl = "";
                     }
                         let _thisData = {
+                            is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,
                             description:this.fromData.description,
                             subject:this.fromData.SubjectText,
@@ -494,6 +684,7 @@ export default {
                             body_text:this.fromData.bodyText,
                             product_condition:this.fromData.searchImgType,
                             product_list:JSON.stringify(this.trueProductArray),
+                            banner_text:JSON.stringify(this.bannerText),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
                                 begin_time:base.dateFormat(this.fromData.periodTime[0]),
@@ -544,15 +735,15 @@ export default {
             });
         },
         searchImgType(){
-            if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
-                this.productArray = [];
-            }else{
-                this.productArray = this.top_product[this.fromData.searchImgType];
-                this.productArray.map(e =>{
-                    e.state = true;
-                });
-            }
-            this.productArray = this.productArray;
+            // if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
+            //     this.productArray = [];
+            // }else{
+            //     this.productArray = this.top_product[this.fromData.searchImgType];
+            //     this.productArray.map(e =>{
+            //         e.state = true;
+            //     });
+            // }
+            // this.productArray = this.productArray;
         }
     },
     beforeDestroy() {
@@ -562,7 +753,7 @@ export default {
 
 <style>
 .NewsletterAdd .leftBox{display:inline-block;width:40%;}
-.NewsletterAdd .fromBox{min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
+.NewsletterAdd .fromBox{position: relative; min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
 .NewsletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
 .NewsletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
 .NewsletterAdd .showBox{min-height:500px;border:1px solid #ccc;}
@@ -588,4 +779,6 @@ export default {
 .NewsletterAdd .uploadBtnBox{z-index: 200;position: absolute;width: 100%;height: 100%;top: 0;}
 .NewsletterAdd .uploadBtnBox button{right: 90px;position: absolute;top: 60px;}
 .NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
+.NewsletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
+.NewsletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
 </style>

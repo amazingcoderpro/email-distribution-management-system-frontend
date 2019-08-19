@@ -169,6 +169,7 @@ export default {
       },
       addFun(){
         let NewsletterVal = {
+                is_cart:true,
                 fromDataType:'add',
                 Title:'',
                 description:'',
@@ -204,6 +205,8 @@ export default {
           _customer_group_list = JSON.parse(row.customer_group_list);
         }
         let NewsletterVal = {
+                is_cart:true,
+                banner_text:row.banner_text,
                 fromDataType:'clone',
                 Title:row.title,
                 description:row.description,

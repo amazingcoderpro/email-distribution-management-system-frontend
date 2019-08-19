@@ -12,7 +12,7 @@
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
-                            <label style="cursor: pointer;" @click="bannerTextState = !bannerTextState">Change Position</label>
+                            <label style="cursor: pointer;" ><el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button></label>
                         </div>
                         <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
                             <el-collapse-transition >
@@ -187,7 +187,7 @@
                 <h4>Preview</h4>
                 <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 880px;margin: 0 auto;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <img :src="fromData.logoUrl" style="width: 100%;"/>
@@ -282,7 +282,7 @@
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
+                        <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                             <template v-if="fromData.productTitle">
                                     {{fromData.productTitle}}
                             </template>
@@ -500,6 +500,10 @@ export default {
                         this.fromData.bodyText = res.data.data.body_text;
                         this.fromData.productTitle = res.data.data.product_title;
                         this.fromData.searchImgType = res.data.data.product_condition;
+                        if(res.data.data.banner_text){
+                            this.bannerText = JSON.parse(res.data.data.banner_text);
+                            this.bannerText.border = "2px dashed #ccc";
+                        }
                     }else{
                         this.$message("Acquisition failure!");
                     }
@@ -544,9 +548,10 @@ export default {
                         this.fromData.bannerUrl = -1;
                     }
                     this.bannerText.border = "0px";
+                    this.$forceUpdate();
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
-                        _showHtml += 'a:hover{text-decoration: underline!important; }';
-                        _showHtml += '</style></head><body><div style="width:1200px;margin:0 auto;">';
+                        _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}';
+                        _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         
@@ -566,7 +571,7 @@ export default {
                             body_text:this.fromData.bodyText,
                             product_condition:this.fromData.searchImgType,
                             product_title:this.fromData.productTitle,
-                            // product_list:JSON.stringify(this.trueProductArray),
+                            banner_text:JSON.stringify(this.bannerText),
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:"{}",
                             html:_showHtml,
