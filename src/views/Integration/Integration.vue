@@ -67,7 +67,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                             </div>
                 </section>
                 <div class="goole_analytics">
@@ -133,7 +133,7 @@ export default {
             .then(res => {
                 if (res.data.code == 1) {
                 this.storeShop.id = res.data.data[0].id;
-                this.storeShop.url = res.data.data[0].url.split(".")[1]+".com";
+                this.storeShop.url = res.data.data[0].url;
                 this.storeShop.name = res.data.data[0].name;
                 this.storeShop.domain = res.data.data[0].domain;
                 this.storeShop.sender = res.data.data[0].sender;
@@ -144,8 +144,7 @@ export default {
                 if(res.data.data[0].sender_address){
                     this.storeShop.sender_address_one = this.storeShop.sender_address.split("@")[0];
                     this.storeShop.sender_address_two = this.storeShop.sender_address.split("@")[1].split(".")[0];
-                    // this.storeShop.sender_address_three =this.storeShop.sender_address.split("@")[1].split(".")[1]+".com";
-                    this.storeShop.sender_address_three =this.storeShop.sender_address.split("@")[1].split(".")[1];
+                    this.storeShop.sender_address_three =this.storeShop.sender_address.split("@")[1].split(".")[1]+".com";
                 }
                 this.storeShop.store_view_id = res.data.data[0].store_view_id;
                 this.storeShop.email = res.data.data[0].email;
@@ -165,7 +164,7 @@ export default {
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
-            const isLt2M = file.size / 1024 / 1024 < 10;
+            const isLt2M = file.size / 1024 / 1024 < 2;
             if (!isJPG) {
                 this.$message.error('JPG、png、gif');
             }
