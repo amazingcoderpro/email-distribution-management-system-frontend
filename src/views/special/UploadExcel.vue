@@ -10,6 +10,7 @@
                     <div class="content">
                         <el-form-item prop="shopifydomain" class="W300">
                             <el-input v-model="fromData.shopifydomain"  class="W100"></el-input>
+                            <span class="littleStar">*</span>
                         </el-form-item>
                     </div>
                 </div>
@@ -18,6 +19,7 @@
                     <div class="content">
                         <el-form-item prop="password" class="W300">
                             <el-input v-model="fromData.password" class="W100"></el-input>
+                            <span class="littleStar">*</span>
                         </el-form-item>
                     </div>
                 </div>
@@ -26,14 +28,7 @@
                     <div class="content">
                         <el-form-item prop="password2" class="W300">
                             <el-input v-model="fromData.password2" class="W100"></el-input>
-                        </el-form-item>
-                    </div>
-                </div>
-                <div class="fromSon">
-                    <label>Store View ID</label>
-                    <div class="content">
-                        <el-form-item class="W300">
-                            <el-input v-model="fromData.store_view_id" class="W100"></el-input>
+                            <span class="littleStar">*</span>
                         </el-form-item>
                     </div>
                 </div>
@@ -56,6 +51,16 @@
                         <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                     </div>
                 </div>
+                <div class="fromSon">
+                    <label>Store View ID</label>
+                    <div class="content">
+                        <el-form-item class="W300">
+                            <el-input v-model="fromData.store_view_id" class="W100"></el-input>
+                        </el-form-item>
+                    </div>
+                </div>
+                <div class="fromSon">
+                </div>
                 <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                 <el-upload
                     class="upload-demo"
@@ -69,22 +74,20 @@
                         <el-button type="primary">Batch</el-button>
                     </el-upload>
         </el-form>
-        
     </div>
 </template>
 
 <script>
 export default {
         name: 'UploadExcel',
-        components: {},
         data() {
-        var validatePass2 = (rule, value, callback) => {
-            if (value !== this.fromData.password) {
-                callback(new Error("Inconsistent password input!"));
-            } else {
-                callback();
-            }
-        };
+            var validatePass2 = (rule, value, callback) => {
+                if (value !== this.fromData.password) {
+                    callback(new Error("Inconsistent password input!"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 fromData:{
                     password:"",
@@ -105,7 +108,7 @@ export default {
                 headerdata:{
                     Authorization : localStorage.eleToken
                 },
-            };//这里存放数据
+            };
         },
         methods: {
             successFun(response, file, fileList) {
@@ -127,18 +130,6 @@ export default {
                     this.$message.error('csv');
                 }
                 return typeState;
-            },
-            handleRemove(file, fileList) {
-            console.log(file, fileList);
-            },
-            handlePreview(file) {
-            console.log(file);
-            },
-            handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${ file.name }？`);
             },
             LogoSuccess(response, file, fileList){
                 if(response.data.base64_str){
@@ -174,16 +165,20 @@ export default {
                     }
                 });
             }
-        },//方法集合
-        created() {},//生命周期 - 创建完成（可以访问当前this实例）
-        mounted() {
-            
-        },//生命周期 - 挂载完成（可以访问DOM元素）
+        }
 }
 </script>
 <style>
-.UploadExcel .fromSon{color:#606266;margin-bottom:20px;}
+.UploadExcel .fromSon{color: #606266;width: 33.33333%;display: inline-block;vertical-align: top;}
 .UploadExcel .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
 .UploadExcel .fromSon .content{position:relative;}
-.UploadExcel .el-form-item__content{width:100%;}
+.UploadExcel .el-form-item__content{width:100%;position:relative;}
+.UploadExcel .littleMsg{font-size: 12px;}
+.UploadExcel .littleStar{position: absolute;
+    right: -16px;
+    top: 0px;
+    color: red;}
+
+
+
 </style>

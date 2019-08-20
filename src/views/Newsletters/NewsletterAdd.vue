@@ -668,13 +668,13 @@ export default {
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        
-                    if(this.fromData.logoUrl == -1){
-                        this.fromData.logoUrl = "";
-                    }
-                    if(this.fromData.bannerUrl == -1){
-                        this.fromData.bannerUrl = "";
-                    }
+                        _showHtml = _showHtml.replace('2px dashed #ccc','');
+                        if(this.fromData.logoUrl == -1){
+                            this.fromData.logoUrl = "";
+                        }
+                        if(this.fromData.bannerUrl == -1){
+                            this.fromData.bannerUrl = "";
+                        }
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,

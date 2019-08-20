@@ -548,14 +548,13 @@ export default {
                     if(!this.fromData.bannerUrl){
                         this.fromData.bannerUrl = -1;
                     }
-                    this.bannerText.border = "0px";
                     this.$forceUpdate();
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}';
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        
+                        _showHtml = _showHtml.replace('2px dashed #ccc','');
                     if(this.fromData.logoUrl == -1){
                         this.fromData.logoUrl = "";
                     }
