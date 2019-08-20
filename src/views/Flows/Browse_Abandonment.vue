@@ -10,7 +10,7 @@
                 <el-input v-model="title" placeholder="Enter Flow Name" style="width:250px;"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
             </el-form-item>
-             <el-form-item label="Description" style="margin-left:290px;">
+            <el-form-item label="Description" style="margin-left:290px;">
                 <el-input v-model="description" placeholder="Enter Description" style="width:250px;"></el-input>
                 <div class="el-form-item__error" v-if="State.title == 0">Please enter Description</div>
             </el-form-item>
@@ -44,7 +44,7 @@
                                 <el-input v-model="item.lastVal" placeholder="" class="trigger_input_one"></el-input>
                                 <template>
                                     <template  v-if="fromDataType != 'preview'">
-                                       <i class="iconfont icon-chahao"  @click="addDelete(index)"></i>
+                                        <i class="iconfont icon-chahao"  @click="addDelete(index)"></i>
                                     </template>
                                 </template>
                             </div>
@@ -53,8 +53,19 @@
                     <div class="rigger_bottom" v-if="noteArray.length>0">
                         <span>Note:</span><br/>
                         <el-checkbox-group class="SegmentValueBox" v-model="noteTrueArray">
-                            <el-checkbox v-for="item in noteArray" :label="item" :key="item">{{item}}</el-checkbox>
+                            <el-checkbox-group class="SegmentValueBox" v-model="noteTrueArray">
+                                <el-checkbox v-for="item in noteArray" :label="item" :key="item">{{item}}</el-checkbox>
+                            </el-checkbox-group>
                         </el-checkbox-group>
+                        <div class="noteBox">
+                                <el-input v-model="noteValue" placeholder="Number" class="noteHeight WW100" @keyup.native="noteValueChange"></el-input> 
+                                <el-select v-model="noteUnit" class="noteHeight WW100">
+                                    <el-option  :label="'minutes'" :value="'minutes'"></el-option>
+                                    <el-option  :label="'hours'" :value="'hours'"></el-option>
+                                    <el-option  :label="'days'" :value="'days'"></el-option>
+                                    <el-option  :label="'weeks'" :value="'weeks'"></el-option>
+                                </el-select>.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -186,6 +197,8 @@ import router from '../../router';
 export default {
     data() {
         return {
+            noteValue:"7",
+            noteUnit:"days",
             disabledSon:"",
             fromDataType:"",
             title:"",
@@ -197,7 +210,7 @@ export default {
             noteTrueArray:[],
             noteArray:[
                 "Do not send if the customer if your customer makes a purchase.",
-                "Do not send if the customer received an email from this campaign in the last 7 days."
+                "Do not send if the customer received an email from this campaign in the last"
             ],
             bigModel:{
                 triggerModel:[],
@@ -237,7 +250,17 @@ export default {
                         this.description = res.data.data.description;
                         this.bigData = JSON.parse(res.data.data.email_delay);
                         this.bigModel.triggerModel = JSON.parse(res.data.data.relation_info).group_condition[0].children;
-                        this.noteTrueArray =JSON.parse(res.data.data.note);
+                        this.noteTrueArray = JSON.parse(res.data.data.note);
+                        this.noteTrueArray.map((e, index, array) =>{
+                            if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
+                                let _array = e.split(" ");
+                                this.noteValue = _array[_array.length-2];
+                                this.noteUnit = _array[_array.length-1].replace(".","");
+                                this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last";
+                            }
+                        });
+                        console.log(this.noteTrueArray)
+                        this.$forceUpdate();
                     }else{
                         this.$message("Acquisition failure!");
                     }
@@ -354,6 +377,9 @@ export default {
                 email_delay:JSON.stringify(this.bigData),
                 note:this.noteTrueArray,
             }
+            if(this.fromDataType == "preview"){
+                _thisData.fromDataType = "preview";
+            }
             localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
             if(item.value){
                 router.push(`/NewEditletterAdd?id=${item.value}`);
@@ -383,6 +409,11 @@ export default {
                 "children":this.bigModel.triggerModel,
             };
             _bigData.group_condition.push(_relation_info);
+            this.noteTrueArray.map((e,index) =>{
+                if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
+                    this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last " + this.noteValue +" "+ this.noteUnit;
+                }
+            });
             let  _thisData = {    
                 title:this.title,
                 description:this.description,
@@ -390,6 +421,7 @@ export default {
                 email_delay:JSON.stringify(this.bigData),
                 note:JSON.stringify(this.noteTrueArray),
             }
+            
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1;
                 if(this.bigData.length == 0){                                                        
@@ -426,6 +458,21 @@ export default {
                 this.State.title = 0;
             }
         },
+        noteValueChange(){
+            if(this.noteValue){
+                this.noteValue = parseInt(this.noteValue);
+            }else{
+                this.noteValue = 0;
+            }
+            // this.noteArray[1] = "Do not send if the customer received an email from this campaign in the last "+this.noteValue+" "+this.noteUnit;
+            
+            // this.noteTrueArray.map(e => {
+            //     if(e.indexOf("Do not send if the customer received an email from this campaign in the last ")>=0){
+            //         e = "Do not send if the customer received an email from this campaign in the last "+this.noteValue+" "+this.noteUnit;
+            //     }
+            // });
+            // this.$forceUpdate();
+        },
     },
 }
 </script>
@@ -436,7 +483,7 @@ export default {
 .Browse .Browse_table .iconfont{color: #6d6666}
 .Browse #breadcrumb{margin-bottom: 50px;}
 .Browse .Enable_button{margin:30px 0 30px;margin-left: 943px;}
-.Browse .Browse_table .table_right{border: 1px solid rgba(121, 121, 121, 1);padding-bottom:20px;}
+.Browse .Browse_table .table_right{position: relative; border: 1px solid rgba(121, 121, 121, 1);padding-bottom:20px;}
 .Browse .Browse_table .table_right .trigger_top{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
 .Browse .Browse_table .table_right .trigger_top .trigger_left{width: 150px;height:50px;float: left;display: inline-flex;}
 .Browse .Browse_table .table_right .trigger_top .trigger_left .icon-star{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
@@ -453,7 +500,7 @@ export default {
 .Browse .trigger_center .trigger_input_one{width: 50%;margin-left: 23%;margin-top: 40px;position: relative;}
 .Browse .trigger_center .icon-chahao{position: absolute;margin-top: 53px;margin-left: -23px;color: #908f8f;font-size: 14px;font-weight: 600;cursor: pointer;}
 .Browse .trigger_centertwo{margin-top: -20px;}
-.Browse .rigger_bottom{width: 52%;margin: 0 auto;margin-top: 25px;}
+.Browse .rigger_bottom{position: relative;width: 52%;margin: 0 auto;margin-top: 25px;}
 .Browse .rigger_bottom span{font-size: 14px;color: #333333;font-family: 'Arial Cursiva', 'Arial Normal', 'Arial';font-style: italic;}
 .Browse .Broese_public{width: 65%;margin: 0 auto;text-align: center;}
 .Browse .Broese_img{position: relative;}
@@ -472,6 +519,9 @@ export default {
 .Browse .delay_email{width: 30%;height:150px;margin: 0 auto;border:1px solid rgba(121, 121, 121, 1);margin-bottom: 10px;text-align: center;}
 .Browse .delay_left{display: inline-block;background-color: rgba(51, 153, 153, 1);color: #fff;cursor: pointer;width: 24%;height: 60%;text-align: center;line-height: 80px;margin-top: 30px;}
 .Browse .delay_right{display: inline-block;background-color: rgba(51, 153, 153, 1);margin-left: 50px;color: #fff;cursor: pointer;width: 24%;height: 60%;text-align: center;line-height: 80px;margin-top: 30px;}
+.Browse .noteBox{position: absolute;right: -215px;bottom: -9px;background: #fff;z-index: 500;}
+input[type='text']{height:20px;}
 
+.Browse .noteHeight .el-input__inner{height:20px;}
 </style>
 

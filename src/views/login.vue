@@ -38,7 +38,7 @@ export default {
         rules: {
           username: [
             { required: true, message: "User name cannot be empty", trigger: "change" },
-            { min: 2, max: 30, message: "Length of 2 to 30 characters", trigger: "blur" }  
+            { min: 2, max: 50, message: "Length of 2 to 50 characters", trigger: "blur" }  
           ],
           password: [
             { required: true, message: "Password cannot be empty", trigger: "blur" },

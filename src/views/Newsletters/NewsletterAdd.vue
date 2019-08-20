@@ -87,7 +87,7 @@
                         <div class="fromSon">
                             <label>Email Subject</label>
                             <div class="content">
-                                <el-form-item prop="SubjectText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.SubjectText" class="W100"  placeholder="We just picked up some new items for you"></el-input>
                                 </el-form-item>
                             </div>
@@ -95,7 +95,7 @@
                         <div class="fromSon">
                             <label>HeadingText</label>
                             <div class="content">
-                                <el-form-item prop="HeadingText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.HeadingText" class="W100"  placeholder="Styles you love - selling fast!"></el-input>
                                 </el-form-item>
                             </div>
@@ -155,7 +155,7 @@
                         <div class="fromSon">
                             <label>Headline</label>
                             <div class="content">
-                                <el-form-item prop="Headline" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.Headline" placeholder="STILL SEARCHING FOR WHAT YOU NEED?"></el-input>
                                 </el-form-item>
                             </div>
@@ -163,7 +163,7 @@
                         <div class="fromSon">
                             <label>Body Text</label>
                             <div class="content">
-                                <el-form-item prop="bodyText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
                                 </el-form-item>
                             </div>
@@ -250,39 +250,11 @@
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                             <template>
                                 <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
-                                    <div>
-                                        <template v-if="fromData.SubjectText">
-                                                {{fromData.SubjectText}}
-                                        </template>
-                                        <template v-else>
-                                                Did you forget something?
-                                        </template>
+                                        <div>{{fromData.SubjectText}}</div>
+                                        <div>{{fromData.HeadingText}}</div>
+                                        <div>{{fromData.Headline}}</div>
+                                        <div>{{fromData.bodyText}}</div>
                                     </div>
-                                    <div>
-                                        <template v-if="fromData.HeadingText">
-                                                {{fromData.HeadingText}}
-                                        </template>
-                                        <template v-else>
-                                                We are still waiting for you at {shop.name}
-                                        </template>
-                                    </div>
-                                    <div>
-                                        <template v-if="fromData.Headline">
-                                                {{fromData.Headline}}
-                                        </template>
-                                        <template v-else>
-                                                Did you forget something?
-                                        </template>
-                                    </div>
-                                    <div>
-                                        <template v-if="fromData.bodyText">
-                                                {{fromData.bodyText}}
-                                        </template>
-                                        <template v-else>
-                                                We noticed you left {shop.name} without completing your order. Don’t worry, we saved your shopping cart so you can easily click back and continue shopping any time.
-                                        </template>
-                                    </div>
-                                </div>
                             </template>
                             <template>
                                 <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">

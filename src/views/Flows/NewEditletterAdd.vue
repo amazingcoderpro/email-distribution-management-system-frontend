@@ -73,7 +73,7 @@
                         <div class="fromSon"> 
                             <label>Email Subject</label>
                             <div class="content">
-                                <el-form-item prop="SubjectText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
@@ -81,7 +81,7 @@
                         <div class="fromSon">
                             <label>HeadingText</label>
                             <div class="content">
-                                <el-form-item prop="HeadingText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.HeadingText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
                             </div>
@@ -102,7 +102,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -121,7 +121,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 10MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -135,7 +135,7 @@
                         <div class="fromSon">
                             <label>Headline</label>
                             <div class="content">
-                                <el-form-item prop="Headline" class="W100">
+                                <el-form-item class="W100">
                                     <el-input v-model="fromData.Headline" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
                             </div>
@@ -143,7 +143,7 @@
                         <div class="fromSon"> 
                             <label>Body Text</label>
                             <div class="content">
-                                <el-form-item prop="bodyText" class="W100">
+                                <el-form-item class="W100">
                                     <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
                                 </el-form-item>
                                 <span class="littleMsg">*[tr_shop_name]*    *[tr_firstname]*</span>
@@ -199,38 +199,10 @@
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                             <template>
                                 <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
-                                    <div>
-                                        <template v-if="fromData.SubjectText">
-                                                {{fromData.SubjectText}}
-                                        </template>
-                                        <template v-else>
-                                                Did you forget something?
-                                        </template>
-                                    </div>
-                                    <div>
-                                        <template v-if="fromData.HeadingText">
-                                                {{fromData.HeadingText}}
-                                        </template>
-                                        <template v-else>
-                                                We are still waiting for you at {shop.name}
-                                        </template>
-                                    </div>
-                                    <div>
-                                        <template v-if="fromData.Headline">
-                                                {{fromData.Headline}}
-                                        </template>
-                                        <template v-else>
-                                                Did you forget something?
-                                        </template>
-                                    </div>
-                                    <div>
-                                        <template v-if="fromData.bodyText">
-                                                {{fromData.bodyText}}
-                                        </template>
-                                        <template v-else>
-                                                We noticed you left {shop.name} without completing your order. Don’t worry, we saved your shopping cart so you can easily click back and continue shopping any time.
-                                        </template>
-                                    </div>
+                                    <div>{{fromData.SubjectText}}</div>
+                                    <div>{{fromData.HeadingText}}</div>
+                                    <div>{{fromData.Headline}}</div>
+                                    <div>{{fromData.bodyText}}</div>
                                 </div>
                             </template>
                             <template>
@@ -354,6 +326,7 @@ export default {
                 color:"#000",
                 border:"2px dashed #ccc",
             },
+            fromDataType:"",
             fromData:{
                 is_cart:true,
                 Title:'',
@@ -447,6 +420,7 @@ export default {
     methods:{
         init(){
             let _thisData = JSON.parse(localStorage["FlowsVal"]);
+            this.fromDataType = _thisData.fromDataType?_thisData.fromDataType:'';
             this.title = _thisData.title;
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
@@ -579,7 +553,8 @@ export default {
                         if(this.fromData.searchImgType != "Shopping cart goods"){
                             _thisData.product_list = JSON.stringify(this.trueProductArray);
                         }
-                        this.$axios.post(`/api/v1/email_template/trigger/`, _thisData)
+                        if(this.fromDataType == "preview"){
+                            this.$axios.put(`/api/v1/email_template/detail/${this.id}/`, _thisData)
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});
@@ -597,6 +572,26 @@ export default {
                             .catch(error => {
                                 this.$message("Interface timeout!");
                             }); 
+                        }else{
+                            this.$axios.post(`/api/v1/email_template/trigger/`, _thisData)
+                            .then(res => {
+                                if(res.data.code == 1){
+                                    this.$message({message: "Successfully!",type: "success"});
+                                    let _thisData = JSON.parse(localStorage["FlowsVal"]);
+                                    let _email_delay = JSON.parse(_thisData.email_delay); 
+                                    _email_delay[_thisData.index].SubjectText = res.data.data.subject;
+                                    _email_delay[_thisData.index].value = res.data.data.id;
+                                    _thisData.email_delay = JSON.stringify(_email_delay);
+                                    localStorage.setItem("FlowsVal",JSON.stringify(_thisData));
+                                    router.push('/Browse_Abandonment');
+                                }else{
+                                    this.$message(res.data.msg);
+                                }
+                            })
+                            .catch(error => {
+                                this.$message("Interface timeout!");
+                            }); 
+                        }
                     }else{
                         let topNum = document.getElementsByClassName("rightContainer")[0].scrollTop;
                         var time = setInterval(function(){
