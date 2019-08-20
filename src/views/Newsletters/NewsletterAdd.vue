@@ -296,7 +296,7 @@
                         <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
                             <template>
                                 <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
-                                <table style="width: calc(100% - 40px);font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
+                                <table style="width: 856px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
                                     <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
                                         <tr style="font-size: 18px;border-bottom: 10px solid #000;">
                                             <td style="width: 50%;">ITEM(S)</td>
@@ -322,7 +322,7 @@
                                     Product Title
                             </template>
                         </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;">
+                        <div style="width: 856px;padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">
                                 *[tr_top_products]*
                             </template>
@@ -599,6 +599,7 @@ export default {
             .then(res => {
                 if(res.data.code == 1){
                     this.Shop = res.data.data[0];
+                    this.fromData.logoUrl = this.Shop.logo;
                 }else{
                     this.$message("Acquisition failure!");
                 }
@@ -662,7 +663,9 @@ export default {
                     if(!this.fromData.bannerUrl){
                         this.fromData.bannerUrl = -1;
                     }
-                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
+                        _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}';
+                        _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         
