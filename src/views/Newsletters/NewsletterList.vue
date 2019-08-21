@@ -186,6 +186,7 @@ export default {
                 periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
+                productTitle:"",
             }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
@@ -222,7 +223,8 @@ export default {
                 SegmentSelectState:"All",
                 periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
                 SendTimeType:_send_rule.cron_type,
-                SendValue:new Date("2019-1-1 "+ _send_rule.cron_time)
+                SendValue:new Date("2019-1-1 "+ _send_rule.cron_time),
+                productTitle:row.product_title,
             }
         if(preview){
           NewsletterVal.fromDataType = "preview";

@@ -73,7 +73,7 @@
                         <div class="fromSon"> 
                             <label>Email Subject</label>
                             <div class="content">
-                                <el-form-item class="W100">
+                                <el-form-item prop="SubjectText" class="W100">
                                     <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
@@ -102,7 +102,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -121,7 +121,7 @@
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
                         </div>
                         <div class="fromSon">

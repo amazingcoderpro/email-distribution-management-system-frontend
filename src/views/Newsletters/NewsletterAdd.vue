@@ -87,7 +87,7 @@
                         <div class="fromSon">
                             <label>Email Subject</label>
                             <div class="content">
-                                <el-form-item class="W100">
+                                <el-form-item class="W100" prop="SubjectText">
                                     <el-input v-model="fromData.SubjectText" class="W100"  placeholder="We just picked up some new items for you"></el-input>
                                 </el-form-item>
                             </div>
@@ -144,14 +144,14 @@
                                 <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
                         </div>
-                        <div class="fromSon">
+                        <!-- <div class="fromSon">
                             <label>Shopping Cart</label>
                             <div class="content">
                                 <el-form-item class="W100">
                                         <el-switch v-model="fromData.is_cart" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
                                 </el-form-item>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="fromSon">
                             <label>Headline</label>
                             <div class="content">
@@ -165,6 +165,14 @@
                             <div class="content">
                                 <el-form-item class="W100">
                                     <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
+                                </el-form-item>
+                            </div>
+                        </div>
+                        <div class="fromSon"> 
+                            <label>Product Title</label>
+                            <div class="content">
+                                <el-form-item class="W100">
+                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120" placeholder="Product Title"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -265,7 +273,7 @@
                                 <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                             </template>
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
+                        <!-- <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
                             <template>
                                 <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
                                 <table style="width: 856px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
@@ -282,7 +290,7 @@
                                     </tbody>
                                 </table>
                             </template>
-                        </div>
+                        </div> -->
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
                         </div>
@@ -445,6 +453,7 @@ export default {
                 logoUrl: '',
                 bannerUrl:'',
                 Headline:'',
+                productTitle:'',
                 bodyText:'',
                 searchImgType:'top_three',
                 SegmentValue:[],
@@ -486,7 +495,7 @@ export default {
                 top_thirty:[],
             },
             rules: {
-                Title: [{ required: true, message: 'Please enter SubjectText', trigger: 'change' }],
+                Title: [{ required: true, message: 'Please enter Title', trigger: 'change' }],
                 SubjectText: [{ required: true, message: 'Please enter SubjectText', trigger: 'change' }],
                 HeadingText: [{ required: true, message: 'Please enter HeadingText', trigger: 'change' }],
                 logoUrl: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
@@ -660,6 +669,7 @@ export default {
                             product_condition:this.fromData.searchImgType,
                             product_list:JSON.stringify(this.trueProductArray),
                             banner_text:JSON.stringify(this.bannerText),
+                            product_title:this.fromData.productTitle,
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
                                 begin_time:base.dateFormat(this.fromData.periodTime[0]),
