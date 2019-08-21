@@ -198,7 +198,7 @@ export default {
     data() {
         return {
             noteValue:"7",
-            noteUnit:"days.",
+            noteUnit:"days",
             disabledSon:"",
             fromDataType:"",
             title:"",
@@ -255,10 +255,11 @@ export default {
                             if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
                                 let _array = e.split(" ");
                                 this.noteValue = _array[_array.length-2];
-                                this.noteUnit = _array[_array.length-1].replace(".","")+".";
+                                this.noteUnit = _array[_array.length-1].replace(".","");
                                 this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last";
                             }
                         });
+                        console.log(this.noteTrueArray)
                         this.$forceUpdate();
                     }else{
                         this.$message("Acquisition failure!");
@@ -273,15 +274,6 @@ export default {
                 this.bigData = JSON.parse(_thisData.email_delay);
                 this.bigModel.triggerModel = _thisData.relation_info[0].children;
                 this.noteTrueArray = _thisData.note;
-                console.log(this.noteTrueArray)
-                this.noteTrueArray.map((e, index, array) =>{
-                    if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
-                        let _array = e.split(" ");
-                        this.noteValue = _array[_array.length-2];
-                        this.noteUnit = _array[_array.length-1].replace(".","")+".";
-                        this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last";
-                    }
-                });
             }
         },
         showBox(item,index){
@@ -377,11 +369,6 @@ export default {
             };
             let _array = [];
                 _array.push(_relation_info);
-            this.noteTrueArray.map((e,index) =>{
-                if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
-                    this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last " + this.noteValue +" "+ this.noteUnit;
-                }
-            });
             let _thisData = {
                 index:index,
                 title:this.title,
@@ -435,12 +422,11 @@ export default {
                 email_delay:JSON.stringify(this.bigData),
                 note:JSON.stringify(this.noteTrueArray),
             }
-            
             if(this.title && this.title.trim().length != 0){
                 this.State.title = 1;
                 if(this.bigData.length == 0){                                                        
                     this.$message({
-                        message: 'Please add edit Email and Delay!',
+                        message: 'Please add edit Email or Delay!',
                     });
                 }else{
                     let _state = true;
@@ -464,7 +450,7 @@ export default {
                         });
                     }else{
                         this.$message({
-                            message: 'Email Edit cannot be empty!',
+                            message: 'Email or Delay editors cannot be empty!',
                         });
                     }
                 }
@@ -478,7 +464,6 @@ export default {
             }else{
                 this.noteValue = 0;
             }
-            console.log(this.noteUnit)
             // this.noteArray[1] = "Do not send if the customer received an email from this campaign in the last "+this.noteValue+" "+this.noteUnit;
             
             // this.noteTrueArray.map(e => {
@@ -491,6 +476,10 @@ export default {
     },
 }
 </script>
+
+<style>
+.Browse .noteBox .noteHeight .el-input__inner{height: 30px!important;margin-bottom: 4px!important;}
+</style>
 
 <style scoped>
 .Browse{position: relative;}    
@@ -536,7 +525,5 @@ export default {
 .Browse .delay_right{display: inline-block;background-color: rgba(51, 153, 153, 1);margin-left: 50px;color: #fff;cursor: pointer;width: 24%;height: 60%;text-align: center;line-height: 80px;margin-top: 30px;}
 .Browse .noteBox{position: absolute;right: -215px;bottom: -9px;background: #fff;z-index: 500;}
 input[type='text']{height:20px;}
-
-.Browse .noteHeight .el-input__inner{height:20px;}
 </style>
 
