@@ -60,10 +60,10 @@
                         <div class="noteBox">
                                 <el-input v-model="noteValue" placeholder="Number" class="noteHeight WW100" @keyup.native="noteValueChange"></el-input> 
                                 <el-select v-model="noteUnit" class="noteHeight WW100">
-                                    <el-option  :label="'minutes'" :value="'minutes'"></el-option>
-                                    <el-option  :label="'hours'" :value="'hours'"></el-option>
-                                    <el-option  :label="'days'" :value="'days'"></el-option>
-                                    <el-option  :label="'weeks'" :value="'weeks'"></el-option>
+                                    <el-option  :label="'minutes'" :value="'minutes.'"></el-option>
+                                    <el-option  :label="'hours'" :value="'hours.'"></el-option>
+                                    <el-option  :label="'days'" :value="'days.'"></el-option>
+                                    <el-option  :label="'weeks'" :value="'weeks.'"></el-option>
                                 </el-select>.
                         </div>
                     </div>
@@ -414,6 +414,7 @@ export default {
                     this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last " + this.noteValue +" "+ this.noteUnit;
                 }
             });
+            console.log(this.noteTrueArray)
             let  _thisData = {    
                 title:this.title,
                 description:this.description,

@@ -255,12 +255,7 @@
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
                         </div>
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
-                            <template v-if="fromData.productTitle">
-                                    {{fromData.productTitle}}
-                            </template>
-                            <template v-else>
-                                    Product Title
-                            </template>
+                                {{fromData.productTitle}}
                         </div>
                         <div style="width: 856px;padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">

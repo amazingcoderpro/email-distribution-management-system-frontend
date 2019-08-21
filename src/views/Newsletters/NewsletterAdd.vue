@@ -126,7 +126,7 @@
                             <label>Banner</label>
                             <div class="content">
                                 <!-- <el-form-item prop="bannerUrl" class="uploadClass W100"> -->
-                                <el-form-item class="uploadClass W100">
+                                <el-form-item class="uploadClass W100" prop="bannerUrl">
                                         <el-upload
                                     class="avatar-uploader"
                                     action="/api/v1/upload_picture/"
@@ -166,6 +166,7 @@
                                 <el-form-item class="W100">
                                     <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
                                 </el-form-item>
+                                <span class="littleMsg">*[tr_shop_name]*    *[tr_firstname]*</span>
                             </div>
                         </div>
                         <div class="fromSon"> 
@@ -295,12 +296,7 @@
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
                         </div>
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
-                            <template v-if="fromData.productTitle">
-                                    {{fromData.productTitle}}
-                            </template>
-                            <template v-else>
-                                    Product Title
-                            </template>
+                            {{fromData.productTitle}}
                         </div>
                         <div style="width: 856px;padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">
@@ -638,24 +634,13 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if(!this.fromData.logoUrl){
-                        this.fromData.logoUrl = -1;
-                    }
-                    if(!this.fromData.bannerUrl){
-                        this.fromData.bannerUrl = -1;
-                    }
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}';
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         _showHtml = _showHtml.replace('2px dashed #ccc','');
-                        if(this.fromData.logoUrl == -1){
-                            this.fromData.logoUrl = "";
-                        }
-                        if(this.fromData.bannerUrl == -1){
-                            this.fromData.bannerUrl = "";
-                        }
+                        _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none;');
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,

@@ -200,6 +200,7 @@ export default {
                         total_click: 0,
                         total_open: 0,
                         total_orders: 0,
+                        total_sent:0,
                         total_revenue: 0,
                         create_time:this.echartData.dateArr[i]
                     }
