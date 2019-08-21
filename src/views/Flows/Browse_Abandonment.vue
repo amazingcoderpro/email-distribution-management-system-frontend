@@ -198,7 +198,7 @@ export default {
     data() {
         return {
             noteValue:"7",
-            noteUnit:"days",
+            noteUnit:"days.",
             disabledSon:"",
             fromDataType:"",
             title:"",
@@ -255,11 +255,10 @@ export default {
                             if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
                                 let _array = e.split(" ");
                                 this.noteValue = _array[_array.length-2];
-                                this.noteUnit = _array[_array.length-1].replace(".","");
+                                this.noteUnit = _array[_array.length-1].replace(".","")+".";
                                 this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last";
                             }
                         });
-                        console.log(this.noteTrueArray)
                         this.$forceUpdate();
                     }else{
                         this.$message("Acquisition failure!");
@@ -274,6 +273,15 @@ export default {
                 this.bigData = JSON.parse(_thisData.email_delay);
                 this.bigModel.triggerModel = _thisData.relation_info[0].children;
                 this.noteTrueArray = _thisData.note;
+                console.log(this.noteTrueArray)
+                this.noteTrueArray.map((e, index, array) =>{
+                    if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
+                        let _array = e.split(" ");
+                        this.noteValue = _array[_array.length-2];
+                        this.noteUnit = _array[_array.length-1].replace(".","")+".";
+                        this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last";
+                    }
+                });
             }
         },
         showBox(item,index){
@@ -369,6 +377,11 @@ export default {
             };
             let _array = [];
                 _array.push(_relation_info);
+            this.noteTrueArray.map((e,index) =>{
+                if(e.indexOf("Do not send if the customer received an email from this campaign in the last")>=0){
+                    this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last " + this.noteValue +" "+ this.noteUnit;
+                }
+            });
             let _thisData = {
                 index:index,
                 title:this.title,
@@ -465,6 +478,7 @@ export default {
             }else{
                 this.noteValue = 0;
             }
+            console.log(this.noteUnit)
             // this.noteArray[1] = "Do not send if the customer received an email from this campaign in the last "+this.noteValue+" "+this.noteUnit;
             
             // this.noteTrueArray.map(e => {

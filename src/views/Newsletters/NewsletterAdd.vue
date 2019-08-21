@@ -88,7 +88,7 @@
                             <label>Email Subject</label>
                             <div class="content">
                                 <el-form-item class="W100" prop="SubjectText">
-                                    <el-input v-model="fromData.SubjectText" class="W100"  placeholder="We just picked up some new items for you"></el-input>
+                                    <el-input v-model="fromData.SubjectText" class="W100" placeholder="We just picked up some new items for you"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -112,14 +112,14 @@
                                     :headers="headerdata"
                                     :show-file-list="false"
                                     :on-success="logoSuccess"
-                                    :before-upload="beforeAvatarUpload">
+                                    :before-upload="beforeAvatarUploadLogo">
                                     <!-- <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar"> -->
                                     <img v-if="fromData.logoUrl && fromData.logoUrl != -1" :src="fromData.logoUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
                                 <!-- <div class="uploadBtnBox"><el-button type="info">Upload</el-button></div> -->
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -136,8 +136,8 @@
                                     :on-success="bannerSuccess"
                                     :before-upload="beforeAvatarUpload">
                                     <!-- <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar"> -->
-                                    <img v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
+                                    <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
                                     </el-upload>
                                 </el-form-item>
                                 <!-- <div class="uploadBtnBox"></div> -->
@@ -164,7 +164,7 @@
                             <label>Body Text</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input type="textarea" v-model="fromData.bodyText" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
+                                    <el-input type="textarea" v-model="fromData.bodyText" @keyup.enter.native="updata" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
                                 </el-form-item>
                                 <span class="littleMsg">*[tr_shop_name]*    *[tr_firstname]*</span>
                             </div>
@@ -259,10 +259,10 @@
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                             <template>
                                 <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
-                                        <div>{{fromData.SubjectText}}</div>
+                                        <!-- <div>{{fromData.SubjectText}}</div> -->
                                         <div>{{fromData.HeadingText}}</div>
                                         <div>{{fromData.Headline}}</div>
-                                        <div>{{fromData.bodyText}}</div>
+                                        <div v-html="fromData.bodyText"></div>
                                     </div>
                             </template>
                             <template>
@@ -631,6 +631,17 @@ export default {
             }
             return isJPG && isLt2M;
         },
+        beforeAvatarUploadLogo(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+                this.$message.error('JPG、png、gif');
+            }
+            if (!isLt2M) {
+                this.$message.error('No more than 2MB!');
+            }
+            return isJPG && isLt2M;
+        },
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -714,6 +725,10 @@ export default {
             //     });
             // }
             // this.productArray = this.productArray;
+        },
+        updata(){
+            this.fromData.bodyText = this.fromData.bodyText+"<br/>"
+            this.$forceUpdate();
         }
     },
     beforeDestroy() {

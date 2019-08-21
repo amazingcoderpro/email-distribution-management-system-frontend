@@ -153,7 +153,7 @@ export default {
                     message: "code Abnormal!",
                     type: "warning",
                     center: true 
-                   });
+                });
                 }
             });       
         },
@@ -226,4 +226,8 @@ export default {
 .Integration .storeSetting .goole_analytics .goole_save{background:#339999;border-color:#339999;color:#fff;padding:13px 18px;font-size: 12px;}
 .Integration .content{margin-top: 30px;}
 .Integration .el-form-item__content{margin-left: 0!important;}
+
+
+.Integration .littleMsg{font-size: 12px;color: #606266;}
+
 </style>
