@@ -6,6 +6,7 @@
 npm install
 npm install
 npm install --save @shopify/app-bridge
+npm install vue-quill-editor
 cnpm i element-ui -S
 cnpm i echarts -S
 cnpm install axios

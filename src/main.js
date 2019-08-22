@@ -10,6 +10,7 @@ import './assets/icon/iconfont.css'
 import locale from 'element-ui/lib/locale/lang/en'
 
 
+
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.use(ElementUI, { locale });

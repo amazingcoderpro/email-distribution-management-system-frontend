@@ -72,7 +72,7 @@
                             <label>Email Title</label>
                             <div class="content">
                                 <el-form-item prop="Title" class="W100">
-                                    <el-input v-model="fromData.Title" class="W100"  placeholder="Title"></el-input>
+                                    <el-input v-model="fromData.Title" class="W100" ></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <label>Email Description</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.description" class="W100"  placeholder="Description"></el-input>
+                                    <el-input v-model="fromData.description" class="W100"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                             <label>Email Subject</label>
                             <div class="content">
                                 <el-form-item class="W100" prop="SubjectText">
-                                    <el-input v-model="fromData.SubjectText" class="W100" placeholder="We just picked up some new items for you"></el-input>
+                                    <el-input v-model="fromData.SubjectText" class="W100"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                             <label>HeadingText</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.HeadingText" class="W100"  placeholder="Styles you love - selling fast!"></el-input>
+                                    <el-input v-model="fromData.HeadingText" class="W100"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -156,24 +156,22 @@
                             <label>Headline</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.Headline" placeholder="STILL SEARCHING FOR WHAT YOU NEED?"></el-input>
+                                    <el-input v-model="fromData.Headline"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
                         <div class="fromSon">
                             <label>Body Text</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input type="textarea" v-model="fromData.bodyText" @keyup.enter.native="updata" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
-                                </el-form-item>
-                                <span class="littleMsg">*[tr_shop_name]*    *[tr_firstname]*</span>
+                            <div class="content bodyText">
+                                <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
+                                <span class="littleMsg">Shop Name:*[tr_shop_name]*&emsp;&emsp;&emsp;&emsp;First Name:*[tr_firstname]*&emsp;&emsp;&emsp;&emsp; Space:{{emsp}} </span>
                             </div>
                         </div>
                         <div class="fromSon"> 
                             <label>Product Title</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120" placeholder="Product Title"></el-input>
+                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -252,8 +250,6 @@
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <img :src="fromData.logoUrl" style="width: 100%;"/>
                             </div>
-                            <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
-                            </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
@@ -262,7 +258,7 @@
                                         <!-- <div>{{fromData.SubjectText}}</div> -->
                                         <div>{{fromData.HeadingText}}</div>
                                         <div>{{fromData.Headline}}</div>
-                                        <div v-html="fromData.bodyText"></div>
+                                        <div v-html="fromData.bodyHtml"></div>
                                     </div>
                             </template>
                             <template>
@@ -319,94 +315,18 @@
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="rightBox">
-                <h4>Preview</h4>
-                <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
-                <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
-                        <div style="margin: 0px auto;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 20px;">
-                            <div style="margin:0 auto;width:30%;">
-                                <h2>Email Subject</h2>
-                                <div v-if="fromData.SubjectText">{{fromData.SubjectText}}</div>
-                                <div v-else>We just picked up some new items for you</div>
-                            </div>
-                        </div>
-                        <div style="width: 100%;padding-bottom: 20px;">
-                            <div style="margin:0 auto;width:70%;line-height:20px;padding: 20px 0;">
-                                <div v-if="fromData.HeadingText" style="padding: 10px 0;">{{fromData.HeadingText}}</div>
-                                <div v-else style="padding: 10px 0;">Styles you love - selling fast!</div>
-                                <div style="padding: 10px 0;">If you are having trouble viewing this email, please <a :href="'http://'+Shop.domain+'?utm_source=smartsend'" target="_blank">click here</a> .</div>
-                            </div>
-                        </div>
-                        <div style="width: 100%;padding-bottom: 20px;">
-                            <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
-                                <img :src="fromData.logoUrl" style="width: 100%;"/>
-                            </div>
-                            <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
-                            </div>
-                            <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
-                        </div>
-                        <div style="width: 100%;padding-bottom: 20px;">
-                            <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
-                                <img :src="fromData.bannerUrl" style="width: 100%;"/>
-                            </div>
-                            <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
-                            </div>
-                            <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
-                        </div>
-                        <div style="width: 100%;padding-bottom: 20px;">
-                            <div style="font-size: 28px;font-weight: 700;" v-if="fromData.Headline">{{fromData.Headline}}</div>
-                            <div style="font-size: 28px;font-weight: 700;" v-else>STILL SEARCHING FOR WHAT YOU NEED?</div>
-                        </div>
-                        <div style="width: 100%;padding-bottom: 20px;">
-                            <div style="font-family: 'Segoe UI Emoji';font-weight: 400;font-style: normal;font-size:16px;" v-if="fromData.bodyText">{{fromData.bodyText}}</div>
-                            <div style="font-family: 'Segoe UI Emoji';font-weight: 400;font-style: normal;font-size:16px;" v-else>It seems like you didn't find what you were looking for during your last visit to {shop name}.Do you need another look?</div>
-                        </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;">
-                            <template v-if="fromData.searchImgType == 'Shopping cart goods' || fromData.searchImgType == 'Personal Product Recommendation' || fromData.searchImgType == 'Relevant product recommendation' || fromData.searchImgType == 'no product'">
-                                    *[tr_specialProduct]*
-                            </template>
-                            <template v-else>
-                                <template v-for="(item,index) in productArray" >
-                                    <div :key="index" v-if="item.state" style="width:calc(50% - 24px);margin:10px;display:inline-block;vertical-align: top;border:1px solid #ccc;">
-                                        <a :href="item.url" target="_blank">
-                                            <img :src="item.image_url" style="width:100%;"/>
-                                        </a>
-                                        <h3 style="font-weight:700;">{{item.name}}</h3>
-                                        <h3>{{item.price}}</h3>
-                                    </div>
-                                </template>
-                            </template>
-                        </div>
-                        <div style="width:100%;padding-bottom: 20px;">
-                            <a :href="'http://'+Shop.domain+'?utm_source=smartsend'" target="_blank">
-                                <div style="display: inline-block;padding: 20px;background: #000;color: #fff;font-size: 16px;font-weight: 900;border-radius: 10px;">Back to Shop >>></div>
-                            </a>
-                        </div>
-                        <div style="width:100%;padding-bottom: 20px;">
-                            <div>{{Shop.email}}</div>
-                        </div>
-                        <div style="width:100%;padding-bottom: 20px;">
-                            <div>{{new Date().getFullYear()}} {{Shop.name}}. All rights reserved.</div>
-                        </div>
-                        <div style="width:100%;padding-bottom: 20px;">
-                            <div>{{Shop.domain}}</div>
-                        </div>
-                        <div style="width:100%;padding-bottom: 20px;">
-                            <a href="*[link_unsubscribe]*">
-                                <div style="display: inline-block;padding: 10px;color: #ccc;font-size: 14px;border-radius: 10px;border: 1px solid #ccc;">Unsubscribe</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <DialogFound :dialog='dialog' :fromData="fromData" :trueProductArray="trueProductArray" ></DialogFound>
     </div>
 </template>
 
 <script>
+
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 import DialogFound from "./Send_mail";
 import router from '../../router'
 import * as base from '../../assets/js/base'
@@ -414,6 +334,7 @@ export default {
     name: "NewsletterAdd",
     data() {
         return {
+            emsp:"&emsp;",
             pickerOptions: {
                 disabledDate(time) {
                     return time.getTime() < Date.now() - 1000 * 24 * 60 * 60;//设置选择明天之前的日期
@@ -451,6 +372,7 @@ export default {
                 Headline:'',
                 productTitle:'',
                 bodyText:'',
+                bodyHtml:'',
                 searchImgType:'top_three',
                 SegmentValue:[],
                 SegmentState:[],
@@ -506,6 +428,7 @@ export default {
     },
     components:{
         DialogFound,
+        quillEditor
     },
     watch: {
         productArray: {
@@ -537,6 +460,7 @@ export default {
                     this.fromData.periodTime = [new Date(),new Date(new Date().getTime()+24*60*60*1000)];
                 }
             }
+            this.bodyTextChange();
             this.$axios.get(`/api/v1/customer_group/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -650,8 +574,10 @@ export default {
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        _showHtml = _showHtml.replace('2px dashed #ccc','');
-                        _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none;');
+                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
+                        if(!this.fromData.logoUrl){
+                            _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
+                        }
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,
@@ -726,8 +652,8 @@ export default {
             // }
             // this.productArray = this.productArray;
         },
-        updata(){
-            this.fromData.bodyText = this.fromData.bodyText+"<br/>"
+        bodyTextChange() {
+            this.fromData.bodyHtml = this.fromData.bodyText.replace(/&amp;/g,"&");
             this.$forceUpdate();
         }
     },
@@ -766,4 +692,7 @@ export default {
 .NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
 .NewsletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
 .NewsletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
+
+
+.NewsletterAdd .bodyText .ql-container.ql-snow{height:200px;}
 </style>

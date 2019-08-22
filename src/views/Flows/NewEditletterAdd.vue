@@ -82,7 +82,7 @@
                             <label>HeadingText</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.HeadingText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.HeadingText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -136,24 +136,22 @@
                             <label>Headline</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.Headline" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
+                                    <el-input v-model="fromData.Headline" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
                         <div class="fromSon"> 
                             <label>Body Text</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input type="textarea" v-model="fromData.bodyText" @keyup.enter.native="updata" placeholder="It seems like you didn't find what you were looking for during your last visit to {店铺名}.Do you need another look?"></el-input>
-                                </el-form-item>
-                                <span class="littleMsg">*[tr_shop_name]*    *[tr_firstname]*</span>
-                            </div>
+                            <div class="content bodyText">
+                                    <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
+                                    <span class="littleMsg">Shop Name:*[tr_shop_name]*&emsp;&emsp;&emsp;&emsp;First Name:*[tr_firstname]*&emsp;&emsp;&emsp;&emsp; Space:{{emsp}} </span>
+                                </div>
                         </div>
                         <div class="fromSon"> 
                             <label>Product Title</label>
                             <div class="content">
                                 <el-form-item class="W100">
-                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120" placeholder="Product Title"></el-input>
+                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
                         </div>
@@ -192,8 +190,6 @@
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <img :src="fromData.logoUrl" style="width: 100%;"/>
                             </div>
-                            <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
-                            </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
@@ -202,7 +198,7 @@
                                     <!-- <div>{{fromData.SubjectText}}</div> -->
                                     <div>{{fromData.HeadingText}}</div>
                                     <div>{{fromData.Headline}}</div>
-                                    <div v-html="fromData.bodyText"></div>
+                                    <div v-html="fromData.bodyHtml"></div>
                                 </div>
                             </template>
                             <template>
@@ -292,6 +288,14 @@
 </template>
 
 <script>
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+
+
+
 import DialogFound from "./Send_mail";
 import router from '../../router'
 import * as base from '../../assets/js/base'
@@ -299,6 +303,9 @@ export default {
     name: "NewEditletterAdd",
     data() {
         return {
+            emsp:"&emsp;",
+            content: '',
+            editorOption: {} ,
             title:"",
             id:-1,
             dialog: {
@@ -332,6 +339,7 @@ export default {
                 bannerUrl:'',
                 Headline:'',
                 bodyText:'',
+                bodyHtml:'',
                 productTitle:'',
                 searchImgType:'top_three',
                 SegmentValue:[],
@@ -395,6 +403,7 @@ export default {
     },
     components:{
         DialogFound,
+        quillEditor
     },
     watch: {
         productArray: {
@@ -474,6 +483,7 @@ export default {
                             this.bannerText = JSON.parse(res.data.data.banner_text);
                             this.bannerText.border = "2px dashed #ccc";
                         }
+                        this.bodyTextChange();
                     }else{
                         this.$message("Acquisition failure!");
                     }
@@ -522,25 +532,16 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if(!this.fromData.logoUrl){
-                        this.fromData.logoUrl = -1;
-                    }
-                    if(!this.fromData.bannerUrl){
-                        this.fromData.bannerUrl = -1;
-                    }
                     this.$forceUpdate();
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}';
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        _showHtml = _showHtml.replace('2px dashed #ccc','');
-                    if(this.fromData.logoUrl == -1){
-                        this.fromData.logoUrl = "";
-                    }
-                    if(this.fromData.bannerUrl == -1){
-                        this.fromData.bannerUrl = "";
-                    }
+                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
+                        if(!this.fromData.logoUrl){
+                            _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
+                        }
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             subject:this.fromData.SubjectText,
@@ -632,8 +633,8 @@ export default {
             // }
             // this.productArray = this.productArray;
         },
-        updata(){
-            this.fromData.bodyText = this.fromData.bodyText+"<br/>"
+        bodyTextChange() {
+            this.fromData.bodyHtml = this.fromData.bodyText.replace(/&amp;/g,"&");
             this.$forceUpdate();
         }
     },
@@ -669,4 +670,5 @@ export default {
 .NewEditletterAdd .el-form--inline .el-form-item__content{width:100%;}
 .NewEditletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
 .NewEditletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
+.NewEditletterAdd .bodyText .ql-container.ql-snow{height:200px;}
 </style>
