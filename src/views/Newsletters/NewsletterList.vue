@@ -187,6 +187,7 @@ export default {
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
                 productTitle:"",
+                // languageData:'{"Copy":"Copyright,All Rights Reserved","unsubscribe":"UNSUBSCRIBE","helpCenter":"HELP CENTER","privacy":"PRIVACY POLICY","aboutUs":"ABOUT US","bottom":"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"}'
             }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');

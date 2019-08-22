@@ -287,10 +287,10 @@
                                     </tbody>
                                 </table>
                             </template>
-                        </div> -->
+                        </div> 
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
                             <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
-                        </div>
+                        </div>-->
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                             {{fromData.productTitle}}
                         </div>
@@ -309,8 +309,7 @@
                             <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            This email was sent a notification-only address that cannot accept incoming email PLEASE
-                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
+                            This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
                         </div>
                     </div>
                 </div>
@@ -380,6 +379,14 @@ export default {
                 periodTime:[],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
+                languageData:{
+                    Copy:"Copyright,All Rights Reserved",
+                    unsubscribe:"UNSUBSCRIBE",
+                    helpCenter:"HELP CENTER",
+                    privacy:"PRIVACY POLICY",
+                    aboutUs:"ABOUT US",
+                    bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
+                }
             },
             SegmentArray:[],
             SendTimeTypeArray:[
@@ -450,6 +457,9 @@ export default {
         init(){
             let _thisData = JSON.parse(localStorage["NewsletterVal"]);
             this.fromData = _thisData;
+            if(this.fromData.languageData){
+                this.fromData.languageData = JSON.parse(this.fromData.languageData);
+            }
             if(_thisData.banner_text){
                 this.bannerText = JSON.parse(this.fromData.banner_text);
             }
