@@ -11,7 +11,8 @@
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
-                            <label style="cursor: pointer;" ><el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button></label>
+                            <el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button>
+                            <el-button @click="languageDataState = !languageDataState"  type="primary">Change Language</el-button>
                         </div>
                         <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
                             <el-collapse-transition >
@@ -65,6 +66,55 @@
                                                     </template>
                                             </div>
                                         </div>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
+                        <div class="languageTextBox" :style="languageDataState?'border: 1px solid #ccc;padding: 20px;':''">
+                            <el-collapse-transition >
+                                <div v-show="languageDataState" style="width:100%;">
+                                    <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;top: 9px;">Close</el-button>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Copyright" class="W300">
+                                                <el-input v-model="fromData.languageData.Copy"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Unsubscribe Text" class="W300">
+                                                <el-input v-model="fromData.languageData.unsubscribe"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Help Center Text" class="W300">
+                                                <el-input v-model="fromData.languageData.helpCenter" class="W300" ></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Privacy Text" class="W300">
+                                                <el-input v-model="fromData.languageData.privacy"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="About Us Text" class="W300">
+                                                <el-input v-model="fromData.languageData.aboutUs"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Bottom Text" class="W300">
+                                                <el-input v-model="fromData.languageData.bottom"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
                                 </div>
                             </el-collapse-transition>
                         </div>
@@ -300,16 +350,16 @@
                             </template>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  Copyright,All Rights Reserved
+                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  {{fromData.languageData.Copy}}
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
-                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
-                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
-                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.unsubscribe}}</a>
+                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.helpCenter}}</a>
+                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.privacy}}</a>
+                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">{{fromData.languageData.aboutUs}}</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
+                            {{fromData.languageData.bottom}}
                         </div>
                     </div>
                 </div>
@@ -359,6 +409,7 @@ export default {
                 color:"#000",
                 border:"2px dashed #ccc",
             },
+            languageDataState:false,
             fromData:{
                 is_cart:true,
                 fromDataType:'add',
@@ -380,12 +431,12 @@ export default {
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
                 languageData:{
-                    Copy:"Copyright,All Rights Reserved",
-                    unsubscribe:"UNSUBSCRIBE",
-                    helpCenter:"HELP CENTER",
-                    privacy:"PRIVACY POLICY",
-                    aboutUs:"ABOUT US",
-                    bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
+                    // Copy:"Copyright,All Rights Reserved",
+                    // unsubscribe:"UNSUBSCRIBE",
+                    // helpCenter:"HELP CENTER",
+                    // privacy:"PRIVACY POLICY",
+                    // aboutUs:"ABOUT US",
+                    // bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
                 }
             },
             SegmentArray:[],
@@ -448,6 +499,16 @@ export default {
                 });
             },
             deep: true
+        },
+        bannerTextState(val) {
+            if(val){
+                this.languageDataState = false;
+            }
+        },
+        languageDataState(val) {
+            if(val){
+                this.bannerTextState = false;
+            }
         }
     },
     mounted() {
@@ -610,6 +671,7 @@ export default {
                                 cron_time:base.dateFormat(this.fromData.SendValue,"hour")
                             }),
                             html:_showHtml,
+                            customer_text:JSON.stringify(this.fromData.languageData),
                             enable:0
                         }
                         this.$axios.post(`/api/v1/email_template/`, _thisData)
@@ -702,7 +764,11 @@ export default {
 .NewsletterAdd .el-form--inline .el-form-item__content{width:100%;}
 .NewsletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
 .NewsletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
-
-
 .NewsletterAdd .bodyText .ql-container.ql-snow{height:200px;}
+.NewsletterAdd .languageTextBox{position:fixed;width:32%;background:#fff;z-index:500;border-radius:10px;bottom:200px;left:266px;}
+.NewsletterAdd .languageTextBox .fromSon{width: 50%;display: inline-block;margin-bottom:0;}
+.NewsletterAdd .languageTextBox .el-form-item{margin-bottom:0;}
+.NewsletterAdd .languageTextBox .fromSon label{padding:0;}
+
+
 </style>

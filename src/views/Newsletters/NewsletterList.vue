@@ -187,7 +187,7 @@ export default {
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
                 productTitle:"",
-                // languageData:'{"Copy":"Copyright,All Rights Reserved","unsubscribe":"UNSUBSCRIBE","helpCenter":"HELP CENTER","privacy":"PRIVACY POLICY","aboutUs":"ABOUT US","bottom":"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"}'
+                languageData:'{"Copy":"Copyright,All Rights Reserved","unsubscribe":"UNSUBSCRIBE","helpCenter":"HELP CENTER","privacy":"PRIVACY POLICY","aboutUs":"ABOUT US","bottom":"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"}'
             }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
@@ -226,6 +226,7 @@ export default {
                 SendTimeType:_send_rule.cron_type,
                 SendValue:new Date("2019-1-1 "+ _send_rule.cron_time),
                 productTitle:row.product_title,
+                languageData:row.customer_text,
             }
         if(preview){
           NewsletterVal.fromDataType = "preview";

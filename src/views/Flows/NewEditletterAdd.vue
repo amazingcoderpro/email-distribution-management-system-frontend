@@ -12,7 +12,8 @@
                     <h4>Edit Template</h4>
                     <div class="fromBox">
                         <div class="fromSon"> 
-                            <label style="cursor: pointer;" ><el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button></label>
+                            <el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button>
+                            <el-button @click="languageDataState = !languageDataState"  type="primary">Change Language</el-button>
                         </div>
                         <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
                             <el-collapse-transition >
@@ -69,7 +70,90 @@
                                 </div>
                             </el-collapse-transition>
                         </div>
-                        
+                        <div class="languageTextBox" :style="languageDataState?'border: 1px solid #ccc;padding: 20px;':''">
+                            <el-collapse-transition >
+                                <div v-show="languageDataState" style="width:100%;">
+                                    <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;">Close</el-button>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="ITEM Text" class="W300">
+                                                <el-input v-model="fromData.languageData.items"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Price Text" class="W300">
+                                                <el-input v-model="fromData.languageData.price"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Quantity Text" class="W300">
+                                                <el-input v-model="fromData.languageData.quantity"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Amount Text" class="W300">
+                                                <el-input v-model="fromData.languageData.amount"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Pay Button Text" class="W300">
+                                                <el-input v-model="fromData.languageData.pay"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Copyright Text" class="W300">
+                                                <el-input v-model="fromData.languageData.Copy"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Unsubscribe Text" class="W300">
+                                                <el-input v-model="fromData.languageData.unsubscribe"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Help Center Text" class="W300">
+                                                <el-input v-model="fromData.languageData.helpCenter" class="W300" ></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Privacy Text" class="W300">
+                                                <el-input v-model="fromData.languageData.privacy"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="About Us Text" class="W300">
+                                                <el-input v-model="fromData.languageData.aboutUs"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                    <div class="fromSon">
+                                        <div class="content">
+                                            <el-form-item label="Bottom Text" class="W300">
+                                                <el-input v-model="fromData.languageData.bottom"  class="W300"></el-input>
+                                            </el-form-item>
+                                        </div>
+                                    </div>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
                         <div class="fromSon"> 
                             <label>Email Subject</label>
                             <div class="content">
@@ -216,10 +300,10 @@
                                 <table style="width: 840px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
                                     <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
                                         <tr style="font-size: 18px;border-bottom: 10px solid #000;">
-                                            <td style="width: 50%;">ITEM(S)</td>
-                                            <td>UNIT PRICE</td>
-                                            <td>QUANTITY</td>
-                                            <td>AMOUNT</td>
+                                            <td style="width: 50%;">{{fromData.languageData.items}}</td> 
+                                            <td>{{fromData.languageData.price}}</td>
+                                            <td>{{fromData.languageData.quantity}}</td>
+                                            <td>{{fromData.languageData.amount}}</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -248,7 +332,7 @@
                             </template>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
-                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
+                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;margin-right: 20px;">{{fromData.languageData.pay}}</a>
                         </div>
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                                 {{fromData.productTitle}}
@@ -267,17 +351,16 @@
                             </template> -->
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  Copyright,All Rights Reserved
+                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  {{fromData.languageData.Copy}}
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">UNSUBSCRIBE</a>
-                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">HELP CENTER</a>
-                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">PRIVACY POLICY</a>
-                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">ABOUT US</a>
+                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.unsubscribe}}</a>
+                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.helpCenter}}</a>
+                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.privacy}}</a>
+                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">{{fromData.languageData.aboutUs}}</a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            This email was sent a notification-only address that cannot accept incoming email PLEASE
-                            DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*
+                                {{fromData.languageData.bottom}} 
                         </div>
                     </div>
                 </div>
@@ -329,6 +412,7 @@ export default {
                 border:"2px dashed #ccc",
             },
             fromDataType:"",
+            languageDataState:false,
             fromData:{
                 is_cart:true,
                 Title:'',
@@ -347,6 +431,19 @@ export default {
                 periodTime:[new Date(2019, 9, 1, 0, 0),new Date(2019, 9, 2, 0, 0)],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
+                languageData:{
+                    items:"ITEM(S)",
+                    price:"UNIT PRICE",
+                    quantity:"QUANTITY",
+                    amount:"AMOUNT",
+                    pay:"CHECK TO PAY",
+                    Copy:"Copyright,All Rights Reserved",
+                    unsubscribe:"UNSUBSCRIBE",
+                    helpCenter:"HELP CENTER",
+                    privacy:"PRIVACY POLICY",
+                    aboutUs:"ABOUT US",
+                    bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
+                }
             },
             SendTimeTypeArray:[
                 {value: '0',label: 'Monday'},
@@ -397,7 +494,6 @@ export default {
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
                 SegmentValue: [{ required: true, message: 'Please Choose Segment' , trigger: 'blur'}],
                 SendValue: [{ required: true, message: 'Please Choose Time' }],
-
             }
         }
     },
@@ -483,6 +579,23 @@ export default {
                             this.bannerText = JSON.parse(res.data.data.banner_text);
                             this.bannerText.border = "2px dashed #ccc";
                         }
+                        if(res.data.data.customer_text){
+                            this.fromData.languageData = JSON.parse(res.data.data.customer_text);
+                        }else{
+                            this.fromData.languageData = {
+                                items:"ITEM(S)",
+                                price:"UNIT PRICE",
+                                quantity:"QUANTITY",
+                                amount:"AMOUNT",
+                                pay:"CHECK TO PAY",
+                                Copy:"Copyright,All Rights Reserved",
+                                unsubscribe:"UNSUBSCRIBE",
+                                helpCenter:"HELP CENTER",
+                                privacy:"PRIVACY POLICY",
+                                aboutUs:"ABOUT US",
+                                bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
+                            };
+                        }
                         this.bodyTextChange();
                     }else{
                         this.$message("Acquisition failure!");
@@ -556,6 +669,7 @@ export default {
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:"{}",
                             html:_showHtml,
+                            customer_text:JSON.stringify(this.fromData.languageData),
                         }
                         if(this.fromData.searchImgType != "Shopping cart goods"){
                             _thisData.product_list = JSON.stringify(this.trueProductArray);
@@ -671,4 +785,12 @@ export default {
 .NewEditletterAdd .bannerTextBox{position: absolute;width: 88%;background: #fff;z-index: 500;border-radius: 10px;}
 .NewEditletterAdd .bannerTextBox .fromSon {width: 50%;display: inline-block;}
 .NewEditletterAdd .bodyText .ql-container.ql-snow{height:200px;}
+.NewEditletterAdd .languageTextBox{position:fixed;width:35%;background:#fff;z-index:500;border-radius:10px;bottom:100px;left:266px;}
+.NewEditletterAdd .languageTextBox .fromSon{margin-bottom:0;}
+.NewEditletterAdd .languageTextBox .el-form-item{margin-bottom:0;}
+.NewEditletterAdd .languageTextBox .fromSon label{padding:0;}
+.NewEditletterAdd .languageTextBox .fromSon {width: 50%;display: inline-block;}
+
+
+
 </style>
