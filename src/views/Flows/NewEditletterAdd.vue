@@ -73,81 +73,81 @@
                         <div class="languageTextBox" :style="languageDataState?'border: 1px solid #ccc;padding: 20px;':''">
                             <el-collapse-transition >
                                 <div v-show="languageDataState" style="width:100%;">
-                                    <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;">Close</el-button>
+                                    <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;top: 9px;">Close</el-button>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="ITEM Text" class="W300">
-                                                <el-input v-model="fromData.languageData.items"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.items" placeholder="ITEM(S)"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Price Text" class="W300">
-                                                <el-input v-model="fromData.languageData.price"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.price" placeholder="UNIT PRICE" class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Quantity Text" class="W300">
-                                                <el-input v-model="fromData.languageData.quantity"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.quantity" placeholder="QUANTITY"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Amount Text" class="W300">
-                                                <el-input v-model="fromData.languageData.amount"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.amount" placeholder="AMOUNT"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Pay Button Text" class="W300">
-                                                <el-input v-model="fromData.languageData.pay"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.pay" placeholder="CHECK TO PAY"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Copyright Text" class="W300">
-                                                <el-input v-model="fromData.languageData.Copy"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.Copy" placeholder="Copyright,All Rights Reserved"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Unsubscribe Text" class="W300">
-                                                <el-input v-model="fromData.languageData.unsubscribe"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.unsubscribe"  placeholder="UNSUBSCRIBE" class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Help Center Text" class="W300">
-                                                <el-input v-model="fromData.languageData.helpCenter" class="W300" ></el-input>
+                                                <el-input v-model="fromData.languageData.helpCenter" placeholder="HELP CENTER" class="W300" ></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Privacy Text" class="W300">
-                                                <el-input v-model="fromData.languageData.privacy"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.privacy"  placeholder="PRIVACY POLICY" class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="About Us Text" class="W300">
-                                                <el-input v-model="fromData.languageData.aboutUs"  class="W300"></el-input>
+                                                <el-input v-model="fromData.languageData.aboutUs" placeholder="ABOUT US"  class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
                                     <div class="fromSon">
                                         <div class="content">
                                             <el-form-item label="Bottom Text" class="W300">
-                                                <el-input v-model="fromData.languageData.bottom"  class="W300"></el-input>
+                                                <el-input type="textarea" v-model="fromData.languageData.bottom"  placeholder="This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*" class="W300"></el-input>
                                             </el-form-item>
                                         </div>
                                     </div>
@@ -267,7 +267,6 @@
             </div>
             <div class="rightBox">
                 <h4>Preview</h4>
-                <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
@@ -300,10 +299,22 @@
                                 <table style="width: 840px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
                                     <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
                                         <tr style="font-size: 18px;border-bottom: 10px solid #000;">
-                                            <td style="width: 50%;">{{fromData.languageData.items}}</td> 
-                                            <td>{{fromData.languageData.price}}</td>
-                                            <td>{{fromData.languageData.quantity}}</td>
-                                            <td>{{fromData.languageData.amount}}</td>
+                                            <td style="width: 50%;">
+                                                <template v-if="fromData.languageData.items">{{fromData.languageData.items}}</template>
+                                                <template v-else>ITEM(S)</template>
+                                            </td> 
+                                            <td>
+                                                <template v-if="fromData.languageData.price">{{fromData.languageData.price}}</template>
+                                                <template v-else>UNIT PRICE</template>
+                                            </td>
+                                            <td>
+                                                <template v-if="fromData.languageData.quantity">{{fromData.languageData.quantity}}</template>
+                                                <template v-else>QUANTITY</template>
+                                            </td>
+                                            <td>
+                                                <template v-if="fromData.languageData.amount">{{fromData.languageData.amount}}</template>
+                                                <template v-else>AMOUNT</template>
+                                            </td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -332,7 +343,10 @@
                             </template>
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
-                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;margin-right: 20px;">{{fromData.languageData.pay}}</a>
+                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;margin-right: 20px;">
+                                <template v-if="fromData.languageData.pay">{{fromData.languageData.pay}}</template>
+                                <template v-else>CHECK TO PAY</template>
+                            </a>
                         </div>
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                                 {{fromData.productTitle}}
@@ -351,16 +365,31 @@
                             </template> -->
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>  {{fromData.languageData.Copy}}
+                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>
+                            <template v-if="fromData.languageData.Copy">{{fromData.languageData.Copy}}</template>
+                            <template v-else>Copyright,All Rights Reserved</template>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.unsubscribe}}</a>
-                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.helpCenter}}</a>
-                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">{{fromData.languageData.privacy}}</a>
-                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">{{fromData.languageData.aboutUs}}</a>
+                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                <template v-if="fromData.languageData.unsubscribe">{{fromData.languageData.unsubscribe}}</template>
+                                <template v-else>UNSUBSCRIBE</template>
+                            </a>
+                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                <template v-if="fromData.languageData.helpCenter">{{fromData.languageData.helpCenter}}</template>
+                                <template v-else>HELP CENTER</template>
+                            </a>
+                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                <template v-if="fromData.languageData.privacy">{{fromData.languageData.privacy}}</template>
+                                <template v-else>PRIVACY POLICY</template>
+                            </a>
+                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">
+                                <template v-if="fromData.languageData.aboutUs">{{fromData.languageData.aboutUs}}</template>
+                                <template v-else>ABOUT US</template>
+                            </a>
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                                {{fromData.languageData.bottom}} 
+                            <template v-if="fromData.languageData.bottom">{{fromData.languageData.bottom}}</template>
+                            <template v-else>This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*</template>
                         </div>
                     </div>
                 </div>
@@ -647,7 +676,7 @@ export default {
                 if (valid) {
                     this.$forceUpdate();
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
-                        _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}';
+                        _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}.bannerText p{margin:0!important;}';
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
@@ -790,7 +819,7 @@ export default {
 .NewEditletterAdd .languageTextBox .el-form-item{margin-bottom:0;}
 .NewEditletterAdd .languageTextBox .fromSon label{padding:0;}
 .NewEditletterAdd .languageTextBox .fromSon {width: 50%;display: inline-block;}
-
+.NewEditletterAdd .bannerText p{margin:0!important;}
 
 
 </style>
