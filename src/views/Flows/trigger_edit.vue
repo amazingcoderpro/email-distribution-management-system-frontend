@@ -52,10 +52,37 @@
                                             <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
                                         </template>
                                         <template v-if="item.condition == 'Customer order number'">
-                                            <el-option :label="'equals'" :value="'equals'"></el-option>
-                                            <el-option :label="'more than'" :value="'more than'"></el-option>
-                                            <el-option :label="'less than'" :value="'less than'"></el-option>
+                                            <template v-if="index == 0">
+                                                <el-option :label="'equals'" :value="'equals'"></el-option>
+                                                <el-option :label="'more than'" :value="'more than'"></el-option>
+                                                <el-option :label="'less than'" :value="'less than'"></el-option>
+                                            </template>
+                                            <template v-else>
+                                                <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
+                                                <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
+                                                <el-option :label="'is before'" :value="'is before'"></el-option>
+                                                <el-option :label="'is after'" :value="'is after'"></el-option>
+                                                <el-option :label="'is more than'" :value="'is more than'"></el-option>
+                                                <el-option :label="'is between date'" :value="'is between date'"></el-option>
+                                                <el-option :label="'is between'" :value="'is between'"></el-option>
+                                            </template>
                                         </template>
+                                        <!-- <template v-else-if="item.condition == 'Customer order number'">
+                                            <template v-if="index == 0">
+                                                <el-option :label="'equals'" :value="'equals'"></el-option>
+                                                <el-option :label="'more than'" :value="'more than'"></el-option>
+                                                <el-option :label="'less than'" :value="'less than'"></el-option>
+                                            </template>
+                                            <template v-else>
+                                                <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
+                                                <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
+                                                <el-option :label="'is before'" :value="'is before'"></el-option>
+                                                <el-option :label="'is after'" :value="'is after'"></el-option>
+                                                <el-option :label="'is more than'" :value="'is more than'"></el-option>
+                                                <el-option :label="'is between date'" :value="'is between date'"></el-option>
+                                                <el-option :label="'is between'" :value="'is between'"></el-option>
+                                            </template>
+                                        </template> -->
                                     </el-select>   
                                     <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
                                             <div  class="PORE DisplayInline">
@@ -164,6 +191,8 @@ export default {
                     str ='is in the past';
                 }
                 else if(item.condition == 'Customer order number'){
+                    console.log(item)
+                    item.relations.push({"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""});
                     str ="equals"
                 }
                 else if(item.condition == 'Customer last open email time'){
@@ -181,6 +210,11 @@ export default {
                 item.relations.map(e =>{
                     e.relation = str;
                 });
+                if(item.condition == 'Customer order number'){
+                    item.relations[1].relation = 'is in the past';
+                }else{
+                    item.relations = item.relations.splice(0,1);
+                }
         },
         saveFun(){
             this.dialog.show = false;
@@ -220,7 +254,7 @@ export default {
                                     }
                                     _str += z + " ";
                                 });
-                                _str += " times";
+                                _str += " times" + " ";
                             }else{
                                 x.values.map(z =>{
                                     _str += z + " ";
@@ -240,6 +274,7 @@ export default {
                 }
                 lastArray.push(e);
             });
+            console.log(lastArray)
             this.$parent.changeTiggerVal(lastArray);
         },
         itemSonRelationChange(itemSon){
@@ -289,7 +324,7 @@ export default {
 </script>
 
 <style>
-.triggerEdit .el-dialog{width: 1200px;}
+.triggerEdit .el-dialog{width: 1340px;}
 .triggerEdit .centerClass{display:inline-block;padding:9px 16px 8px 10px;color:#606266;font-size:14px;}
 .triggerEdit .edit_header{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
 .triggerEdit .edit_left{width: 150px;height:50px;float: left;display: inline-flex;}

@@ -33,42 +33,42 @@
                             <div>
                                 <span>Sender Address</span>
                             </div>
-                                <el-input v-model="storeShop.sender_address_one" class="Senderdomain_three">    
-                                </el-input>
-                                @&nbsp;  
-                                <el-select v-model="storeShop.sender_address_two" placeholder="请选择" class="Senderdomain_one">
-                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                                <span> . </span>
-                                <el-input v-model="storeShop.sender_address_three" class="Senderdomain_two"></el-input>
-                            </div>
-                            <div class="storeurl">
-                                <span>Service Email</span>
-                                <el-form-item prop="service_email" style="display:inline;">
-                                    <el-input v-model="storeShop.service_email" class="btn_input"></el-input>
-                                </el-form-item>
-                            </div>
-                            <div class="storeurl">
-                                <span>Time Zone</span>
-                                <el-input v-model="storeShop.timezone" class="btn_input"></el-input>
-                            </div>
-                            <div class="content">
-                                <span>LOGO</span>
-                                <el-form-item class="W100" style="margin-top:10px;" prop="logo">
-                                    <el-upload
-                                    class="avatar-uploader"
-                                    action="/api/v1/upload_picture/"
-                                    :auto-upload="true"
-                                    :headers="headerdata"
-                                    :show-file-list="false"
-                                    :on-success="logoSuccess"
-                                    :before-upload="beforeAvatarUpload">
-                                    <img v-if="storeShop.logo" :src="storeShop.logo" class="avatar">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
-                            </div>
+                            <el-input v-model="storeShop.sender_address_one" class="Senderdomain_three">    
+                            </el-input>
+                            @&nbsp;  
+                            <el-select v-model="storeShop.sender_address_two" placeholder="请选择" class="Senderdomain_one">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                            <span> . </span>
+                            <el-input v-model="storeShop.sender_address_three" class="Senderdomain_two"></el-input>
+                        </div>
+                        <div class="storeurl">
+                            <span>Service Email</span>
+                            <el-form-item prop="service_email" style="display:inline;">
+                                <el-input v-model="storeShop.service_email" class="btn_input"></el-input>
+                            </el-form-item>
+                        </div>
+                        <div class="storeurl">
+                            <span>Time Zone</span>
+                            <el-input v-model="storeShop.timezone" class="btn_input"></el-input>
+                        </div>
+                        <div class="content">
+                            <span>LOGO</span>
+                            <el-form-item class="W100" style="margin-top:10px;" prop="logo">
+                                <el-upload
+                                class="avatar-uploader"
+                                action="/api/v1/upload_picture/"
+                                :auto-upload="true"
+                                :headers="headerdata"
+                                :show-file-list="false"
+                                :on-success="logoSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="storeShop.logo" :src="storeShop.logo" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-form-item>
+                            <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
+                        </div>
                 </section>
                 <div class="goole_analytics">
                     <p class="title">Google Analytics Tracking</p>
@@ -179,7 +179,6 @@ export default {
                     let lastSender = this.storeShop.sender_address_one + "@" + this.storeShop.sender_address_two + "." + this.storeShop.sender_address_three;
                     this.storeShop.sender_address = lastSender;
                     this.$axios.put(`api/v1/store/${this.storeShop.id}/`,this.storeShop)
-
                     .then(res =>{
                         if (res.data.code == 1) {
                             this.$message({
@@ -226,8 +225,5 @@ export default {
 .Integration .storeSetting .goole_analytics .goole_save{background:#339999;border-color:#339999;color:#fff;padding:13px 18px;font-size: 12px;}
 .Integration .content{margin-top: 30px;}
 .Integration .el-form-item__content{margin-left: 0!important;}
-
-
 .Integration .littleMsg{font-size: 12px;color: #606266;}
-
 </style>
