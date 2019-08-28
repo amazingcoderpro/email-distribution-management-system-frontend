@@ -26,9 +26,15 @@
                                 <el-option :label="'Customer last order created time'" :value="'Customer last order created time'"></el-option>
                                 <el-option :label="'Customer last order status'" :value="'Customer last order status'"></el-option>
                                 <el-option :label="'Customer order number'" :value="'Customer order number'"></el-option>
+                                <el-option :label="'Customer placed order'" :value="'Customer placed order'"></el-option>
+                                <el-option :label="'Customer paid order'" :value="'Customer paid order'"></el-option>
+                                <el-option :label="'Customer opened email'" :value="'Customer opened email'"></el-option>
+                                <el-option :label="'Customer clicked email'" :value="'Customer clicked email'"></el-option>
                                 <el-option :label="'Customer last open email time'" :value="'Customer last open email time'"></el-option>
                                 <el-option :label="'Customer last click email time'" :value="'Customer last click email time'"></el-option>
                                 <el-option :label="'Customer who accept marketing'" :value="'Customer who accept marketing'"></el-option>
+                                <el-option :label="'Customer Email'" :value="'Customer Email'"></el-option>
+                                <el-option :label="'Customer total order payment amount'" :value="'Customer total order payment amount'"></el-option>
                             </el-select>
                             <template v-for="(itemSon,index) in item.relations">
                                 <div :key="index" style="display:inline-block">
@@ -37,7 +43,7 @@
                                             <el-option :label="'is true'" :value="'is true'"></el-option>
                                             <el-option :label="'is false'" :value="'is false'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer last order created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
+                                        <template v-else-if="item.condition == 'Customer last order created time' || item.condition == 'Customer subscribe time' || item.condition == 'Customer last click email time' 
                                         || item.condition == 'Customer sign up time' || item.condition == 'Customer last open email time'">
                                             <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
                                             <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
@@ -47,11 +53,12 @@
                                             <el-option :label="'is between date'" :value="'is between date'"></el-option>
                                             <el-option :label="'is between'" :value="'is between'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer last order status'">
+                                        <template v-else-if="item.condition == 'Customer last order status'">
                                             <el-option :label="'is paid'" :value="'is paid'"></el-option>
                                             <el-option :label="'is unpaid'" :value="'is unpaid'"></el-option>
                                         </template>
-                                        <template v-if="item.condition == 'Customer order number'">
+                                        <template v-else-if="item.condition == 'Customer order number' || item.condition == 'Customer placed order' || item.condition == 'Customer paid order' 
+                                        || item.condition == 'Customer opened email' || item.condition == 'Customer clicked email'">
                                             <template v-if="index == 0">
                                                 <el-option :label="'equals'" :value="'equals'"></el-option>
                                                 <el-option :label="'more than'" :value="'more than'"></el-option>
@@ -67,24 +74,17 @@
                                                 <el-option :label="'is between'" :value="'is between'"></el-option>
                                             </template>
                                         </template>
-                                        <!-- <template v-else-if="item.condition == 'Customer order number'">
-                                            <template v-if="index == 0">
-                                                <el-option :label="'equals'" :value="'equals'"></el-option>
-                                                <el-option :label="'more than'" :value="'more than'"></el-option>
-                                                <el-option :label="'less than'" :value="'less than'"></el-option>
-                                            </template>
-                                            <template v-else>
-                                                <el-option :label="'is over all time'" :value="'is over all time'"></el-option>
-                                                <el-option :label="'is in the past'" :value="'is in the past'"></el-option>
-                                                <el-option :label="'is before'" :value="'is before'"></el-option>
-                                                <el-option :label="'is after'" :value="'is after'"></el-option>
+                                        <template v-else-if="item.condition == 'Customer Email'">
+                                                <el-option :label="'contains'" :value="'contains'"></el-option>
+                                                <el-option :label="'is started with'" :value="'is started with'"></el-option>
+                                                <el-option :label="'is end with'" :value="'is end with'"></el-option>
+                                        </template>
+                                        <template v-else-if="item.condition == 'Customer total order payment amount'">
                                                 <el-option :label="'is more than'" :value="'is more than'"></el-option>
-                                                <el-option :label="'is between date'" :value="'is between date'"></el-option>
-                                                <el-option :label="'is between'" :value="'is between'"></el-option>
-                                            </template>
-                                        </template> -->
+                                                <el-option :label="'is less than'" :value="'is less than'"></el-option>
+                                        </template>
                                     </el-select>   
-                                    <template v-if="itemSon.relation == 'is in the past' || itemSon.relation == 'is more than'">
+                                    <template v-if="itemSon.relation == 'is in the past'">
                                             <div  class="PORE DisplayInline">
                                                 <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                             </div>
@@ -97,14 +97,14 @@
                                                 <el-option :label="'years'" :value="'years'"></el-option>
                                             </el-select>
                                     </template>
-                                    <template v-if="itemSon.relation == 'equals' || itemSon.relation == 'more than' || itemSon.relation == 'less than'">
+                                    <template v-else-if="itemSon.relation == 'equals' || itemSon.relation == 'more than' || itemSon.relation == 'less than'">
                                             <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                             <div class="centerClass">times</div>
                                     </template>
-                                    <template v-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
+                                    <template v-else-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
                                             <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                     </template>
-                                    <template v-if="itemSon.relation == 'is between date'">
+                                    <template v-else-if="itemSon.relation == 'is between date'">
                                         <el-date-picker v-model="itemSon.values[0]" type="date" placeholder="enter Time" class="W150"></el-date-picker>
                                         <div class="centerClass">and</div>
                                         <div class="PORE DisplayInline">
@@ -127,9 +127,34 @@
                                         </el-select>
                                         <div class="centerClass">ago</div>
                                     </template>
+                                    <template v-else-if="itemSon.relation == 'contains' || itemSon.relation == 'is started with' || itemSon.relation == 'is end with'">
+                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                    </template>
+                                    <template v-else-if="itemSon.relation == 'is more than'">
+                                        <template v-if="item.condition == 'Customer total order payment amount'">
+                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                            <div class="centerClass">USD</div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="PORE DisplayInline">
+                                                <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                            </div>
+                                            <el-select v-model="itemSon.unit" class="W150">
+                                                <el-option :label="'minutes'" :value="'minutes'"></el-option>
+                                                <el-option :label="'hours'" :value="'hours'"></el-option>
+                                                <el-option :label="'days'" :value="'days'"></el-option>
+                                                <el-option :label="'weeks'" :value="'weeks'"></el-option>
+                                                <el-option :label="'months'" :value="'months'"></el-option>
+                                                <el-option :label="'years'" :value="'years'"></el-option>
+                                            </el-select>
+                                        </template>
+                                    </template>
+                                    <template v-else-if="itemSon.relation == 'is less than'">
+                                        <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                        <div class="centerClass">USD</div>
+                                    </template>
                                 </div>     
                             </template>
-                                
                             <i class="iconfont icon-chahao" @click="addDelete(index)" style="float:right;margin-right:20px;line-height:40px;"></i>
                         </div>
                     </div>   
@@ -190,10 +215,15 @@ export default {
                 else if(item.condition == 'Customer last order created time'){
                     str ='is in the past';
                 }
-                else if(item.condition == 'Customer order number'){
-                    console.log(item)
-                    item.relations.push({"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""});
-                    str ="equals"
+                else if(item.condition == 'Customer order number' || item.condition == 'Customer placed order' || item.condition == 'Customer paid order' || item.condition == 'Customer opened email'
+                || item.condition == 'Customer clicked email'){
+                    // item.relations.push({"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""});
+                    if(item.relations.length<2){
+                        item.relations.push({"relation":"is over all time", "values":[30], "unit":"days","errorMsg":""});
+                    }else{
+                        // item.relation.splice(0,1);
+                    }
+                    str ="equals";
                 }
                 else if(item.condition == 'Customer last open email time'){
                     str ="is in the past"
@@ -203,6 +233,10 @@ export default {
                 }
                 else if(item.condition == 'Customer last order status'){
                     str ="is paid"
+                }else if(item.condition == 'Customer Email'){
+                    str ="contains"
+                }else if(item.condition == 'Customer total order payment amount'){
+                    str ="is more than"
                 }
                 else if(item.condition == 'Customer who accept marketing'){
                     str ="is true"
@@ -210,7 +244,8 @@ export default {
                 item.relations.map(e =>{
                     e.relation = str;
                 });
-                if(item.condition == 'Customer order number'){
+                if(item.condition == 'Customer order number' || item.condition == 'Customer placed order' || item.condition == 'Customer paid order' || item.condition == 'Customer opened email'
+                || item.condition == 'Customer clicked email'){
                     item.relations[1].relation = 'is in the past';
                 }else{
                     item.relations = item.relations.splice(0,1);
@@ -221,11 +256,12 @@ export default {
             let lastArray = [];
             this.thisData.bigGroupArrayTest.map(e => {
                 if(e.condition == 'Customer subscribe time' || e.condition == 'Customer last click email time' || e.condition == 'Customer last order created time'
-                || e.condition =='Customer sign up time' || e.condition == 'Customer order number' || e.condition == 'Customer last open email time'){
+                || e.condition =='Customer sign up time' || e.condition == 'Customer order number' || e.condition == 'Customer last open email time' || e.condition == 'Customer placed order' || e.condition == 'Customer paid order'
+                || e.condition == 'Customer opened email' || e.condition == 'Customer clicked email'){
                     let _str = e.condition + " ";
                     e.relations.map(x =>{
                         _str += x.relation + " ";
-                        if(x.relation != 'is over all time'){
+                        if(x.relation != 'is over all time'){   
                             if(x.relation == 'is before' || x.relation == 'is after'){
                                 x.values.map((z,index) =>{
                                     x.values[index] = base.dateFormat(z);
@@ -264,17 +300,35 @@ export default {
                         }
                     });
                     e.lastVal = _str;
-                }else if(e.condition == 'Customer order number' || e.condition == 'Customer last order status' 
-                    || e.condition == 'Customer who accept marketing'){
+                }else if(e.condition == 'Customer order number' || e.condition == 'Customer last order status' || e.condition == 'Customer clicked email'
+                    || e.condition == 'Customer who accept marketing' || e.condition == 'Customer placed order' || e.condition == 'Customer paid order' || e.condition == 'Customer opened email'){
                         let _str = e.condition + " ";
                         e.relations.map(x =>{
                             _str += x.relation;
                         });
                         e.lastVal = _str;
+                }else if(e.condition == 'Customer Email' || e.condition == 'Customer total order payment amount'){
+                    let _str = e.condition + " ";
+                    e.relations.map(x =>{
+                        _str += x.relation + " ";
+                        if(x.relation == 'contains' || x.relation == 'is started with' || x.relation == 'is started with'){
+                            x.values.map((z,index) =>{
+                                if(index ==1){
+                                }
+                                _str += z + " ";
+                            });
+                        }else if(x.relation == 'is more than' || x.relation == 'is less than'){
+                             x.values.map((z,index) =>{
+                                if(index ==1){
+                                }
+                                _str += z + " USD ";
+                            });
+                        }
+                    });
+                    e.lastVal = _str;
                 }
                 lastArray.push(e);
             });
-            console.log(lastArray)
             this.$parent.changeTiggerVal(lastArray);
         },
         itemSonRelationChange(itemSon){
@@ -324,7 +378,7 @@ export default {
 </script>
 
 <style>
-.triggerEdit .el-dialog{width: 1340px;}
+.triggerEdit .el-dialog{width: 1360px;}
 .triggerEdit .centerClass{display:inline-block;padding:9px 16px 8px 10px;color:#606266;font-size:14px;}
 .triggerEdit .edit_header{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
 .triggerEdit .edit_left{width: 150px;height:50px;float: left;display: inline-flex;}
