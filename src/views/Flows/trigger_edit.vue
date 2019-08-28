@@ -86,9 +86,9 @@
                                     </el-select>   
                                     <template v-if="itemSon.relation == 'is in the past'">
                                             <div  class="PORE DisplayInline">
-                                                <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                                <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="WW100"></el-input>
                                             </div>
-                                            <el-select v-model="itemSon.unit" class="W150">
+                                            <el-select v-model="itemSon.unit" class="WW100">
                                                 <el-option :label="'minutes'" :value="'minutes'"></el-option>
                                                 <el-option :label="'hours'" :value="'hours'"></el-option>
                                                 <el-option :label="'days'" :value="'days'"></el-option>
@@ -98,7 +98,7 @@
                                             </el-select>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'equals' || itemSon.relation == 'more than' || itemSon.relation == 'less than'">
-                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="WW100"></el-input>
                                             <div class="centerClass">times</div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is before' || itemSon.relation == 'is after'">
@@ -112,12 +112,12 @@
                                         </div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is between'">
-                                        <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                        <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="WW100"></el-input>
                                         <div class="centerClass">and</div>
                                         <div  class="PORE DisplayInline">
-                                            <el-input v-model="itemSon.values[1]" @keyup.native="numberFun(itemSon,1)" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[1]" @keyup.native="numberFun(itemSon,1)" placeholder="Number" class="WW100"></el-input>
                                         </div>
-                                        <el-select v-model="itemSon.unit" class="W150">
+                                        <el-select v-model="itemSon.unit" class="WW100">
                                             <el-option :label="'minutes'" :value="'minutes'"></el-option>
                                             <el-option :label="'hours'" :value="'hours'"></el-option>
                                             <el-option :label="'days'" :value="'days'"></el-option>
@@ -128,7 +128,7 @@
                                         <div class="centerClass">ago</div>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'contains' || itemSon.relation == 'is started with' || itemSon.relation == 'is end with'">
-                                            <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
+                                            <el-input v-model="itemSon.values[0]" placeholder="Number" class="W150"></el-input>
                                     </template>
                                     <template v-else-if="itemSon.relation == 'is more than'">
                                         <template v-if="item.condition == 'Customer total order payment amount'">
@@ -139,7 +139,7 @@
                                             <div class="PORE DisplayInline">
                                                 <el-input v-model="itemSon.values[0]" @keyup.native="numberFun(itemSon,0)" placeholder="Number" class="W150"></el-input>
                                             </div>
-                                            <el-select v-model="itemSon.unit" class="W150">
+                                            <el-select v-model="itemSon.unit" class="WW100">
                                                 <el-option :label="'minutes'" :value="'minutes'"></el-option>
                                                 <el-option :label="'hours'" :value="'hours'"></el-option>
                                                 <el-option :label="'days'" :value="'days'"></el-option>

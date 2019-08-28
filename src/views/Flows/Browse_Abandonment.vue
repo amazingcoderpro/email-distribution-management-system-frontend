@@ -511,7 +511,7 @@
     .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit .icon-edit{font-size: 17px;color: #6d6666;font-weight: 600;}
     .Browse .Browse_table .table_right .trigger_top .trigger_right .trigger_Edit span{font-size: 14px;color: #333333;}
     .Browse .Browse_table .trigger_Delete{float: right;margin-top: 6px;text-align: center;margin-right: 29px;cursor: pointer;}
-    .Browse .trigger_center .trigger_input_one{width: 50%;margin-left: 23%;margin-top: 40px;position: relative;}
+    .Browse .trigger_center .trigger_input_one{width: 55%;margin-left: 22%;margin-top: 40px;position: relative;}
     .Browse .trigger_center .icon-chahao{position: absolute;margin-top: 53px;margin-left: -23px;color: #908f8f;font-size: 14px;font-weight: 600;cursor: pointer;}
     .Browse .trigger_centertwo{margin-top: -20px;}
     .Browse .rigger_bottom{position: relative;width: 52%;margin: 0 auto;margin-top: 25px;}
