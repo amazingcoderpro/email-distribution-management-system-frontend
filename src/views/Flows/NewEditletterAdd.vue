@@ -3,7 +3,8 @@
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-right"> </span>Home</a></li>
             <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
-            <li><a><span class="el-icon-right"> </span>{{title}}</a></li>
+            <!-- <li><a><span class="el-icon-right"> </span>{{title}}</a></li> -->
+            <li v-if="title"><a href="/Browse_Abandonment"><span class="el-icon-right"> </span>{{title}}</a></li>
             <li><a href="/NewEditletterAdd"><span class="el-icon-right"> </span>EditletterAdd</a></li>
         </ul>
         <div class="bigBox">

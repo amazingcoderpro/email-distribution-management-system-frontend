@@ -3,15 +3,15 @@
             <ul id="breadcrumb">
                 <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
                 <li><a href="/FlowList"><span class="el-icon-right"> </span> Flows</a></li>
-                <li v-if="title"><a><span class="el-icon-right"> </span>{{title}}</a></li>
+                <li v-if="title"><a href="/Browse_Abandonment"><span class="el-icon-right"> </span>{{title}}</a></li>
             </ul>
             <el-form :inline="true" :model="bigModel" :data-text="fromDataType" :disabled="fromDataType == 'preview'">
-                <el-form-item label="Title" style="margin-left:290px;">
-                    <el-input v-model="title" placeholder="Enter Flow Name" style="width:250px;"></el-input>
+                <el-form-item label="Title" style="margin-left:285px;">
+                    <el-input v-model="title" placeholder="Enter Flow Name" style="width:315px;"></el-input>
                     <div class="el-form-item__error" v-if="State.title == 0">Please enter Flow Name</div>
                 </el-form-item>
-                <el-form-item label="Description" style="margin-left:290px;">
-                    <el-input v-model="description" placeholder="Enter Description" style="width:250px;"></el-input>
+                <el-form-item label="Description" style="margin-left:295px;">
+                    <el-input v-model="description" placeholder="Enter Description" style="width:315px;"></el-input>
                     <div class="el-form-item__error" v-if="State.title == 0">Please enter Description</div>
                 </el-form-item>
                 <div class="Browse_table">
@@ -496,7 +496,7 @@
     .Browse .Browse_table{width: 65%;margin: 0 auto;}
     .Browse .Browse_table .iconfont{color: #6d6666}
     .Browse #breadcrumb{margin-bottom: 50px;}
-    .Browse .Enable_button{margin:30px 0 30px;margin-left: 943px;}
+    .Browse .Enable_button{margin:30px 0 30px;float: right;}
     .Browse .Browse_table .table_right{position: relative; border: 1px solid rgba(121, 121, 121, 1);padding-bottom:20px;}
     .Browse .Browse_table .table_right .trigger_top{height: 50px;background-color: rgba(228, 228, 228, 1);border-bottom: 1px solid rgba(121, 121, 121, 1);}
     .Browse .Browse_table .table_right .trigger_top .trigger_left{width: 150px;height:50px;float: left;display: inline-flex;}
@@ -518,7 +518,7 @@
     .Browse .rigger_bottom span{font-size: 14px;color: #333333;font-family: 'Arial Cursiva', 'Arial Normal', 'Arial';font-style: italic;}
     .Browse .Broese_public{width: 65%;margin: 0 auto;text-align: center;}
     .Browse .Broese_img{position: relative;}
-    .Browse .icon-jiahao1{position: absolute;font-size: 25px;margin-left: -27px;margin-top: 25px;background-color: white;color: red;cursor: pointer;}
+    .Browse .icon-jiahao1{position: absolute;font-size: 25px;margin-left: -28px;margin-top: 25px;background-color: white;color: red;cursor: pointer;}
     .Browse .Browse_email{height: 150px!important;}
     .Browse .icon-youjian{font-size: 30px;color: #6d6666;padding-left: 15px;margin-top: 7px;}
     .Browse .rigger_center{width: 52%;margin: 0 auto;margin-top: 25px;text-align: center;}
