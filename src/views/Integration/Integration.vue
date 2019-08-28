@@ -73,11 +73,15 @@
                 <div class="goole_analytics">
                     <p class="title">Google Analytics Tracking</p>
                     <p>Setp 1.  Sign up for a Google Analytics account.</p>
-                    <p class="steo_two">Step 2.  Add <a :href="storeShop.email" target="_blank" style="color:red">{{storeShop.email}}</a> a user in your <b>GA view user management</b>. Give us data read & Analyze permissions.</p>
-                    <p>Step 3.  Add your VIEW ID here <el-input v-model="storeShop.store_view_id" placeholder="请输入内容"></el-input></p>
+                    <p class="steo_two">Step 2.  Add <span style="color:red;">test123@eternal-argon-241002.iam.gserviceaccount.com</span> a user in your <b>GA view user management</b>. Give us data read & Analyze permissions.</p>
+                    <p>
+                        Step 3.  Add your VIEW ID here <el-input v-model="storeShop.store_view_id" placeholder="请输入内容"></el-input>
+                        <el-button type="primary" size="small" @click="showStatement()" class="btn_stat" style="margin-left:20px;background: #339999;border-color: #339999;">Statement</el-button>
+                    </p>
                     <el-button type="primary" class="goole_save" @click="submitwo('fromRef')">SAVE</el-button>
                 </div>
             </el-form>
+            <DialogFound :dialog="dialog" ref="dailog"></DialogFound>
         </div>
     </div>
 </template>
@@ -85,13 +89,22 @@
 <script>
 import * as base from '../../assets/js/base'
 import router from '../../router';
+import DialogFound from "./statement";
 export default {
     name: "storeSetting",
+    components: {
+        DialogFound
+    },
     created() {
             this.init();
         },
     data() {
         return {
+            dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
             rules: {
                 logo: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
                 service_email:[{ required: true, message: 'Please enter your email address', trigger: 'blur' },{ type: 'email', message: 'Please enter the correct email address'}]
@@ -124,8 +137,6 @@ export default {
             ],
             value:'', 
         }
-    },
-    components:{
     },
     methods:{
         init() {
@@ -196,7 +207,15 @@ export default {
                 }
             });
         },
+        showStatement() {
+            this.dialog = {
+                show: true,
+                title: "",
+                option: "post"
+            };
+        }
     },
+    
 }
 </script>
 
