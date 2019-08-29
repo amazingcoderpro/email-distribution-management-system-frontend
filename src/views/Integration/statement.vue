@@ -4,14 +4,14 @@
          <el-dialog  :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false' :modal-append-to-body="false"  >
           <el-form ref="form" label-width="300px" class="demo-ruleForm">
               <p class="title">Tracking Visitors From SmartSend By Using Google Analytics</p>
-              <p>You are currently try to license your google analytic account to SmartSend system. Connecting Google Analytics to your SmartSend program pages is extremely easy. Please see below:</p>
+              <p>You are currently try to license your google analytic account to smartsend system. Connecting Google Analytics to your smartsend program pages is extremely easy. Please see below:</p>
               <p>Step1. Sign up for a Google Analytics account, if you haven't already done so.</p>
               <p>Step2. Add <a>test123@eternal-argon-241002.iam.gserviceaccount.com</a> as a user in your GA view user management. Give us data read & Analyze permissions.</p>
               <p>Step2. Add your Google Analytics Tracking Code to SmartSend pages.</p>
               <p>Step3. Click the Save Button.</p>
-              <p>Page views from your SmartSend program may take up to 24 hours to appear on your GA dashboard. You can check SmartSend data performance on your GA Dashboard follow these step.</p>
+              <p>Page views from your smartsend program may take up to 24 hours to appear on your GA dashboard. You can check SmartSend data performance on your GA Dashboard follow these step.</p>
               <p>Step1. Login to your Google Analytics account, if you haven't already done so.</p>
-              <p>Step2. Click Acquisition → All traffic → Source/medium → Input "SmartSend" in the advanced search blank → Search</p>
+              <p>Step2. Click Acquisition → All traffic → Source/medium → Input "smartsend" in the advanced search blank → Search</p>
               <el-button type="primary" @click="clickFun">Ok</el-button>
               <el-form-item> 
             </el-form-item>
