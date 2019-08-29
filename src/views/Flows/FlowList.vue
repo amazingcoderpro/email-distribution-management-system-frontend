@@ -28,14 +28,12 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-
-           <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
-                <div class="columnLable">Total Sents</div>
-                <div class="columnContent">{{(scope.row.total_sents*100).toFixed(2)}}%</div>
+                <div class="columnLable">Total Sent</div>
+                <div class="columnContent">{{scope.row.total_sents}}</div>
               </template>
             </el-table-column>
-
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
