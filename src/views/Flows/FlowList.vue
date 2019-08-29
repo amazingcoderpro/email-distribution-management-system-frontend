@@ -22,12 +22,20 @@
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus" :height="tableHeight"> 
-            <el-table-column prop="name,description" align="left" width="550">
+            <el-table-column prop="name,description" align="left" width="400">
               <template slot-scope="scope">
                 <div class="columnLable ColumnTitle">{{scope.row.title }}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
+
+           <el-table-column prop="open" align="center" label="123" width="200">
+              <template slot-scope="scope">
+                <div class="columnLable">Total Sents</div>
+                <div class="columnContent">{{(scope.row.total_sents*100).toFixed(2)}}%</div>
+              </template>
+            </el-table-column>
+
             <el-table-column prop="open" align="center" label="123" width="200">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
@@ -48,7 +56,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="status" align="center" width="200">
+            <el-table-column prop="status" align="center" width="150">
               <template slot-scope="scope">
                   <div class="columnLable">State</div>
                   <div class="columnContent">
