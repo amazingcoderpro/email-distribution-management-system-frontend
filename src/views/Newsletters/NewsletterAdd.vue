@@ -298,7 +298,9 @@
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
-                                <img :src="fromData.logoUrl" style="width: 100%;"/>
+                                <a :href="'http://'+fromData.domain" target="_blank">
+                                    <img :src="fromData.logoUrl" style="width: 100%;"/>
+                                </a>
                             </div>
                             <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                         </div>
@@ -433,6 +435,7 @@ export default {
                 SubjectText:'',
                 HeadingText:'',
                 logoUrl: '',
+                domain: '',
                 bannerUrl:'',
                 Headline:'',
                 productTitle:'',
@@ -587,6 +590,7 @@ export default {
                 if(res.data.code == 1){
                     this.Shop = res.data.data[0];
                     this.fromData.logoUrl = this.Shop.logo;
+                    this.fromData.domain = this.Shop.domain;
                 }else{
                     this.$message("Acquisition failure!");
                 }
