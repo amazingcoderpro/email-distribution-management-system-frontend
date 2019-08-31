@@ -50,7 +50,7 @@
               <template slot-scope="scope"> 
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
-                    ${{(scope.row.revenue*100).toFixed(2)}}
+                    ${{(scope.row.revenue).toFixed(2)}}
                 </div>
               </template>
             </el-table-column>

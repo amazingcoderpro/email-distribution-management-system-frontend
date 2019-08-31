@@ -200,6 +200,7 @@
                 noteValue:"7",
                 noteUnit:"days.",
                 disabledSon:"",
+                id:-1,
                 fromDataType:"",
                 title:"",
                 description:"",
@@ -246,6 +247,7 @@
                     this.$axios.put(`/api/v1/email_trigger/clone/${_thisData.id}/`)
                     .then(res => {
                         if(res.data.code == 1){
+                            this.id = res.data.data.id;
                             this.title = res.data.data.title;
                             this.description = res.data.data.description;
                             this.bigData = JSON.parse(res.data.data.email_delay);
@@ -426,7 +428,6 @@
                         this.noteTrueArray[index] = "Do not send if the customer received an email from this campaign in the last " + this.noteValue +" "+ this.noteUnit;
                     }
                 });
-                console.log(this.noteTrueArray)
                 let  _thisData = {    
                     title:this.title,
                     description:this.description,
@@ -434,7 +435,7 @@
                     email_delay:JSON.stringify(this.bigData),
                     note:JSON.stringify(this.noteTrueArray),
                 }
-                
+                console.log(_thisData)
                 if(this.title && this.title.trim().length != 0){
                     this.State.title = 1;
                     if(this.bigData.length == 0){                                                        
@@ -449,18 +450,33 @@
                             }
                         });
                         if(_state){
-                            this.$axios.post(`/api/v1/email_trigger/`,_thisData)
-                            .then(res => {
-                                if(res.data.code == 1){
-                                    this.$message({message: "Successfully!",type: "success"});
-                                    router.push('/FlowList');
-                                }else{
-                                    this.$message("Acquisition failure!");
-                                }
-                            })
-                            .catch(error => {
-                                this.$message("Interface timeout!");
-                            });
+                            if(this.fromDataType == "clone"){
+                                this.$axios.put(`/api/v1/email_trigger/edit/${this.id}/`,_thisData)
+                                .then(res => {
+                                    if(res.data.code == 1){
+                                        this.$message({message: "Successfully!",type: "success"});
+                                        router.push('/FlowList');
+                                    }else{
+                                        this.$message("Acquisition failure!");
+                                    }
+                                })
+                                .catch(error => {
+                                    this.$message("Interface timeout!");
+                                });
+                            }else{
+                                this.$axios.post(`/api/v1/email_trigger/`,_thisData)
+                                .then(res => {
+                                    if(res.data.code == 1){
+                                        this.$message({message: "Successfully!",type: "success"});
+                                        router.push('/FlowList');
+                                    }else{
+                                        this.$message("Acquisition failure!");
+                                    }
+                                })
+                                .catch(error => {
+                                    this.$message("Interface timeout!");
+                                });
+                            }
                         }else{
                             this.$message({
                                 message: 'Email Edit cannot be empty!',
