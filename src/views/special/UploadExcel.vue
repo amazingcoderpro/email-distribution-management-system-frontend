@@ -12,7 +12,7 @@
                             <el-input v-model="fromData.shopifydomain"  class="W100"></el-input>
                             <span class="littleStar">*</span>
                         </el-form-item>
-                        <el-button type="primary" style="margin-left: 14px;" @click="init">Search</el-button>
+                        <el-button type="primary" style="margin-left: 14px;" @click="init('fromRef')">Search</el-button>
                     </div>
                 </div>
                 <div class="fromSon">
@@ -25,9 +25,9 @@
                 </div>
                 <div class="fromSon">
                     <label>Flow List</label>
-                    <div class="content">
+                    <div class="content W50">
                         <el-checkbox-group v-model="fromData.auth_list">
-                            <el-checkbox v-for="(item,index) in flowList" :label="item.id" :key="index">{{item.title}}</el-checkbox>
+                            <el-checkbox class=" W40" v-for="(item,index) in flowList" :label="item.id" :key="index">{{item.title}}</el-checkbox>
                         </el-checkbox-group>
                     </div>
                 </div>
@@ -133,24 +133,29 @@ export default {
             };
         },
         methods: {
-            init(){
-                this.$axios.get(`/api/v2/email_trigger/?shopify_domain=${this.fromData.shopifydomain}`)
-                .then(res => {
-                    if(res.data.code == 1){
-                        this.flowList = res.data.data;
-                        this.flowList.map(e =>{
-                            if(e.is_auth){
-                                this.fromData.auth_list.push(e.id);
+            init(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$axios.get(`/api/v2/email_trigger/?shopify_domain=${this.fromData.shopifydomain}`)
+                        .then(res => {
+                            if(res.data.code == 1){
+                                this.flowList = res.data.data;
+                                this.fromData.auth_list = [];
+                                this.flowList.map(e =>{
+                                    if(e.is_auth){
+                                        this.fromData.auth_list.push(e.id);
+                                    }
+                                });
+                                // console.log(res.data.data)
+                            }else{
+                                this.$message("Acquisition failure!");
                             }
-                        });
-                        // console.log(res.data.data)
-                    }else{
-                        this.$message("Acquisition failure!");
+                        })
+                        .catch(error => {
+                            this.$message("Interface timeout!");
+                        }); 
                     }
-                })
-                .catch(error => {
-                    this.$message("Interface timeout!");
-                }); 
+                });
             },
             successFun(response, file, fileList) {
                 if(response.code == 1){
