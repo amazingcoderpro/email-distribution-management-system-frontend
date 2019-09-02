@@ -106,7 +106,7 @@ export default {
                     // {title:'Sent',value:"total_sent"},
                     // {title:'Opens',value:"total_open"},
                     // {title:'Clicks',value:"total_click"}
-                    {title:'Sent',value:"sents"},
+                    {title:'Sents',value:"sents"},
                     {title:'Opens',value:"opens"},
                     {title:'Clicks',value:"clicks"}
                 ],

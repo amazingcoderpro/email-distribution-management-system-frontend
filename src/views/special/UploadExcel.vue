@@ -12,9 +12,26 @@
                             <el-input v-model="fromData.shopifydomain"  class="W100"></el-input>
                             <span class="littleStar">*</span>
                         </el-form-item>
+                        <el-button type="primary" style="margin-left: 14px;" @click="init">Search</el-button>
                     </div>
                 </div>
                 <div class="fromSon">
+                    <label>Opstores User</label>
+                    <div class="content">
+                        <el-form-item class="W300">
+                            <el-input v-model="fromData.op_user" class="W100"></el-input>
+                        </el-form-item>
+                    </div>
+                </div>
+                <div class="fromSon">
+                    <label>Flow List</label>
+                    <div class="content">
+                        <el-checkbox-group v-model="fromData.auth_list">
+                            <el-checkbox v-for="(item,index) in flowList" :label="item.id" :key="index">{{item.title}}</el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                </div>
+                <!-- <div class="fromSon">
                     <label>Password</label>
                     <div class="content">
                         <el-form-item prop="password" class="W300">
@@ -31,8 +48,8 @@
                             <span class="littleStar">*</span>
                         </el-form-item>
                     </div>
-                </div>
-                <div class="fromSon">
+                </div> -->
+                <!-- <div class="fromSon">
                     <label>Logo</label>
                     <div class="content">
                         <el-form-item class="W100">
@@ -58,9 +75,9 @@
                             <el-input v-model="fromData.store_view_id" class="W100"></el-input>
                         </el-form-item>
                     </div>
-                </div>
-                <div class="fromSon">
-                </div>
+                </div> -->
+                <!-- <div class="fromSon">
+                </div> -->
                 <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                 <el-upload
                     class="upload-demo"
@@ -80,6 +97,8 @@
 <script>
 export default {
         name: 'UploadExcel',
+        mounted() {
+        },
         data() {
             var validatePass2 = (rule, value, callback) => {
                 if (value !== this.fromData.password) {
@@ -89,6 +108,7 @@ export default {
                 }
             };
             return {
+                flowList:[],
                 fromData:{
                     password:"",
                     password2:"",
@@ -96,6 +116,8 @@ export default {
                     logo:"",
                     shopify_domain:"",
                     shopifydomain:"",
+                    op_user:"",
+                    auth_list:[],
                 },
                 rules: {
                     password: [{ required: true, message: 'Please enter Password', trigger: 'change' },],
@@ -111,6 +133,25 @@ export default {
             };
         },
         methods: {
+            init(){
+                this.$axios.get(`/api/v2/email_trigger/?shopify_domain=${this.fromData.shopifydomain}`)
+                .then(res => {
+                    if(res.data.code == 1){
+                        this.flowList = res.data.data;
+                        this.flowList.map(e =>{
+                            if(e.is_auth){
+                                this.fromData.auth_list.push(e.id);
+                            }
+                        });
+                        // console.log(res.data.data)
+                    }else{
+                        this.$message("Acquisition failure!");
+                    }
+                })
+                .catch(error => {
+                    this.$message("Interface timeout!");
+                }); 
+            },
             successFun(response, file, fileList) {
                 if(response.code == 1){
                     this.$message({message: "Successfully!",type: "success"});
@@ -150,8 +191,12 @@ export default {
             saveFun(formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.fromData.shopify_domain = this.fromData.shopifydomain;
-                        this.$axios.post(`/api/v2/opstores/store/`, this.fromData)
+                        let _data = {
+                            shopify_domain:this.fromData.shopifydomain,
+                            auth_list:JSON.stringify(this.fromData.auth_list),
+                            op_user:this.fromData.op_user
+                        }
+                        this.$axios.post(`/api/v2/opstores/auth/`, _data)
                         .then(res => {
                             if(res.data.code == 1){
                                 this.$message({message: "Successfully!",type: "success"});
@@ -169,7 +214,7 @@ export default {
 }
 </script>
 <style>
-.UploadExcel .fromSon{color: #606266;width: 33.33333%;display: inline-block;vertical-align: top;}
+.UploadExcel .fromSon{color: #606266;width: 100%;display: inline-block;vertical-align: top;}
 .UploadExcel .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
 .UploadExcel .fromSon .content{position:relative;}
 .UploadExcel .el-form-item__content{width:100%;position:relative;}
