@@ -103,9 +103,12 @@ export default {
                     {title:'Revenue',value:"revenue"},
                     {title:'Orders',value:"orders"},
                     // {title:'Traffics',value:2},
-                    {title:'Sent',value:"total_sent"},
-                    {title:'Opens',value:"total_open"},
-                    {title:'Clicks',value:"total_click"}
+                    // {title:'Sent',value:"total_sent"},
+                    // {title:'Opens',value:"total_open"},
+                    // {title:'Clicks',value:"total_click"}
+                    {title:'Sent',value:"sents"},
+                    {title:'Opens',value:"opens"},
+                    {title:'Clicks',value:"clicks"}
                 ],
                 echartTimeTypeArray:[
                     {"label":"Yesterday","value":0},
@@ -197,10 +200,10 @@ export default {
                     let _thisData = {
                         orders: 0,
                         revenue: 0,
-                        total_click: 0,
-                        total_open: 0,
+                        clicks: 0,
+                        opens: 0,
                         total_orders: 0,
-                        total_sent:0,
+                        sents:0,
                         total_revenue: 0,
                         create_time:this.echartData.dateArr[i]
                     }
