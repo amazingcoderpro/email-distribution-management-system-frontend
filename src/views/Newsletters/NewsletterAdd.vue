@@ -293,7 +293,7 @@
             </div>
             <div class="rightBox">
                 <h4>Preview</h4>
-                <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
+                <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
