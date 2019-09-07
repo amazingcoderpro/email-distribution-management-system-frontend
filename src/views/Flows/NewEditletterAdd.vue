@@ -368,7 +368,7 @@
                             </template> -->
                         </div>
                         <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            @2006-{{new Date().getFullYear()}} <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a>
+                            <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a> @2006-{{new Date().getFullYear()}} 
                             <template v-if="fromData.languageData.Copy">{{fromData.languageData.Copy}}</template>
                             <template v-else>Copyright,All Rights Reserved</template>
                         </div>
@@ -802,6 +802,7 @@ export default {
 .NewEditletterAdd .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
 .NewEditletterAdd .fromSon .content{position:relative;}
 .NewEditletterAdd .littleMsg{font-size:14px;color:#999;}
+.NewEditletterAdd .bodyText .littleMsg{color: #606266;}
 .NewEditletterAdd .bigBox{margin-bottom:40px;}
 .NewEditletterAdd textarea{height:150px;}
 .NewEditletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
