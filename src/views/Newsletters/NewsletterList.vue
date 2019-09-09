@@ -27,10 +27,16 @@
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
-            <el-table-column prop="title,description" align="left" width="500">
+            <el-table-column prop="title,description" align="left" width="350">
               <template slot-scope="scope">
                 <div class="columnLable">{{scope.row.title}}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="open" align="center" label="123" width="180">
+              <template slot-scope="scope">
+                <div class="columnLable">Total Sent</div>
+                <div class="columnContent">{{scope.row.total_sent}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="open_rate" align="center" label="123" width="200">

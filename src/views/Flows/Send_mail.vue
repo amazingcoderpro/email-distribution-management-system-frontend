@@ -23,7 +23,7 @@
                     <span class="errorMsg" v-if="errorMsg">{{errorMsg}}</span>
                     <el-button type="primary" @click="send('sendEmail')">Send Test Mail</el-button>
                 </el-form>
-            <p style="color:#F56C6C;">Tips: If you want to receive more than one email in a short time, please set the appropriate note.</p>
+            <!-- <p style="color:#F56C6C;">Tips: If you want to receive more than one email in a short time, please set the appropriate note.</p> -->
             </div>
         </el-dialog>
     </div>
@@ -43,7 +43,7 @@ export default {
             ],
             errorMsg:"",
             sendData:{
-                email:""
+                email:"",
             }
         } 
     },
@@ -78,13 +78,14 @@ export default {
         },
         Add(){
             let item = this.array[this.array.length-1];
-            this.array.push({"value":""})
-            if(item.value){
+            if(this.array.length == 0 ){
+                this.array.push({"value":""})
+            }else if(item.value){
                 this.errorMsg = "";
                 var reg = /[a-z0-9A-Z]?[-|a-z0-9A-Z._]+@[-|0-9a-zA-Z_]+\.[a-zA-Z]+[a-zA-Z.]/;
                     if(reg.test(item.value)){
                         this.errorMsg = "";
-                        // this.array.push({"value":""});
+                        this.array.push({"value":""});
                     }else{
                         this.errorMsg = "Please enter the correct email!";
                     }
