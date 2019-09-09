@@ -219,7 +219,7 @@ export default {
             this.itemData = row;
             this.dialog = {
                 show: true,
-                title: "",
+                title: "Test mail",
                 option: "post"
             };
         },

@@ -1,22 +1,22 @@
 <template>
     <div class="SendMailList">
         <el-dialog :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false'>
-            <div class="SendMail_input" style="padding: 20px 20px 50px 90px;">
+            <div class="SendMail_input" style="padding: 20px 20px 50px 180px;">
                 <el-form :inline="true"  :model="sendData" ref="sendEmail" class="demo-form-inline fromClass">
-                    <el-button type="primary" @click="Add()" style="font-weight:600;margin-left:489px;margin-bottom:20px;padding: 12px 26px;">Add</el-button>
+                    <el-button type="primary" @click="Add()" style="font-weight:600;margin-left:489px;margin-bottom:20px;padding: 12px 27px;">Add</el-button>
                     <div v-for="(item,index) in array" :key="index" >
                         <template>
                             <template v-if="index == array.length-1">
                                 <el-form-item prop="email" class="W60" >
                                     <el-input v-model="item.value" class="W100" placeholder="Email"></el-input>
                                 </el-form-item>
-                                <el-button type="danger" @click="Delete(index)" style="font-weight:600;">Delete</el-button>
+                                <el-button type="danger" @click="Delete(index)" style="font-weight:600;margin-left:55px;">Delete</el-button>
                             </template>
                             <template v-else>
                                 <el-form-item prop="email" class="W60" >
                                     <el-input v-model="item.value" class="W100" placeholder="Email"></el-input>
                                 </el-form-item>
-                                <el-button type="danger" @click="Delete(index)" style="font-weight:600;">Delete</el-button>
+                                <el-button type="danger" @click="Delete(index)" style="font-weight:600;margin-left:55px;">Delete</el-button>
                             </template>
                         </template>
                     </div>

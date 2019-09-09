@@ -4,7 +4,7 @@
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
             <li><a><span class="el-icon-right"> </span> NewsletterList</a></li>
         </ul>
-        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass W100" label-width="100px">
+        <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
           <!-- Pinterest -->
           <el-form-item>
             <el-input v-model="searchData.nameVal" placeholder="Search Newsletter Title"></el-input>
@@ -27,7 +27,7 @@
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
-            <el-table-column prop="title,description" align="left" width="350">
+            <el-table-column prop="title,description" align="left" width="400">
               <template slot-scope="scope">
                 <div class="columnLable">{{scope.row.title}}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
@@ -69,7 +69,7 @@
                   </div>
               </template>
             </el-table-column>
-            <el-table-column prop="enable" align="center" width="200">
+            <el-table-column prop="enable" align="center" width="180">
               <template slot-scope="scope">
                   <div class="columnLable">State</div>
                   <div class="columnContent">
@@ -82,7 +82,7 @@
                     </div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="300" fixed="right">
+            <el-table-column prop="operation" align="center" width="280">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
                 <el-button icon="edit" type="primary" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
@@ -308,7 +308,7 @@ export default {
 </script>
 
 <style>
-.NewsletterList .fromClass{width:97%;}
+.NewsletterList .fromClass{width:98%;}
 .NewsletterList .topictable{border-left:0;border-right:0;}
 .NewsletterList .el-table__body-wrapper tbody td{border-right:0;}
 .NewsletterList .columnLable{font-weight:700;margin-bottom:10px;}
