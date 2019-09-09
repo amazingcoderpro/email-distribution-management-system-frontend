@@ -40,6 +40,8 @@ export default {
                     let _thisData = {
                         "subject":this.fromData.SubjectText,
                         "email_address":this.sendData.email,
+                        "product_condition":this.fromData.searchImgType,
+                        "email_title":this.fromData.Title,
                         "html":_showHtml,
                         "product_list":JSON.stringify(this.trueProductArray)         
                     }
