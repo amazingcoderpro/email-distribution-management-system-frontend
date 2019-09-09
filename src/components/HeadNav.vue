@@ -2,12 +2,12 @@
     <header class="head-nav">
         <el-row>
             <el-col :span="6" class='logo-container'>
-                <img src="../assets/img/PinBooster-logo-1.jpg" class='logo' alt="">
+                <img src="../assets/img/SmartSendLogo.png" class='logo' alt="">
                 <span class='title'>SmartSend</span>
             </el-col>
             <el-col :span='6' class="user">
                 <div class="userinfo">
-                     <img src="../assets/img/none.png" class='avatar' alt="">
+                    <img src="../assets/img/none.png" class='avatar' alt="">
                     <div class='welcome'>
                       <p class='name comename'>Welcome , <span class="avatarname">{{user.username}}</span></p>
                     </div>
@@ -22,7 +22,7 @@
                                 <el-dropdown-item  command='logout'>Logout</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                     </span>
+                    </span>
                 </div>
             </el-col>
 
