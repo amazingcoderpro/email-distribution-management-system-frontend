@@ -220,7 +220,7 @@ export default {
 </script>
 
 <style>
-.Integration{margin-left: 20px;}
+.Integration{margin-left: 10px;margin-right: 35px;}
 .Integration .storeSetting .form_container{font-weight: 600;font-size: 15px;}
 .Integration .storeSetting .el-input{display:block;margin-top:10px;}
 .Integration .storeSetting .el-select{display:block;width:400px;}

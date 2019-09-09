@@ -28,19 +28,19 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open" align="center" label="123" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Total Sent</div>
                 <div class="columnContent">{{scope.row.total_sents}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open" align="center" label="123" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="click" align="center" width="200">
+            <el-table-column prop="click" align="center" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
                 <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
@@ -65,13 +65,14 @@
                       </el-switch>
                       <div class="switchShdow" @click="stateFun(scope.row)"></div>
                     </div>
-              </template>
+              </template> 
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="300">
+            <el-table-column prop="operation" align="center" width="350">
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'preview')">Preview</el-button>
                 <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'clone')">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="TestEdit(scope.row)">Test</el-button>
+                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button> 
               </template>
             </el-table-column> 
           </el-table>
@@ -80,15 +81,26 @@
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div> 
+        <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
     </div>
 </template>
 <script>
 import * as base from '../../assets/js/base'
 import router from '../../router';
+import DialogFound from "./Send_mail";
 export default {
     name: "NewsletterList",
+    components: {
+        DialogFound
+    },
     data() {
         return {
+            dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
+            itemData:{},
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
@@ -118,8 +130,6 @@ export default {
                 });
             },
         },
-    },
-    components:{
     },
     mounted() {
         setTimeout(() => {
@@ -178,9 +188,6 @@ export default {
                 description:row.description,
                 note:JSON.parse(row.note),
             }
-            // if(preview){
-            //   FlowsVal.fromDataType="preview";
-            // }
           localStorage.setItem("FlowsVal", JSON.stringify(FlowsVal));
           router.push('/Browse_Abandonment');
         },
@@ -207,6 +214,14 @@ export default {
                   this.$message("Interface timeout!");
               }); 
             }) 
+        },
+        TestEdit(row) {
+            this.itemData = row;
+            this.dialog = {
+                show: true,
+                title: "",
+                option: "post"
+            };
         },
         stateFun(row){
           this.$confirm('Are you sure you wanna change state?', 'Warning', {
