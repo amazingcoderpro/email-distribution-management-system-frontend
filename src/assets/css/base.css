@@ -26,6 +26,7 @@ html{overflow-y:hidden;}
 .W100{width:100%!important;margin-right:2%!important;}
 
 .WW40{width:40px!important;margin-right: 10px!important;}
+.WW50{width:50px!important;margin-right: 10px!important;}
 .WW80{width:80px!important;margin-right: 10px!important;}
 .WW100{width:100px!important;margin-right: 10px!important;}
 .W150{width:150px!important;margin-right:10px!important;}
@@ -36,10 +37,12 @@ html{overflow-y:hidden;}
 .W400{width:400px!important;margin-right:10px!important;}
 .W410{width:410px!important;margin-right:10px!important;}
 
-
 .MB5{margin-bottom:5px!important;}
 .MB10{margin-bottom:10px;}
 .MR20{margin-right:20px!important;}
+
+.MT10{margin-top: 10px!important;}
+
 
 .tableTitle{margin-bottom: 10px;}
 .tableTitle span{background:#006699;width:175px;color:#fff;display:inline-block;padding:10px 40px 10px 10px;font-size:20px;font-weight:600;-webkit-box-shadow:0 0 5px #006699;box-shadow:0 0 5px #006699;}

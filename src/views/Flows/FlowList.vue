@@ -28,25 +28,39 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="180">
+            <el-table-column prop="open" align="center" label="123" width="120">
               <template slot-scope="scope">
                 <div class="columnLable">Total Sent</div>
                 <div class="columnContent">{{scope.row.total_sents}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="180">
+            <el-table-column prop="open" align="center" label="123" width="120">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="click" align="center" width="180">
+            <el-table-column prop="click" align="center" width="120">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
                 <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="revenue" align="center" width="200">
+            <el-table-column prop="transcations" align="center" label="123" width="120">
+              <template slot-scope="scope">
+                <div class="columnLable">Orders</div>
+                <div class="columnContent" v-if="scope.row.transcations || scope.row.transcations == 0">{{scope.row.transcations}}</div>
+                <div class="columnContent" v-else>--</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="conversion_rate" align="center" label="123" width="150">
+              <template slot-scope="scope">
+                <div class="columnLable">Conversion Rate</div>
+                <div class="columnContent" v-if="scope.row.conversion_rate">{{(scope.row.conversion_rate*100).toFixed(2)}}%</div>
+                <div class="columnContent" v-else>--</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="revenue" align="center" width="120">
               <template slot-scope="scope"> 
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
@@ -67,12 +81,13 @@
                     </div>
               </template> 
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="350">
+            <el-table-column prop="operation" align="center" width="350" >
               <template slot-scope="scope">
-                <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'preview')">Preview</el-button>
-                <el-button icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'clone')">Clone</el-button>
-                <el-button icon="edit" type="primary" size="small" @click="TestEdit(scope.row)">Test</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button> 
+                <el-button class="WW80" icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'preview')">Preview</el-button>
+                <el-button class="WW80" icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'clone')">Clone</el-button>
+                <br/>
+                <el-button class="WW80 MT10" icon="edit" type="primary" size="small" @click="TestEdit(scope.row)">Test</el-button>
+                <el-button class="WW80 MT10" icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button> 
               </template>
             </el-table-column> 
           </el-table>
