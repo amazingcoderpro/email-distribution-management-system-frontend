@@ -32,6 +32,7 @@ import SegmentAddTest from './views/Customers/SegmentAddTest'
 
 // Integration
 import Integration from './views/Integration/Integration'
+import SiteList from './views/Integration/SiteList'
 
 // ImageLibrary
 import ImageList from './views/ImageLibrary/ImageList'
@@ -64,6 +65,7 @@ const router = new Router({
         { path: '/SegmentAdd', name: 'SegmentAdd', component: SegmentAdd },
         { path: '/SegmentAddTest', name: 'SegmentAddTest', component: SegmentAddTest },
         { path: '/Integration', name: 'Integration', component: Integration },
+        { path: '/SiteList', name: 'SiteList', component: SiteList },
         { path: '/ImageList', name: 'ImageList', component: ImageList },
         { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
       ]

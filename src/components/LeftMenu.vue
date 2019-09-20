@@ -43,18 +43,12 @@ export default {
       // items: this.$store.getters.menu_tree
       // items: JSON.parse(window.localStorage.getItem('menu_tree'))
       items:[
-              {"id":1,"menu_name":"DashBoard","menu_url":"/dashboard","parent_id":null,"icon":"iconfont icon-zhuye1","childs":[]},
-              {"id":2,"menu_name":"Newsletters","menu_url":"/NewsletterList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
-              {"id":3,"menu_name":"Flows","menu_url":"/FlowList","parent_id":null,"icon":"iconfont icon-kehujingli1","childs":[]},
-              {"id":4,"menu_name":"Customers","menu_url":"/SegmentList","parent_id":null,"icon":"iconfont icon-touruguize","childs":[]},
-              {"id":5,"menu_name":"Integration","menu_url":"/Integration","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
-              // {"id":6,"menu_name":"Image Library","menu_url":"/ImageList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
-            ]  
-            // ,
-            // "childs":[
-            //   {"id":3,"menu_name":"Daily Report","menu_url":"/sub_account_daily_report","parent_id":2,"icon":null,"childs":[]},
-            //   {"id":7,"menu_name":"Sub-Account Report","menu_url":"/sub_account_report","parent_id":2,"icon":null,"childs":[]}
-            // ]
+          {"id":1,"menu_name":"DashBoard","menu_url":"/dashboard","parent_id":null,"icon":"iconfont icon-zhuye1","childs":[]},
+          {"id":2,"menu_name":"Newsletters","menu_url":"/NewsletterList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
+          {"id":3,"menu_name":"Flows","menu_url":"/FlowList","parent_id":null,"icon":"iconfont icon-kehujingli1","childs":[]},
+          {"id":4,"menu_name":"Customers","menu_url":"/SegmentList","parent_id":null,"icon":"iconfont icon-touruguize","childs":[]},
+          {"id":5,"menu_name":"Integration","menu_url":"/Integration","parent_id":null,"icon":"iconfont icon-yanjing1","childs":[]},
+      ] 
     };
   },
   methods:{
