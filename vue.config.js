@@ -46,9 +46,8 @@ module.exports = {
         proxy: { // 配置跨域
             '/api': {
                  target: 'https://smartsend.seamarketings.com/api/',  //发布
-                 //target: 'http://172.24.1.139:8000/api/',                //方
-                // target: 'http://172.24.1.168:8000/api/',            //李
-                // target: 'http://172.24.1.170:8000/api/',            //武
+                //  target: 'http://172.21.3.66:8001/api/',            //李
+                // target: 'http://172.21.3.20:8000/api/',            //蒙
                 ws: true,
                 changOrigin: true,
                 pathRewrite: {

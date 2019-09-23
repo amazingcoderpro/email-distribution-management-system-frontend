@@ -5,7 +5,6 @@
             <li><a><span class="el-icon-right"> </span> Integration</a></li>
         </ul>
         <div class="storeSetting">
-            <el-button v-if="goSiteListBtnState" type="primary" class="goSiteListBtn" @click="goSiteList">Site Management</el-button>
             <el-form :model="storeShop"  ref="fromRef" label-width="180px" prop="sender_address" class="personalForm"  :rules="rules">
                 <section class="form_container">
                         <div class="storename">
@@ -101,7 +100,6 @@ export default {
         },
     data() {
         return {
-            goSiteListBtnState:false,
             dialog: {
                 show: false,
                 title: "",
@@ -142,11 +140,6 @@ export default {
     },
     methods:{
         init() {
-            if(window.localStorage.getItem('user')){
-                if(JSON.parse(window.localStorage.getItem('user')).username == "admin"){
-                    this.goSiteListBtnState = true;
-                }
-            };
             this.$axios.get(`/api/v1/store/`)
             .then(res => {
                 if (res.data.code == 1) {

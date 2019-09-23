@@ -10,6 +10,7 @@ import AutState from './views/special/aut_state'
 import ShopfyRegist from './views/special/shopfy_regist.vue'
 import Privacy from './views/special/privacy.vue'
 import UploadExcel from './views/special/UploadExcel.vue'
+import SiteList from './views/special/SiteList'
 
 
 // Newsletters
@@ -32,13 +33,14 @@ import SegmentAddTest from './views/Customers/SegmentAddTest'
 
 // Integration
 import Integration from './views/Integration/Integration'
-import SiteList from './views/Integration/SiteList'
 
 // ImageLibrary
 import ImageList from './views/ImageLibrary/ImageList'
 
 // Email
 import EmailPage from './views/Email/EmailPage'
+
+
 
 Vue.use(Router)
 const router = new Router({

@@ -32,7 +32,10 @@ export default {
       });
       if(window.localStorage.getItem('user')){
         if(JSON.parse(window.localStorage.getItem('user')).username == "admin"){
-          this.items.push({"id":6,"menu_name":"Account","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]})
+          this.items.push(
+            {"id":6,"menu_name":"Account","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+            {"id":7,"menu_name":"SiteList","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[]}
+            )
         }
       }
       // UploadExcel
