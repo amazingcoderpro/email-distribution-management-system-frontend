@@ -40,6 +40,9 @@ import ImageList from './views/ImageLibrary/ImageList'
 // Email
 import EmailPage from './views/Email/EmailPage'
 
+// Site
+import SiteStatistics from './views/Site/SiteStatistics'
+
 
 
 Vue.use(Router)
@@ -70,6 +73,7 @@ const router = new Router({
         { path: '/SiteList', name: 'SiteList', component: SiteList },
         { path: '/ImageList', name: 'ImageList', component: ImageList },
         { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
+        { path: '/SiteStatistics', name: 'SiteStatistics', component: SiteStatistics },
       ]
     },
     {

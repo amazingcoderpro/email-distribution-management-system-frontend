@@ -10,9 +10,9 @@
                     <div class="content">
                         <el-form-item prop="shopifydomain" class="W300">
                             <el-input v-model="fromData.shopifydomain"  class="W100"></el-input>
-                            <span class="littleStar">*</span>
+                            <span class="littleStar" style="right: -115px;color: #ccc;">.myshopify.com</span>
                         </el-form-item>
-                        <el-button type="primary" style="margin-left: 14px;" @click="init('fromRef')">Search</el-button>
+                        <el-button type="primary" style="margin-left: 126px;" @click="init('fromRef')">Search</el-button>
                     </div>
                 </div>
                 <div class="fromSon">
@@ -20,6 +20,7 @@
                     <div class="content">
                         <el-form-item class="W300">
                             <el-input v-model="fromData.op_user" class="W100"></el-input>
+                            <span class="littleStar" style="right:-102px;color:#ccc;">Not Required</span>
                         </el-form-item>
                     </div>
                 </div>
@@ -134,9 +135,10 @@ export default {
         },
         methods: {
             init(formName){
+                let _thisVal = this.fromData.shopifydomain + ".myshopify.com";
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$axios.get(`/api/v2/email_trigger/?shopify_domain=${this.fromData.shopifydomain}`)
+                        this.$axios.get(`/api/v2/email_trigger/?shopify_domain=${_thisVal}`)
                         .then(res => {
                             if(res.data.code == 1){
                                 this.flowList = res.data.data;
@@ -225,7 +227,7 @@ export default {
 .UploadExcel .el-form-item__content{width:100%;position:relative;}
 .UploadExcel .littleMsg{font-size: 12px;}
 .UploadExcel .littleStar{position: absolute;
-    right: -16px;
+    right: -132px;
     top: 0px;
     color: red;}
 

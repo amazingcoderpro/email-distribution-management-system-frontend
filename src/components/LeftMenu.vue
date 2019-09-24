@@ -2,10 +2,45 @@
     <el-row class="menu_page leftMenu" ref="leftMenu">
         <el-col>
           <el-menu mode="vertical" background-color="#324057" text-color="#fff" active-text-color="#409eff" class="el-menu-vertical-demo" router>
-              <template v-for="(item,index) in items">
+              <!-- <template v-for="(item,index) in items">
                   <el-menu-item  :index="item.menu_url" :key="index">
                       <i :class="item.icon"></i><span slot="title">{{ item.menu_name }}</span>
                   </el-menu-item>
+                  <template v-for="subItem in item.childs">
+                      <template>
+                        <el-submenu v-if="subItem.childs.length != 0" :index="subItem.menu_url" :key="subItem.menu_url">
+                            <template slot="title">{{ subItem.menu_name }}</template>
+                        </el-submenu>
+                        <el-menu-item  :index="subItem.menu_url" :key="subItem.menu_url"  v-else>
+                          {{ subItem.menu_name }}
+                        </el-menu-item>
+                      </template>
+                  </template>
+              </template> -->
+              <template v-for="item in items">
+                  <template v-if="item.childs.length != 0">
+                        <el-submenu :index="item.menu_url" :key="item.menu_url">
+                          <template slot="title">
+                              <i :class="item.icon"></i><span slot="title">{{ item.menu_name }}</span>
+                          </template>
+                          <template v-for="subItem in item.childs">
+                              <template>
+                                <el-submenu v-if="subItem.childs.length != 0" :index="subItem.menu_url" :key="subItem.menu_url">
+                                    <template slot="title">{{ subItem.menu_name }}</template>
+                                </el-submenu>
+                                <el-menu-item  :index="subItem.menu_url" :key="subItem.menu_url"  v-else>
+                                  {{ subItem.menu_name }}
+                                </el-menu-item>
+                              </template>
+                          </template>
+                      </el-submenu>
+                  </template>
+                  <!-- 没有二级菜单 -->
+                  <template v-else>
+                      <el-menu-item  :index="item.menu_url" :key="item.menu_url">
+                          <i :class="item.icon"></i><span slot="title">{{ item.menu_name }}</span>
+                      </el-menu-item>
+                  </template>
               </template>
           </el-menu>
         </el-col>
@@ -34,12 +69,16 @@ export default {
         if(JSON.parse(window.localStorage.getItem('user')).username == "admin"){
           this.items.push(
             {"id":6,"menu_name":"Account","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
-            {"id":7,"menu_name":"SiteList","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[]}
-            )
+            {"id":7,"menu_name":"System Setting","menu_url":"333","parent_id":null,"icon":"iconfont icon-edit","childs":[
+              {"id":8,"menu_name":"Site Management","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]}
+            ]},
+            {"id":9,"menu_name":"Site Statistics","menu_url":"123","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[
+              {"id":10,"menu_name":"Site Statistics","menu_url":"/SiteStatistics","parent_id":null,"icon":"iconfont","childs":[]}
+            ]},
+          );
+          this.$forceUpdate();
         }
       }
-      // UploadExcel
-
   },
   data() {
     return {

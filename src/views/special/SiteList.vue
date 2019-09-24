@@ -84,7 +84,7 @@ export default {
             tableHeight:"100",
             searchData:{
               store_name:'',
-                typeVal:''
+              typeVal:''
             },
             tableData:[],
         }
@@ -146,12 +146,11 @@ export default {
 </script>
 
 <style>
-.SiteList .el-table th.is-leaf{
-  border-right:0;
-}
+.SiteList .el-table th.is-leaf{border-right:0;}
 .SiteList .topictable{border-left: 0;border-right:0;} 
 .SiteList .el-table__body-wrapper tbody td{border-right: 0;}
 .SiteList .fromClass{width: 97%;}
 .SiteList .titleClass{cursor: pointer;}
 .SiteList .titleClass:hover{color: #000;}
+.SiteList .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
 </style>
