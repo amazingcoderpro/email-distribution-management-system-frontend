@@ -9,7 +9,19 @@
                 <div class="userinfo">
                     <img src="../assets/img/none.png" class='avatar' alt="">
                     <div class='welcome'>
-                      <p class='name comename'>Welcome , <span class="avatarname">{{user.username}}</span></p>
+                      <p class='name comename'>Welcome ,
+                        <template>
+                            <el-select v-model="user.id" filterable placeholder="请选择" :disabled="adminState == 'false'" @change="UserNameChange">
+                              <el-option
+                                v-for="item in userArr"
+                                :key="item.id"
+                                :label="item.username"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
+                          </template>
+                          <!-- <span class="avatarname">{{user.username}}</span> -->
+                        </p>
                     </div>
                     <span class='username'>
                         <el-dropdown trigger="click" @command='setDialogInfo'>
@@ -25,19 +37,22 @@
                     </span>
                 </div>
             </el-col>
-
         </el-row>
         <DialogFound :dialog="dialog"></DialogFound>
-
     </header>
 </template>
+
 <script>
+  import router from '../router'
 import * as base from '../assets/js/base'
 import DialogFound from "../views/special/modifyPassword";
 export default {
   name: "head_nav",
   data() {
     return {
+      userArr: [],
+      user:{},
+      adminState:false,
       dialog: {
         show: false,
         title: "",
@@ -45,20 +60,56 @@ export default {
       }
     };
   },
-  computed: {
-    user() {
-      // return this.$store.getters.user;
-      if(window.localStorage.getItem('user') == undefined){
-        base.LoginOut();
-      }else{
-        return window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')) : this.$store.getters.user
-      }
+  mounted(){
+    this.adminState = window.localStorage.getItem('adminState');
+    if(window.localStorage.getItem('user') == undefined){
+      base.LoginOut();
+    }else{
+      this.user = window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')) : this.$store.getters.user;
+      this.init();
     }
   },
   components: {
     DialogFound
   },
   methods: {
+    init(){
+      this.$axios.get(`/api/v1/account/userlist/login/`)
+      .then(res => {
+          if(res.data.code == 1){
+            this.userArr = res.data.data;
+            this.userArr.map(e =>{
+              if(e.username && e.username != "admin"){
+                e.username = e.username.split(".")[0];
+              }
+            });
+          }else{
+            this.$message("Acquisition failure!");
+          }
+      })
+      .catch(error => {
+          this.$message("Interface timeout!");
+      }); 
+    },
+    UserNameChange(){
+      let _thisData = {
+        id:this.user.id,
+      };
+      this.$axios.post(`/api/v1/account/rootlogin/`, _thisData)
+      .then(res => {
+          if(res.data.code == 1){
+              const token=res.data.data.token;
+              localStorage.setItem("eleToken", token);
+              localStorage.setItem("user", JSON.stringify(res.data.data.user));
+              this.$router.go(0);
+          }else{
+              this.$message(res.data.msg);
+          }
+      })
+      .catch(error => {
+          this.$message("Interface timeout!");
+      }); 
+    },
     setDialogInfo(cmditem) {
       if (!cmditem) {
         this.$message("菜单选项缺少command属性");

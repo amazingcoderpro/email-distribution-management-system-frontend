@@ -72,8 +72,8 @@ export default {
             {"id":7,"menu_name":"System Setting","menu_url":"333","parent_id":null,"icon":"iconfont icon-edit","childs":[
               {"id":8,"menu_name":"Site Management","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]}
             ]},
-            {"id":9,"menu_name":"Site Statistics","menu_url":"123","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[
-              {"id":10,"menu_name":"Site Statistics","menu_url":"/SiteStatistics","parent_id":null,"icon":"iconfont","childs":[]}
+            {"id":9,"menu_name":"Statistics","menu_url":"123","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[
+              {"id":10,"menu_name":"Trigger Statistics","menu_url":"/SiteStatistics","parent_id":null,"icon":"iconfont","childs":[]}
             ]},
           );
           this.$forceUpdate();

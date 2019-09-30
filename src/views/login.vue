@@ -75,9 +75,14 @@ export default {
                     localStorage.setItem("user", JSON.stringify( res.data.data.user ));
                     if(res.data.data.store){
                       localStorage.setItem("store", JSON.stringify( res.data.data.store ));
+                    };
+                    this.$store.dispatch("setAuthenticated", !this.isEmpty(token));
+                    this.$store.dispatch("setUser", res.data.data.user);
+                    if(res.data.data.user.username == "admin"){
+                      localStorage.setItem("adminState", true);
+                    }else{
+                      localStorage.setItem("adminState", false);
                     }
-                    this.$store.dispatch("setAuthenticated", !this.isEmpty(token))
-                    this.$store.dispatch("setUser", res.data.data.user)
                     router.push('/dashboard');
                 }else{
                   this.$message({

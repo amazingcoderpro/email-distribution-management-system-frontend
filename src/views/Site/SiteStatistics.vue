@@ -2,14 +2,14 @@
     <div class='SiteStatistics'>
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-house"> </span>Home</a></li>
-            <li><a><span class="el-icon-right"> </span>Site Statistics</a></li>
+            <li><a><span class="el-icon-right"> </span>Trigger Statistics</a></li>
         </ul>
         <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
+            <!--<el-form-item>
+                <el-date-picker type="daterange" v-model="searchData.timeValue" range-separator="0" start-placeholder="start time" end-placeholder="End time"></el-date-picker>
+            </el-form-item> -->
             <el-form-item>
-                <el-date-picker type="daterange" v-model="searchData.timeValue" range-separator="--" start-placeholder="start time" end-placeholder="End time"></el-date-picker>
-            </el-form-item>
-            <el-form-item>
-                <el-input v-model="searchData.store_name" placeholder="Search Store Name"></el-input>
+                <el-input v-model="searchData.site_name" placeholder="Search Site Name"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button icon="edit" type="primary" @click="init">Search</el-button>
@@ -17,64 +17,104 @@
         </el-form>
         <div class="table_right">
             <el-table :data="tableData" border ref="topictable" class="topictable" :height="tableHeight">
-                <el-table-column prop="name" align="center" label="Store Name" width="200">
+                    <el-table-column prop="site_name" align="center" label="Site Name" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.site_name">{{scope.row.site_name}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="trigger_name" align="center" label="Trigger Name" width="400">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.trigger_name">{{scope.row.trigger_name}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="total_sent" align="center" label="Sent" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_sent">{{scope.row.total_sent}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="total_open" align="center" label="Open" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_open">{{scope.row.total_open}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="total_click" align="center" label="Click" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_click">{{scope.row.total_click}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="total_sessions" align="center" label="Sessions (GA)" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_sessions">{{scope.row.total_sessions}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column> 
+                    <el-table-column prop="total_orders" align="center" label="Orders (GA)" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_orders">{{scope.row.total_orders}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="total_revenue" align="center" label="Revenue (GA)" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.total_revenue">{{scope.row.total_revenue}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="avg_conversion_rate" align="center" label="Avg Conversion Rate" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.avg_conversion_rate">{{scope.row.avg_conversion_rate}}</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="click_rate" align="center" label="Click Rate" width="120">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.click_rate">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="open_rate" align="center" label="Open Rate">
+                        <template slot-scope="scope">
+                            <div class="columnContent" v-if="scope.row.open_rate">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
+                            <div class="columnContent" v-else>0</div>
+                        </template>
+                    </el-table-column>
+                <!-- <el-table-column prop="operation" label="Operation" align="center" fixed="right">
                     <template slot-scope="scope">
-                        <div class="columnContent">{{scope.row.name}}</div>
+                        <el-button icon="edit" type="primary" size="small" @click="ShowHistoy(scope.row)">History</el-button>
                     </template>
-                </el-table-column>
-                <el-table-column prop="domain" label="Domain" align="center" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent">{{scope.row.domain}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="email" align="center" label="Email" width="250">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.email">{{scope.row.email}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="url" align="center" label="Url" width="250">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.url"><a :href="'http://' + scope.row.url"
-                                target="_blank">{{scope.row.url}}</a></div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="timezone" align="center" label="Time Zone" width="250">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.timezone">{{scope.row.timezone}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="update_time" align="center" label="Update Time" width="250">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.update_time">{{scope.row.update_time}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="operation" label="Operation" align="center" fixed="right">
-                    <template slot-scope="scope">
-                        <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)">Edit</el-button>
-                    </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
         </div>
-        <!-- 分页 -->
         <div class="paging">
             <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange"
                 @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total">
             </el-pagination>
         </div>
+        <DialogFound :dialog='dialog'></DialogFound>
     </div>
 </template>
 
 <script>
+    import DialogFound from "./History";
     import router from '../../router'
     import * as base from '../../assets/js/base'
     export default {
         name: 'SiteStatistics',
+        components: {
+            DialogFound
+        },
         data() {
             return {
+                dialog: {
+                    show: false,
+                    title: "",
+                    option: "edit"
+                },
                 page:{
                     total:0,//默认数据总数
                     pagesize:10,//每页的数据条数
@@ -83,7 +123,7 @@
                 },
                 tableHeight:"100",
                 searchData:{
-                    store_name:'',
+                    site_name:'',
                     typeVal:'',
                     timeValue:[new Date(new Date().getTime()-1000*24*60*60),new Date().getTime()], // 时间戳
                 },
@@ -103,14 +143,14 @@
         },
         methods: {
             init() {
-                let _star = base.dateFormat(this.searchData.timeValue[0],"day");
-                let _end = base.dateFormat(this.searchData.timeValue[1],"day");
-                let _url = `/api/v1/store/list/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
-                if (this.searchData.store_name) {
-                    _url += `&name=${this.searchData.store_name}`;
+                if(window.localStorage.getItem('user')){
+                    if(JSON.parse(window.localStorage.getItem('user')).username != "admin"){
+                    router.push('/dashboard');
+                    }
                 }
-                if (this.searchData.timeValue.length>0) {
-                    _url += `&begin_time=${_star}&end_time=${_end}`;
+                let _url = `/api/v1/store_statistics/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
+                if (this.searchData.site_name) {
+                    _url += `&site_name=${this.searchData.site_name}`;
                 }
                 this.$axios.get(_url)
                     .then(res => {
@@ -130,6 +170,14 @@
                     .catch(error => {
                         this.$message("Interface Timeout!");
                     });
+            },
+            ShowHistoy() {
+                // 展示发送历史记录
+                this.dialog = {
+                    show: true,
+                    title: "Add Rule",
+                    option: "post"
+                };
             },
             current_change(val) {
                 //点击数字时触发

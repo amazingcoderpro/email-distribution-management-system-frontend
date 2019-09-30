@@ -18,12 +18,12 @@
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :height="tableHeight">
-            <el-table-column prop="name" align="center" label="Store Name" width="200">
+            <el-table-column prop="name" align="center" label="Store Name" width="150">
               <template slot-scope="scope">
                 <div class="columnContent">{{scope.row.name}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="domain" label="Domain" align="center" width="200">
+            <el-table-column prop="domain" label="Domain" align="center" width="180">
               <template slot-scope="scope">
                 <div class="columnContent">{{scope.row.domain}}</div>
               </template>
@@ -46,13 +46,18 @@
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="update_time" align="center" label="Update Time" width="250">
+            <el-table-column prop="update_time" align="center" label="Update Time" width="220">
               <template slot-scope="scope">
                 <div class="columnContent" v-if="scope.row.update_time">{{scope.row.update_time}}</div>
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" label="Operation" align="center" fixed="right">
+            <el-table-column prop="store_view_id" align="center" label="Store View ID" width="120">
+              <template slot-scope="scope">
+                <div class="columnContent">{{scope.row.store_view_id}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="operation" label="Operation" align="center" fixed="right" width="">
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
                 <!-- <el-button icon="edit" type="success" size="small">Clone</el-button>
@@ -104,6 +109,11 @@ export default {
     },
     methods:{
         init(){
+          if(window.localStorage.getItem('user')){
+            if(JSON.parse(window.localStorage.getItem('user')).username != "admin"){
+              router.push('/dashboard');
+            }
+          }
           let _url = `/api/v1/store/list/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
           if(this.searchData.store_name){
             _url += `&name=${this.searchData.store_name}`;
