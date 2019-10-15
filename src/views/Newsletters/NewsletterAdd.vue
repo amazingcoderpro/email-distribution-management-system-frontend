@@ -346,7 +346,7 @@
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                             {{fromData.productTitle}}
                         </div>
-                        <div style="width: 856px;padding: 20px 12px;">
+                        <div style="padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">
                                 *[tr_top_products]*
                             </template>
@@ -664,6 +664,7 @@ export default {
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
+                        _showHtml += '<img src="http://smartsend.seamarketings.com/api/v2/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         _showHtml = _showHtml.replace('2px dashed','0px dashed');
                         if(!this.fromData.logoUrl){
                             _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');

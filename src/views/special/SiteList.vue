@@ -12,9 +12,6 @@
           <el-form-item>
             <el-button icon="edit" type="primary" @click="init">Search</el-button>
           </el-form-item>
-          <!-- <el-form-item class="FR">
-                <el-button icon="edit" type="primary">Create New Segment</el-button>
-          </el-form-item> -->
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :height="tableHeight">
@@ -60,8 +57,6 @@
             <el-table-column prop="operation" label="Operation" align="center" fixed="right" width="">
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
-                <!-- <el-button icon="edit" type="success" size="small">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small">Delete</el-button> -->
               </template>
             </el-table-column> 
           </el-table>
@@ -70,16 +65,27 @@
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div>   
+        <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
     </div>
 </template>
 
 <script>
 import router from '../../router'
 import * as base from '../../assets/js/base'
+import DialogFound from "./SiteListEdit";
 export default {
     name: "SiteList",
+     components: {
+        DialogFound,
+    },
     data() {
         return {
+           dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
+            itemData:{},
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
@@ -93,8 +99,6 @@ export default {
             },
             tableData:[],
         }
-    },
-    components:{
     },
     mounted() {
       setTimeout(() => {
@@ -135,6 +139,14 @@ export default {
           .catch(error => {
               this.$message("Interface timeout!");
           }); 
+        },
+        editFun(row) {
+            this.itemData = row;
+            this.dialog = {
+                show: true,
+                title: "SiteList Edit",
+                option: "post"
+            };
         },
         current_change(val){
             //点击数字时触发

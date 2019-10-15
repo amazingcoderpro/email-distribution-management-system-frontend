@@ -81,10 +81,11 @@
                     </div>
               </template> 
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="350" >
+            <el-table-column prop="operation" align="left" width="350" >
               <template slot-scope="scope">
                 <el-button class="WW80" icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'preview')">Preview</el-button>
                 <el-button class="WW80" icon="edit" type="primary" size="small" @click="CloneEdit(scope.row,'clone')">Clone</el-button>
+                <el-button class="WW80" icon="edit" type="primary" size="small" @click="HistoryEdit(scope.row)">History</el-button>
                 <br/>
                 <el-button class="WW80 MT10" icon="edit" type="primary" size="small" @click="TestEdit(scope.row)">Test</el-button>
                 <el-button class="WW80 MT10" icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button> 
@@ -97,16 +98,19 @@
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div> 
         <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
+        <DialogFound2 :dialog='dialog2' :RecordData='RecordData'></DialogFound2>
     </div>
 </template>
 <script>
 import * as base from '../../assets/js/base'
 import router from '../../router';
 import DialogFound from "./Send_mail";
+import DialogFound2 from "./Historical_record";
 export default {
     name: "NewsletterList",
     components: {
-        DialogFound
+        DialogFound,
+        DialogFound2
     },
     data() {
         return {
@@ -115,7 +119,13 @@ export default {
                 title: "",
                 option: "edit"
             },
+            dialog2: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
             itemData:{},
+            RecordData:{},
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
@@ -235,6 +245,14 @@ export default {
             this.dialog = {
                 show: true,
                 title: "Test mail",
+                option: "post"
+            };
+        },
+         HistoryEdit(row){
+           this.RecordData = row;
+            this.dialog2 = {
+                show: true,
+                title: "Historical Record",
                 option: "post"
             };
         },

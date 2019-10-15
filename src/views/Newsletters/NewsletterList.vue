@@ -39,7 +39,7 @@
                 <div class="columnContent">{{scope.row.total_sent}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open_rate" align="center" label="123" width="200">
+            <el-table-column prop="open_rate" align="center" label="123" width="190">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">
@@ -49,7 +49,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="click_rate" align="center" width="200">
+            <el-table-column prop="click_rate" align="center" width="190">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
                 <div class="columnContent">
@@ -59,7 +59,7 @@
                   </div>
               </template>
             </el-table-column>
-            <el-table-column prop="revenue" align="center" width="200">
+            <el-table-column prop="revenue" align="center" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
@@ -82,12 +82,13 @@
                     </div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" width="280">
+            <el-table-column prop="operation" align="center" width="330">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
                 <el-button icon="edit" type="primary" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
                 <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="primary" size="small" @click="HistoryEdit(scope.row)">History</el-button>
               </template>
             </el-table-column> 
           </el-table>
@@ -95,22 +96,33 @@
         <!-- 分页 -->
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
-        </div>        
+        </div>   
+        <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
     </div>
 </template>
 <script>
 import router from '../../router'
 import * as base from '../../assets/js/base'
+import DialogFound from "./NewHistorical";
 export default {
     name: "NewsletterList",
+    components: {
+        DialogFound,
+    },
     data() {
         return {
+           dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
+            itemData:{},
             tableHeight:"100",
             headStatus:false,
             searchData:{
@@ -126,17 +138,15 @@ export default {
             tableData:[],
         }
     },
-    watch: {
-        // 'searchData.allBtnState': {
-        //     handler: function() {
-        //             this.tableData.map(e =>{
-        //                 e.state = this.searchData.allBtnState;
-        //             });
-        //     },
-        // }
-    },
-    components:{
-    },
+    // watch: {
+    //     'searchData.allBtnState': {
+    //         handler: function() {
+    //                 this.tableData.map(e =>{
+    //                     e.state = this.searchData.allBtnState;
+    //                 });
+    //         },
+    //     }
+    // },
     mounted() {
       setTimeout(() => {
         this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
@@ -288,6 +298,14 @@ export default {
                   });
             }) 
       },
+      HistoryEdit(row){
+           this.itemData = row;
+            this.dialog = {
+                show: true,
+                title: "New Historical",
+                option: "post"
+            };
+        },
       current_change(val){
           //点击数字时触发
           this.page.currentPage = val;
