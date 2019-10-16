@@ -354,7 +354,7 @@
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                                 {{fromData.productTitle}}
                         </div>
-                        <div style="width: 856px;padding: 20px 12px;">
+                        <div style="padding: 20px 12px;">
                             <template v-if="fromData.searchImgType != 'no product'">
                                 *[tr_top_products]*
                             </template>

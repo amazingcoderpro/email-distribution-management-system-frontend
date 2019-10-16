@@ -78,7 +78,6 @@
                 handler: function() {
                     this.init();
                 },
-                deep: true
             },
         },
         data() {

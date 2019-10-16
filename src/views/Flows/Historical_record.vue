@@ -78,7 +78,7 @@
                 handler: function() {
                     this.init();
                 },
-                deep: true
+                // deep: true
             },
         },
         data() {
@@ -136,8 +136,8 @@
             },
             ViewFun(row){
                 this.$alert(row.html, {
-                dangerouslyUseHTMLString: true
-                }).catch(() => {
+                    dangerouslyUseHTMLString: true
+                    }).catch(() => {
                 });
             },
             current_change(val) {

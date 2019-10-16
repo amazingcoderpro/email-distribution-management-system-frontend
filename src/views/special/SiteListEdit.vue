@@ -63,6 +63,13 @@
         props: {
             dialog: Object,
         }, 
+        watch:{
+            dialog: {
+                handler: function() {
+                    this.init();
+                },
+            },
+        },
         data() {
             return {
                 page:{
@@ -84,16 +91,15 @@
                 this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
                 }
             });
-            this.init();
         },
         methods: {
             init() {
-                let _url = `/api/v1/store/list/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
+                let _url = `/api/v1/store_statistics/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
                 this.$axios.get(_url)
                     .then(res => {
                         if (res.data.code == 1) {
                             let _thisData = res.data.data.results;
-                            this.tableData = res.data.data.results;
+                            this.tableData = res.data.data.results; 
                             this.page.total = res.data.data.count;
                             this.tableData.map(e => {
                                 if (e.create_time) {
