@@ -199,7 +199,7 @@ export default {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let _data = {
-                            shopify_domain:this.fromData.shopifydomain,
+                            shopify_domain:this.fromData.shopifydomain + ".myshopify.com",
                             auth_list:JSON.stringify(this.fromData.auth_list),
                             op_user:this.fromData.op_user
                         }

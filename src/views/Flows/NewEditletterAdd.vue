@@ -682,11 +682,11 @@ export default {
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         _showHtml = _showHtml.replace('2px dashed','0px dashed');
-                        _showHtml += '<img src="http://smartsend.seamarketings.com/api/v2/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
+                        _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         if(!this.fromData.logoUrl){
                             _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
                         }
-                        let _thisData = {
+                        let _thisData = { 
                             is_cart:this.fromData.is_cart?1:0,
                             subject:this.fromData.SubjectText,
                             heading_text:this.fromData.HeadingText,

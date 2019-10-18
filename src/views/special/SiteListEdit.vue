@@ -2,55 +2,27 @@
 <div class="SiteListEdit_title">
      <el-dialog  :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false' :modal-append-to-body="false">
         <div class='SiteListEdit'>
-           <div class="table_right">
-                <el-table :data="tableData" border ref="topictable" class="topictable"  :height="tableHeight" highlight-current-row @row-click="handleCurrentChange">
-                    <el-table-column prop="name" align="center" label="Store Name" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent" @change="handleEdit(scope.$index, scope.row)">{{scope.row.name}}</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="domain" label="Domain" align="center" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent">{{scope.row.domain}}</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="email" align="center" label="Email" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.email">{{scope.row.email}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="url" align="center" label="Url" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.url"><a :href="'http://' + scope.row.url" target="_blank">{{scope.row.url}}</a></div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="timezone" align="center" label="Time Zone" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.timezone">{{scope.row.timezone}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="update_time" align="center" label="Update Time" width="200">
-                    <template slot-scope="scope">
-                        <div class="columnContent" v-if="scope.row.update_time">{{scope.row.update_time}}</div>
-                        <div class="columnContent" v-else>--</div>
-                    </template>
-                    </el-table-column>
-                    <el-table-column prop="store_view_id" align="center" label="Store View ID" width="180">
-                    <template slot-scope="scope">
-                        <div class="columnContent">{{scope.row.store_view_id}}</div>
-                    </template>
-                    </el-table-column>
-                </el-table>     
-            </div>   
-        </div>
-        <div class="paging">
-            <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange"
-                @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total">
-            </el-pagination>
-        </div>
+            <el-form :model="itemData" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="Store Name">
+                    <el-input v-model="itemData.name"></el-input>
+                </el-form-item>
+                <el-form-item label="Domain" prop="domain">
+                    <el-input v-model="itemData.domain"></el-input>
+                </el-form-item>
+                <el-form-item label="Email" prop="email">
+                    <el-input v-model="itemData.email"></el-input>
+                </el-form-item>
+                <el-form-item label="Url" prop="url">
+                    <el-input v-model="itemData.url"></el-input>
+                </el-form-item>
+                 <el-form-item label="View Id" prop="store_view_id">
+                    <el-input v-model="itemData.store_view_id"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('form')">Submit</el-button>
+                </el-form-item>
+            </el-form>  
+        </div> 
     </el-dialog>
 </div>
 </template>
@@ -62,86 +34,56 @@
         name: 'SiteListEdit',
         props: {
             dialog: Object,
+            itemData:Object,
         }, 
-        watch:{
-            dialog: {
-                handler: function() {
-                    this.init();
-                },
-            },
-        },
         data() {
             return {
-                page:{
-                    total:0,//默认数据总数
-                    pagesize:10,//每页的数据条数
-                    pagesizes:[10, 20, 30, 40],//分组数量
-                    currentPage:1,//默认开始页面
-                },
-                tableHeight:"100",
-                tableData:[],
+                rules: {
+                       email: [
+                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                    ],
+                }
             }
         },
-        mounted() {
-            setTimeout(() => {
-                this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
-            }, 50);
-            window.addEventListener('resize', () => {
-                if(document.getElementsByClassName("topictable").length>0){
-                this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
-                }
-            });
-        },
         methods: {
-            init() {
-                let _url = `/api/v1/store_statistics/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
-                this.$axios.get(_url)
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    console.log(this.itemData)
+                   this.$axios.put(`/api/v1/store/update/?&site_id=${this.itemData.id}&name=${this.itemData.name}&url=${this.itemData.url}&domain=${this.itemData.domain}&email=${this.itemData.email}&store_view_id=${this.itemData.store_view_id}`)
+                //    let store_id ={
+                //        site_id:this.itemData.id,
+                //        name:this.itemData.name,
+                //        url:this.itemData.url,
+                //        domain:this.itemData.domain,
+                //        email:this.itemData.email,
+                //        store_view_id:this.itemData.store_view_id
+                //    }
+                //    this.$axios.put(`/api/v1/store/update/`, store_id)
                     .then(res => {
-                        if (res.data.code == 1) {
-                            let _thisData = res.data.data.results;
-                            this.tableData = res.data.data.results; 
-                            this.page.total = res.data.data.count;
-                            this.tableData.map(e => {
-                                if (e.create_time) {
-                                    e.create_time = base.dateFormat(e.create_time);
-                                }
-                            });
-                        } else {
-                            this.$message("Acquisition failure!");
+                        if(res.data.code == 1){
+                            this.dialog.show = false;
+                            this.$message({message: res.data.msg,type: 'success'});
+                            this.$parent.init();
+                        }else{
+                            this.dialog.show = false;   
+                            this.$message("Modification failed!");
                         }
                     })
                     .catch(error => {
-                        this.$message("Interface Timeout!");
+                        this.$message("Interface timeout!");
                     });
-            },
-            ViewFun(row){
-                this.$alert(row.html, {
-                dangerouslyUseHTMLString: true
-                }).catch(() => {
+                }
                 });
             },
-             handleCurrentChange(row, event, column) {
-            
-          },
-            handleEdit(index, row) {
-                console.log(index, row);
-            },
-            current_change(val) {
-                //点击数字时触发
-                this.page.currentPage = val;
-                this.init();
-                this.$refs.topictable.bodyWrapper.scrollTop = 0;
-            },
-            handleSizeChange(val) {
-                //修改每页显示多少条时触发
-                this.page.pagesize = val;
-                this.init();
-                this.$refs.topictable.bodyWrapper.scrollTop = 0;
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             }
         },
     }
 </script>
 
 <style>
-.SiteListEdit_title .el-dialog{width: 75%!important;}
+.SiteListEdit_title .el-dialog{width: 60%!important;}
 </style>

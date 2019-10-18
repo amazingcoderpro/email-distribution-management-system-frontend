@@ -42,6 +42,8 @@ import EmailPage from './views/Email/EmailPage'
 
 // Site
 import SiteStatistics from './views/Site/SiteStatistics'
+import OpeningStation from './views/Site/OpeningStation'
+
 
 
 
@@ -74,6 +76,7 @@ const router = new Router({
         { path: '/ImageList', name: 'ImageList', component: ImageList },
         { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
         { path: '/SiteStatistics', name: 'SiteStatistics', component: SiteStatistics },
+        { path: '/OpeningStation', name: 'OpeningStation', component: OpeningStation },
       ]
     },
     {

@@ -32,8 +32,8 @@
                         </el-table-column>                    
                         <el-table-column prop="is_open" align="center" label="Is open" width="150">
                             <template slot-scope="scope">
-                                <div class="columnContent" v-if="scope.row.is_open == 1">{{scope.row.is_open}}</div>
-                                <div class="columnContent" v-else>0</div>
+                                <div class="columnContent" v-if="scope.row.is_open">{{scope.row.is_open}}</div>
+                                <div class="columnContent" v-else>false</div>
                             </template>
                         </el-table-column>
                         <el-table-column prop="status" align="center" label="Send Status" width="150">
@@ -164,5 +164,5 @@
 .HistoricalRecord .titleClass:hover{color: #000;}
 .HistoricalRecord .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
 .HistoricalRecord_title .el-dialog{width: 75%!important;}
-.el-message-box{width: 1200px!important;  max-height: 850px;overflow-y: auto;}
+.el-message-box{width: 1000px!important;  max-height: 850px;overflow-y: auto;}
 </style>

@@ -50,17 +50,26 @@
               </template>
             </el-table-column>
             <el-table-column prop="store_view_id" align="center" label="Store View ID" width="120">
-              <template slot-scope="scope">
-                <div class="columnContent">{{scope.row.store_view_id}}</div>
-              </template>
+                <template slot-scope="scope">
+                   <template v-if="scope.row.view_id_status == 0">
+                          <el-button type="plain"  @click="Viewid(scope.row)" v-if="scope.row.store_view_id">{{scope.row.store_view_id}}</el-button>
+                          <el-button type="plain" v-else>---</el-button>
+                  </template>
+                  <template v-if="scope.row.view_id_status == 1">
+                          <el-button type="primary"  @click="Viewid(scope.row)" v-if="scope.row.store_view_id">{{scope.row.store_view_id}}</el-button>
+                  </template>
+                  <template v-else>
+                          <el-button type="warning" @click="Viewid(scope.row)" v-if="scope.row.store_view_id">{{scope.row.store_view_id}}</el-button>
+                  </template>
+                </template>
             </el-table-column>
-            <el-table-column prop="operation" label="Operation" align="center" fixed="right" width="">
+            <el-table-column prop="operation" label="Operation" align="center"  width=""> 
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
               </template>
             </el-table-column> 
           </el-table>
-        </div>   
+        </div>    
         <!-- 分页 -->
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
@@ -141,12 +150,32 @@ export default {
           }); 
         },
         editFun(row) {
-            this.itemData = row;
+            this.itemData = {
+                id:row.id,
+                name:row.name,
+                domain:row.domain,  
+                email:row.email,
+                url:row.url,
+                store_view_id:row.store_view_id
+            }
             this.dialog = {
                 show: true,
                 title: "SiteList Edit",
-                option: "post"
+                option: "put"
             };
+        },
+        Viewid(row){
+          console.log(row)
+            this.$axios.post(`/api/v1/checkviewinfo/?&store_view_id=${row.store_view_id}`)
+            .then(res => {
+                if(res.data.code == 1){
+                  console.log(res.data.code)
+                    this.$message({message: res.data.msg,type:"success"});
+                    this.init();
+                }else{
+                  this.$message("View ID exception");
+                }
+            })
         },
         current_change(val){
             //点击数字时触发
@@ -161,9 +190,6 @@ export default {
             this.$refs.topictable.bodyWrapper.scrollTop = 0;
         }
     },
-    beforeDestroy() {
-
-    }
 }
 </script>
 
@@ -175,4 +201,5 @@ export default {
 .SiteList .titleClass{cursor: pointer;}
 .SiteList .titleClass:hover{color: #000;}
 .SiteList .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
+.SiteList .el-button{border:none!important;}
 </style>

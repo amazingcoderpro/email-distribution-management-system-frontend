@@ -36,7 +36,7 @@ export default {
                     this.$parent.fromData.bannerUrl = -1;
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
                         _showHtml += this.$parent.$refs.showBox.innerHTML;
-                        _showHtml += '<img src="http://smartsend.seamarketings.com/api/v2/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
+                        _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         _showHtml += '</div></body></html>';
                     let _thisData = {
                         "subject":this.fromData.SubjectText,

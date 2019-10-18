@@ -85,10 +85,11 @@
             <el-table-column prop="operation" align="center" width="330">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
-                <el-button icon="edit" type="primary" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
-                <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
-                <el-button icon="edit" type="primary" size="small" @click="HistoryEdit(scope.row)">History</el-button>
+                <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
+                <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button>
+                <br/>
+                <el-button icon="edit" type="danger" class="WW80" size="small" @click="deleteFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="primary" class="WW80" size="small" @click="HistoryEdit(scope.row)">History</el-button>
               </template>
             </el-table-column> 
           </el-table>
@@ -332,5 +333,6 @@ export default {
 .NewsletterList .columnLable{font-weight:700;margin-bottom:10px;}
 .NewsletterList .switchShdow{cursor:pointer;position:absolute;left:0;width:50%;height:34px;top: 40px;margin-left:25%;}
 .NewsletterList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
-
+.NewsletterList .el-button--small, .el-button--small.is-round{margin-bottom: 10px;}
+.NewsletterList .el-button--primary{margin-right: 40px;}
 </style>
