@@ -4,6 +4,8 @@ import Notfount from './components/404.vue'
 import Login from './views/login.vue'
 import Index from './views/index'
 import Dashboard from './views/dashboard'
+import OpeningStation from './views/OpeningStation'
+
 
 // special
 import AutState from './views/special/aut_state'
@@ -42,7 +44,6 @@ import EmailPage from './views/Email/EmailPage'
 
 // Site
 import SiteStatistics from './views/Site/SiteStatistics'
-import OpeningStation from './views/Site/OpeningStation'
 
 
 
@@ -76,7 +77,6 @@ const router = new Router({
         { path: '/ImageList', name: 'ImageList', component: ImageList },
         { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
         { path: '/SiteStatistics', name: 'SiteStatistics', component: SiteStatistics },
-        { path: '/OpeningStation', name: 'OpeningStation', component: OpeningStation },
       ]
     },
     {
@@ -110,6 +110,8 @@ const router = new Router({
       name: '/404',
       component: Notfount
     },
+    { path: '/OpeningStation', name: 'OpeningStation', component: OpeningStation },
+
   ]
 })
 
@@ -121,7 +123,7 @@ router.beforeEach((to,from,next) =>{
   if(user){
     user = JSON.parse(user);
   }
-  if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage"  ){
+  if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage" || to.path == "/OpeningStation" ){
     next()
   }else{
     if(isLogin) {

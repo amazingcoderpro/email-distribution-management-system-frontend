@@ -5,7 +5,7 @@
                 <section class="form_container">
                         <div class="storename_title">
                             <div>
-                                <img src="../../assets/img/SmartSendLogo.png" alt="SmartSend">
+                                <img src="../assets/img/SmartSendLogo.png" alt="SmartSend">
                             </div>
                             <span>Open Site By Myself In SmartSend</span>
                         </div>
@@ -75,8 +75,8 @@
 </template>
 
 <script>
-import * as base from '../../assets/js/base'
-import router from '../../router';
+import * as base from '../assets/js/base'
+import router from '../router';
 export default {
     name: "OpeningStation",
     data() {
@@ -107,30 +107,6 @@ export default {
         }
     },
     methods:{
-        // init(formName){
-        //     this.$refs[formName].validate((valid) => {
-        //         if (valid) {
-        //             this.$axios.get(`/api/v2/email_trigger/`)
-        //             .then(res => {
-        //                 if(res.data.code == 1){
-        //                     this.flowList = res.data.data;
-        //                     this.fromData.auth_list = [];
-        //                     this.flowList.map(e =>{
-        //                         if(e.is_auth){
-        //                             this.fromData.auth_list.push(e.id);
-        //                         }
-        //                     });
-        //                     // console.log(res.data.data)
-        //                 }else{
-        //                     this.$message("Acquisition failure!");
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 this.$message("Interface timeout!");
-        //             }); 
-        //         }
-        //     });
-        // },
         logoSuccess(response, file, fileList) {
             if(response.data.base64_str){
                 this.OpenShop.logo = response.data.base64_str;

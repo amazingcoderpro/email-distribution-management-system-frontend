@@ -12,6 +12,9 @@
                   <el-form-item>
                     <el-button type="primary" class="submit_btn" @click="submitForm('loginForm')" >Login</el-button>
                   </el-form-item>
+                  <el-form-item>
+                    <router-link to='/OpeningStation'><el-button type="primary" class="submit_btn">Pick up</el-button></router-link>
+                  </el-form-item>
                   <div class="tiparea">
                       <p>No User Name?Now <router-link to='/shopfy_regist'>Regist</router-link> </p>
                   </div>
@@ -98,6 +101,9 @@ export default {
            }
         });
       },
+      // PickForm(){
+      //       router.push('/OpeningStation');
+      // },
       isEmpty(value) {
         return (
           value === undefined ||
@@ -119,4 +125,5 @@ export default {
 .form_container .submit_btn{width:100%;}
 .form_container .tiparea{text-align:right;font-size:12px;color:#333;}
 .form_container .tiparea p a{color:#409eff;}
+.tiparea p{display: inline-block;}
 </style>

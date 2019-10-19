@@ -74,7 +74,6 @@ export default {
             ]},
             {"id":9,"menu_name":"Statistics","menu_url":"123","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[
               {"id":10,"menu_name":"Trigger Statistics","menu_url":"/SiteStatistics","parent_id":null,"icon":"iconfont","childs":[]},
-              // {"id":11,"menu_name":"Opening Station","menu_url":"/OpeningStation","parent_id":null,"icon":"iconfont","childs":[]},
             ]},
           );
           this.$forceUpdate();

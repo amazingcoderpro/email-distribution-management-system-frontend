@@ -15,47 +15,47 @@
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :height="tableHeight">
-            <el-table-column prop="name" align="center" label="Store Name" width="150">
+            <el-table-column prop="name" align="center" label="Store Name" width="120">
               <template slot-scope="scope">
                 <div class="columnContent">{{scope.row.name}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="domain" label="Domain" align="center" width="180">
+            <el-table-column prop="domain" label="Domain" align="center" width="220">
               <template slot-scope="scope">
                 <div class="columnContent">{{scope.row.domain}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="email" align="center" label="Email" width="250">
+            <el-table-column prop="email" align="center" label="Email" width="240">
               <template slot-scope="scope">
                 <div class="columnContent" v-if="scope.row.email">{{scope.row.email}}</div>
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="url" align="center" label="Url" width="250">
+            <el-table-column prop="url" align="center" label="Url" width="230">
               <template slot-scope="scope">
                 <div class="columnContent" v-if="scope.row.url"><a :href="'http://' + scope.row.url" target="_blank">{{scope.row.url}}</a></div>
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="timezone" align="center" label="Time Zone" width="250">
+            <el-table-column prop="timezone" align="center" label="Time Zone" width="240">
               <template slot-scope="scope">
                 <div class="columnContent" v-if="scope.row.timezone">{{scope.row.timezone}}</div>
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="update_time" align="center" label="Update Time" width="220">
+            <el-table-column prop="update_time" align="center" label="Update Time" width="210">
               <template slot-scope="scope">
                 <div class="columnContent" v-if="scope.row.update_time">{{scope.row.update_time}}</div>
                 <div class="columnContent" v-else>--</div>
               </template>
             </el-table-column>
-            <el-table-column prop="store_view_id" align="center" label="Store View ID" width="120">
+            <el-table-column prop="store_view_id" align="center" label="Store View ID" width="150">
                 <template slot-scope="scope">
                    <template v-if="scope.row.view_id_status == 0">
                           <el-button type="plain"  @click="Viewid(scope.row)" v-if="scope.row.store_view_id">{{scope.row.store_view_id}}</el-button>
                           <el-button type="plain" v-else>---</el-button>
                   </template>
-                  <template v-if="scope.row.view_id_status == 1">
+                  <template v-else-if="scope.row.view_id_status == 1">
                           <el-button type="primary"  @click="Viewid(scope.row)" v-if="scope.row.store_view_id">{{scope.row.store_view_id}}</el-button>
                   </template>
                   <template v-else>
@@ -63,7 +63,33 @@
                   </template>
                 </template>
             </el-table-column>
-            <el-table-column prop="operation" label="Operation" align="center"  width=""> 
+            <el-table-column prop="State" label="State" align="center"  width="130"> 
+              <template slot-scope="scope">
+                <template v-if="scope.row.store_status == 0">
+                      <el-button icon="edit" type="primary" size="small" >Pending review</el-button>
+                </template>
+                <template v-else-if="scope.row.store_status == 1">
+                      <el-button icon="edit" type="primary" size="small" >Already opened</el-button>
+                </template>
+                <template v-else-if="scope.row.store_status == 2">
+                      <el-button icon="edit" type="primary" size="small" >Disabled</el-button>
+                </template>
+              </template>
+            </el-table-column>
+             
+            <el-table-column prop="store_status" align="center" label="Operation" width="150">
+               <template slot-scope="scope">
+                  <div class="columnContent">
+                      <el-switch
+                          v-model="scope.row.store_status2"
+                          active-color="#13ce66"
+                          inactive-color="#ff4949">
+                      </el-switch>
+                      <div class="switchShdow" @click="stateFun(scope.row)"></div>
+                    </div>
+              </template> 
+            </el-table-column>
+            <el-table-column prop="operation" label="Edit" align="center" > 
               <template slot-scope="scope">
                 <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button>
               </template>
@@ -95,6 +121,7 @@ export default {
                 option: "edit"
             },
             itemData:{},
+            OperData:{},
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
@@ -137,6 +164,7 @@ export default {
                 this.tableData = res.data.data.results;
                 this.page.total = res.data.data.count;
                 this.tableData.map(e =>{
+                  e.store_status2 = e.store_status == 1?true:false;
                   if(e.update_time){
                       e.update_time = base.dateFormat(e.update_time);
                   }
@@ -164,12 +192,36 @@ export default {
                 option: "put"
             };
         },
+        stateFun(row){
+             this.$confirm('Are you sure you wanna change state?', 'Warning', {
+                  confirmButtonText: 'Confirm',
+                  cancelButtonText: 'Cancel',
+                  type: 'warning'
+                }).then(() => {
+                 let  _data ={
+                    store_id:row.id,
+                    store_status:row.store_status2
+                  }
+                  _data.store_status = _data.store_status2?"2":"1"
+
+                  this.$axios.post(`/api/v1/store/status/`, _data)
+                  .then(res => {
+                      if(res.data.code == 1){
+                          this.$message({message: res.data.msg,type: "success"});
+                          this.init();
+                      }else{
+                          this.$message({message: res.data.msg});
+                      }
+                  })
+                  .catch(error => {
+                      this.$message("Interface timeout!");
+                  });
+              }) 
+        },
         Viewid(row){
-          console.log(row)
             this.$axios.post(`/api/v1/checkviewinfo/?&store_view_id=${row.store_view_id}`)
             .then(res => {
                 if(res.data.code == 1){
-                  console.log(res.data.code)
                     this.$message({message: res.data.msg,type:"success"});
                     this.init();
                 }else{
@@ -202,4 +254,6 @@ export default {
 .SiteList .titleClass:hover{color: #000;}
 .SiteList .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
 .SiteList .el-button{border:none!important;}
+.SiteList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;}
+.switchShdow{cursor: pointer; position: absolute;left: 0;width: 50%;height: 34px;top: 13px;margin-left: 25%;}
 </style>
