@@ -5,78 +5,81 @@
                 <section class="form_container">
                         <div class="storename_title">
                             <div>
-                                <img src="../assets/img/SmartSendLogo.png" alt="SmartSend">
+                                <img src="../../assets/img/SmartSendLogo.png" alt="SmartSend" style="width:50px;height:50px;">
                             </div>
                             <span>Open Site By Myself In SmartSend</span>
                         </div>
-                        <div class="storename">
-                            <div>
-                                <span>Name</span>
-                                <el-form-item prop="customer_name" style="display:inline;">
-                                        <el-input v-model="OpenShop.customer_name" class="btn_input"></el-input>
+                        <div class="storeSetting_center">
+                            <div class="storename">
+                                <div>
+                                    <span>Name</span>
+                                    <el-form-item prop="customer_name" style="display:inline;">
+                                            <el-input v-model="OpenShop.customer_name" class="btn_input"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="storename">
+                                <div>
+                                    <span>Email</span>
+                                    <el-form-item prop="user_email" style="display:inline;">
+                                        <el-input v-model="OpenShop.user_email" class="btn_input"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="storeurl" style="position:relative">
+                                <span>Domain address</span>
+                                <el-form-item prop="domain" style="display:inline;">
+                                        <el-input v-model="OpenShop.domain" class="btn_input"></el-input>
                                 </el-form-item>
+                                <!-- <el-button type="primary" class="storeurl_button" @click="init('fromRef')">Search</el-button> -->
                             </div>
-                        </div>
-                        <div class="storename">
-                            <div>
-                                <span>Email</span>
-                                <el-form-item prop="user_email" style="display:inline;">
-                                    <el-input v-model="OpenShop.user_email" class="btn_input"></el-input>
+                            <!-- <div class="fromSon">
+                                <label>Flow List</label>
+                                <div class="content W50">
+                                    <el-checkbox-group v-model="OpenShop.auth_list">
+                                        <el-checkbox class=" W40" v-for="(item,index) in flowList" :label="item.id" :key="index">{{item.title}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </div>
+                            </div> -->
+                            <div class="storeurl">
+                                <div>
+                                    <span>Account type</span>
+                                </div>
+                                <el-select v-model="OpenShop.source" placeholder="请选择" class="Senderdomain_one">
+                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                            </div>
+                            <div class="content">   
+                                <span>Shop logo</span>
+                                <el-form-item class="W100" style="margin-top:10px;" prop="logo">
+                                    <el-upload
+                                    class="avatar-uploader"
+                                    action="/api/v1/upload_img/"
+                                    :auto-upload="true"
+                                    :headers="headerdata"
+                                    :show-file-list="false"
+                                    :on-success="logoSuccess"
+                                    :before-upload="beforeAvatarUpload">
+                                    <img v-if="OpenShop.logo" :src="OpenShop.logo" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
                                 </el-form-item>
+                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                             </div>
-                        </div>
-                        <div class="storeurl" style="position:relative">
-                            <span>Domain address</span>
-                            <el-form-item prop="domain" style="display:inline;">
-                                    <el-input v-model="OpenShop.domain" class="btn_input"></el-input>
-                            </el-form-item>
-                            <!-- <el-button type="primary" class="storeurl_button" @click="init('fromRef')">Search</el-button> -->
-                        </div>
-                        <!-- <div class="fromSon">
-                            <label>Flow List</label>
-                            <div class="content W50">
-                                <el-checkbox-group v-model="OpenShop.auth_list">
-                                    <el-checkbox class=" W40" v-for="(item,index) in flowList" :label="item.id" :key="index">{{item.title}}</el-checkbox>
-                                </el-checkbox-group>
+                            <div class="goole_analytics">
+                                <el-button type="primary" class="goole_save" @click="submitwo('fromRef')">SAVE</el-button>
                             </div>
-                        </div> -->
-                        <div class="storeurl">
-                            <div>
-                                <span>Account type</span>
-                            </div>
-                            <el-select v-model="OpenShop.source" placeholder="请选择" class="Senderdomain_one">
-                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                        </div>
-                        <div class="content">
-                            <span>Shop logo</span>
-                            <el-form-item class="W100" style="margin-top:10px;" prop="logo">
-                                <el-upload
-                                class="avatar-uploader"
-                                action="/api/v1/upload_picture/"
-                                :auto-upload="true"
-                                :headers="headerdata"
-                                :show-file-list="false"
-                                :on-success="logoSuccess"
-                                :before-upload="beforeAvatarUpload">
-                                <img v-if="OpenShop.logo" :src="OpenShop.logo" class="avatar">
-                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                </el-upload>
-                            </el-form-item>
-                            <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
                         </div>
                 </section>
             </el-form>
         </div>
-         <div class="goole_analytics">
-            <el-button type="primary" class="goole_save" @click="submitwo('fromRef')">SAVE</el-button>
-        </div>
+       
     </div>
 </template>
 
 <script>
-import * as base from '../assets/js/base'
-import router from '../router';
+import * as base from '../../assets/js/base'
+import router from '../../router';
 export default {
     name: "OpeningStation",
     data() {
@@ -97,7 +100,7 @@ export default {
                auth_list:""
             },
             headerdata:{
-                Authorization : localStorage.eleToken
+                Authorization : localStorage.getItem("token")
             },
             options: [
                 {value: '0',label: 'Shopfy 站点'},
@@ -156,7 +159,7 @@ export default {
 </script>
 
 <style>
-
+.OpeningStation {position:relative;width:100%;height:100%;background:url(../../assets/img/bg.jpg) no-repeat center center;background-size:100% 100%;overflow: auto;}
 .OpeningStation .storename_title{height: 60px;margin-top: 50px;font-weight: 600;}
 .OpeningStation .storeSetting{width: 530px;margin: 0 auto;}
 .OpeningStation .storeSetting .form_container{font-size: 15px;text-align: center;}
@@ -177,4 +180,5 @@ export default {
 .OpeningStation .el-form-item__content{margin-left: 0!important;}
 .OpeningStation .storeurl_button{top: 35px;margin-left: 300px;display: -webkit-inline-box;position: absolute;}
 .OpeningStation .fromSon{float: left;font-weight: 600;display: -webkit-inline-box;}
+.OpeningStation .storeSetting_center{margin-top: 40px;}
 </style>

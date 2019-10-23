@@ -164,5 +164,5 @@
 .HistoricalRecord .titleClass:hover{color: #000;}
 .HistoricalRecord .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
 .HistoricalRecord_title .el-dialog{width: 75%!important;}
-.el-message-box{width: 1000px!important;  max-height: 850px;overflow-y: auto;}
+.el-message-box{width: auto;  max-height: 850px;overflow-y: auto;}
 </style>

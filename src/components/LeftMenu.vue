@@ -68,7 +68,10 @@ export default {
       if(window.localStorage.getItem('user')){
         if(JSON.parse(window.localStorage.getItem('user')).username == "admin"){
           this.items.push(
-            {"id":6,"menu_name":"Account","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+            {"id":4,"menu_name":"Account","menu_url":"3333","parent_id":null,"icon":"iconfont icon-icon-","childs":[
+              {"id":5,"menu_name":"Account Manage","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+              {"id":6,"menu_name":"Template Library","menu_url":"/TemplateLibrary","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]}
+            ]},
             {"id":7,"menu_name":"System Setting","menu_url":"333","parent_id":null,"icon":"iconfont icon-edit","childs":[
               {"id":8,"menu_name":"Site Management","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]}
             ]},

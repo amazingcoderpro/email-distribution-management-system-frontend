@@ -4,15 +4,20 @@ import Notfount from './components/404.vue'
 import Login from './views/login.vue'
 import Index from './views/index'
 import Dashboard from './views/dashboard'
-import OpeningStation from './views/OpeningStation'
 
 
 // special
 import AutState from './views/special/aut_state'
 import ShopfyRegist from './views/special/shopfy_regist.vue'
 import Privacy from './views/special/privacy.vue'
-import UploadExcel from './views/special/UploadExcel.vue'
 import SiteList from './views/special/SiteList'
+import OpeningStation from './views/special/OpeningStation'
+
+
+// Account
+import UploadExcel from './views/Account/UploadExcel.vue'
+import TemplateLibrary from './views/Account/TemplateLibrary.vue'
+import TemplateDisplay from './views/Account/TemplateDisplay.vue'
 
 
 // Newsletters
@@ -77,6 +82,8 @@ const router = new Router({
         { path: '/ImageList', name: 'ImageList', component: ImageList },
         { path: '/UploadExcel', name: 'UploadExcel', component: UploadExcel },
         { path: '/SiteStatistics', name: 'SiteStatistics', component: SiteStatistics },
+        { path: '/TemplateLibrary', name: 'TemplateLibrary', component: TemplateLibrary },
+        { path: '/TemplateDisplay', name: 'TemplateDisplay', component: TemplateDisplay },
       ]
     },
     {
@@ -111,7 +118,6 @@ const router = new Router({
       component: Notfount
     },
     { path: '/OpeningStation', name: 'OpeningStation', component: OpeningStation },
-
   ]
 })
 

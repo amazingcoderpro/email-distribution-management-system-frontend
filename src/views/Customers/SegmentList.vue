@@ -51,7 +51,7 @@
                 <div class="columnContent">{{scope.row.update_time}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center" fixed="right">
+            <el-table-column prop="operation" align="center">
               <template slot-scope="scope">
                 <!-- <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button> -->
                 <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>

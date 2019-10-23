@@ -589,7 +589,7 @@ export default {
             .then(res => {
                 if(res.data.code == 1){
                     this.Shop = res.data.data[0];
-                    this.fromData.logoUrl = this.Shop.logo;
+                    // this.fromData.logoUrl = this.Shop.logo;
                     this.fromData.domain = this.Shop.domain;
                 }else{
                     this.$message("Acquisition failure!");
@@ -598,7 +598,6 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
-            
         },
         imgClick(item){
             item.state = !item.state;
@@ -694,7 +693,7 @@ export default {
                             customer_text:JSON.stringify(this.fromData.languageData),
                             enable:0
                         }
-                        this.$axios.post(`/api/v1/email_template/`, _thisData)
+                        this.$axios.post(`/api/v1/email_template/`, _thisData) 
                             .then(res => {
                                 if(res.data.code == 1){
                                     this.$message({message: "Successfully!",type: "success"});

@@ -162,5 +162,5 @@
 .NewHistorical .titleClass:hover{color: #000;}
 .NewHistorical .el-table th.is-leaf {border-bottom: 1px solid #ccc;}
 .NewHistorical_title .el-dialog{width: 75%!important;}
-.el-message-box{width: 1000px!important; max-height: 800px;;overflow-y: auto;}
+.NewHistorical_title .el-message-box{width: 1000px; max-height: 800px;;overflow-y: auto;}
 </style>

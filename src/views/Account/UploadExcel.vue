@@ -32,53 +32,6 @@
                         </el-checkbox-group>
                     </div>
                 </div>
-                <!-- <div class="fromSon">
-                    <label>Password</label>
-                    <div class="content">
-                        <el-form-item prop="password" class="W300">
-                            <el-input v-model="fromData.password" class="W100"></el-input>
-                            <span class="littleStar">*</span>
-                        </el-form-item>
-                    </div>
-                </div>
-                <div class="fromSon">
-                    <label>Comfirm Password</label>
-                    <div class="content">
-                        <el-form-item prop="password2" class="W300">
-                            <el-input v-model="fromData.password2" class="W100"></el-input>
-                            <span class="littleStar">*</span>
-                        </el-form-item>
-                    </div>
-                </div> -->
-                <!-- <div class="fromSon">
-                    <label>Logo</label>
-                    <div class="content">
-                        <el-form-item class="W100">
-                            <el-upload
-                            class="avatar-uploader"
-                            action="/api/v1/upload_picture/"
-                            :auto-upload="true"
-                            :headers="headerdata"
-                            :show-file-list="false"
-                            :on-success="LogoSuccess"
-                            :before-upload="logoUpload">
-                            <img v-if="fromData.logo" :src="fromData.logo" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                            </el-upload>
-                        </el-form-item>
-                        <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
-                    </div>
-                </div>
-                <div class="fromSon">
-                    <label>Store View ID</label>
-                    <div class="content">
-                        <el-form-item class="W300">
-                            <el-input v-model="fromData.store_view_id" class="W100"></el-input>
-                        </el-form-item>
-                    </div>
-                </div> -->
-                <!-- <div class="fromSon">
-                </div> -->
                 <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                 <el-upload
                     class="upload-demo"
@@ -148,7 +101,6 @@ export default {
                                         this.fromData.auth_list.push(e.id);
                                     }
                                 });
-                                // console.log(res.data.data)
                             }else{
                                 this.$message("Acquisition failure!");
                             }
@@ -221,16 +173,11 @@ export default {
 }
 </script>
 <style>
+.UploadExcel{margin-left: 10px;}
 .UploadExcel .fromSon{color: #606266;width: 100%;display: inline-block;vertical-align: top;}
 .UploadExcel .fromSon label{display:inline-block;font-weight:700;font-size:14px;padding:12px 0;color: #000;}
 .UploadExcel .fromSon .content{position:relative;}
 .UploadExcel .el-form-item__content{width:100%;position:relative;}
 .UploadExcel .littleMsg{font-size: 12px;}
-.UploadExcel .littleStar{position: absolute;
-    right: -132px;
-    top: 0px;
-    color: red;}
-
-
-
+.UploadExcel .littleStar{position: absolute;right: -132px;top: 0px;color: red;}
 </style>
