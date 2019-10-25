@@ -22,12 +22,30 @@
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus" :height="tableHeight"> 
-            <el-table-column prop="name,description" align="left" width="1400">
+            <el-table-column prop="name,description" align="center" width="200">
               <template slot-scope="scope">
                 <div class="columnLable ColumnTitle">{{scope.row.title }}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
-            </el-table-column>
+            </el-table-column> 
+            <el-table-column prop="subject" align="center" width="400">
+              <template slot-scope="scope">
+                <div class="columnLable">SubjectText</div>
+                <div class="columnLable ColumnTitle">{{scope.row.subject}}</div>
+              </template>
+            </el-table-column> 
+            <el-table-column prop="heading_text" align="center" width="400">
+              <template slot-scope="scope">
+                <div class="columnLable">HeadingText</div>
+                <div class="columnLable ColumnTitle">{{scope.row.heading_text}}</div>
+              </template>
+            </el-table-column> 
+            <el-table-column prop="headline" align="center" width="400">
+              <template slot-scope="scope">
+                <div class="columnLable">Headline</div>
+                <div class="columnLable ColumnTitle">{{scope.row.headline}}</div>
+              </template> 
+            </el-table-column>     
             <el-table-column prop="operation" align="left" width="250" >
               <template slot-scope="scope">
                   <el-button class="WW80" icon="edit" type="primary" size="small" @click="EditFun(scope.row)">Edit</el-button>
@@ -40,7 +58,6 @@
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div> 
-     
     </div>
 </template>
 <script>
@@ -116,7 +133,7 @@ export default {
                 banner_text:'',
                 create_time:'',
                 update_time:'',
-                Title:'',
+                title:'',
                 description:'',
                 SubjectText:'',
                 HeadingText:'',
@@ -135,7 +152,7 @@ export default {
                 banner_text:row.banner_text,
                 create_time:row.create_time,
                 update_time:row.update_time,
-                Title:row.title,
+                title:row.title,
                 description:row.description,
                 SubjectText:row.subject,
                 HeadingText:row.heading_text,

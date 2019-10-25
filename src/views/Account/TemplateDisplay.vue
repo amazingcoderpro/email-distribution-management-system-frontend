@@ -216,7 +216,6 @@
                                 <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
                         </div>
-                       
                         <div class="fromSon">
                             <label>Headline</label>
                             <div class="content">
@@ -228,20 +227,9 @@
                         <div class="fromSon"> 
                             <label>Body Text</label>
                             <div class="content bodyText">
-                                    <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
-                                </div>
-                        </div>
-                        <div class="fromSon imgBigBox" v-if="productArray.length>0">
-                            <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
-                                <a :href="item.url" target="_blank">
-                                    <img :src="item.image_url" />
-                                </a> 
-                                <div class="stateBox">
-                                    <span v-if="item.state" class="el-icon-check"></span>
-                                </div>
+                                <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
                             </div>
                         </div>
-                        <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
                     </div>
                     <div>
                         <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
@@ -348,7 +336,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
@@ -407,22 +394,17 @@ export default {
                     bottom:"This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"
                 }
             },
-            productArray:[],
-            // trueProductArray:[],
             rules: {
                 SubjectText: [
                     { required: true, message: 'Please enter SubjectText', trigger: 'change' },
-                    // { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur" }
                 ],
                 HeadingText: [
                     { required: true, message: 'Please enter HeadingText', trigger: 'change' },
-                    // { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur"}
                 ],
                 logoUrl: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
                 bannerUrl: [{ required: true, message: 'Please choose banner', trigger: 'change' }],
                 Headline: [
                     { required: true, message: 'Please enter Headline', trigger: 'change' },
-                    // { min: 5, max: 120, message: "Length of 5 to 120 characters", trigger: "blur"}
                 ],
                 bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' },],
             }
@@ -431,32 +413,26 @@ export default {
     components:{
         quillEditor
     },
-    // watch: {
-    //     productArray: {
-    //         handler: function() { 
-    //             this.trueProductArray = [];
-    //             this.productArray.map(e =>{
-    //                 if(e.state){
-    //                     this.trueProductArray.push(e);
-    //                 }
-    //             });
-    //         },
-    //         deep: true
-    //     },
-    // },
     mounted() {
         this.init();
     },
     methods:{
         init(){
             let _thisData = JSON.parse(localStorage["TemplateVal"]);
-            // this.fromDataType = _thisData.fromDataType?_thisData.fromDataType:'';
-            this.title = _thisData.title;
+            // this.fromData = _thisData;
+            this.fromData.title = _thisData.title;
+            this.fromData.description = _thisData.description;
+            this.fromData.SubjectText = _thisData.SubjectText;
+            this.fromData.HeadingText = _thisData.HeadingText;
+            this.fromData.logoUrl = _thisData.logoUrl;
+            this.fromData.bannerUrl = _thisData.bannerUrl;
+            this.fromData.Headline = _thisData.Headline;
+            this.fromData.bodyText = _thisData.bodyText;
             this.$axios.get(`/api/v1/store/`)
             .then(res => {
                 if(res.data.code == 1){
                     this.Shop = res.data.data[0];
-                    this.fromData.logoUrl = this.Shop.logo;
+                    // this.fromData.logoUrl = this.Shop.logo;
                     this.fromData.domain = this.Shop.domain;
                 }else{
                     this.$message("Acquisition failure!");
@@ -529,6 +505,7 @@ export default {
                             body_text:this.fromData.bodyText,
                             banner_text:JSON.stringify(this.bannerText),
                             html:_showHtml,
+                            customer_text:JSON.stringify(this.fromData.languageData),
                         }
                             this.$axios.post(`/api/v3/center_template/`, _thisData)
                             .then(res => {

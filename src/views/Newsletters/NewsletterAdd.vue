@@ -7,290 +7,299 @@
         </ul>
         <div class="bigBox">
             <div class="leftBox">
-                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :disabled="fromData.fromDataType == 'preview'"  :rules="rules">
+                <el-form :inline="true" :model="fromData" ref="fromRef" class="demo-form-inline fromClass" :disabled="fromData.fromDataType == 'preview'" :rules="rules">
                     <h4>Edit Template</h4>
-                    <div class="fromBox">
-                        <div class="fromSon"> 
-                            <el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button>
-                            <el-button @click="languageDataState = !languageDataState"  type="primary">Change Language</el-button>
+                    <div class="Template_Center">
+                        <h4 style="display: inline;">Template Center</h4>
+                        <div class="Template_Center_select" style="margin:20px 0">   
+                            <el-select v-model="fromData.TemplateCenterType" class="W100" @change="ProductTemplateFun" placeholder="Please select a template">
+                                <el-option v-for="item in TemplateCenterArray" :key="item.id" :label="item.title" :value="item.id">
+                                </el-option>
+                            </el-select>
                         </div>
-                        <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
-                            <el-collapse-transition >
-                                <div v-show="bannerTextState" style="width:100%;">
-                                        <el-button @click="bannerTextState = !bannerTextState" style="position: absolute;right: 18px;">Close</el-button>
-                                        <div class="fromSon"> 
-                                            <label>Top</label>
+                    </div>
+                    <div class="TemplateClassic">
+                        <div class="fromBox">
+                            <div class="fromSon"> 
+                                <el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button>
+                                <el-button @click="languageDataState = !languageDataState"  type="primary">Change Language</el-button>
+                            </div>
+                            <div class="bannerTextBox" :style="bannerTextState?'border: 1px solid #ccc;padding: 20px;':''">
+                                <el-collapse-transition >
+                                    <div v-show="bannerTextState" style="width:100%;">
+                                            <el-button @click="bannerTextState = !bannerTextState" style="position: absolute;right: 18px;">Close</el-button>
+                                            <div class="fromSon"> 
+                                                <label>Top</label>
+                                                <div class="content">
+                                                    <el-form-item class="WW100">
+                                                        <el-input-number  v-model="bannerText.top" maxlength="120" placeholder="width"></el-input-number>
+                                                    </el-form-item>
+                                                </div>
+                                            </div>
+                                            <div class="fromSon"> 
+                                                <label>Left</label>
+                                                <div class="content">
+                                                    <el-form-item class="WW100">
+                                                        <el-input-number  v-model="bannerText.left" maxlength="120" placeholder="width"></el-input-number>
+                                                    </el-form-item>
+                                                </div>
+                                            </div>
+                                            <div class="fromSon"> 
+                                                <label>Width</label>
+                                                <div class="content">
+                                                    <el-form-item class="WW100">
+                                                        <el-input-number  v-model="bannerText.width" maxlength="120" placeholder="width"></el-input-number>
+                                                    </el-form-item>
+                                                </div>
+                                            </div>
+                                            <div class="fromSon"> 
+                                                <label>Font Size</label>
+                                                <div class="content">
+                                                    <el-form-item class="WW100">
+                                                        <el-input-number  v-model="bannerText.fontSize" :min="12" :max="20" maxlength="120" placeholder="width"></el-input-number>
+                                                    </el-form-item>
+                                                </div>
+                                            </div>
+                                            <div class="fromSon"> 
+                                                <label>Color</label>
+                                                <div class="content WW100">
+                                                        <el-color-picker v-model="bannerText.color"></el-color-picker>
+                                                </div>
+                                            </div>
+                                            <div class="fromSon"> 
+                                                <label>Text Align</label>
+                                                <div class="content">
+                                                        <template>
+                                                            <el-radio v-model="bannerText.textAlign" label="left">Left</el-radio>
+                                                            <el-radio v-model="bannerText.textAlign" label="center">Center</el-radio>
+                                                            <el-radio v-model="bannerText.textAlign" label="right">Right</el-radio>
+                                                        </template>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </el-collapse-transition>
+                            </div>
+                            <div class="languageTextBox" :style="languageDataState?'border: 1px solid #ccc;padding: 20px;':''">
+                                <el-collapse-transition >
+                                    <div v-show="languageDataState" style="width:100%;">
+                                        <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;top: 9px;">Close</el-button>
+                                        <div class="fromSon">
                                             <div class="content">
-                                                <el-form-item class="WW100">
-                                                    <el-input-number  v-model="bannerText.top" maxlength="120" placeholder="width"></el-input-number>
+                                                <el-form-item label="Copyright" class="W300">
+                                                    <el-input v-model="fromData.languageData.Copy" placeholder="Copyright,All Rights Reserved"  class="W300"></el-input>
                                                 </el-form-item>
                                             </div>
                                         </div>
-                                        <div class="fromSon"> 
-                                            <label>Left</label>
+                                        <div class="fromSon">
                                             <div class="content">
-                                                <el-form-item class="WW100">
-                                                    <el-input-number  v-model="bannerText.left" maxlength="120" placeholder="width"></el-input-number>
+                                                <el-form-item label="Unsubscribe Text" class="W300">
+                                                    <el-input v-model="fromData.languageData.unsubscribe" placeholder="UNSUBSCRIBE"  class="W300"></el-input>
                                                 </el-form-item>
                                             </div>
                                         </div>
-                                        <div class="fromSon"> 
-                                            <label>Width</label>
+                                        <div class="fromSon">
                                             <div class="content">
-                                                <el-form-item class="WW100">
-                                                    <el-input-number  v-model="bannerText.width" maxlength="120" placeholder="width"></el-input-number>
+                                                <el-form-item label="Help Center Text" class="W300">
+                                                    <el-input v-model="fromData.languageData.helpCenter" placeholder="HELP CENTER" class="W300" ></el-input>
                                                 </el-form-item>
                                             </div>
                                         </div>
-                                        <div class="fromSon"> 
-                                            <label>Font Size</label>
+                                        <div class="fromSon">
                                             <div class="content">
-                                                <el-form-item class="WW100">
-                                                    <el-input-number  v-model="bannerText.fontSize" :min="12" :max="20" maxlength="120" placeholder="width"></el-input-number>
+                                                <el-form-item label="Privacy Text" class="W300">
+                                                    <el-input v-model="fromData.languageData.privacy" placeholder="PRIVACY POLICY"  class="W300"></el-input>
                                                 </el-form-item>
                                             </div>
                                         </div>
-                                        <div class="fromSon"> 
-                                            <label>Color</label>
-                                            <div class="content WW100">
-                                                    <el-color-picker v-model="bannerText.color"></el-color-picker>
-                                            </div>
-                                        </div>
-                                        <div class="fromSon"> 
-                                            <label>Text Align</label>
+                                        <div class="fromSon">
                                             <div class="content">
-                                                    <template>
-                                                        <el-radio v-model="bannerText.textAlign" label="left">Left</el-radio>
-                                                        <el-radio v-model="bannerText.textAlign" label="center">Center</el-radio>
-                                                        <el-radio v-model="bannerText.textAlign" label="right">Right</el-radio>
-                                                    </template>
+                                                <el-form-item label="About Us Text" class="W300">
+                                                    <el-input v-model="fromData.languageData.aboutUs" placeholder="ABOUT US"  class="W300"></el-input>
+                                                </el-form-item>
                                             </div>
                                         </div>
+                                        <div class="fromSon">
+                                            <div class="content">
+                                                <el-form-item label="Bottom Text" class="W300">
+                                                    <el-input type="textarea" v-model="fromData.languageData.bottom" placeholder="This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"  class="W300"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-collapse-transition>
+                            </div>
+                            <!-- 内容 -->
+                            <div class="fromSon">
+                                <label>Email Title</label>
+                                <div class="content">
+                                    <el-form-item prop="Title" class="W100">
+                                        <el-input v-model="fromData.Title" class="W100" ></el-input>
+                                    </el-form-item>
                                 </div>
-                            </el-collapse-transition>
-                        </div>
-                        <div class="languageTextBox" :style="languageDataState?'border: 1px solid #ccc;padding: 20px;':''">
-                            <el-collapse-transition >
-                                <div v-show="languageDataState" style="width:100%;">
-                                    <el-button @click="languageDataState = !languageDataState" style="position: absolute;right: 18px;z-index: 500;top: 9px;">Close</el-button>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="Copyright" class="W300">
-                                                <el-input v-model="fromData.languageData.Copy" placeholder="Copyright,All Rights Reserved"  class="W300"></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="Unsubscribe Text" class="W300">
-                                                <el-input v-model="fromData.languageData.unsubscribe" placeholder="UNSUBSCRIBE"  class="W300"></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="Help Center Text" class="W300">
-                                                <el-input v-model="fromData.languageData.helpCenter" placeholder="HELP CENTER" class="W300" ></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="Privacy Text" class="W300">
-                                                <el-input v-model="fromData.languageData.privacy" placeholder="PRIVACY POLICY"  class="W300"></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="About Us Text" class="W300">
-                                                <el-input v-model="fromData.languageData.aboutUs" placeholder="ABOUT US"  class="W300"></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
-                                    <div class="fromSon">
-                                        <div class="content">
-                                            <el-form-item label="Bottom Text" class="W300">
-                                                <el-input type="textarea" v-model="fromData.languageData.bottom" placeholder="This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*"  class="W300"></el-input>
-                                            </el-form-item>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="fromSon">
+                                <label>Email Description</label>
+                                <div class="content">
+                                    <el-form-item class="W100">
+                                        <el-input v-model="fromData.description" class="W100"></el-input>
+                                    </el-form-item>
                                 </div>
-                            </el-collapse-transition>
-                        </div>
-                        <div class="fromSon">
-                            <label>Email Title</label>
-                            <div class="content">
-                                <el-form-item prop="Title" class="W100">
-                                    <el-input v-model="fromData.Title" class="W100" ></el-input>
-                                </el-form-item>
                             </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Email Description</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input v-model="fromData.description" class="W100"></el-input>
-                                </el-form-item>
+                            <div class="fromSon">
+                                <label>Email Subject</label>
+                                <div class="content">
+                                    <el-form-item class="W100" prop="SubjectText">
+                                        <el-input v-model="fromData.SubjectText" class="W100"></el-input>
+                                    </el-form-item>
+                                </div>
                             </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Email Subject</label>
-                            <div class="content">
-                                <el-form-item class="W100" prop="SubjectText">
-                                    <el-input v-model="fromData.SubjectText" class="W100"></el-input>
-                                </el-form-item>
+                            <div class="fromSon">
+                                <label>HeadingText</label>
+                                <div class="content">
+                                    <el-form-item class="W100">
+                                        <el-input v-model="fromData.HeadingText" class="W100"></el-input>
+                                    </el-form-item>
+                                </div>
                             </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>HeadingText</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input v-model="fromData.HeadingText" class="W100"></el-input>
-                                </el-form-item>
-                            </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Logo</label>
-                            <div class="content">
-                                <!-- <el-form-item prop="logoUrl" class="uploadClass W100"> -->
-                                <el-form-item class="uploadClass W100">
-                                    <el-upload
-                                    class="avatar-uploader"
-                                    action="/api/v1/upload_picture/"
-                                    :auto-upload="true"
-                                    :headers="headerdata"
-                                    :show-file-list="false"
-                                    :on-success="logoSuccess"
-                                    :before-upload="beforeAvatarUploadLogo">
-                                    <!-- <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar"> -->
-                                    <img v-if="fromData.logoUrl && fromData.logoUrl != -1" :src="fromData.logoUrl" class="avatar">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                                <!-- <div class="uploadBtnBox"><el-button type="info">Upload</el-button></div> -->
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
-                            </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Banner</label>
-                            <div class="content">
-                                <!-- <el-form-item prop="bannerUrl" class="uploadClass W100"> -->
-                                <el-form-item class="uploadClass W100" prop="bannerUrl">
+                            <div class="fromSon">
+                                <label>Logo</label>
+                                <div class="content">
+                                    <!-- <el-form-item prop="logoUrl" class="uploadClass W100"> -->
+                                    <el-form-item class="uploadClass W100">
                                         <el-upload
-                                    class="avatar-uploader"
-                                    action="/api/v1/upload_picture/"
-                                    :auto-upload="true"
-                                    :headers="headerdata"    
-                                    :show-file-list="false"
-                                    :on-success="bannerSuccess"
-                                    :before-upload="beforeAvatarUpload">
-                                    <!-- <img v-if="fromData.bannerUrl" :src="'data:image/jpeg;base64,'+ fromData.bannerUrl" class="avatar"> -->
-                                    <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
-                                    <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                                <!-- <div class="uploadBtnBox"></div> -->
-                                <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
+                                        class="avatar-uploader"
+                                        action="/api/v1/upload_picture/"
+                                        :auto-upload="true"
+                                        :headers="headerdata"
+                                        :show-file-list="false"
+                                        :on-success="logoSuccess"
+                                        :before-upload="beforeAvatarUploadLogo">
+                                        <!-- <img v-if="fromData.logoUrl" :src="'data:image/jpeg;base64,'+fromData.logoUrl" class="avatar"> -->
+                                        <img v-if="fromData.logoUrl && fromData.logoUrl != -1" :src="fromData.logoUrl" class="avatar">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                        </el-upload>
+                                    </el-form-item>
+                                    <!-- <div class="uploadBtnBox"><el-button type="info">Upload</el-button></div> -->
+                                    <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 2MB</span>
+                                </div>
                             </div>
+                            <div class="fromSon">
+                                <label>Banner</label>
+                                <div class="content">
+                                    <!-- <el-form-item prop="bannerUrl" class="uploadClass W100"> -->
+                                    <el-form-item class="uploadClass W100" prop="bannerUrl">
+                                            <el-upload
+                                        class="avatar-uploader"
+                                        action="/api/v1/upload_picture/"
+                                        :auto-upload="true"
+                                        :headers="headerdata"    
+                                        :show-file-list="false"
+                                        :on-success="bannerSuccess"
+                                        :before-upload="beforeAvatarUpload">
+                                        <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
+                                        <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
+                                        </el-upload>
+                                    </el-form-item>
+                                    <!-- <div class="uploadBtnBox"></div> -->
+                                    <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
+                                </div>
+                            </div>
+                            <div class="fromSon">
+                                <label>BannerUrl</label>
+                                <el-input v-model="fromData.banner_url" placeholder="请输入内容"></el-input>
+                            
+                            </div>
+                            <div class="fromSon">
+                                <label>Headline</label>
+                                <div class="content">
+                                    <el-form-item class="W100">
+                                        <el-input v-model="fromData.Headline"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="fromSon">
+                                <label>Body Text</label>
+                                <div class="content bodyText">
+                                    <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
+                                    <span class="littleMsg">Shop Name:*[tr_shop_name]*&emsp;&emsp;&emsp;&emsp;First Name:*[tr_firstname]*&emsp;&emsp;&emsp;&emsp; Space:{{emsp}} </span>
+                                </div>
+                            </div>
+                            <div class="fromSon"> 
+                                <label>Product Title</label>
+                                <div class="content">
+                                    <el-form-item class="W100">
+                                        <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="fromSon">
+                                <label>Custom Product Recommendations</label>
+                                <div class="content">
+                                    <el-select v-model="fromData.searchImgType" class="W100" @change="searchImgType">
+                                        <el-option v-for="(item,index) in searchImgTypeArray" :key="index" :label="item.label" :value="item.value"></el-option>
+                                    </el-select>
+                                </div>
+                            </div>
+                            <div class="fromSon imgBigBox" v-if="productArray.length>0">
+                                <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
+                                    <img :src="item.image_url" />
+                                    <div class="stateBox">
+                                        <span v-if="item.state" class="el-icon-check"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
                         </div>
-                        <!-- <div class="fromSon">
-                            <label>Shopping Cart</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                        <el-switch v-model="fromData.is_cart" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-                                </el-form-item>
+                        <el-button type="primary" style="margin:20px 0;">Preview</el-button>
+                        <h4>Edit Sent Time</h4>
+                        <div class="fromBox">
+                            <div class="fromSon">
+                                <label>Choose Segment</label>
+                                <div class="content">
+                                    <el-form-item prop="SegmentValue" class="W100">
+                                        <template>
+                                                <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
+                                                    <el-checkbox :label="'Select All'">Select All</el-checkbox>
+                                                </el-checkbox-group>
+                                                <!-- <el-select v-model="fromData.SegmentSelectState" class="W100">
+                                                    <el-option :label="'Select All'" :value="'All'"></el-option>
+                                                </el-select> -->
+                                                <el-checkbox-group class="SegmentValueBox" v-model="fromData.SegmentValue" @change="SegmentValueChange">
+                                                    <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
+                                                </el-checkbox-group>
+                                        </template>
+                                    </el-form-item>
+                                </div>
                             </div>
-                        </div> -->
-                        <div class="fromSon">
-                            <label>Headline</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input v-model="fromData.Headline"></el-input>
-                                </el-form-item>
+                            <div class="fromSon">
+                                <label>Choose Valid Period</label>
+                                <div class="content">
+                                    <el-form-item prop="periodTime" class="W100">
+                                        <el-date-picker class="W100" v-model="fromData.periodTime" :picker-options="pickerOptions"  type="daterange" range-separator="-"></el-date-picker>
+                                    </el-form-item>
+                                </div>
                             </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Body Text</label>
-                            <div class="content bodyText">
-                                <quill-editor ref="bodyTextRef" v-model="fromData.bodyText" class="myQuillEditor" @change="bodyTextChange($event)"/>
-                                <span class="littleMsg">Shop Name:*[tr_shop_name]*&emsp;&emsp;&emsp;&emsp;First Name:*[tr_firstname]*&emsp;&emsp;&emsp;&emsp; Space:{{emsp}} </span>
-                            </div>
-                        </div>
-                        <div class="fromSon"> 
-                            <label>Product Title</label>
-                            <div class="content">
-                                <el-form-item class="W100">
-                                    <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
-                                </el-form-item>
-                            </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Custom Product Recommendations</label>
-                            <div class="content">
-                                <el-select v-model="fromData.searchImgType" class="W100" @change="searchImgType">
-                                    <el-option v-for="(item,index) in searchImgTypeArray" :key="index" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                            </div>
-                        </div>
-                        <div class="fromSon imgBigBox" v-if="productArray.length>0">
-                            <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
-                                <img :src="item.image_url" />
-                                <div class="stateBox">
-                                    <span v-if="item.state" class="el-icon-check"></span>
+                            <div class="fromSon">
+                                <label>Choose Send Time</label>
+                                <div class="content">
+                                    <el-form-item prop="SendValue" class="W100">
+                                        Every
+                                        <el-select v-model="fromData.SendTimeType" class="SendTimeType">
+                                            <el-option v-for="item in SendTimeTypeArray" :key="item.value" :label="item.label" :value="item.label"></el-option>
+                                        </el-select>
+                                        <el-time-picker v-model="fromData.SendValue"></el-time-picker>
+                                    </el-form-item>
                                 </div>
                             </div>
                         </div>
-                        <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
-                    </div>
-                    <el-button type="primary" style="margin:20px 0;">Preview</el-button>
-                    <h4>Edit Sent Time</h4>
-                    <div class="fromBox">
-                        <div class="fromSon">
-                            <label>Choose Segment</label>
-                            <div class="content">
-                                <el-form-item prop="SegmentValue" class="W100">
-                                    <template>
-                                            <el-checkbox-group v-model="fromData.SegmentState"  @change="SegmentStateChange">
-                                                <el-checkbox :label="'Select All'">Select All</el-checkbox>
-                                            </el-checkbox-group>
-                                            <!-- <el-select v-model="fromData.SegmentSelectState" class="W100">
-                                                <el-option :label="'Select All'" :value="'All'"></el-option>
-                                            </el-select> -->
-                                            <el-checkbox-group class="SegmentValueBox" v-model="fromData.SegmentValue" @change="SegmentValueChange">
-                                                <el-checkbox v-for="item in SegmentArray" :label="item.id" :key="item.id">{{item.title}}</el-checkbox>
-                                            </el-checkbox-group>
-                                    </template>
-                                </el-form-item>
-                            </div>
+                        <div>
+                            <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
+                            <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                         </div>
-                        <div class="fromSon">
-                            <label>Choose Valid Period</label>
-                            <div class="content">
-                                <el-form-item prop="periodTime" class="W100">
-                                    <el-date-picker class="W100" v-model="fromData.periodTime" :picker-options="pickerOptions"  type="daterange" range-separator="-"></el-date-picker>
-                                </el-form-item>
-                            </div>
-                        </div>
-                        <div class="fromSon">
-                            <label>Choose Send Time</label>
-                            <div class="content">
-                                <el-form-item prop="SendValue" class="W100">
-                                    Every
-                                    <el-select v-model="fromData.SendTimeType" class="SendTimeType">
-                                        <el-option v-for="item in SendTimeTypeArray" :key="item.value" :label="item.label" :value="item.label"></el-option>
-                                    </el-select>
-                                    <el-time-picker v-model="fromData.SendValue"></el-time-picker>
-                                </el-form-item>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
-                        <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                     </div>
                 </el-form>        
             </div>
+            <!-- rightBox -->
             <div class="rightBox">
                 <h4>Preview</h4>
                 <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
@@ -315,34 +324,16 @@
                             </template>
                             <template>
                                 <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
-                                    <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                    <a href="*[tr_banner_url]*" target="_blank">
+                                        <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                    </a>
+                                    <!-- <img :src="fromData.bannerUrl" style="width: 100%;"/> -->
                                 </div>
                                 <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
                                 </div>
                                 <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
                             </template>
                         </div>
-                        <!-- <div style="width: 100%;padding-bottom: 20px;position: relative;" v-if="fromData.is_cart">
-                            <template>
-                                <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
-                                <table style="width: 856px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
-                                    <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
-                                        <tr style="font-size: 18px;border-bottom: 10px solid #000;">
-                                            <td style="width: 50%;">ITEM(S)</td>
-                                            <td>UNIT PRICE</td>
-                                            <td>QUANTITY</td>
-                                            <td>AMOUNT</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        *[tr_cart_products]*
-                                    </tbody>
-                                </table>
-                            </template>
-                        </div> 
-                        <div style="width: 100%;padding-bottom: 20px;text-align: right" v-if="fromData.is_cart">
-                            <a href="*[tr_abandoned_checkout_url]*" style="cursor: pointer; color: #fff;background: #000;padding: 10px;font-weight: 800;display: inline-block;    margin-right: 20px;">CHECK TO PAY</a>
-                        </div>-->
                         <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                             {{fromData.productTitle}}
                         </div>
@@ -437,10 +428,12 @@ export default {
                 logoUrl: '',
                 domain: '',
                 bannerUrl:'',
+                banner_url:"",
                 Headline:'',
                 productTitle:'',
                 bodyText:'',
                 bodyHtml:'',
+                TemplateCenterType:'',
                 searchImgType:'top_three',
                 SegmentValue:[],
                 SegmentState:[],
@@ -480,6 +473,7 @@ export default {
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
                 {value: 'no product',label: 'No Product'},
             ],
+            TemplateCenterArray:[],          
             productArray:[],
             trueProductArray:[],
             top_product:{
@@ -562,6 +556,18 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
+            this.$axios.get(`/api/v3/center_template/`)
+            .then(res => {
+                if(res.data.code == 1){
+                    this.TemplateCenterArray = res.data.data.results;
+                    console.log(this.TemplateCenterArray)
+                }else{
+                    this.$message("Acquisition failure!");
+                }
+            })
+            .catch(error => {
+                this.$message("Interface timeout!");
+            }); 
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
                 if(res.data.code == 1){
@@ -598,6 +604,19 @@ export default {
             .catch(error => {
                 this.$message("Interface timeout!");
             });
+        },
+        ProductTemplateFun(val){
+            // let _thisDtata = JSON.parse(localStorage["TemplateVal"])
+            // this.fromData._thisDtata = this.TemplateCenterArray.fileter(x=> x.id === val)[0].title
+            
+            this.fromData.Title = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.description = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.SubjectText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.HeadingText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.logoUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.bannerUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.Headline = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
         },
         imgClick(item){
             item.state = !item.state;
@@ -678,6 +697,7 @@ export default {
                             banner:this.fromData.bannerUrl,
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
+                            banner_url:this.fromData.banner_url,
                             product_condition:this.fromData.searchImgType,
                             product_list:JSON.stringify(this.trueProductArray),
                             banner_text:JSON.stringify(this.bannerText),
@@ -754,7 +774,7 @@ export default {
 
 <style>
 .NewsletterAdd .leftBox{display:inline-block;width:40%;}
-.NewsletterAdd .fromBox{position: relative; min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;}
+.NewsletterAdd .fromBox{position: relative; min-height:500px;border:1px solid #ccc;box-shadow:4px 10px 10px #ccc;padding:20px;margin-top: 20px;}
 .NewsletterAdd .rightBox{position: relative;width:calc(60% - 100px);display:inline-block;vertical-align:top;margin-left:45px;}
 .NewsletterAdd .rightBox .sendMail{position: absolute;right: 0px;top: 15px;}
 .NewsletterAdd .showBox{min-height:500px;border:1px solid #ccc;}

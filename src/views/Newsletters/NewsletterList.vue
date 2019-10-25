@@ -64,7 +64,7 @@
                 <div class="columnLable">Revenue</div>
                 <div class="columnContent">
                   <template>
-                      {{"$" + (scope.row.revenue*100).toFixed(2)}}
+                      {{"$" + (scope.row.revenue).toFixed(2)}}
                   </template>
                   </div>
               </template>
@@ -194,6 +194,7 @@ export default {
                 HeadingText:'',
                 logoUrl: '',
                 bannerUrl:'',
+                banner_url:'',
                 Headline:'',
                 bodyText:'',
                 searchImgType:'top_three',
@@ -233,6 +234,7 @@ export default {
                 HeadingText:row.heading_text,
                 logoUrl: row.logo,
                 bannerUrl: row.banner,
+                banner_url:row.banner_url,
                 Headline: row.headline,
                 bodyText: row.body_text,
                 searchImgType:'top_three',
