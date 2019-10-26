@@ -173,7 +173,7 @@
                         <div class="fromSon">
                             <label>HeadingText</label>
                             <div class="content">
-                                <el-form-item class="W100">
+                                <el-form-item prop="HeadingText" class="W100">
                                     <el-input v-model="fromData.HeadingText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
                             </div>
@@ -215,6 +215,10 @@
                                 </el-form-item>
                                 <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                             </div>
+                        </div>
+                        <div class="fromSon">
+                            <label>BannerUrl</label>
+                            <el-input v-model="fromData.banner_url" placeholder="请输入内容"></el-input>
                         </div>
                         <div class="fromSon">
                             <label>Headline</label>
@@ -260,7 +264,9 @@
                             </template>
                             <template>
                                 <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
-                                    <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                    <a href="*[tr_banner_url]*" target="_blank">
+                                        <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                    </a>
                                 </div>
                                 <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
                                 </div>
@@ -377,6 +383,7 @@ export default {
                 logoUrl: '',
                 domain:'',
                 bannerUrl:'',
+                banner_url:'',
                 Headline:'',
                 bodyText:'',
                 bodyHtml:'',
@@ -501,6 +508,7 @@ export default {
                             heading_text:this.fromData.HeadingText,
                             logo:this.fromData.logoUrl,
                             banner:this.fromData.bannerUrl,
+                            banner_url:this.fromData.banner_url,
                             headline:this.fromData.Headline,
                             body_text:this.fromData.bodyText,
                             banner_text:JSON.stringify(this.bannerText),

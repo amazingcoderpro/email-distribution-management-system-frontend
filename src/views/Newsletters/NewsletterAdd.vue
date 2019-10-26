@@ -207,7 +207,6 @@
                             <div class="fromSon">
                                 <label>BannerUrl</label>
                                 <el-input v-model="fromData.banner_url" placeholder="请输入内容"></el-input>
-                            
                             </div>
                             <div class="fromSon">
                                 <label>Headline</label>
@@ -488,6 +487,7 @@ export default {
                 HeadingText: [{ required: true, message: 'Please enter HeadingText', trigger: 'change' }],
                 logoUrl: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
                 bannerUrl: [{ required: true, message: 'Please choose banner', trigger: 'change' }],
+                banner_url: [{ required: true, message: 'Please choose banner', trigger: 'change' }],
                 Headline: [{ required: true, message: 'Please enter Headline', trigger: 'change' }],
                 bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' }],
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
@@ -560,7 +560,7 @@ export default {
             .then(res => {
                 if(res.data.code == 1){
                     this.TemplateCenterArray = res.data.data.results;
-                    console.log(this.TemplateCenterArray)
+                    // console.log(this.TemplateCenterArray)
                 }else{
                     this.$message("Acquisition failure!");
                 }
@@ -610,13 +610,14 @@ export default {
             // this.fromData._thisDtata = this.TemplateCenterArray.fileter(x=> x.id === val)[0].title
             
             this.fromData.Title = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.description = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.SubjectText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.HeadingText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.logoUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.bannerUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.Headline = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
-            this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
+            this.fromData.description = this.TemplateCenterArray.filter(x=> x.id === val)[0].description
+            this.fromData.SubjectText = this.TemplateCenterArray.filter(x=> x.id === val)[0].subject
+            this.fromData.HeadingText = this.TemplateCenterArray.filter(x=> x.id === val)[0].heading_text
+            this.fromData.logoUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].logo
+            this.fromData.bannerUrl = this.TemplateCenterArray.filter(x=> x.id === val)[0].banner
+            this.fromData.banner_url = this.TemplateCenterArray.filter(x=> x.id === val)[0].banner_url
+            this.fromData.Headline = this.TemplateCenterArray.filter(x=> x.id === val)[0].headline
+            this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].body_text
         },
         imgClick(item){
             item.state = !item.state;
@@ -767,8 +768,6 @@ export default {
             this.$forceUpdate();
         }
     },
-    beforeDestroy() {
-    }
 }
 </script>
 
