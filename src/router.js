@@ -18,6 +18,8 @@ import OpeningStation from './views/special/OpeningStation'
 import UploadExcel from './views/Account/UploadExcel.vue'
 import TemplateLibrary from './views/Account/TemplateLibrary.vue'
 import TemplateDisplay from './views/Account/TemplateDisplay.vue'
+import TemplateUrl from './views/Account/TemplateUrl.vue'
+import TemplateSource from './views/Account/TemplateSource.vue'
 
 
 // Newsletters
@@ -84,6 +86,8 @@ const router = new Router({
         { path: '/SiteStatistics', name: 'SiteStatistics', component: SiteStatistics },
         { path: '/TemplateLibrary', name: 'TemplateLibrary', component: TemplateLibrary },
         { path: '/TemplateDisplay', name: 'TemplateDisplay', component: TemplateDisplay },
+        { path: '/TemplateUrl', name: 'TemplateUrl', component: TemplateUrl },
+        { path: '/TemplateSource', name: 'TemplateSource', component: TemplateSource },
       ]
     },
     {

@@ -175,7 +175,7 @@ export default {
             })
             .catch(error => {
                 this.loadingState.bottom_dashboard = false;
-                this.$message("Interface timeout!");
+                // this.$message("Interface timeout!");
                 this.echartTypeChange();
             });
         },
@@ -198,13 +198,13 @@ export default {
             for(var i=0;i<this.echartData.dateArr.length;i++){
                 if(typeof(this.echartData.dateArr[i]) == "string"){
                     let _thisData = {
-                        orders: 0,
-                        revenue: 0,
-                        clicks: 0,
-                        opens: 0,
-                        total_orders: 0,
-                        sents:0,
-                        total_revenue: 0,
+                        orders: echartData.topDashboard.total_orders,
+                        revenue: echartData.topDashboard.total_revenue,
+                        clicks: echartData.topDashboard.avg_click_rate,
+                        opens: echartData.topDashboard.avg_open_rate,
+                        total_orders: echartData.topDashboard.total_orders,
+                        sents:echartData.topDashboard.total_sent,
+                        total_revenue: echartData.topDashboard.total_revenue,
                         create_time:this.echartData.dateArr[i]
                     }
                     this.echartData.dateArr[i] = _thisData;

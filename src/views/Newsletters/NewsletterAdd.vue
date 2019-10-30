@@ -12,14 +12,14 @@
                     <div class="Template_Center">
                         <h4 style="display: inline;">Template Center</h4>
                         <div class="Template_Center_select" style="margin:20px 0">   
-                            <el-select v-model="fromData.TemplateCenterType" class="W100" @change="ProductTemplateFun" placeholder="Please select a template">
-                                <el-option v-for="item in TemplateCenterArray" :key="item.id" :label="item.title" :value="item.id">
+                            <el-select v-model="fromData.TemplateCenterType" class="W100" @change="ProductTemplateFun"  placeholder="Please select a template">
+                                <el-option v-for="item in TemplateCenterArray" :key="item.id" :label="item.title" :value="item.id"  >
                                 </el-option>
                             </el-select>
                         </div>
                     </div>
                     <div class="TemplateClassic">
-                        <div class="fromBox">
+                        <div class="fromBox" v-show="TemplateSource">
                             <div class="fromSon"> 
                                 <el-button @click="bannerTextState = !bannerTextState"  type="primary">Adjust text position</el-button>
                                 <el-button @click="languageDataState = !languageDataState"  type="primary">Change Language</el-button>
@@ -132,9 +132,21 @@
                             <div class="fromSon">
                                 <label>Email Title</label>
                                 <div class="content">
-                                    <el-form-item prop="Title" class="W100">
-                                        <el-input v-model="fromData.Title" class="W100" ></el-input>
-                                    </el-form-item>
+                                        <!-- <el-form-item prop="Title" class="W100">
+                                            <el-input v-model="fromData.Title" class="W100" ></el-input>
+                                        </el-form-item> -->
+                                        <template>
+                                            <template  v-if="fromData.source == 1">
+                                                <el-form-item class="W100">
+                                                    <el-input v-model="fromData.Title" class="W100" ></el-input>
+                                                </el-form-item>
+                                            </template>
+                                            <template  v-else>
+                                                <el-form-item prop="Title" class="W100">
+                                                    <el-input v-model="fromData.Title" class="W100" ></el-input>
+                                                </el-form-item>
+                                            </template>
+                                        </template>
                                 </div>
                             </div>
                             <div class="fromSon">
@@ -147,10 +159,24 @@
                             </div>
                             <div class="fromSon">
                                 <label>Email Subject</label>
-                                <div class="content">
-                                    <el-form-item class="W100" prop="SubjectText">
+                                <!-- <div class="content">
+                                    <el-form-item class="W100" prop="SubjectText" >
                                         <el-input v-model="fromData.SubjectText" class="W100"></el-input>
                                     </el-form-item>
+                                </div> -->
+                                <div class="content">
+                                    <template>
+                                        <template v-if="fromData.source == 1">
+                                            <el-form-item class="W100">
+                                                <el-input v-model="fromData.SubjectText" class="W100" ></el-input>
+                                            </el-form-item>
+                                        </template>
+                                        <template v-else>
+                                            <el-form-item prop="SubjectText" class="W100">
+                                                <el-input v-model="fromData.SubjectText" class="W100" ></el-input>
+                                            </el-form-item>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="fromSon">
@@ -186,21 +212,38 @@
                             <div class="fromSon">
                                 <label>Banner</label>
                                 <div class="content">
-                                    <!-- <el-form-item prop="bannerUrl" class="uploadClass W100"> -->
-                                    <el-form-item class="uploadClass W100" prop="bannerUrl">
-                                            <el-upload
-                                        class="avatar-uploader"
-                                        action="/api/v1/upload_picture/"
-                                        :auto-upload="true"
-                                        :headers="headerdata"    
-                                        :show-file-list="false"
-                                        :on-success="bannerSuccess"
-                                        :before-upload="beforeAvatarUpload">
-                                        <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
-                                        <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
-                                        </el-upload>
-                                    </el-form-item>
-                                    <!-- <div class="uploadBtnBox"></div> -->
+                                    <template>
+                                        <template v-if="fromData.source == 1">
+                                            <el-form-item class="uploadClass W100">
+                                                <el-upload
+                                                class="avatar-uploader"
+                                                action="/api/v1/upload_picture/"
+                                                :auto-upload="true"
+                                                :headers="headerdata"    
+                                                :show-file-list="false"
+                                                :on-success="bannerSuccess"
+                                                :before-upload="beforeAvatarUpload">
+                                                <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
+                                                <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </el-form-item>
+                                        </template>
+                                        <template v-else>
+                                            <el-form-item class="uploadClass W100" prop="bannerUrl">
+                                                <el-upload
+                                                class="avatar-uploader"
+                                                action="/api/v1/upload_picture/"
+                                                :auto-upload="true"
+                                                :headers="headerdata"    
+                                                :show-file-list="false"
+                                                :on-success="bannerSuccess"
+                                                :before-upload="beforeAvatarUpload">
+                                                <img  style="width: 400px!important;" v-if="fromData.bannerUrl && fromData.bannerUrl != -1" :src="fromData.bannerUrl" class="avatar">
+                                                <i v-else style="width: 400px!important;" class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </el-form-item>
+                                        </template>
+                                    </template>
                                     <span class="littleMsg">Image must be in JPG or PNG or JIF format. Max size 5MB</span>
                                 </div>
                             </div>
@@ -248,8 +291,8 @@
                                 </div>
                             </div>
                             <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
+                            <el-button type="primary" style="margin:20px 0;">Preview</el-button>
                         </div>
-                        <el-button type="primary" style="margin:20px 0;">Preview</el-button>
                         <h4>Edit Sent Time</h4>
                         <div class="fromBox">
                             <div class="fromSon">
@@ -304,69 +347,74 @@
                 <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
                 <div ref="showBox">
                     <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
-                        <div style="width: 100%;padding:20px 0;">
-                            <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
-                                <a :href="'http://'+fromData.domain" target="_blank">
-                                    <img :src="fromData.logoUrl" style="width: 100%;"/>
+                        <div class="showBox_right" v-show="TemplateSourceRight">
+                            <div style="width: 100%;padding:20px 0;">
+                                <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
+                                    <a :href="'http://'+fromData.domain" target="_blank">
+                                        <img :src="fromData.logoUrl" style="width: 100%;"/>
+                                    </a>
+                                </div>
+                                <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
+                            </div>
+                            <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
+                                <template>
+                                    <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
+                                            <!-- <div>{{fromData.SubjectText}}</div> -->
+                                            <div>{{fromData.HeadingText}}</div>
+                                            <div>{{fromData.Headline}}</div>
+                                            <div v-html="fromData.bodyHtml"></div>
+                                        </div>
+                                </template>
+                                <template>
+                                    <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
+                                        <a href="*[tr_banner_url]*" target="_blank">
+                                            <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                        </a>
+                                        <!-- <img :src="fromData.bannerUrl" style="width: 100%;"/> -->
+                                    </div>
+                                    <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
+                                    </div>
+                                    <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
+                                </template>
+                            </div>
+                            <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
+                                {{fromData.productTitle}}
+                            </div>
+                            <div style="padding: 20px 12px;">
+                                <template v-if="fromData.searchImgType != 'no product'">
+                                    *[tr_top_products]*
+                                </template>
+                            </div>
+                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                                <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a> @2006-{{new Date().getFullYear()}}   
+                                <template v-if="fromData.languageData.Copy">{{fromData.languageData.Copy}}</template>
+                                <template v-else>Copyright,All Rights Reserved</template>
+                            </div>
+                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                                <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                    <template v-if="fromData.languageData.unsubscribe">{{fromData.languageData.unsubscribe}}</template>
+                                    <template v-else>UNSUBSCRIBE</template>
+                                </a>
+                                <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                    <template v-if="fromData.languageData.helpCenter">{{fromData.languageData.helpCenter}}</template>
+                                    <template v-else>HELP CENTER</template>
+                                </a>
+                                <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                    <template v-if="fromData.languageData.privacy">{{fromData.languageData.privacy}}</template>
+                                    <template v-else>PRIVACY POLICY</template>
+                                </a>
+                                <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">
+                                    <template v-if="fromData.languageData.aboutUs">{{fromData.languageData.aboutUs}}</template>
+                                    <template v-else>ABOUT US</template>
                                 </a>
                             </div>
-                            <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
+                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                                <template v-if="fromData.languageData.bottom">{{fromData.languageData.bottom}}</template>
+                                <template v-else>This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*</template>
+                            </div>
                         </div>
-                        <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
-                            <template>
-                                <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
-                                        <!-- <div>{{fromData.SubjectText}}</div> -->
-                                        <div>{{fromData.HeadingText}}</div>
-                                        <div>{{fromData.Headline}}</div>
-                                        <div v-html="fromData.bodyHtml"></div>
-                                    </div>
-                            </template>
-                            <template>
-                                <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
-                                    <a href="*[tr_banner_url]*" target="_blank">
-                                        <img :src="fromData.bannerUrl" style="width: 100%;"/>
-                                    </a>
-                                    <!-- <img :src="fromData.bannerUrl" style="width: 100%;"/> -->
-                                </div>
-                                <div v-else-if="fromData.bannerUrl == -1" style="width: 30%;margin: 0 auto;">
-                                </div>
-                                <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 130px;">YOUR BANNER</div>
-                            </template>
-                        </div>
-                        <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
-                            {{fromData.productTitle}}
-                        </div>
-                        <div style="padding: 20px 12px;">
-                            <template v-if="fromData.searchImgType != 'no product'">
-                                *[tr_top_products]*
-                            </template>
-                        </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[tr_store_url]*" target="_blank">*[tr_domain]*</a> @2006-{{new Date().getFullYear()}}   
-                            <template v-if="fromData.languageData.Copy">{{fromData.languageData.Copy}}</template>
-                            <template v-else>Copyright,All Rights Reserved</template>
-                        </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
-                                <template v-if="fromData.languageData.unsubscribe">{{fromData.languageData.unsubscribe}}</template>
-                                <template v-else>UNSUBSCRIBE</template>
-                            </a>
-                            <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
-                                <template v-if="fromData.languageData.helpCenter">{{fromData.languageData.helpCenter}}</template>
-                                <template v-else>HELP CENTER</template>
-                            </a>
-                            <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
-                                <template v-if="fromData.languageData.privacy">{{fromData.languageData.privacy}}</template>
-                                <template v-else>PRIVACY POLICY</template>
-                            </a>
-                            <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">
-                                <template v-if="fromData.languageData.aboutUs">{{fromData.languageData.aboutUs}}</template>
-                                <template v-else>ABOUT US</template>
-                            </a>
-                        </div>
-                        <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                            <template v-if="fromData.languageData.bottom">{{fromData.languageData.bottom}}</template>
-                            <template v-else>This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*</template>
+                        <div v-show="Template_iframe">
+                            <iframe class="Template_iframe" :src="fromData.url_template"></iframe>
                         </div>
                     </div>
                 </div>
@@ -390,6 +438,7 @@ export default {
     name: "NewsletterAdd",
     data() {
         return {
+            arrey:[],
             emsp:"&emsp;",
             pickerOptions: {
                 disabledDate(time) {
@@ -407,6 +456,9 @@ export default {
             },
             Shop:{},
             bannerTextState:false,
+            TemplateSource:true,
+            TemplateSourceRight:true,
+            Template_iframe:false,
             bannerText:{
                 width:400,
                 left:10,
@@ -418,6 +470,7 @@ export default {
             },
             languageDataState:false,
             fromData:{
+                source:'',
                 is_cart:false,
                 fromDataType:'add',
                 Title:'',
@@ -428,6 +481,7 @@ export default {
                 domain: '',
                 bannerUrl:'',
                 banner_url:"",
+                url_template:'',
                 Headline:'',
                 productTitle:'',
                 bodyText:'',
@@ -464,10 +518,10 @@ export default {
                 {value: '10',label: 'Everyday'},
             ],
             searchImgTypeArray:[
-                {value: 'top_three',label: 'Top 4 products in last 3 days'},
-                {value: 'top_seven',label: 'Top 4 products in last 7 days'},
-                {value: 'top_fifteen',label: 'Top 4 products in last 15 days'},
-                {value: 'top_thirty',label: 'Top 4 products in last 30 days'},
+                {value: 'top_three',label: 'Top 8 products in last 3 days'},
+                {value: 'top_seven',label: 'Top 8 products in last 7 days'},
+                {value: 'top_fifteen',label: 'Top 8 products in last 15 days'},
+                {value: 'top_thirty',label: 'Top 8 products in last 30 days'},
                 {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
                 {value: 'no product',label: 'No Product'},
@@ -487,7 +541,6 @@ export default {
                 HeadingText: [{ required: true, message: 'Please enter HeadingText', trigger: 'change' }],
                 logoUrl: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
                 bannerUrl: [{ required: true, message: 'Please choose banner', trigger: 'change' }],
-                banner_url: [{ required: true, message: 'Please choose banner', trigger: 'change' }],
                 Headline: [{ required: true, message: 'Please enter Headline', trigger: 'change' }],
                 bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' }],
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
@@ -521,7 +574,7 @@ export default {
             if(val){
                 this.bannerTextState = false;
             }
-        }
+        },
     },
     mounted() {
         this.init();
@@ -560,7 +613,6 @@ export default {
             .then(res => {
                 if(res.data.code == 1){
                     this.TemplateCenterArray = res.data.data.results;
-                    // console.log(this.TemplateCenterArray)
                 }else{
                     this.$message("Acquisition failure!");
                 }
@@ -606,9 +658,16 @@ export default {
             });
         },
         ProductTemplateFun(val){
-            // let _thisDtata = JSON.parse(localStorage["TemplateVal"])
-            // this.fromData._thisDtata = this.TemplateCenterArray.fileter(x=> x.id === val)[0].title
-            
+            if(this.TemplateCenterArray.filter(x=> x.id === val)[0].source == 1){ 
+            // console.log(this.TemplateCenterArray.filter(x=> x.id === val)[0].source)
+                    this.TemplateSource = false;
+                    this.TemplateSourceRight = false;
+                    this.Template_iframe = true;
+            }else{
+                    this.TemplateSource = true;
+                    this.TemplateSourceRight = true;
+                    this.Template_iframe = false;
+            }
             this.fromData.Title = this.TemplateCenterArray.filter(x=> x.id === val)[0].title
             this.fromData.description = this.TemplateCenterArray.filter(x=> x.id === val)[0].description
             this.fromData.SubjectText = this.TemplateCenterArray.filter(x=> x.id === val)[0].subject
@@ -618,6 +677,7 @@ export default {
             this.fromData.banner_url = this.TemplateCenterArray.filter(x=> x.id === val)[0].banner_url
             this.fromData.Headline = this.TemplateCenterArray.filter(x=> x.id === val)[0].headline
             this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].body_text
+            this.fromData.url_template = this.TemplateCenterArray.filter(x=> x.id === val)[0].url_template
         },
         imgClick(item){
             item.state = !item.state;
@@ -683,11 +743,12 @@ export default {
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
-                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
-                        if(!this.fromData.logoUrl){
-                            _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
-                        }
+                        _showHtml = this.fromData.url_template;
+                        // _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
+                        // _showHtml = _showHtml.replace('2px dashed','0px dashed');
+                        // if(!this.fromData.logoUrl){
+                        //     _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
+                        // }
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,
@@ -703,6 +764,7 @@ export default {
                             product_list:JSON.stringify(this.trueProductArray),
                             banner_text:JSON.stringify(this.bannerText),
                             product_title:this.fromData.productTitle,
+                            url_template:this.fromData.url_template,
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
                                 begin_time:base.dateFormat(this.fromData.periodTime[0]),
@@ -753,15 +815,15 @@ export default {
             });
         },
         searchImgType(){
-            // if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
-            //     this.productArray = [];
-            // }else{
-            //     this.productArray = this.top_product[this.fromData.searchImgType];
-            //     this.productArray.map(e =>{
-            //         e.state = true;
-            //     });
-            // }
-            // this.productArray = this.productArray;
+            if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
+                this.productArray = [];
+            }else{
+                this.productArray = this.top_product[this.fromData.searchImgType];
+                this.productArray.map(e =>{
+                    e.state = true;
+                });
+            }
+            this.productArray = this.productArray;
         },
         bodyTextChange() {
             this.fromData.bodyHtml = this.fromData.bodyText.replace(/&amp;/g,"&");
@@ -808,4 +870,5 @@ export default {
 .NewsletterAdd .languageTextBox .el-form-item{margin-bottom:0;}
 .NewsletterAdd .languageTextBox .fromSon label{padding:0;}
 .NewsletterAdd .bannerText p{margin:0!important;}
+.NewsletterAdd .Template_iframe{width: 885px;height:880px;border: none;overflow-x: hidden;box-shadow: 4px 10px 10px #ccc;}
 </style>

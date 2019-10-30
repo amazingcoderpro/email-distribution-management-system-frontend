@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!-- <router-view/> -->
+  <router-view v-if="isRouterA"></router-view>
   </div>
 </template>
 
 <script>
 export default {
   name: "app",
+  provide(){
+      return{
+        reload:this.reload
+      }
+  },
+  data(){
+    return{
+        isRouterA:true
+      }
+  },
   created() {
     if (localStorage.eleToken) {
       const decode = localStorage.eleToken;
@@ -21,6 +32,12 @@ export default {
         (typeof value === "object" && Object.keys(value).length === 0) ||
         (typeof value === "string" && value.trim().length === 0)
       );
+    },  
+    reload(){
+        this.isRouterA = false
+        this.$nextTick(function(){
+            this.isRouterA = true
+        })
     }
   }
 };

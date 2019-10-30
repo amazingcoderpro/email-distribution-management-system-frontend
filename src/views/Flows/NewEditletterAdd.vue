@@ -487,10 +487,10 @@ export default {
                 {value: '9',label: 'Last day of the month'},
             ],
             searchImgTypeArray:[
-                {value: 'top_three',label: 'Top 4 products in last 3 days'},
-                {value: 'top_seven',label: 'Top 4 products in last 7 days'},
-                {value: 'top_fifteen',label: 'Top 4 products in last 15 days'},
-                {value: 'top_thirty',label: 'Top 4 products in last 30 days'},
+                {value: 'top_three',label: 'Top 8 products in last 3 days'},
+                {value: 'top_seven',label: 'Top 8 products in last 7 days'},
+                {value: 'top_fifteen',label: 'Top 8 products in last 15 days'},
+                {value: 'top_thirty',label: 'Top 8 products in last 30 days'},
                 // {value: 'Shopping cart goods',label: 'Shopping cart goods'},
                 {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
@@ -767,16 +767,16 @@ export default {
             });
         },
         searchImgType(){
-            // if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
-            //     this.productArray = [];
-            // }else{
-            //     this.productArray = this.top_product[this.fromData.searchImgType];
-            //     console.log(this.productArray)
-            //     this.productArray.map(e =>{
-            //         e.state = true;
-            //     });
-            // }
-            // this.productArray = this.productArray;
+            if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
+                this.productArray = [];
+            }else{
+                this.productArray = this.top_product[this.fromData.searchImgType];
+                console.log(this.productArray)
+                this.productArray.map(e =>{
+                    e.state = true;
+                });
+            }
+            this.productArray = this.productArray;
         },
         bodyTextChange() {
             this.fromData.bodyHtml = this.fromData.bodyText.replace(/&amp;/g,"&");

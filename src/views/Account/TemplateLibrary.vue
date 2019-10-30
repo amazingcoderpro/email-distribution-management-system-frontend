@@ -2,7 +2,7 @@
     <div class="Template">
         <ul id="breadcrumb">
             <li><a href="/dashboard"><span class="el-icon-house"> </span> Home</a></li>
-            <li><a><span class="el-icon-right"> </span> Template</a></li>
+            <li><a><span class="el-icon-right"> </span> Template Library</a></li>
         </ul>
         <el-form :inline="true" :model="Template" class="demo-form-inline fromClass" label-width="100px">
           <el-form-item>
@@ -18,37 +18,68 @@
           <el-form-item>
             <el-button icon="edit" type="primary" @click="init">Search</el-button>
           </el-form-item>
-            <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
+          <el-form-item style="float:right">
+              <el-button type="primary" class="select_button" @click="Create_New">Create New</el-button>
+          </el-form-item>
+          <el-form-item style="float:right">
+              <template slot-scope="scope">
+                        <el-button type="primary" class="select_button" @click="Create_Url(scope.row)">Template Url</el-button>
+              </template>
+          </el-form-item>
         </el-form>
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable" :show-header="headStatus" :height="tableHeight"> 
-            <el-table-column prop="name,description" align="center" width="200">
+            <el-table-column prop="title" align="center" width="230">
               <template slot-scope="scope">
-                <div class="columnLable ColumnTitle">{{scope.row.title }}</div>
-                <div class="columnContent">{{scope.row.description}}</div>
+                <div class="columnLable">Title</div>
+                <div class="columnLable ColumnTitle">{{scope.row.title}}</div>
               </template>
             </el-table-column> 
-            <el-table-column prop="subject" align="center" width="400">
+            <el-table-column prop="description" align="center" width="230">
+              <template slot-scope="scope">
+                <div class="columnLable">Description</div>
+                <div class="columnLable ColumnTitle">{{scope.row.description}}</div>
+              </template>
+            </el-table-column> 
+
+            <el-table-column prop="subject" align="center" width="230">
               <template slot-scope="scope">
                 <div class="columnLable">SubjectText</div>
                 <div class="columnLable ColumnTitle">{{scope.row.subject}}</div>
               </template>
             </el-table-column> 
-            <el-table-column prop="heading_text" align="center" width="400">
+            <el-table-column prop="heading_text" align="center" width="230">
               <template slot-scope="scope">
                 <div class="columnLable">HeadingText</div>
                 <div class="columnLable ColumnTitle">{{scope.row.heading_text}}</div>
               </template>
             </el-table-column> 
-            <el-table-column prop="headline" align="center" width="400">
+            <el-table-column prop="headline" align="center" width="230">
               <template slot-scope="scope">
                 <div class="columnLable">Headline</div>
                 <div class="columnLable ColumnTitle">{{scope.row.headline}}</div>
               </template> 
             </el-table-column>     
-            <el-table-column prop="operation" align="left" width="250" >
+            <el-table-column prop="state" align="center" width="230">
+                  <template slot-scope="scope">
+                    <div class="columnLable">Source</div>
+                    <template v-if="scope.row.source == 0">
+                          <el-button icon="edit" type="plain" size="small">customize</el-button>
+                    </template>
+                    <template v-else-if="scope.row.source == 1">
+                          <el-button icon="edit" type="plain" size="small">external</el-button>
+                    </template>
+                  </template> 
+            </el-table-column>     
+            <el-table-column prop="operation" align="left" width="260" >
               <template slot-scope="scope">
-                  <el-button class="WW80" icon="edit" type="primary" size="small" @click="EditFun(scope.row)">Edit</el-button>
+                  <template v-if="scope.row.source == 0">
+                          <el-button class="WW80" icon="edit" type="primary" size="small" @click="EditFun(scope.row)">Edit</el-button>
+                  </template>
+                  <template v-if="scope.row.source == 1">
+                          <el-button class="WW80" icon="edit" type="primary" size="small" @click="EditSource(scope.row)">Edit</el-button>
+                  </template>
+                  <!-- <el-button class="WW80" icon="edit" type="primary" size="small" @click="EditFun(scope.row)">Edit</el-button> -->
                   <el-button class="WW80 MT10" icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button> 
               </template>
             </el-table-column> 
@@ -56,23 +87,36 @@
         </div>  
         <!-- 分页 -->
         <div class="paging">
-          <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
+             <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div> 
+        <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
+
     </div>
 </template>
 <script>
 import * as base from '../../assets/js/base'
 import router from '../../router';
+import DialogFound from "./TemplateUrl";
+
 export default {
     name: "TemplateLibrary",
+    components: {
+        DialogFound,
+    },
     data() {
         return {
+            dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
+            itemData:{},
             tableHeight:"100",
             headStatus:false,
             Template:{
@@ -147,6 +191,14 @@ export default {
             localStorage.setItem("TemplateVal", JSON.stringify(TemplateVal));
             router.push('/TemplateDisplay')
         },
+        Create_Url(row){
+            this.itemData = row;
+            this.dialog = {
+                show: true,
+                title: "Template Url",
+                option: "post"
+            };
+        },
         EditFun(row){
            let TemplateVal = {
                 banner:row.banner,
@@ -166,6 +218,17 @@ export default {
             }
             localStorage.setItem("TemplateVal", JSON.stringify(TemplateVal));
             router.push('/TemplateDisplay');
+        },
+        EditSource(row){
+              let TemplateSourceVal = {
+                title:row.title,
+                description:row.description,
+                url_template:row.url_template,
+                id:row.id,
+            }
+            console.log(row.id)
+            localStorage.setItem("TemplateSourceVal", JSON.stringify(TemplateSourceVal));
+            router.push('/TemplateSource');
         },
         deleteFun(row){
           this.$confirm('Are you sure you wanna delete?', 'Warning', {
