@@ -1,10 +1,12 @@
 <template>
     <header class="head-nav">
         <el-row>
-            <el-col :span="6" class='logo-container'>
-                <img src="../assets/img/SmartSendLogo.png" class='logo' alt="">
-                <span class='title'>SmartSend</span>
-            </el-col>
+            <router-link to='/dashboard'>
+                <el-col :span="6" class='logo-container'>
+                    <img src="../assets/img/SmartSendLogo.png" class='logo' alt="">
+                    <span class='title'>SmartSend</span>
+                </el-col>
+            </router-link>
             <el-col :span='6' class="user">
                 <div class="userinfo">
                     <img src="../assets/img/none.png" class='avatar' alt="">
@@ -139,7 +141,7 @@ export default {
         title: "Modify Password",
         option: "put"
       };
-    }
+    },
   }
 };
 </script>
@@ -148,7 +150,7 @@ export default {
 .head-nav{width:100%;height:60px;min-width:600px;padding:5px;background:#324057;color:#fff;border-bottom:1px solid #1f2d3d;}
 .logo-container{line-height:60px;min-width:400px;}
 .logo{margin-left:20px;margin-right:5px;vertical-align:middle;display:inline-block;width:42px;}
-.title{vertical-align:middle;font-size:22px;font-family:"Microsoft YaHei";letter-spacing:3px;}
+.title{vertical-align:middle;font-size:22px;font-family:"Microsoft YaHei";letter-spacing:3px;color:#ffff;}
 .user{line-height:60px;text-align:right;float:right;padding-right:10px;}
 .avatar{width:40px;height:40px;border-radius:50%;vertical-align:middle;display:inline-block;}
 .welcome{display:inline-block;width:auto;vertical-align:middle;padding:0 5px;}
@@ -157,4 +159,7 @@ export default {
 .avatarname{color:#409eff;font-weight:bolder;}
 .username{cursor:pointer;margin-right:5px;}
 .el-dropdown{color:#fff;}
+.router-link-active{
+text-decoration: none;
+}
 </style>

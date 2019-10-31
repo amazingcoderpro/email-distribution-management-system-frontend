@@ -90,14 +90,14 @@ export default {
                 domain: [{ required: true, message: 'Please enter the domin address', trigger: 'blur' },],
                 user_email:[{ required: true, message: 'Please enter your email address', trigger: 'blur' },{ type: 'email', message: 'Please enter the correct email address'}]
             },
-            flowList:[],
+            // flowList:[],
             OpenShop: {
                customer_name:"",
                user_email:"",
                domain:"",
                source:"0",
                logo:"",
-               auth_list:""
+            //    auth_list:""
             },
             headerdata:{
                 Authorization : localStorage.getItem("token")
@@ -133,7 +133,7 @@ export default {
                         customer_name:this.OpenShop.customer_name,
                         user_email:this.OpenShop.user_email,
                         domain:this.OpenShop.domain,
-                        log:this.OpenShop.log,
+                        logo:this.OpenShop.logo,
                         source:this.OpenShop.source
                     }
                     this.$axios.post(`/api/v1/store/store_auth/`, _data)

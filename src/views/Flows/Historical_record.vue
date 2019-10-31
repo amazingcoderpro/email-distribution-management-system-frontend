@@ -2,14 +2,6 @@
 <div class="HistoricalRecord_title">
     <el-dialog  :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false' :modal-append-to-body="false">
         <div class='HistoricalRecord'>
-            <!-- <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
-                <el-form-item>
-                    <el-input v-model="searchData.create_time" placeholder="Search Site Name"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button icon="edit" type="primary" @click="init">Search</el-button>
-                </el-form-item>
-            </el-form> -->
             <div class="table_right">
                 <el-table :data="tableData" border ref="topictable" class="topictable" :height="tableHeight">
                         <el-table-column prop="create_time" align="center" label="Sent time" width="250">
@@ -78,7 +70,6 @@
                 handler: function() {
                     this.init();
                 },
-                // deep: true
             },
         },
         data() {
@@ -90,11 +81,6 @@
                     currentPage:1,//默认开始页面
                 },
                 tableHeight:"100",
-                // searchData:{
-                //     create_time:'',
-                //     typeVal:'',
-                //     timeValue:[new Date(new Date().getTime()-1000*24*60*60),new Date().getTime()], // 时间戳
-                // },
                 tableData:[],
             }
         },
@@ -112,9 +98,6 @@
             init() {
                 console.log(this.RecordData.id)
                 let _url = `/api/v1/mail/history/?page=${this.page.currentPage}&page_size=${this.page.pagesize}&type=${1}&trigger_id=${this.RecordData.id}`;
-                // if (this.searchData.site_name) {
-                //     _url += `&site_name=${this.searchData.site_name}`;
-                // }
                 this.$axios.get(_url)
                     .then(res => {
                         if (res.data.code == 1) {

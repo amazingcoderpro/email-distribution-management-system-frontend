@@ -290,8 +290,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
-                            <el-button type="primary" style="margin:20px 0;">Preview</el-button>
+                            <span class="littleMsg" v-if="productArray.length>0">Max 8 products</span>
+                            <!-- <el-button type="primary" style="margin:20px 0;margin-left:20px;">Preview</el-button> -->
                         </div>
                         <h4>Edit Sent Time</h4>
                         <div class="fromBox">

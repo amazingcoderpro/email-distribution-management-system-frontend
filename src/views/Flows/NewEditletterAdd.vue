@@ -258,7 +258,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
+                        <span class="littleMsg" v-if="productArray.length>0">Max 8 products</span>
                     </div>
                     <div>
                         <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
