@@ -84,9 +84,16 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="330">
               <template slot-scope="scope">
-                <!-- <el-button icon="edit" type="primary" size="small" @click="deteleFun(scope.row)">Edit</el-button> -->
-                <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
-                <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button>
+                <!-- <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
+                <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button> -->
+                <template v-if="scope.row.source == 0">
+                    <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
+                    <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button>
+                </template>
+                <template v-if="scope.row.source == 1">
+                    <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneSource(scope.row,'preview')">Preview</el-button>
+                    <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneSource(scope.row)">Clone</el-button>
+                </template>
                 <br/>
                 <el-button icon="edit" type="danger" class="WW80" size="small" @click="deleteFun(scope.row)">Delete</el-button>
                 <el-button icon="edit" type="primary" class="WW80" size="small" @click="HistoryEdit(scope.row)">History</el-button>
@@ -252,6 +259,43 @@ export default {
         }
         localStorage.setItem("NewsletterVal", JSON.stringify(NewsletterVal));
         router.push('/NewsletterAdd');
+      },
+      cloneSource(row,preview){
+          let _send_rule = {
+          "begin_time":"2019-07-16T16:00:00.000Z",
+          "end_time":"2019-08-15T16:00:00.000Z",
+          "cron_type":"Monday",
+          "cron_time":"2016-10-10T10:40:04.000Z"
+        };
+        let _customer_group_list = [];
+        let TemplateType_list = [];
+        if(row.send_rule){
+          _send_rule = JSON.parse(row.send_rule);
+        }
+        if(row.customer_group_list){
+          _customer_group_list = JSON.parse(row.customer_group_list);
+        }
+        if(row.TemplateType_list){
+          TemplateType_list = JSON.parse(row.TemplateType_list)
+        }
+        let NewsletterSourceVal = {
+                title:row.title,
+                description:row.description,
+                url_template:row.url_template,
+                source:row.source,
+                TemplateCenterType:TemplateType_list,
+                SegmentValue:_customer_group_list,
+                SegmentState:[],
+                periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
+                SendTimeType:_send_rule.cron_type,
+                SendValue:new Date("2019-1-1 "+ _send_rule.cron_time),
+                html:row.html
+            }
+          if(preview){
+            NewsletterSourceVal.fromDataType = "preview";
+          }
+          localStorage.setItem("NewsletterSourceVal", JSON.stringify(NewsletterSourceVal));
+          router.push('/NewsletterSource');
       },
       deleteFun(row){
         this.$confirm('Are you sure you wanna delete?', 'Warning', {

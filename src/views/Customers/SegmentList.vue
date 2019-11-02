@@ -25,37 +25,36 @@
                 <div class="columnContent">{{scope.row.description}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open" align="center" label="123" width="200">
+            <el-table-column prop="open" align="center" label="123" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div> 
                 <!-- <div class="columnContent">{{scope.row.open_rate*100+"%"}}</div> -->
                 <div class="columnContent">{{(scope.row.open_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="click" align="center" width="200">
+            <el-table-column prop="click" align="center" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Click Rate</div>
-                <!-- <div class="columnContent">{{scope.row.click_rate+"%"}}</div> -->
                 <div class="columnContent">{{(scope.row.click_rate*100).toFixed(2)}}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="Members" align="center" width="200">
+            <el-table-column prop="Members" align="center" width="180">
               <template slot-scope="scope">
                 <div class="columnLable">Members</div>
                 <div class="columnContent">{{scope.row.members}}</div>
               </template>
             </el-table-column> 
-            <el-table-column prop="LastUpdateTime" align="center" width="300">
+            <el-table-column prop="LastUpdateTime" align="center" width="250">
               <template slot-scope="scope">
                 <div class="columnLable">Last Update Time</div>
                 <div class="columnContent">{{scope.row.update_time}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="operation" align="center">
+            <el-table-column prop="operation" width="350"> 
               <template slot-scope="scope">
-                <!-- <el-button icon="edit" type="primary" size="small" @click="editFun(scope.row)" >Edit</el-button> -->
-                <el-button icon="edit" type="success" size="small" @click="cloneFun(scope.row)">Clone</el-button>
-                <el-button icon="edit" type="danger" size="small" @click="deleteFun(scope.row)">Delete</el-button>
+                <el-button icon="edit" type="primary" class="WW80 MT10" size="small" @click="editFun(scope.row)" >Edit</el-button>
+                <el-button icon="edit" type="success" class="WW80 MT10" size="small" @click="cloneFun(scope.row)">Clone</el-button>
+                <el-button icon="edit" type="danger" class="WW80 MT10" size="small" @click="deleteFun(scope.row)">Delete</el-button>
               </template>
             </el-table-column> 
           </el-table>
@@ -63,23 +62,34 @@
         <!-- 分页 -->
         <div class="paging">
           <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
-        </div>   
+        </div>  
+        <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
     </div>
 </template>
 
 <script>
 import router from '../../router'
 import * as base from '../../assets/js/base'
+import DialogFound from "./SegmentGroup";
 export default {
     name: "SegmentList",
+    components: {
+        DialogFound,
+    },
     data() {
         return {
+            dialog: {
+                show: false,
+                title: "",
+                option: "edit"
+            },
             page:{
                 total:0,//默认数据总数
                 pagesize:10,//每页的数据条数
                 pagesizes:[10, 20, 30, 40],//分组数量
                 currentPage:1,//默认开始页面
             },
+            itemData:{},
             tableHeight:"100",
             headStatus:false,
             searchData:{
@@ -88,8 +98,6 @@ export default {
             },
             tableData:[],
         }
-    },
-    components:{
     },
     mounted() {
       setTimeout(() => {
@@ -170,14 +178,12 @@ export default {
               }) 
         },
         editFun(row){
-          let SegmentVal = {
-            "id":row.id,
-            "description":row.description,
-            "title":row.title,
-            "relation_info":JSON.parse(row.relation_info)
-          }
-          localStorage.setItem("SegmentVal", JSON.stringify(SegmentVal));
-          router.push('/SegmentAdd');
+            this.itemData = row;
+            this.dialog = {
+                show: true,
+                title: "Customer Group",
+                option: "post"
+            };
         },
         cloneFun(row){
           let SegmentVal = {

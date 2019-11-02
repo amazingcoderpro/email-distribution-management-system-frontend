@@ -101,9 +101,6 @@ export default {
            }
         });
       },
-      // PickForm(){
-      //       router.push('/OpeningStation');
-      // },
       isEmpty(value) {
         return (
           value === undefined ||

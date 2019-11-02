@@ -132,16 +132,13 @@
                             <div class="fromSon">
                                 <label>Email Title</label>
                                 <div class="content">
-                                        <!-- <el-form-item prop="Title" class="W100">
-                                            <el-input v-model="fromData.Title" class="W100" ></el-input>
-                                        </el-form-item> -->
                                         <template>
-                                            <template  v-if="fromData.source == 1">
+                                            <template v-if="fromData.source == 1">
                                                 <el-form-item class="W100">
                                                     <el-input v-model="fromData.Title" class="W100" ></el-input>
-                                                </el-form-item>
+                                                </el-form-item> 
                                             </template>
-                                            <template  v-else>
+                                            <template v-else>
                                                 <el-form-item prop="Title" class="W100">
                                                     <el-input v-model="fromData.Title" class="W100" ></el-input>
                                                 </el-form-item>
@@ -159,11 +156,6 @@
                             </div>
                             <div class="fromSon">
                                 <label>Email Subject</label>
-                                <!-- <div class="content">
-                                    <el-form-item class="W100" prop="SubjectText" >
-                                        <el-input v-model="fromData.SubjectText" class="W100"></el-input>
-                                    </el-form-item>
-                                </div> -->
                                 <div class="content">
                                     <template>
                                         <template v-if="fromData.source == 1">
@@ -249,7 +241,7 @@
                             </div>
                             <div class="fromSon">
                                 <label>BannerUrl</label>
-                                <el-input v-model="fromData.banner_url" placeholder="请输入内容"></el-input>
+                                <el-input v-model="fromData.banner_url" placeholder="Please input Banner Url"></el-input>
                             </div>
                             <div class="fromSon">
                                 <label>Headline</label>
@@ -482,6 +474,7 @@ export default {
                 bannerUrl:'',
                 banner_url:"",
                 url_template:'',
+                source:'',
                 Headline:'',
                 productTitle:'',
                 bodyText:'',
@@ -545,7 +538,7 @@ export default {
                 bodyText: [{ required: true, message: 'Please enter bodyText', trigger: 'change' }],
                 periodTime: [{ required: true, message: 'Please choose Valid Period', trigger: 'change' }],
                 SegmentValue: [{ required: true, message: 'Please Choose Segment' , trigger: 'blur'}],
-                SendValue: [{ required: true, message: 'Please Choose Time' }],
+                // SendValue: [{ required: true, message: 'Please Choose Time' }],
             }
         }
     },
@@ -678,6 +671,7 @@ export default {
             this.fromData.Headline = this.TemplateCenterArray.filter(x=> x.id === val)[0].headline
             this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].body_text
             this.fromData.url_template = this.TemplateCenterArray.filter(x=> x.id === val)[0].url_template
+            this.fromData.source = this.TemplateCenterArray.filter(x=> x.id === val)[0].source
         },
         imgClick(item){
             item.state = !item.state;
@@ -738,17 +732,49 @@ export default {
         saveFun(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
+                   if(this.fromData.source == 1){
+                       console.log(this.fromData.source)
+                        let 
+                        _showHtml = this.fromData.url_template;
+                        let _thisData = {
+                            title:this.fromData.Title,
+                            description:this.fromData.description,
+                            url_template:this.fromData.url_template,
+                            customer_group_list:JSON.stringify(this.fromData.SegmentValue),
+                            send_rule:JSON.stringify({
+                                begin_time:base.dateFormat(this.fromData.periodTime[0]),
+                                end_time:base.dateFormat(this.fromData.periodTime[1]),
+                                cron_type:this.fromData.SendTimeType,
+                                cron_time:base.dateFormat(this.fromData.SendValue,"hour")
+                            }),
+                            html:_showHtml,
+                            enable:0,
+                            source:1
+                        }
+                        this.$axios.post(`/api/v1/email_template/`, _thisData) 
+                            .then(res => {
+                                if(res.data.code == 1){
+                                    this.$message({message: "Successfully!",type: "success"});
+                                    router.push('/NewsletterList');
+                                }else{
+                                    this.$message(res.data.msg);
+                                }
+                            })
+                            .catch(error => {
+                                this.$message("Interface timeout!");
+                            }); 
+                    }else{
+                        let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}.bannerText p{margin:0;}';
                         _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        _showHtml = this.fromData.url_template;
-                        // _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
-                        // _showHtml = _showHtml.replace('2px dashed','0px dashed');
-                        // if(!this.fromData.logoUrl){
-                        //     _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
-                        // }
+                        _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
+                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
+                        if(!this.fromData.logoUrl){
+                            _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
+                        }
+                        console.log(this.fromData.source)
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,
@@ -764,7 +790,6 @@ export default {
                             product_list:JSON.stringify(this.trueProductArray),
                             banner_text:JSON.stringify(this.bannerText),
                             product_title:this.fromData.productTitle,
-                            url_template:this.fromData.url_template,
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
                                 begin_time:base.dateFormat(this.fromData.periodTime[0]),
@@ -788,6 +813,7 @@ export default {
                             .catch(error => {
                                 this.$message("Interface timeout!");
                             }); 
+                    }
                     }else{
                         let topNum = document.getElementsByClassName("rightContainer")[0].scrollTop;
                         var time = setInterval(function(){

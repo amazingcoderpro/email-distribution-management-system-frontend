@@ -36,7 +36,7 @@ export default {
                 title:'',   
                 description:'',
                 url_template:''
-            }
+            },
         }
     },
     methods:{
@@ -69,7 +69,6 @@ export default {
 <style>
 .Template_url .el-input__inner{width: 300px;}
 .Template_url .template_input{margin-top: 20px;}
-/* .Template_url .template_center{width: 500px;height: 500px;} */
 .Template_url{width: 97%;}
 .Template_url .topictable{border-left: 0;border-right:0;} 
 .Template_url .el-table__body-wrapper tbody td{border-right: 0;}

@@ -25,6 +25,7 @@ import TemplateSource from './views/Account/TemplateSource.vue'
 // Newsletters
 import NewsletterList from './views/Newsletters/NewsletterList'
 import NewsletterAdd from './views/Newsletters/NewsletterAdd'
+import NewsletterSource from './views/Newsletters/NewsletterSource'
 
 
 //Flows
@@ -72,6 +73,7 @@ const router = new Router({
         { path: '/dashboard', name: 'dashboard', component: Dashboard },
         { path: '/NewsletterList', name: 'NewsletterList', component: NewsletterList },
         { path: '/NewsletterAdd', name: 'NewsletterAdd', component: NewsletterAdd },
+        { path: '/NewsletterSource', name: 'NewsletterSource', component: NewsletterSource },
         { path: '/FlowList', name: 'FlowList', component: FlowList },
         { path: '/Browse_Abandonment',name:'Browse_Abandonment',component:Browse_Abandonment},
         { path: '/EditletterAdd',name:'EditletterAdd',component:EditletterAdd},

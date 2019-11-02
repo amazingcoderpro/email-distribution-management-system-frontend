@@ -90,7 +90,6 @@
              <el-pagination :page-sizes="page.pagesizes" :page-size="page.pagesize" @size-change="handleSizeChange" @current-change="current_change" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
         </div> 
         <DialogFound :dialog='dialog' :itemData='itemData'></DialogFound>
-
     </div>
 </template>
 <script>
