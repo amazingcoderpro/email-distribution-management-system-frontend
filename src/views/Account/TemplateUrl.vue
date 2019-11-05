@@ -1,16 +1,19 @@
 <template>
     <div class="Template_url">
-        <el-dialog  :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false' :modal-append-to-body="false">
+        <el-dialog :title="dialog.title" :visible.sync="dialog.show" :close-on-click-modal='false' :close-on-press-escape='false' :modal-append-to-body="false">
             <div class="template_center">
-                <el-form :inline="true" :model="TemplateUrl" class="demo-form-inline fromClass" label-width="100px">
-                    <el-form-item label="Title" class="template_input">
+                <el-form :inline="true" :model="TemplateUrl" ref="fromRef" class="demo-form-inline fromClass" :rules="rules" label-width="120px">
+                    <el-form-item label="Title" prop="title" class="template_input">
                         <el-input v-model="TemplateUrl.title"></el-input>
                     </el-form-item>
-                    <el-form-item label="Description" class="template_input">
+                    <el-form-item label="Description" prop="description" class="template_input">
                         <el-input v-model="TemplateUrl.description"></el-input>
                     </el-form-item>
-                    <el-form-item label="Template Url" class="template_input">
+                    <el-form-item label="Template Url" prop="url_template" class="template_input">
                         <el-input v-model="TemplateUrl.url_template"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Email Subject" prop="subject" class="template_input">
+                        <el-input v-model="TemplateUrl.subject"></el-input>
                     </el-form-item>
                     <div>
                         <el-button type="primary" style="margin:20px 0px 0px 100px;" @click="saveFun('fromRef')">Save</el-button>
@@ -35,34 +38,46 @@ export default {
             TemplateUrl:{
                 title:'',   
                 description:'',
-                url_template:''
+                url_template:'',
+                subject:''
             },
+            rules: {
+                title: [{ required: true, message: 'Please enter Title', trigger: 'change' }],
+                description: [{ required: true, message: 'Please enter Description', trigger: 'change' }],
+                url_template: [{ required: true, message: 'Please enter Url Template', trigger: 'change' }],
+                subject: [{ required: true, message: 'Please enter Subject', trigger: 'change' }],
+            }
         }
     },
     methods:{
-          saveFun(formName){
-              this.$forceUpdate();
-                  let _thisData = { 
-                      title:this.TemplateUrl.title,
-                      description:this.TemplateUrl.description,
-                      url_template:this.TemplateUrl.url_template,
-                      source:1
-                    }
-                    this.$axios.post(`/api/v3/center_template/`, _thisData)
-                    .then(res => {
-                        if(res.data.code == 1){
-                            this.$message({message: "Successfully!",type: "success"});
-                            this.dialog.show = false;
-                            this.reload()// 强制页面刷新
-                        }else{
-                            this.$message(res.data.msg);
+           saveFun(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                          let _thisData = { 
+                            title:this.TemplateUrl.title,
+                            description:this.TemplateUrl.description,
+                            url_template:this.TemplateUrl.url_template,
+                            subject:this.TemplateUrl.subject,
+                            source:1
+                          }
+                          this.$axios.post(`/api/v3/center_template/`, _thisData)
+                          .then(res => {
+                              if(res.data.code == 1){
+                                  this.$message({message: "Successfully!",type: "success"});
+                                  this.dialog.show = false;
+                                  this.reload()// 强制页面刷新
+                              }else{
+                                  this.$message(res.data.msg);
+                              }
+                          })
+                          .catch(error => {
+                              this.$message("Interface timeout!");
+                          });  
                         }
-                    })
-                    .catch(error => {
-                        this.$message("Interface timeout!");
-                    }); 
-              },
+                    });
+                },
           },
+          
 }
 </script>
 

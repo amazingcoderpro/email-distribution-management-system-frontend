@@ -84,8 +84,6 @@
             </el-table-column>
             <el-table-column prop="operation" align="center" width="330">
               <template slot-scope="scope">
-                <!-- <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
-                <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button> -->
                 <template v-if="scope.row.source == 0">
                     <el-button icon="edit" type="primary" class="WW80" size="small" @click="cloneFun(scope.row,'preview')">Preview</el-button>
                     <el-button icon="edit" type="success" class="WW80" size="small" @click="cloneFun(scope.row)">Clone</el-button>
@@ -367,7 +365,6 @@ export default {
       }
     },
     beforeDestroy() {
-
     }
 }
 </script>

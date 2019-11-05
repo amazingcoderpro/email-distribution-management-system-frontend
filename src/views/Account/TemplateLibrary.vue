@@ -206,7 +206,7 @@ export default {
                 update_time:row.update_time,
                 title:row.title,
                 description:row.description,
-                SubjectText:row.subject,
+                subject:row.subject,
                 HeadingText:row.heading_text,
                 logoUrl:row.logo,
                 bannerUrl:row.banner,
@@ -221,6 +221,7 @@ export default {
         EditSource(row){
               let TemplateSourceVal = {
                 title:row.title,
+                subject:row.subject,
                 description:row.description,
                 url_template:row.url_template,
                 id:row.id,

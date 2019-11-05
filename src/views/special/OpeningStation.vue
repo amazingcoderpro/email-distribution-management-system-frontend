@@ -11,25 +11,21 @@
                         </div>
                         <div class="storeSetting_center">
                             <div class="storename">
-                                <div>
-                                    <span>Name</span>
-                                    <el-form-item prop="customer_name" style="display:inline;">
-                                            <el-input v-model="OpenShop.customer_name" class="btn_input"></el-input>
-                                    </el-form-item>
-                                </div>
+                                  <span>Name of Applicant</span>
+                                  <el-form-item prop="customer_name" style="display:inline;">
+                                          <el-input v-model="OpenShop.customer_name" class="btn_input"></el-input>
+                                  </el-form-item>
                             </div>
                             <div class="storename">
-                                <div>
-                                    <span>Email</span>
-                                    <el-form-item prop="user_email" style="display:inline;">
-                                        <el-input v-model="OpenShop.user_email" class="btn_input"></el-input>
-                                    </el-form-item>
-                                </div>
+                                  <span>Applicants Corporate Email</span>
+                                  <el-form-item prop="user_email" style="display:inline;">
+                                      <el-input v-model="OpenShop.user_email" class="btn_input"></el-input>
+                                  </el-form-item>
                             </div>
                             <div class="storeurl" style="position:relative">
                                 <span>Domain address</span>
                                 <el-form-item prop="domain" style="display:inline;">
-                                        <el-input v-model="OpenShop.domain" class="btn_input"></el-input>
+                                        <el-input v-model="OpenShop.domain" class="btn_input" placeholder="Example:   - - - -.myshopify.com"></el-input>
                                 </el-form-item>
                                 <!-- <el-button type="primary" class="storeurl_button" @click="init('fromRef')">Search</el-button> -->
                             </div>
@@ -86,9 +82,9 @@ export default {
         return {
             rules: {
                 logo: [{ required: true, message: 'Please choose logo', trigger: 'change' }],
-                customer_name: [{ required: true, message: 'Please enter your name', trigger: 'blur' },],
+                customer_name: [{ required: true, message: 'Please enter applicant name', trigger: 'blur' },],
                 domain: [{ required: true, message: 'Please enter the domin address', trigger: 'blur' },],
-                user_email:[{ required: true, message: 'Please enter your email address', trigger: 'blur' },{ type: 'email', message: 'Please enter the correct email address'}]
+                user_email:[{ required: true, message: 'Please enter the applicant email address', trigger: 'blur' },{ type: 'email', message: 'Please enter the correct email address'}]
             },
             // flowList:[],
             OpenShop: {
@@ -154,7 +150,6 @@ export default {
             });
         },
     },
-    
 }
 </script>
 
@@ -166,7 +161,7 @@ export default {
 .OpeningStation .storeSetting .el-input{display:block;margin-top:15px;}
 .OpeningStation .storeSetting .el-select{display:block;}
 .OpeningStation .storeSetting .btn_input{width: 530px;}
-.OpeningStation .storeSetting .storename{margin-top:15px;}
+.OpeningStation .storeSetting .storename{margin-top:20px;}
 .OpeningStation .storeSetting .storeurl{margin-top:20px;}
 .OpeningStation .storeSetting .submit_save{background:#339999;border-color:#339999;color:#fff;padding:13px 18px;font-size:12px;margin-left: -260px;}
 .OpeningStation .storeSetting .submit_btn{background:#339999;border-color:#339999;color:#fff;padding:13px 13px;font-size:12px;margin-left:-180px;margin-top:30px;}

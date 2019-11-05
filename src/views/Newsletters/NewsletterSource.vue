@@ -6,7 +6,7 @@
       <li><a><span class="el-icon-right"> </span>Add Template</a></li>
     </ul>
     <div class="bigBox">
-      <div class="leftBox">
+      <div class="leftBox"> 
         <el-form :inline="true"
                  :model="fromData"
                  ref="fromRef"
@@ -152,6 +152,7 @@ export default {
         source: '',
         title: '',
         description: '',
+        subject:'',
         SegmentValue: [],
         SegmentState: [],
         periodTime: [],
@@ -241,6 +242,7 @@ export default {
           this.fromData.title = e.title
           this.fromData.html = e.html
           this.fromData.description = e.description
+          this.fromData.subject = e.subject
           this.fromData.periodTime = e.periodTime
           this.fromData.SendTimeType = e.SendTimeType
           this.fromData.SendValue = e.SendValue
@@ -277,6 +279,7 @@ export default {
           let _thisData = {
             title: this.fromData.title,
             description: this.fromData.description,
+            subject:this.fromData.SubjectText,
             customer_group_list: JSON.stringify(this.fromData.SegmentValue),
             send_rule: JSON.stringify({
               begin_time: base.dateFormat(this.fromData.periodTime[0]),

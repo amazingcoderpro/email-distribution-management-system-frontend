@@ -7,7 +7,7 @@
         <el-form :inline="true" :model="searchData" class="demo-form-inline fromClass" label-width="100px">
           <!-- Pinterest -->
           <el-form-item>
-            <el-input v-model="searchData.store_name" placeholder="Search Store Name"></el-input>
+            <el-input v-model="searchData.name" placeholder="Search Store Name"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button icon="edit" type="primary" @click="init">Search</el-button>
@@ -130,7 +130,7 @@ export default {
             },
             tableHeight:"100",
             searchData:{
-              store_name:'',
+              name:'',
               typeVal:''
             },
             tableData:[],
@@ -155,8 +155,8 @@ export default {
             }
           }
           let _url = `/api/v1/store/list/?page=${this.page.currentPage}&page_size=${this.page.pagesize}`;
-          if(this.searchData.store_name){
-            _url += `&name=${this.searchData.store_name}`;
+          if(this.searchData.name){
+            _url += `&name=${this.searchData.name}`;
           }
           this.$axios.get(_url)
           .then(res => {

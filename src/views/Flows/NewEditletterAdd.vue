@@ -804,7 +804,7 @@ export default {
 .NewEditletterAdd textarea{height:150px;}
 .NewEditletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
 .NewEditletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
-.NewEditletterAdd .imgBox img{width:100%;}
+.NewEditletterAdd .imgBox img{width:100%;height: 254px;object-fit: cover;}
 .NewEditletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
 .NewEditletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
 .NewEditletterAdd .el-checkbox{width:40%;}

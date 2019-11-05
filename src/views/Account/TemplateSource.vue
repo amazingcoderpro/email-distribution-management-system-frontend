@@ -22,6 +22,10 @@
                             <label>Banner Url</label>
                             <el-input v-model="fromData.url_template" placeholder="Enter Banner Url"></el-input>
                         </el-form-item>
+                        <el-form-item style="font-weight: 600;">
+                            <label>Email Subject</label>
+                            <el-input v-model="fromData.subject" placeholder="Enter Subject"></el-input>
+                        </el-form-item>
                     </div>
                     <div class="TemplateClassic">
                         <div>
@@ -57,6 +61,7 @@ export default {
             fromData:{
                 title:'',
                 description:'',
+                subject:'',
                 url_template:'',
                 id:''
             },
@@ -78,6 +83,7 @@ export default {
                         let _thisData = {
                             title:this.fromData.title,
                             description:this.fromData.description,
+                            subject:this.fromData.subject,
                             url_template:this.fromData.url_template,
                             id:this.fromData.id,
                             html:_showHtml,

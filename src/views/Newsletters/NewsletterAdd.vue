@@ -474,7 +474,6 @@ export default {
                 bannerUrl:'',
                 banner_url:"",
                 url_template:'',
-                source:'',
                 Headline:'',
                 productTitle:'',
                 bodyText:'',
@@ -652,7 +651,6 @@ export default {
         },
         ProductTemplateFun(val){
             if(this.TemplateCenterArray.filter(x=> x.id === val)[0].source == 1){ 
-            // console.log(this.TemplateCenterArray.filter(x=> x.id === val)[0].source)
                     this.TemplateSource = false;
                     this.TemplateSourceRight = false;
                     this.Template_iframe = true;
@@ -739,6 +737,7 @@ export default {
                         let _thisData = {
                             title:this.fromData.Title,
                             description:this.fromData.description,
+                            subject:this.fromData.SubjectText,
                             url_template:this.fromData.url_template,
                             customer_group_list:JSON.stringify(this.fromData.SegmentValue),
                             send_rule:JSON.stringify({
@@ -874,7 +873,7 @@ export default {
 .NewsletterAdd textarea{height:150px;}
 .NewsletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
 .NewsletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
-.NewsletterAdd .imgBox img{width:100%;}
+.NewsletterAdd .imgBox img{width:100%;height: 254px;object-fit: cover;}
 .NewsletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
 .NewsletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
 .NewsletterAdd .el-checkbox{width: 100%;padding: 0!important;color: #333333!important;font-weight: normal!important;padding-left: 5px!important;}

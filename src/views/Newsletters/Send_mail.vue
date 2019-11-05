@@ -38,6 +38,7 @@ export default {
                         _showHtml += this.$parent.$refs.showBox.innerHTML;
                         _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         _showHtml += '</div></body></html>';
+                        _showHtml = this.fromData.html;
                     let _thisData = {
                         "subject":this.fromData.SubjectText,
                         "email_address":this.sendData.email,
