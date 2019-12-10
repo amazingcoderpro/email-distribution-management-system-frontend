@@ -168,6 +168,9 @@
                                 <el-form-item prop="SubjectText" class="W100">
                                     <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="EMAIL SUBJECT可以取消" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -176,6 +179,9 @@
                                 <el-form-item prop="HeadingText" class="W100">
                                     <el-input v-model="fromData.HeadingText" class="W100" maxlength="120"></el-input>
                                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="HEADING TEXT位置可以适当调整，比如放在BANNER上方，预留出位置，而不是和banner重叠" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
                             </div>
                         </div>
                         <div class="fromSon">
@@ -226,6 +232,9 @@
                                 <el-form-item class="W100">
                                     <el-input v-model="fromData.Headline" maxlength="120"></el-input>
                                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="HEADLINE 可以去掉" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
                             </div>
                         </div>
                         <div class="fromSon"> 

@@ -14,6 +14,16 @@
             <el-form-item>
                 <el-button icon="edit" type="primary" @click="init">Search</el-button>
             </el-form-item>
+            <el-form-item style="float:right;">
+              
+                  <el-tooltip class="questionTooltip" effect="dark" content="You can export the cumulative mail sent of all sites in the last month" placement="top-start">
+                <el-button
+              v-on:click="handleDownload"
+              type="primary">
+              <i class="mdi mdi-download"></i>
+              Download</el-button>
+                  </el-tooltip>
+            </el-form-item>
         </el-form>
         <div class="table_right">
             <el-table :data="tableData" border ref="topictable" class="topictable" :height="tableHeight">
@@ -102,6 +112,8 @@
 <script>
     import DialogFound from "./History";
     import router from '../../router'
+    import axios from 'axios'
+    
     import * as base from '../../assets/js/base'
     export default {
         name: 'SiteStatistics',
@@ -110,6 +122,7 @@
         },
         data() {
             return {
+                exportingData:false,
                 dialog: {
                     show: false,
                     title: "",
@@ -190,8 +203,50 @@
                 this.page.pagesize = val;
                 this.init();
                 this.$refs.topictable.bodyWrapper.scrollTop = 0;
+            },
+            async handleDownload () {
+                let _url = `/api/v1/store_sents_statistics/`;
+                this.$axios.get(_url)
+                    .then(res => {
+                        if (res.data.code == 1) {
+                            let a = document.createElement('a')
+                            let url = '/批量导入已孵化GG广告账户板v4.0.xlsx'
+                            let filename = '批量导入已孵化GG广告账户板.xlsx'
+                            a.href = res.data.data.base64_str
+                            a.download = filename
+                            a.click()
+                        } else {
+                            this.$message("Acquisition failure!");
+                        }
+                    })
+                    .catch(error => {
+                        this.$message("Interface Timeout!");
+                    });
+
+                // this.exportingData = true
+                // var _this = this
+                // axios.get('/api/v1/store_sents_statistics/', {
+                //     responseType: 'blob',
+                //     headers: {
+                //       'Content-Type': 'application/vnd.ms-excel;charset=UTF-8',
+                //       'Access-Token': localStorage.getItem('token')
+                //         ? localStorage.getItem('token')
+                //         : ''
+                //     }
+                //     // params: Object.assign({ total: this.pageBean.total }, this.searchData)
+                //   })
+                //   .then(function (response) {
+                //     _this.exportingData = false
+                //     let url = window.URL.createObjectURL(response.data)
+                //     let link = document.createElement('a')
+                //     link.style.display = 'none'
+                //     link.href = url
+                //     link.setAttribute('download', '下载已孵化广告账户.xlsx')
+                //     document.body.appendChild(link)
+                //     link.click()
+                //   })
             }
-        },
+        }
     }
 </script>
 <style>

@@ -23,7 +23,7 @@
                                   </el-form-item>
                             </div>
                             <div class="storeurl" style="position:relative">
-                                <span>Domain address</span>
+                                <span>Myshopify domain</span>
                                 <el-form-item prop="domain" style="display:inline;">
                                         <el-input v-model="OpenShop.domain" class="btn_input" placeholder="Example:   - - - -.myshopify.com"></el-input>
                                 </el-form-item>

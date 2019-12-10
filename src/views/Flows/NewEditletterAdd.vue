@@ -265,6 +265,9 @@
                 <el-form-item prop="SubjectText" class="W100">
                   <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="EMAIL SUBJECT可以取消" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
               </div>
             </div>
             <div class="fromSon">
@@ -273,6 +276,9 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.HeadingText" class="W100" maxlength="120"></el-input>
                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="HEADING TEXT位置可以适当调整，比如放在BANNER上方，预留出位置，而不是和banner重叠" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
               </div>
             </div>
             <div class="fromSon">
@@ -346,8 +352,22 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.Headline" maxlength="120"></el-input>
                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="HEADLINE 可以去掉" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
               </div>
             </div>
+              <div class="fromSon">
+                <label>Middle Line</label>
+                <div class="content">
+                  <el-form-item class="W100">
+                    <el-input v-model="fromData.middle_text"></el-input>
+                  </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="Middle Line 可以去掉" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
+                </div>
+              </div>
             <div class="fromSon">
               <label>Body Text</label>
               <div class="content bodyText">
@@ -368,6 +388,9 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
                 </el-form-item>
+                  <el-tooltip class="questionTooltip" effect="dark" content="PRODUCT TITLE的作用是识别这封邮件的产品，不用体现在邮件内" placement="top-start">
+                    <i class="questionIcon el-icon-info"></i>
+                  </el-tooltip>
               </div>
             </div>
             <div class="fromSon">
@@ -537,6 +560,10 @@
               style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;"
               v-if="fromData.searchImgType != 'no product'"
             >{{fromData.productTitle}}</div>
+              <div
+                style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;"
+                v-if="fromData.middle_text"
+              >{{fromData.middle_text}}</div>
             <div style="padding: 20px 12px;">
               <template v-if="fromData.searchImgType != 'no product'">*[tr_top_products]*</template>
               <!-- <template v-for="(item,index) in productArray" >
@@ -659,6 +686,7 @@ export default {
         domain: "",
         bannerUrl: "",
         Headline: "",
+        middle_text:'',
         bodyText: "",
         bodyHtml: "",
         productTitle: "",
@@ -873,6 +901,7 @@ export default {
               this.fromData.logoUrl = res.data.data.logo;
               this.fromData.bannerUrl = res.data.data.banner;
               this.fromData.Headline = res.data.data.headline;
+              this.fromData.middle_text = res.data.data.middle_text;
               this.fromData.bodyText = res.data.data.body_text;
               this.fromData.productTitle = res.data.data.product_title;
               this.fromData.searchImgType = res.data.data.product_condition;
@@ -991,6 +1020,7 @@ export default {
             logo: this.fromData.logoUrl,
             banner: this.fromData.bannerUrl,
             headline: this.fromData.Headline,
+            middle_text: this.fromData.middle_text,
             body_text: this.fromData.bodyText,
             product_condition: this.fromData.searchImgType,
             product_title: this.fromData.productTitle,

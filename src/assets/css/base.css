@@ -78,3 +78,8 @@ html{overflow-y:hidden;}
 
 
 .columnLable{font-weight: 700;margin-bottom: 10px;}
+.questionIcon{position: absolute;
+    right: 12px;
+    top: 10px;
+    font-size: 20px;
+    color: #ccc;}
