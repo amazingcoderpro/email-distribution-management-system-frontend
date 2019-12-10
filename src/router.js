@@ -75,9 +75,9 @@ const router = new Router({
         { path: '/NewsletterAdd', name: 'NewsletterAdd', component: NewsletterAdd },
         { path: '/NewsletterSource', name: 'NewsletterSource', component: NewsletterSource },
         { path: '/FlowList', name: 'FlowList', component: FlowList },
-        { path: '/Browse_Abandonment',name:'Browse_Abandonment',component:Browse_Abandonment},
-        { path: '/EditletterAdd',name:'EditletterAdd',component:EditletterAdd},
-        { path: '/NewEditletterAdd',name:'NewEditletterAdd',component:NewEditletterAdd},
+        { path: '/Browse_Abandonment', name: 'Browse_Abandonment', component: Browse_Abandonment },
+        { path: '/EditletterAdd', name: 'EditletterAdd', component: EditletterAdd },
+        { path: '/NewEditletterAdd', name: 'NewEditletterAdd', component: NewEditletterAdd },
         { path: '/SegmentList', name: 'SegmentList', component: SegmentList },
         { path: '/SegmentAdd', name: 'SegmentAdd', component: SegmentAdd },
         { path: '/SegmentAddTest', name: 'SegmentAddTest', component: SegmentAddTest },
@@ -117,7 +117,7 @@ const router = new Router({
       name: 'EmailPage',
       component: EmailPage
     },
-    
+
     {
       path: '*',
       name: '/404',
@@ -128,34 +128,51 @@ const router = new Router({
 })
 
 
-router.beforeEach((to,from,next) =>{
+
+
+
+
+
+router.beforeEach((to, from, next) => {
   const isLogin = localStorage.eleToken ? true : false;
   let user = localStorage.user;
+
   let shopString = getQueryString("shop");
-  if(user){
+  if (user) {
     user = JSON.parse(user);
   }
-  if(to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage" || to.path == "/OpeningStation" ){
+  if (to.path == "/login" || to.path == "/shopfy_regist" || to.path == "/privacy" || to.path == "/aut_state" || to.path == "/EmailPage" || to.path == "/OpeningStation") {
     next()
-  }else{
-    if(isLogin) {
-        if(user && shopString && user.username != shopString){  
-          localStorage.removeItem('eleToken')
-          localStorage.removeItem("user");
-          router.push('/login')
-          // next('/login')
-        }else{
-          next()
-        }
-      }else{
-        next('/login')
-      }
-   }
+  } else {
+    if (isLogin) {
+      if (user && shopString && user.username != shopString) {
+        localStorage.removeItem('eleToken')
+        localStorage.removeItem("user");
+        router.push('/login')
+        // next('/login')
+      } else {
+        next()
+      };
+      // if (to.path == '/UploadExcel') {
+      //   if (user.username == 'admin') {
+      //     next()
+      //   } else { 
+      //     next('/dashboard')
+      //   }
+      // } else {
+      //  next()
+      // }
+
+    } else {
+      next('/login')
+    }
+  }
 });
-export function getQueryString(key){
+export function getQueryString(key) {
   var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
   var result = window.location.search.substr(1).match(reg);
   return result ? decodeURIComponent(result[2]) : null;
 }
 
 export default router;
+

@@ -249,6 +249,9 @@ export default {
         this.init();
     },
     methods:{
+      goBack(){
+          this.$router.go(-1)
+      },
         init(){
             let _thisData = JSON.parse(localStorage["SegmentVal"])
             this.postData.title = _thisData.title.toString();

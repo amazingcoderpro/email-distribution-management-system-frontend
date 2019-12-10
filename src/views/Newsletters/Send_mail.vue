@@ -32,20 +32,24 @@ export default {
         send(formName){
             this.$refs[formName].validate((valid) => {
                 if(valid){
-                    this.$parent.fromData.logoUrl = -1;
-                    this.$parent.fromData.bannerUrl = -1;
-                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                    let _showHtml=""
+                    if(this.$parent.fromData.logoUrl){
+                        // _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                        _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:650px;margin:0 auto;">';
                         _showHtml += this.$parent.$refs.showBox.innerHTML;
                         _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         _showHtml += '</div></body></html>';
+                    }else{
                         _showHtml = this.fromData.html;
+                    }
                     let _thisData = {
                         "subject":this.fromData.SubjectText,
                         "email_address":this.sendData.email,
                         "product_condition":this.fromData.searchImgType,
                         "email_title":this.fromData.Title,
                         "html":_showHtml,
-                        "product_list":JSON.stringify(this.trueProductArray)         
+                        "product_list":JSON.stringify(this.trueProductArray),
+                        "column_num":this.fromData.column_num         
                     }
                     this.$axios.post(`/api/v1/send_mail/`, _thisData)
                         .then(res => {

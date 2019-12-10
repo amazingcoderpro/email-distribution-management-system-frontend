@@ -7,11 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@shopify/app-bridge": "^1.6.7",
+    "@shopify/app-bridge": "^1.11.2",
     "axios": "^0.18.1",
     "core-js": "^2.6.5",
-    "echarts": "^4.2.1",
-    "element-ui": "^2.11.1",
+    "echarts": "^4.5.0",
+    "element-ui": "^2.13.0",
     "jwt-decode": "^2.2.0",
     "vue": "^2.6.10",
     "vue-quill-editor": "^3.0.6",

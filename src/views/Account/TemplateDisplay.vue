@@ -236,7 +236,7 @@
                         </div>
                     </div>
                     <div>
-                        <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
+                        <el-button type="info" style="margin:20px 20px 20px 0;" plain @click="goBack">Cancel</el-button>
                         <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                     </div>
                 </el-form>        
@@ -245,7 +245,7 @@
             <div class="rightBox">
                 <h4>Preview</h4>
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 650px;margin: 0 auto;">
                         <div style="width: 100%;padding:20px 0;">
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                 <a :href="'http://'+fromData.domain" target="_blank">
@@ -276,7 +276,7 @@
                         <div style="width: 100%;padding-bottom: 20px;position: relative;">
                             <template>
                                 <div style="position: absolute;width: 100%;height: 3px;background: #000;top: 40px;left: 0;"></div>
-                                <table style="width: 840px;font-weight: 800;margin-left: 20px;"  border="0" cellspacing="0">
+                                <table style="width: 100%;font-weight: 800;"  border="0" cellspacing="0">
                                     <thead style="padding:20px 0;line-height: 50px;border-bottom: 3px solid #ddd;">
                                         <tr style="font-size: 18px;border-bottom: 10px solid #000;">
                                             <td style="width: 50%;">
@@ -371,7 +371,7 @@ export default {
                 fontSize:14,
                 textAlign:"left",
                 color:"#000",
-                border:"2px dashed #ccc",
+                border:"",
             },
             fromDataType:"",
             languageDataState:false,
@@ -424,12 +424,15 @@ export default {
         this.init();
     },
     methods:{
+      goBack(){
+          this.$router.go(-1)
+      },
         init(){
             let _thisData = JSON.parse(localStorage["TemplateVal"]);
             // this.fromData = _thisData;
             this.fromData.title = _thisData.title;
             this.fromData.description = _thisData.description;
-            this.fromData.SubjectText = _thisData.SubjectText;
+            this.fromData.SubjectText = _thisData.subject;
             this.fromData.HeadingText = _thisData.HeadingText;
             this.fromData.logoUrl = _thisData.logoUrl;
             this.fromData.bannerUrl = _thisData.bannerUrl;
@@ -491,10 +494,10 @@ export default {
                     this.$forceUpdate();
                     let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}.bannerText p{margin:0!important;}';
-                        _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
+                        // _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
+                        _showHtml += '</style></head><body><div style="width:650px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
-                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
                         _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
                         if(!this.fromData.logoUrl){
                             _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');

@@ -116,7 +116,7 @@ export default {
                 currentPage:1,//默认开始页面
             },
             itemData:{},
-            tableHeight:"100",
+            tableHeight:"500",
             headStatus:false,
             Template:{
                 nameVal:'',
@@ -141,14 +141,14 @@ export default {
         },
     },
     mounted() {
-        setTimeout(() => {
-        this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
-      }, 50);
-      window.addEventListener('resize', () => {
-        if(document.getElementsByClassName("topictable").length>0){
-          this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
-        }
-      });
+      //   setTimeout(() => {
+      //   this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+      // }, 50);
+      // window.addEventListener('resize', () => {
+      //   if(document.getElementsByClassName("topictable").length>0){
+      //     this.tableHeight = window.innerHeight - document.getElementsByClassName("topictable")[0].offsetTop - 150;
+      //   }
+      // });
       this.init()
     },
     methods:{ 
@@ -177,6 +177,7 @@ export default {
                 create_time:'',
                 update_time:'',
                 title:'',
+                subject:'',
                 description:'',
                 SubjectText:'',
                 HeadingText:'',

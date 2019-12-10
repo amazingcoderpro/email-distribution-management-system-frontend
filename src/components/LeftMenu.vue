@@ -72,12 +72,22 @@ export default {
             //   {"id":5,"menu_name":"Account Manage","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
             //   {"id":6,"menu_name":"Template Library","menu_url":"/TemplateLibrary","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
             // ]},
+            {"id":8,"menu_name":"Template Library","menu_url":"/TemplateLibrary","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
             {"id":7,"menu_name":"System Setting","menu_url":"333","parent_id":null,"icon":"iconfont icon-edit","childs":[
-              {"id":8,"menu_name":"Site Management","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]}
+              {"id":8,"menu_name":"Site Management","menu_url":"/SiteList","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+            {"id":7,"menu_name":"Account Manage","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+              {"id":5,"menu_name":"Integration","menu_url":"/Integration","parent_id":null,"icon":"iconfont icon-yanjing1","childs":[]}
             ]},
             {"id":9,"menu_name":"Statistics","menu_url":"123","parent_id":null,"icon":"iconfont icon-guizezujian","childs":[
               {"id":10,"menu_name":"Trigger Statistics","menu_url":"/SiteStatistics","parent_id":null,"icon":"iconfont","childs":[]},
-            ]},
+            ]}
+          );
+          this.$forceUpdate();
+        }else{
+          this.items.push(
+            {"id":6,"menu_name":"Account","menu_url":"3333","parent_id":null,"icon":"iconfont icon-icon-","childs":[
+            {"id":8,"menu_name":"Template Library","menu_url":"/TemplateLibrary","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
+          ]},
           );
           this.$forceUpdate();
         }
@@ -92,11 +102,7 @@ export default {
           {"id":2,"menu_name":"Newsletters","menu_url":"/NewsletterList","parent_id":null,"icon":"iconfont icon-report1","childs":[]},
           {"id":3,"menu_name":"Flows","menu_url":"/FlowList","parent_id":null,"icon":"iconfont icon-kehujingli1","childs":[]},
           {"id":4,"menu_name":"Customers","menu_url":"/SegmentList","parent_id":null,"icon":"iconfont icon-touruguize","childs":[]},
-          {"id":5,"menu_name":"Integration","menu_url":"/Integration","parent_id":null,"icon":"iconfont icon-yanjing1","childs":[]},
-          {"id":6,"menu_name":"Account","menu_url":"3333","parent_id":null,"icon":"iconfont icon-icon-","childs":[
-            {"id":7,"menu_name":"Account Manage","menu_url":"/UploadExcel","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
-            {"id":8,"menu_name":"Template Library","menu_url":"/TemplateLibrary","parent_id":null,"icon":"iconfont icon-icon_pc","childs":[]},
-          ]},
+          
         ] 
       };
   },

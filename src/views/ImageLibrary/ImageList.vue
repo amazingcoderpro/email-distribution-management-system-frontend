@@ -7,7 +7,7 @@
          <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable">
             <el-table-column  prop="img" label="Image" align="center"  width="410">
-               <template scope="scope">
+               <template  slot-scope="scope">
                     <img :src="scope.row.head" width="100" height="100"/>
                 </template>
             </el-table-column>

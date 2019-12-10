@@ -9,7 +9,7 @@
             </router-link>
             <el-col :span='6' class="user">
                 <div class="userinfo">
-                    <img src="../assets/img/none.png" class='avatar' alt="">
+                    <!-- <img src="../assets/img/none.png" class='avatar' alt=""> -->
                     <div class='welcome'>
                       <p class='name comename'>Welcome ,
                         <template>

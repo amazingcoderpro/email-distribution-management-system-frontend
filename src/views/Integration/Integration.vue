@@ -54,7 +54,7 @@
                         </div>
                         <div class="content">
                             <span>LOGO</span>
-                            <el-form-item class="W100" style="margin-top:10px;" prop="logo">
+                            <el-form-item class="W100" style="margin-top:10px;">
                                 <el-upload
                                 class="avatar-uploader"
                                 action="/api/v1/upload_picture/"

@@ -88,7 +88,7 @@
             <div>
               <el-button type="info"
                          style="margin:20px 20px 20px 0;"
-                         plain>Cancel</el-button>
+                         plain @click="goBack">Cancel</el-button>
               <el-button type="primary"
                          style="margin:20px 20px 20px 0;"
                          @click="saveFun('fromRef')">Save</el-button>
@@ -104,7 +104,7 @@
                    @click="sendMail('fromRef')">Send Test Mail</el-button>
         <div ref="showBox">
           <div class="showBox"
-               style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
+               style="word-wrap:break-word;text-align:center;font-size:14px;width: 650px;margin: 0 auto;">
             <div>
               <iframe class="Template_iframe"
                       :src="fromData.url_template"></iframe>
@@ -152,12 +152,15 @@ export default {
         source: '',
         title: '',
         description: '',
+        SubjectText:'',
         subject:'',
         SegmentValue: [],
         SegmentState: [],
         periodTime: [],
         SendTimeType: 'Monday',
         SendValue: new Date(2019, 9, 10, 18, 40),
+        test:false,
+        html:""
       },
       SendTimeTypeArray: [
         { value: '0', label: 'Monday' },
@@ -178,6 +181,7 @@ export default {
       trueProductArray: [],
       rules: {
         SegmentValue: [{ required: true, message: 'Please Choose Segment', trigger: 'blur' }],
+        SubjectText: [{ required: true, message: 'Please enter SubjectText', trigger: 'change' }],
       }
     }
   },
@@ -198,9 +202,12 @@ export default {
     },
   },
   mounted () {
-    this.init();
+    this.init(); 
   },
   methods: {
+      goBack(){
+          this.$router.go(-1)
+      },
     init () {
       let _thisData = JSON.parse(localStorage["NewsletterSourceVal"]);
       this.fromData = _thisData;
@@ -228,6 +235,13 @@ export default {
         .then(res => {
           if (res.data.code == 1) {
             this.TemplateCenterArray = res.data.data.results;
+            this.TemplateCenterArray.map(e=>{
+              this.fromData.SubjectText = e.subject
+              // this.fromData.html = e.url_template
+              // if (e.title === val) {
+              // this.fromData.SubjectText = e.subject
+              // }
+            })
           } else {
             this.$message("Acquisition failure!");
           }
@@ -240,9 +254,8 @@ export default {
       this.TemplateCenterArray.map(e => {
         if (e.title === val) {
           this.fromData.title = e.title
-          this.fromData.html = e.html
           this.fromData.description = e.description
-          this.fromData.subject = e.subject
+          this.fromData.SubjectText = e.subject
           this.fromData.periodTime = e.periodTime
           this.fromData.SendTimeType = e.SendTimeType
           this.fromData.SendValue = e.SendValue

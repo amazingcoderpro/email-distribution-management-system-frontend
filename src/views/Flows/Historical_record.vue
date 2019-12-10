@@ -140,6 +140,9 @@
 </script>
 <style>
 .HistoricalRecord .el-table th.is-leaf{border-right:0;}
+.HistoricalRecord .el-table .cell {
+    height: auto;
+}
 .HistoricalRecord .topictable{border-left: 0;border-right:0;} 
 .HistoricalRecord .el-table__body-wrapper tbody td{border-right: 0;}
 .HistoricalRecord .fromClass{width: 97%;}

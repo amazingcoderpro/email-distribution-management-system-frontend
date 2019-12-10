@@ -267,6 +267,23 @@
                                 </div>
                             </div>
                             <div class="fromSon">
+                                <h4 style="display: inline; font-size:14px;color:black">Column Show</h4>
+                                <div class="Template_Center_select" style="margin:20px 0">   
+                                    <el-select class="W100" v-model="fromData.column_num" placeholder="Please select Number">
+                                        <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                    <!-- <el-select v-model="fromData.TemplateCenterType" class="W100" @change="ProductTemplateFun"  placeholder="Please select Number">
+                                        <el-option v-for="item in TemplateCenterArray" :key="item.id" :label="item.title" :value="item.id"  >
+                                        </el-option>
+                                    </el-select> -->
+                                </div>
+                            </div>
+                            <div class="fromSon">
                                 <label>Custom Product Recommendations</label>
                                 <div class="content">
                                     <el-select v-model="fromData.searchImgType" class="W100" @change="searchImgType">
@@ -274,15 +291,32 @@
                                     </el-select>
                                 </div>
                             </div>
+                        <div class="fromSon checkAll">
+                        <div class="stateBox" @click="checkAllFn">
+                            <span v-if="checkAllState" class="el-icon-check"></span>
+                        </div>
+                        全选,共计 {{checkNum}} 条
+                        </div>
                             <div class="fromSon imgBigBox" v-if="productArray.length>0">
-                                <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
-                                    <img :src="item.image_url" />
-                                    <div class="stateBox">
-                                        <span v-if="item.state" class="el-icon-check"></span>
+                                <div  v-if="fromData.fromDataType == 'preview'">
+                                    <div v-for="(item,index) in testArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)" v-if="item.state">
+                                            <img :src="item.image_url"/>
+                                            <div class="stateBox">
+                                                    <span v-if="item.state" class="el-icon-check"></span>
+                                                </div>
                                     </div>
                                 </div>
+                                <div v-else>
+                                    <div v-for="(item,index) in productArray" :key="index" :data-num="item.state" class="imgBox" @click="imgClick(item)">
+                                            <img :src="item.image_url"/>
+                                            <div class="stateBox">
+                                                <span v-if="item.state" class="el-icon-check"></span>
+                                            </div>
+                                    </div> 
+                                </div>
+                                
                             </div>
-                            <span class="littleMsg" v-if="productArray.length>0">Max 8 products</span>
+                            <span class="littleMsg" v-if="productArray.length>0">Max 28 products</span>
                             <!-- <el-button type="primary" style="margin:20px 0;margin-left:20px;">Preview</el-button> -->
                         </div>
                         <h4>Edit Sent Time</h4>
@@ -327,7 +361,7 @@
                             </div>
                         </div>
                         <div>
-                            <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
+                            <el-button type="info" style="margin:20px 20px 20px 0;" plain @click="goBack">Cancel</el-button>
                             <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                         </div>
                     </div>
@@ -338,19 +372,20 @@
                 <h4>Preview</h4>
                 <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button>
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 650px;margin: 0 auto;background-color: rgba(248,248,248,1);">
                         <div class="showBox_right" v-show="TemplateSourceRight">
                             <div style="width: 100%;padding:20px 0;">
                                 <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
                                     <a :href="'http://'+fromData.domain" target="_blank">
-                                        <img :src="fromData.logoUrl" style="width: 100%;"/>
+                                        <img :src="fromData.logoUrl" style="width: 100%;max-width:150px;"/>
                                     </a>
                                 </div>
                                 <div v-else style="font-size: 30px;border: 1px solid #ddd;font-weight: 900;padding: 12px 0;width: 30%;margin: 0 auto;">YOUR LOGO</div>
                             </div>
                             <div style="width: 100%;padding-bottom: 20px;position: relative;overflow: hidden;">
                                 <template>
-                                    <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'">
+                                    <!-- <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';border:'+ bannerText.border+';'"> -->
+                                    <div class="bannerText" :style="'position: absolute;left: '+bannerText.left+'px;top:'+bannerText.top+'px;text-align: '+bannerText.textAlign+';width:'+bannerText.width+'px;line-height: 30px;font-size:'+bannerText.fontSize+'px;color:'+bannerText.color +';'">
                                             <!-- <div>{{fromData.SubjectText}}</div> -->
                                             <div>{{fromData.HeadingText}}</div>
                                             <div>{{fromData.Headline}}</div>
@@ -360,7 +395,7 @@
                                 <template>
                                     <div v-if="fromData.bannerUrl && fromData.bannerUrl != -1" style="width: 100%;">
                                         <a href="*[tr_banner_url]*" target="_blank">
-                                            <img :src="fromData.bannerUrl" style="width: 100%;"/>
+                                            <img :src="fromData.bannerUrl" style="width:650px;"/>
                                         </a>
                                         <!-- <img :src="fromData.bannerUrl" style="width: 100%;"/> -->
                                     </div>
@@ -372,7 +407,7 @@
                             <div class="*[tr_products_title]*" style="width: 100%;padding-bottom: 20px;font-size: 20px;font-weight: 800;" v-if="fromData.searchImgType != 'no product'">
                                 {{fromData.productTitle}}
                             </div>
-                            <div style="padding: 20px 12px;">
+                            <div>
                                 <template v-if="fromData.searchImgType != 'no product'">
                                     *[tr_top_products]*
                                 </template>
@@ -382,30 +417,30 @@
                                 <template v-if="fromData.languageData.Copy">{{fromData.languageData.Copy}}</template>
                                 <template v-else>Copyright,All Rights Reserved</template>
                             </div>
-                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
-                                <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                            <div style="width: calc(100% - 24px);text-align:center;">
+                                <a href="*[link_unsubscribe]*" style="text-decoration: none;cursor: pointer; color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 14px;" target="_blank">
                                     <template v-if="fromData.languageData.unsubscribe">{{fromData.languageData.unsubscribe}}</template>
                                     <template v-else>UNSUBSCRIBE</template>
                                 </a>
-                                <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                <a href="*[tr_help_center_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 14px;" target="_blank">
                                     <template v-if="fromData.languageData.helpCenter">{{fromData.languageData.helpCenter}}</template>
                                     <template v-else>HELP CENTER</template>
                                 </a>
-                                <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 24px;" target="_blank">
+                                <a href="*[tr_privacy_policy_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;border-right: 2px solid #ccc;font-size: 14px;" target="_blank">
                                     <template v-if="fromData.languageData.privacy">{{fromData.languageData.privacy}}</template>
                                     <template v-else>PRIVACY POLICY</template>
                                 </a>
-                                <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 24px;" target="_blank">
+                                <a href="*[tr_about_us_url]*" style="text-decoration: none;cursor: pointer;color: #FE222E;padding: 0 10px;font-size: 14px;" target="_blank">
                                     <template v-if="fromData.languageData.aboutUs">{{fromData.languageData.aboutUs}}</template>
                                     <template v-else>ABOUT US</template>
                                 </a>
                             </div>
-                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;">
+                            <div style="width: calc(100% - 24px);padding: 20px 12px;text-align:center;font-size: 12px;">
                                 <template v-if="fromData.languageData.bottom">{{fromData.languageData.bottom}}</template>
                                 <template v-else>This email was sent a notification-only address that cannot accept incoming email PLEASE DO NOT REPLY to this message. if you have any questions or concerns.please email us:*[tr_service_email]*</template>
                             </div>
                         </div>
-                        <div v-show="Template_iframe">
+                        <div v-if="Template_iframe">
                             <iframe class="Template_iframe" :src="fromData.url_template"></iframe>
                         </div>
                     </div>
@@ -430,6 +465,8 @@ export default {
     name: "NewsletterAdd",
     data() {
         return {
+        checkAllState:true,
+      checkNum: 0,
             arrey:[],
             emsp:"&emsp;",
             pickerOptions: {
@@ -458,7 +495,7 @@ export default {
                 fontSize:14,
                 textAlign:"left",
                 color:"#000",
-                border:"2px dashed #ccc",
+                border:"",
             },
             languageDataState:false,
             fromData:{
@@ -486,6 +523,8 @@ export default {
                 periodTime:[],
                 SendTimeType:'Monday',
                 SendValue:new Date(2019, 9, 10, 18, 40),
+                test:false,
+                column_num:"",
                 languageData:{
                     // Copy:"Copyright,All Rights Reserved",
                     // unsubscribe:"UNSUBSCRIBE",
@@ -510,10 +549,10 @@ export default {
                 {value: '10',label: 'Everyday'},
             ],
             searchImgTypeArray:[
-                {value: 'top_three',label: 'Top 8 products in last 3 days'},
-                {value: 'top_seven',label: 'Top 8 products in last 7 days'},
-                {value: 'top_fifteen',label: 'Top 8 products in last 15 days'},
-                {value: 'top_thirty',label: 'Top 8 products in last 30 days'},
+                {value: 'top_three',label: 'Top 28 products in last 3 days'},
+                {value: 'top_seven',label: 'Top 28 products in last 7 days'},
+                {value: 'top_fifteen',label: 'Top 28 products in last 15 days'},
+                {value: 'top_thirty',label: 'Top 28 products in last 30 days'},
                 {value: 'Personal Product Recommendation',label: 'Personal Product Recommendation'},
                 {value: 'Relevant product recommendation',label: 'Relevant Product Recommendation'},
                 {value: 'no product',label: 'No Product'},
@@ -521,12 +560,25 @@ export default {
             TemplateCenterArray:[],          
             productArray:[],
             trueProductArray:[],
+            testArray:[],
             top_product:{
                 top_three:[],
                 top_seven:[],
                 top_fifteen:[],
                 top_thirty:[],
             },
+            options: [
+                {
+                value: '2',
+                label: '2'  
+                }, {
+                value: '3',
+                label: '3'
+                }, {
+                value: '4',
+                label: '4'
+                }
+            ],
             rules: {
                 Title: [{ required: true, message: 'Please enter Title', trigger: 'change' }],
                 SubjectText: [{ required: true, message: 'Please enter SubjectText', trigger: 'change' }],
@@ -549,11 +601,21 @@ export default {
         productArray: {
             handler: function() {
                 this.trueProductArray = [];
-                this.productArray.map(e =>{
-                    if(e.state){
+                this.checkNum = 0;
+                if(this.fromData.fromDataType=="preview"){
+                    this.testArray.map(e=>{
+                        if(e.state===true){
                         this.trueProductArray.push(e);
+                        }
+                    })
+                }else{
+                    this.productArray.map(e =>{
+                    if(e.state===true){
+                        this.trueProductArray.push(e);
+                    this.checkNum = this.checkNum + 1;
                     }
                 });
+                }  
             },
             deep: true
         },
@@ -572,9 +634,31 @@ export default {
         this.init();
     },
     methods:{
+      checkAllFn(){
+          if(this.checkAllState){
+            this.checkAllState = false
+            this.productArray.forEach(e => {
+                e.state = false
+            });
+          }else{
+            this.checkAllState = true
+            this.productArray.forEach(e => {
+            e.state = true
+            });
+          }
+      this.$forceUpdate();
+      },
+      goBack(){
+          this.$router.go(-1)
+      },
         init(){
             let _thisData = JSON.parse(localStorage["NewsletterVal"]);
             this.fromData = _thisData;
+            this.fromData.url_template = this.fromData.html;
+            if(this.fromData.product_list){
+                this.testArray=JSON.parse(this.fromData.product_list);  
+            }
+            
             if(this.fromData.languageData){
                 this.fromData.languageData = JSON.parse(this.fromData.languageData);
             }
@@ -594,6 +678,7 @@ export default {
                 if(res.data.code == 1){
                     this.SegmentArray = res.data.data;
                     this.SegmentValueChange();
+                    this.TemplateCenterArray = res.data.data.results;
                 }else{
                 this.$message("Acquisition failure!");
                 }
@@ -605,6 +690,18 @@ export default {
             .then(res => {
                 if(res.data.code == 1){
                     this.TemplateCenterArray = res.data.data.results;
+                    this.TemplateCenterArray.map(e=>{
+                        if(e.html==null){
+                            let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
+                                _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}.bannerText p{margin:0;}';
+                                // _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
+                                _showHtml += '</style></head><body><div style="width:650px;margin:0 auto;">';
+                                _showHtml += this.$refs.showBox.innerHTML;
+                                _showHtml += '</div></body></html>';
+                                _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
+                            this.fromData.html=_showHtml
+                        }
+                    })
                 }else{
                     this.$message("Acquisition failure!");
                 }
@@ -641,6 +738,9 @@ export default {
                     this.Shop = res.data.data[0];
                     // this.fromData.logoUrl = this.Shop.logo;
                     this.fromData.domain = this.Shop.domain;
+                    if(this.fromData.fromDataType !== 'preview'){
+                        this.fromData.logoUrl=this.Shop.logo;
+                    }
                 }else{
                     this.$message("Acquisition failure!");
                 }
@@ -670,9 +770,27 @@ export default {
             this.fromData.bodyText = this.TemplateCenterArray.filter(x=> x.id === val)[0].body_text
             this.fromData.url_template = this.TemplateCenterArray.filter(x=> x.id === val)[0].url_template
             this.fromData.source = this.TemplateCenterArray.filter(x=> x.id === val)[0].source
+            this.fromData.html = this.TemplateCenterArray.filter(x=> x.id === val)[0].url_template;
+            this.fromData.column_num=this.TemplateCenterArray.filter(x=> x.id === val)[0].column_num
         },
         imgClick(item){
-            item.state = !item.state;
+            if(this.fromData.fromDataType=="preview"){
+                item.state=item.state
+            }else{
+                item.state = !item.state;
+            }
+            
+            this.checkNum = 0;
+            this.productArray.forEach(e => {
+            if (e.state) {
+                this.checkNum = this.checkNum + 1;
+            }
+            });
+        if(this.checkNum === 0){
+            this.checkAllState = false
+        }else{
+            this.checkAllState = true
+        }
             this.$forceUpdate();
         },
         SegmentStateChange(){
@@ -731,7 +849,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                    if(this.fromData.source == 1){
-                       console.log(this.fromData.source)
                         let 
                         _showHtml = this.fromData.url_template;
                         let _thisData = {
@@ -748,7 +865,8 @@ export default {
                             }),
                             html:_showHtml,
                             enable:0,
-                            source:1
+                            source:1,
+                            column_num:this.fromData.column_num
                         }
                         this.$axios.post(`/api/v1/email_template/`, _thisData) 
                             .then(res => {
@@ -765,15 +883,14 @@ export default {
                     }else{
                         let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title><style>';
                         _showHtml += 'a:hover{text-decoration: underline!important; }.hide{display:none!important;}.bannerText{border:0px!important;}.bannerText p{margin:0;}';
-                        _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
+                        // _showHtml += '</style></head><body><div style="width:880px;margin:0 auto;">';
+                        _showHtml += '</style></head><body><div style="width:650px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         _showHtml += '<img src="https://smartsend.seamarketings.com/api/v1/mail/read/?code=*[tr_mail_send_code]*" style="width:1px;height:1px;opacity:0.1;" />'
-                        _showHtml = _showHtml.replace('2px dashed','0px dashed');
                         if(!this.fromData.logoUrl){
                             _showHtml = _showHtml.replace('font-weight: 900; padding: 12px 0px; width: 30%; margin: 0px auto;','display:none!important;');
                         }
-                        console.log(this.fromData.source)
                         let _thisData = {
                             is_cart:this.fromData.is_cart?1:0,
                             title:this.fromData.Title,
@@ -798,8 +915,10 @@ export default {
                             }),
                             html:_showHtml,
                             customer_text:JSON.stringify(this.fromData.languageData),
-                            enable:0
+                            enable:0,
+                            column_num:this.fromData.column_num
                         }
+                   
                         this.$axios.post(`/api/v1/email_template/`, _thisData) 
                             .then(res => {
                                 if(res.data.code == 1){
@@ -826,19 +945,28 @@ export default {
                     }
             });
         },
-        sendMail(formName){
+        // sendMail(formName){
+        //     this.$refs[formName].validate((valid) => {
+        //         if (valid) {
+        //             this.dialog.show = true;
+        //         }else{
+        //             if(this.fromData.Title && this.fromData.SubjectText && this.fromData.Headline && this.fromData.logoUrl && this.fromData.bannerUrl && this.fromData.HeadingText && this.fromData.bodyText){
+        //                 this.dialog.show = true;
+        //             }else{
+        //                 this.$message.error('Incomplete information!');
+        //             }
+        //         }
+        //     });
+        // },
+        sendMail (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.dialog.show = true;
-                }else{
-                    if(this.fromData.Title && this.fromData.SubjectText && this.fromData.Headline && this.fromData.logoUrl && this.fromData.bannerUrl && this.fromData.HeadingText && this.fromData.bodyText){
-                        this.dialog.show = true;
-                    }else{
-                        this.$message.error('Incomplete information!');
-                    }
+                this.dialog.show = true;
+                } else {    
+                this.$message.error('Incomplete information!');
                 }
             });
-        },
+            },
         searchImgType(){
             if(this.fromData.searchImgType == "Shopping cart goods" || this.fromData.searchImgType == "no product" || this.fromData.searchImgType == "Personal Product Recommendation" || this.fromData.searchImgType == "Relevant product recommendation"  ){
                 this.productArray = [];
@@ -874,6 +1002,31 @@ export default {
 .NewsletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
 .NewsletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
 .NewsletterAdd .imgBox img{width:100%;height: 254px;object-fit: cover;}
+.NewsletterAdd .checkAll {
+  height: 40px;
+  position: relative;
+  padding-left: 50px;
+  line-height: 40px;
+}
+.NewsletterAdd .checkAll .stateBox {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  width: 24px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.NewsletterAdd .checkAll .stateBox .el-icon-check {
+  font-weight: 900;
+  font-size: 32px;
+  position: absolute;
+  top: -5px;
+  color: #000;
+}
+
+
 .NewsletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
 .NewsletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
 .NewsletterAdd .el-checkbox{width: 100%;padding: 0!important;color: #333333!important;font-weight: normal!important;padding-left: 5px!important;}
@@ -896,4 +1049,5 @@ export default {
 .NewsletterAdd .languageTextBox .fromSon label{padding:0;}
 .NewsletterAdd .bannerText p{margin:0!important;}
 .NewsletterAdd .Template_iframe{width: 885px;height:880px;border: none;overflow-x: hidden;box-shadow: 4px 10px 10px #ccc;}
+.el-table .cell{height: 5rem;}
 </style>

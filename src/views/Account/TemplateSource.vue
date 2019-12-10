@@ -29,7 +29,7 @@
                     </div>
                     <div class="TemplateClassic">
                         <div>
-                            <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
+                            <el-button type="info" style="margin:20px 20px 20px 0;" plain @click="goBack">Cancel</el-button>
                             <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
             <div class="rightBox">
                 <h4>Preview</h4>
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 100%;margin: 0 auto;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;width: 650px;margin: 0 auto;">
                         <div>
                             <iframe class="Template_iframe" :src="fromData.url_template"></iframe>
                         </div>
@@ -71,6 +71,9 @@ export default {
         this.init();
     },
     methods:{
+      goBack(){
+          this.$router.go(-1)
+      },
         init(){
             let _thisData = JSON.parse(localStorage["TemplateSourceVal"]);
             this.fromData = _thisData;

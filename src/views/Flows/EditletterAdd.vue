@@ -89,11 +89,18 @@
                                 </el-select>
                             </div>
                         </div>
+                        <div class="fromSon checkAll"  @click="checkAllFn">
+                        <div class="stateBox">
+                            <span  v-if="checkAllState" class="el-icon-check"></span>
+                        </div>
+                        全选,共计 {{checkNum}} 条
+                        </div>
                         <div class="fromSon imgBigBox" v-if="productArray.length>0">
                             <div v-for="(item,index) in productArray" :key="index" class="imgBox" @click="imgClick(item)">
-                                <a :href="item.url" target="_blank">
+                                <!-- <a :href="item.url" target="_blank">
                                     <img :src="item.image_url" />
-                                </a> 
+                                </a>  -->
+                                <img :src="item.image_url" />
                                 <div class="stateBox">
                                     <span v-if="item.state" class="el-icon-check"></span>
                                 </div>
@@ -102,7 +109,7 @@
                         <span class="littleMsg" v-if="productArray.length>0">Max 6 products</span>
                     </div>
                     <div>
-                        <el-button type="info" style="margin:20px 20px 20px 0;" plain>Cancel</el-button>
+                        <el-button type="info" style="margin:20px 20px 20px 0;" plain @click="goBack">Cancel</el-button>
                         <el-button type="primary" style="margin:20px 20px 20px 0;" @click="saveFun('fromRef')">Save</el-button>
                     </div>
                 </el-form>        
@@ -111,7 +118,7 @@
                 <h4>Preview</h4>
                 <!-- <el-button type="primary" class="sendMail" @click="sendMail('fromRef')" >Send Test Mail</el-button> -->
                 <div ref="showBox">
-                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;">
+                    <div class="showBox" style="word-wrap:break-word;text-align:center;font-size:14px;background-color: rgba(248,248,248,1);width:650px;">
                         <div style="margin: 0px auto;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 20px;">
                             <div style="margin:0 auto;width:30%;">
                                 <h2>Subject Line</h2>
@@ -128,7 +135,7 @@
                         </div>
                         <div style="width: 100%;padding-bottom: 20px;">
                             <div v-if="fromData.logoUrl && fromData.logoUrl != -1" style="width: 30%;margin: 0 auto;">
-                                <img :src="fromData.logoUrl" style="width: 100%;"/>
+                                <img :src="fromData.logoUrl" style="width: 100%;max-width:150px;"/>
                             </div>
                             <div v-else-if="fromData.logoUrl == -1" style="width: 30%;margin: 0 auto;">
                             </div>
@@ -214,6 +221,8 @@ export default {
     name: "EditletterAdd",
     data() {
         return {
+            checkAllState:false,
+      checkNum: 0,
             id:-1,
             dialog: {
                 show: false,
@@ -300,10 +309,12 @@ export default {
         productArray: {
             handler: function() { 
                 this.trueProductArray = [];
-                this.productArray.map(e =>{
-                    if(e.state){
-                        this.trueProductArray.push(e);
-                    }
+                this.checkNum = 0;
+                this.productArray.forEach(e => {
+                if (e.state) {
+                    this.trueProductArray.push(e);
+                    this.checkNum = this.checkNum + 1;
+                }
                 });
             },
             deep: true
@@ -313,6 +324,23 @@ export default {
         this.init();
     },
     methods:{
+      checkAllFn(){
+          if(this.checkAllState){
+            this.checkAllState = false
+            this.productArray.forEach(e => {
+                e.state = false
+            });
+          }else{
+            this.checkAllState = true
+            this.productArray.forEach(e => {
+            e.state = true
+            });
+          }
+      this.$forceUpdate();
+      },
+      goBack(){
+          this.$router.go(-1)
+      },
         init(){
             this.$axios.get(`/api/v1/top_product/`)
             .then(res => {
@@ -374,6 +402,19 @@ export default {
         },
         imgClick(item){
             item.state = !item.state;
+            this.checkNum = 0;
+            this.productArray.forEach(e => {
+            if (e.state) {
+                this.trueProductArray.push(e);
+                this.checkNum = this.checkNum + 1;
+            }
+            });
+            
+        if(this.checkNum === 0){
+            this.checkAllState = false
+        }else{
+            this.checkAllState = true
+        }
             this.$forceUpdate();
         },
         logoSuccess(response, file, fileList) {
@@ -406,7 +447,8 @@ export default {
                     if(!this.fromData.bannerUrl){
                         this.fromData.bannerUrl = -1;
                     }
-                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                    // let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:1200px;margin:0 auto;">';
+                    let _showHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>jquery</title></head><body><div style="width:650px;margin:0 auto;">';
                         _showHtml += this.$refs.showBox.innerHTML;
                         _showHtml += '</div></body></html>';
                         
@@ -504,6 +546,31 @@ export default {
 .EditletterAdd .imgBigBox{padding:10px;overflow:hidden;border:1px solid #ccc;margin-top:10px;padding-right:0;cursor:pointer;}
 .EditletterAdd .imgBox{width:calc(33.33333% - 10px);display:inline-block;margin-right:10px;position:relative;}
 .EditletterAdd .imgBox img{width:100%;}
+.EditletterAdd .checkAll {
+  height: 40px;
+  position: relative;
+  padding-left: 50px;
+  line-height: 40px;
+}
+.EditletterAdd .checkAll .stateBox {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  width: 24px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.EditletterAdd .checkAll .stateBox .el-icon-check {
+  font-weight: 900;
+  font-size: 32px;
+  position: absolute;
+  top: -5px;
+  color: #000;
+}
+
+
 .EditletterAdd .imgBox .stateBox{position:absolute;left:5px;top:5px;border:1px solid #000;border-radius:4px;width:24px;height:25px;background:rgba(255,255,255,0.2);}
 .EditletterAdd .imgBox .stateBox .el-icon-check{font-weight:900;font-size:32px;position:absolute;top:-5px;color: #000;}
 .EditletterAdd .el-checkbox{width:40%;}

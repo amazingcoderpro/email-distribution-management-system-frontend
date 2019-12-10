@@ -27,10 +27,24 @@
         <div class="table_right">
           <el-table :data="tableData" border ref="topictable" class="topictable"  :show-header="headStatus"  :height="tableHeight">
             <!-- <el-table-column align="center" type="index"  label="ID" width="50" fixed="left"></el-table-column> -->
-            <el-table-column prop="title,description" align="left" width="400">
+            <el-table-column prop="title,description" align="left" width="260">
               <template slot-scope="scope">
                 <div class="columnLable">{{scope.row.title}}</div>
                 <div class="columnContent">{{scope.row.description}}</div>
+              </template>
+            </el-table-column>
+             <el-table-column prop="excute_time" align="center" label="123" width="180">
+              <template slot-scope="scope">
+                <div class="columnLable">Execute Time</div>
+                <!-- <div class="columnContent" v-for="(item,index) in scope.row.execute_time_list">{{item}}</div> -->
+                <el-dropdown :hide-on-click="false">
+                  <span class="el-dropdown-link" v-for="(item,index) in scope.row.execute_time_list" v-if="index==0" :key="index">
+                    {{item}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item v-for="(item,index) in scope.row.execute_time_list" :key="index">{{item}}</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </template>
             </el-table-column>
             <el-table-column prop="open" align="center" label="123" width="180">
@@ -39,7 +53,7 @@
                 <div class="columnContent">{{scope.row.total_sent}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="open_rate" align="center" label="123" width="190">
+            <el-table-column prop="open_rate" align="center" label="123" width="150">
               <template slot-scope="scope">
                 <div class="columnLable">Open Rate</div>
                 <div class="columnContent">
@@ -251,6 +265,10 @@ export default {
                 SendValue:new Date("2019-1-1 "+ _send_rule.cron_time),
                 productTitle:row.product_title,
                 languageData:row.customer_text,
+                product_list:row.product_list,
+                column_num:row.column_num,
+                html:row.html,
+                time:row.send_rule
             }
         if(preview){
           NewsletterVal.fromDataType = "preview";
@@ -287,7 +305,8 @@ export default {
                 periodTime:[new Date(_send_rule.begin_time),new Date(_send_rule.end_time)],
                 SendTimeType:_send_rule.cron_type,
                 SendValue:new Date("2019-1-1 "+ _send_rule.cron_time),
-                html:row.html
+                html:row.html,
+                time:row.send_rule
             }
           if(preview){
             NewsletterSourceVal.fromDataType = "preview";
@@ -314,7 +333,6 @@ export default {
                       }
                   })
                   .catch(error => {
-                    console.log(error)
                       this.$message("Interface timeout!");
                   });
             }) 
@@ -378,4 +396,11 @@ export default {
 .NewsletterList .columnContent{display: -webkit-box !important;overflow:hidden;text-overflow:ellipsis;word-break:break-all;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:44px;}
 .NewsletterList .el-button--small, .el-button--small.is-round{margin-bottom: 10px;}
 .NewsletterList .el-button--primary{margin-right: 40px;}
+.el-dropdown-link {
+    cursor: pointer;
+    color: #606266;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
 </style>
