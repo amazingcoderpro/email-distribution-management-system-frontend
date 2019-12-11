@@ -17,7 +17,7 @@
                                 <el-form-item prop="SubjectText" class="W100">
                                     <el-input v-model="fromData.SubjectText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="EMAIL SUBJECT可以取消" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="发送邮件的主题，即用户收到邮件的标题" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
                             </div>
@@ -28,7 +28,7 @@
                                 <el-form-item prop="HeadingText" class="W100">
                                     <el-input v-model="fromData.HeadingText" class="W100" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="HEADING TEXT位置可以适当调整，比如放在BANNER上方，预留出位置，而不是和banner重叠" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="默认位于banner背景的左上角，可自行调节" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
                             </div>
@@ -77,7 +77,7 @@
                                 <el-form-item prop="Headline" class="W100">
                                     <el-input v-model="fromData.Headline" maxlength="120" placeholder="Length of 5 to 120 characters"></el-input>
                                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="HEADLINE 可以去掉" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="位于HeadingText之下，可自行调节" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
                             </div>
@@ -412,9 +412,10 @@ export default {
         imgClick(item){
             item.state = !item.state;
             this.checkNum = 0;
+            this.trueProductArray=[];
             this.productArray.forEach(e => {
             if (e.state) {
-                this.trueProductArray.push(e);
+            this.trueProductArray.push(e);
                 this.checkNum = this.checkNum + 1;
             }
             });

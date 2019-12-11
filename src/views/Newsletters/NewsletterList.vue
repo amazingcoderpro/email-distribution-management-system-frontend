@@ -255,6 +255,7 @@ export default {
                 bannerUrl: row.banner,
                 banner_url:row.banner_url,
                 Headline: row.headline,
+                middle_text: row.middle_text,
                 bodyText: row.body_text,
                 searchImgType:'top_three',
                 SegmentValue:_customer_group_list,

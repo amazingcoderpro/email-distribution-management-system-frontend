@@ -36,7 +36,9 @@
                         </el-table-column>
                         <el-table-column prop="error_info" align="center" label="Remark" width="150">
                             <template slot-scope="scope">
-                                <div class="columnContent" v-if="scope.row.error_info">{{scope.row.error_info}}</div>
+                                <el-tooltip class="questionTooltip" v-if="scope.row.error_info" effect="dark" :content="scope.row.error_info" placement="top-start">
+                                    <div class="columnContent">{{scope.row.error_info}}</div>
+                                </el-tooltip>
                             </template>
                         </el-table-column>
                         <el-table-column prop="operation" label="Operation" align="center">

@@ -58,9 +58,9 @@
             <div class="columnContent" v-else>--</div>
           </template>
         </el-table-column>
-        <el-table-column prop="update_time" align="center" label="Update Time" width="180">
+        <el-table-column prop="create_time" align="center" label="Create Time" width="180">
           <template slot-scope="scope">
-            <div class="columnContent" v-if="scope.row.update_time">{{scope.row.update_time}}</div>
+            <div class="columnContent" v-if="scope.row.create_time">{{scope.row.create_time}}</div>
             <div class="columnContent" v-else>--</div>
           </template>
         </el-table-column>
@@ -214,8 +214,8 @@ export default {
             this.page.total = res.data.data.count;
             this.tableData.map(e => {
               e.store_status2 = e.store_status == 1 ? true : false;
-              if (e.update_time) {
-                e.update_time = base.dateFormat(e.update_time);
+              if (e.create_time) {
+                e.create_time = base.dateFormat(e.create_time);
               }
             });
           } else {

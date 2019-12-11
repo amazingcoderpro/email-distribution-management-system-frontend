@@ -265,7 +265,7 @@
                 <el-form-item prop="SubjectText" class="W100">
                   <el-input v-model="fromData.SubjectText" class="W100" maxlength="120"></el-input>
                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="EMAIL SUBJECT可以取消" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="发送邮件的主题，即用户收到邮件的标题" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
               </div>
@@ -276,7 +276,7 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.HeadingText" class="W100" maxlength="120"></el-input>
                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="HEADING TEXT位置可以适当调整，比如放在BANNER上方，预留出位置，而不是和banner重叠" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="默认位于banner背景的左上角，可自行调节" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
               </div>
@@ -352,7 +352,7 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.Headline" maxlength="120"></el-input>
                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="HEADLINE 可以去掉" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="位于HeadingText之下，可自行调节" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
               </div>
@@ -363,7 +363,7 @@
                   <el-form-item class="W100">
                     <el-input v-model="fromData.middle_text"></el-input>
                   </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="Middle Line 可以去掉" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="位于banner和产品中间的文案信息" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
                 </div>
@@ -388,7 +388,7 @@
                 <el-form-item class="W100">
                   <el-input v-model="fromData.productTitle" class="W100" maxlength="120"></el-input>
                 </el-form-item>
-                  <el-tooltip class="questionTooltip" effect="dark" content="PRODUCT TITLE的作用是识别这封邮件的产品，不用体现在邮件内" placement="top-start">
+                  <el-tooltip class="questionTooltip" effect="dark" content="产品的文案标题" placement="top-start">
                     <i class="questionIcon el-icon-info"></i>
                   </el-tooltip>
               </div>
@@ -941,6 +941,7 @@ export default {
     imgClick(item) {
       item.state = !item.state;
         this.checkNum = 0;
+        this.trueProductArray = []
         this.productArray.forEach(e => {
           if (e.state) {
             this.trueProductArray.push(e);
