@@ -210,10 +210,7 @@
                     .then(res => {
                         if (res.data.code == 1) {
                             let a = document.createElement('a')
-                            let url = '/批量导入已孵化GG广告账户板v4.0.xlsx'
-                            let filename = '批量导入已孵化GG广告账户板.xlsx'
                             a.href = res.data.data.base64_str
-                            a.download = filename
                             a.click()
                         } else {
                             this.$message("Acquisition failure!");
